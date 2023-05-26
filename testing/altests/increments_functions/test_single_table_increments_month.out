@@ -1,0 +1,12 @@
+==========================================================================
+Title:      1 month increments
+Date:       2023-04-10 21:59:42.334475
+Command:    select increments(month, 1, timestamp), min(timestamp) as min_ts, max(timestamp) as max_ts, min(value) as min_val, max(value) as max_val, avg(value)::float(6) as avg_value, sum(value)::float(6) as sum_val, count(*) as row_count from ping_sensor where timestamp >= '2022-02-01 00:00:00' and timestamp < '2022-05-01 00:00:00'
+DBMS:       test
+Format:     table
+==========================================================================
+min_ts                     max_ts                     min_val max_val avg_value sum_val  row_count 
+-------------------------- -------------------------- ------- ------- --------- -------- --------- 
+2022-02-13 21:21:46.746294 2022-02-28 23:43:46.851381     0.0    49.0 15.896316 31888.01      2006 
+2022-03-01 00:02:46.063795 2022-03-31 23:59:47.556256     0.0   48.98 14.877294 62945.83      4231 
+2022-04-01 00:07:46.844366 2022-04-16 20:33:46.370019    0.01    49.0 15.118887 32052.04      2120 

@@ -1,0 +1,59 @@
+{
+    "data": {
+        "Classes": [{
+            "BoundingBoxes": [
+                {"x":211.0123138428,"y":56.5801200867},
+                {"x":211.0123138428,"y":208.8609313965},
+                {"x":259.2672119141,"y":56.5801200867},
+                {"x":259.2672119141,"y":208.8609313965}
+            ],
+            "Confidence": 0.7317728996,
+            "EventType":"person"
+        }, {
+            "BoundingBoxes": [
+                {"x":280.494934082,"y":165.8150482178},
+                {"x":280.494934082,"y":576.0},
+                {"x":716.0549316406,"y":165.8150482178},
+                {"x":716.0549316406,"y":576.0}
+            ],
+            "Confidence":0.2541713715,
+            "EventType":"train"
+        }],
+        "EventName":"ObjectDetection",
+        "EveryTime":1682709135647,
+        "Frame":"/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQo",
+        "Information":"Test message",
+        "OriginModule":"Ai inference detection",
+        "SourceId":"video_1",
+        "UrlVideoEncoded":"1.0",
+        "time_trace":[
+            {"stepEnd":1682709135650,"stepName":"frameSplitter","stepStart":1682709135552},
+            {"stepEnd":1682709136372,"stepName":"ai_inferencer","stepStart":1682709135694}
+        ]
+    },
+    "datacontenttype":"application/json",
+    "id":"793690ea-4297-4871-8349-2828d6674e20",
+    "pubsubname":"pubsub",
+    "source":"invoke-sender-frames",
+    "specversion":"1.0",
+    "time":"2023-04-28T19:12:16Z",
+    "topic":"newDetection",
+    "traceid":"00-00000000000000000000000000000000-0000000000000000-00",
+    "traceparent":"00-00000000000000000000000000000000-0000000000000000-00",
+    "tracestate":"",
+    "type":"com.dapr.event.sent"
+},
+{
+    "data": "T2JqAQQUYXZyby5jb2RlYwhudWxsFmF2cm8uc2NoZW1hshR7Im5hbWUiOiJEZXRlY3RlZE9iamVjdEFsZXJ0IiwibmFtZXNwYW",
+    "datacontenttype":"application/json",
+    "id":"1900f3da-b877-4869-ae7f-1ec1ceacda60",
+    "pubsubname":"pubsub",
+    "source":"rulesengine",
+    "specversion":"1.0",
+    "time":"2023-04-28T19:12:18Z",
+    "topic":"newAlert",
+    "traceid":"00-d45dc9a187463c353856f074d045bc2f-f4fd29d27af8bc0a-00",
+    "traceparent":"00-d45dc9a187463c353856f074d045bc2f-f4fd29d27af8bc0a-00",
+    "tracestate":"",
+    "type":"com.dapr.event.sent"
+}

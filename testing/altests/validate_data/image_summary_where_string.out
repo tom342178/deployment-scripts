@@ -1,0 +1,1001 @@
+==========================================================================
+Title:      image data - Summary WHERE string
+Date:       2023-03-19 23:28:05.018696
+Command:    select file, score, status, class, bbox from image where status = 'Nok' order by file desc
+DBMS:       test
+Format:     table
+==========================================================================
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202548585.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202543226.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+
+file                              score status class bbox 
+--------------------------------- ----- ------ ----- ---- 
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               
+test.image.20200306202535591.jpeg  -1.0 Nok               

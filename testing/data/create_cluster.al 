@@ -1,0 +1,63 @@
+#-----------------------------------------------------------------------------------------------------------------------
+# The following creates cluster/table policies used for testing, so that data can be sent into operator(s) via publisher
+# this step should be done on an operator for each of the clusters in the network.
+# Tables against test database:
+#   --> ping_sensor
+#   --> percentagecpu_sensor
+#   --> image
+#   --> video
+#-----------------------------------------------------------------------------------------------------------------------
+# process !test_dir/data/create_cluster.al
+
+on error ignore
+
+parent_cluster = blockchain get cluster where name = !cluster_name bring.first [cluster][id]
+<new_policy = { "cluster": {
+    "parent": !parent_cluster,
+    "name": !cluster_name,
+    "company": !company_name,
+    "table": [{
+        "dbms": "test",
+        "name": "ping_sensor"
+    }]}
+}>
+
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+
+<new_policy = { "cluster": {
+    "parent": !parent_cluster,
+    "name": !cluster_name,
+    "company": !company_name,
+    "table": [{
+        "dbms": "test",
+        "name": "percentagecpu_sensor"
+    }]}
+}>
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+
+<new_policy = { "cluster": {
+    "parent": !parent_cluster,
+    "name": !cluster_name,
+    "company": !company_name,
+    "table": [{
+        "dbms": "test",
+        "name": "image"
+    }]}
+}>
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+
+<new_policy = { "cluster": {
+    "parent": !parent_cluster,
+    "name": !cluster_name,
+    "company": !company_name,
+    "table": [{
+        "dbms": "test",
+        "name": "video"
+    }]}
+}>
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+

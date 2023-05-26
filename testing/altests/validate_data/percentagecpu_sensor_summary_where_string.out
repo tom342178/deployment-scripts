@@ -1,0 +1,10 @@
+==========================================================================
+Title:      PercentageCPU Sensor - Summary WHERE string
+Date:       2023-03-19 23:27:54.061628
+Command:    select min(value) as min_value, max(value) as max_value, avg(value) as avg_value, count(*) as row_count from percentagecpu_sensor where device_name = 'GOOGLE_PING'
+DBMS:       test
+Format:     table
+==========================================================================
+min_value max_value avg_value          row_count 
+--------- --------- ------------------ --------- 
+     0.02     99.94 50.498918918918974      2035 

@@ -1,0 +1,10 @@
+==========================================================================
+Title:      video data - Summary
+Date:       2023-03-19 23:28:15.309807
+Command:    select min(start_ts) as min_start_ts, max(start_ts) as max_start_ts, min(end_ts) as min_end_ts, max(end_ts) as max_end_ts, min(num_cars) as min_num_cars, avg(num_cars) as avg_num_cars, max(num_cars) as max_num_cars, min(speed) as min_speed, avg(speed) as avg_speed, max(speed) as max_speed, count(*) as rows_count from video
+DBMS:       test
+Format:     table
+==========================================================================
+min_start_ts                max_start_ts                min_end_ts                  max_end_ts                  min_num_cars avg_num_cars max_num_cars min_speed avg_speed         max_speed rows_count 
+--------------------------- --------------------------- --------------------------- --------------------------- ------------ ------------ ------------ --------- ----------------- --------- ---------- 
+2022-02-01T13:09:37.999233Z 2022-04-28T21:41:16.732366Z 2022-02-01T13:09:43.999233Z 2022-04-28T21:41:48.732366Z            0       23.045           59       0.0 63.76300000000014      79.9      10000 

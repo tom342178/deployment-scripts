@@ -1,0 +1,10 @@
+==========================================================================
+Title:      PercentageCPU Sensor - Summary WHERE UUID
+Date:       2023-03-19 23:27:54.070317
+Command:    select min(value) as min_value, max(value) as max_value, avg(value) as avg_value, count(*) as row_count from percentagecpu_sensor where parentelement = '62e71893-92e0-11e9-b465-d4856454f4ba'
+DBMS:       test
+Format:     table
+==========================================================================
+min_value max_value avg_value         row_count 
+--------- --------- ----------------- --------- 
+      0.0     99.99 50.20932028836248      1942 

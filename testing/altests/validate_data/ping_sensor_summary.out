@@ -1,0 +1,10 @@
+==========================================================================
+Title:      Ping Sensor - Summary
+Date:       2023-03-19 23:27:40.133318
+Command:    select min(value) as min_value, max(value) as max_value, avg(value) as avg_value, count(*) as row_count from ping_sensor
+DBMS:       test
+Format:     table
+==========================================================================
+min_value max_value avg_value          row_count 
+--------- --------- ------------------ --------- 
+      0.0      49.0 15.214364999999988     10000 

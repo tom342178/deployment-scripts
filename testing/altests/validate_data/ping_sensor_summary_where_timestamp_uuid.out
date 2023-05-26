@@ -1,0 +1,10 @@
+==========================================================================
+Title:      Ping Sensor - Summary WHERE timestamp / UUID
+Date:       2023-03-19 23:27:40.150552
+Command:    select min(timestamp) as min_ts, max(timestamp) as max_ts, min(value) as min_value, max(value) as max_value, avg(value) as avg_value, count(*) as row_count from ping_sensor where timestamp >= '2022-03-01 00:00:00.000000' and timestamp < '2022-03-02 00:00:00.000000' and parentelement = '62e71893-92e0-11e9-b465-d4856454f4ba' order by max_ts asc
+DBMS:       test
+Format:     table
+==========================================================================
+min_ts                      max_ts                      min_value max_value avg_value          row_count 
+--------------------------- --------------------------- --------- --------- ------------------ --------- 
+2022-03-01T00:36:46.057636Z 2022-03-01T23:52:46.100030Z      0.07      3.47 1.5099999999999998        29 

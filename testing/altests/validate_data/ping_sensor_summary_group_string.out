@@ -1,0 +1,14 @@
+==========================================================================
+Title:      Ping Sensor - Summary GROUP string
+Date:       2023-03-19 23:27:40.129436
+Command:    select device_name, min(value) as min_value, max(value) as max_value, avg(value) as avg_value, count(*) as row_count from ping_sensor group by device_name desc
+DBMS:       test
+Format:     table
+==========================================================================
+device_name     min_value max_value avg_value          row_count 
+--------------- --------- --------- ------------------ --------- 
+ADVA FSP3000R7        0.0       4.0 1.9717499999999992      2040 
+Catalyst 3500XL      0.03     48.97 24.462562025316483      1975 
+GOOGLE_PING          2.01     36.99 19.511102680829545      1977 
+Ubiquiti OLT         0.05      49.0 25.059047856430723      2006 
+VM Lit SL NMS         0.0      11.0  5.477432567432567      2002 

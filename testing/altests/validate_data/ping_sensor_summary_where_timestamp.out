@@ -1,0 +1,10 @@
+==========================================================================
+Title:      Ping Sensor - Summary WHERE timestamp
+Date:       2023-03-19 23:27:40.135263
+Command:    select min(timestamp) as min_ts, max(timestamp) as max_ts, min(value) as min_value, max(value) as max_value, avg(value) as avg_value, count(*) as row_count from ping_sensor where timestamp >= '2022-03-01 00:00:00.000000' and timestamp < '2022-03-02 00:00:00.000000' order by min_ts asc
+DBMS:       test
+Format:     table
+==========================================================================
+min_ts                      max_ts                      min_value max_value avg_value          row_count 
+--------------------------- --------------------------- --------- --------- ------------------ --------- 
+2022-03-01T00:02:46.063795Z 2022-03-01T23:53:46.054753Z      0.03     48.33 14.580817610062898       159 

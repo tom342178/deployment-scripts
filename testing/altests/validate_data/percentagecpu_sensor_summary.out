@@ -1,0 +1,10 @@
+==========================================================================
+Title:      PercentageCPU Sensor - Summary
+Date:       2023-03-19 23:27:54.049737
+Command:    select min(value) as min_value, max(value) as max_value, avg(value) as avg_value, count(*) as row_count from percentagecpu_sensor
+DBMS:       test
+Format:     table
+==========================================================================
+min_value max_value avg_value          row_count 
+--------- --------- ------------------ --------- 
+      0.0     99.99 50.282333999999864     10000 
