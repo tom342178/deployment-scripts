@@ -18,14 +18,13 @@ set debug off
 set authentication off
 set echo queue on
 
+:directories:
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 set anylog home !anylog_path
 create work directories
 
-system mv $ANYLOG_PATH/AnyLog-Network/test $ANYLOG_PATH/AnyLog-Network/data
-
-if $NODE_TYPE == operator or $NODE_TYPE == publisher or $NODE_TYPE == standalone or $NODE_TYPE == standalone publisher then
-do tar -zxvf  !test_dir/data.tar.gz -C !test_dir
+if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
+if $TEST_DIR then set test_dir = $TEST_DIR
 
 :set-params:
 process !local_scripts/deployment_scripts/set_params.al
