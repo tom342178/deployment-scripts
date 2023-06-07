@@ -36,7 +36,7 @@ if not !is_policy then
         "readings": "readings",
         "schema": {
             "timestamp" : {
-                "bring": "[origin]"
+                "bring": "[origin]",
                 "default" : "now()",
                 "type" : "timestamp",
                 "apply" :  "epoch_to_datetime"
