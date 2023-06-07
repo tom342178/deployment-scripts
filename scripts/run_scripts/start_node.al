@@ -21,10 +21,33 @@ set echo queue on
 :directories:
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 set anylog home !anylog_path
-create work directories
+
+if $ANYLOG_ID_DIR then set id_dir = $ANYLOG_ID_DIR
+if $BLOCKCHAIN_DIR then
+do set blockchain_dir = $BLOCKCHAIN_DIR
+do set blockchain_file = !blockchain_dir/blockchain.json
+do set blockchain_new = !blockchain_dir/blockchain.new
+do set blockchain_sql = !blockchain_dir/blockchain/blockchain.sql
+
+if $DATA_DIR then
+do set data_dir = $DATA_DIR
+do set archive_dir = !data_dir/archive
+do set bkup_dir = !data_dir/bkup
+do set blobs_dir = !data_dir/blobs
+do set bwatch_dir = /app/AnyLog-Network/data/bwatch
+do set dbms_dir = /app/AnyLog-Network/data/dbms
+do set distr_dir = /app/AnyLog-Network/data/distr
+do set err_dir = /app/AnyLog-Network/data/error
+do set pem_dir = /app/AnyLog-Network/data/pem
+do set prep_dir = /app/AnyLog-Network/data/prep
+do set test_dir = /app/AnyLog-Network/data/test
+do set tmp_dir = /app/AnyLog-Network/data/tmp
+do set watch_dir = !data_dir/watch
 
 if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
 if $TEST_DIR then set test_dir = $TEST_DIR
+
+create work directories
 
 :set-params:
 process !local_scripts/deployment_scripts/set_params.al

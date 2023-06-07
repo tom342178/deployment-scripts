@@ -17,9 +17,9 @@ if !is_policy then goto add-video-policy
 if not !is_policy then
 <do mapping_policy = {
     "mapping": {
-        "id": !image_policy_id,
-        "dbms": "bring [dbms]",
-        "table": "bring [table]",
+    "id": !image_policy_id,
+    "dbms": "bring [dbms]",
+    "table": "bring [table]",
 	"readings": "detection",
         "schema": {
             "timestamp": {
