@@ -14,7 +14,6 @@ if !overlay_ip then enable_overlay = true
 if !policy_based_networking == false then goto tcp-networking
 
 :policy-based-networking:
-policy_id =  blockchain get config where name = !config_policy_name and company = !company_name bring [*][id]
 if !policy_id then
 do config from policy where id = !policy_id
 do goto end-script 
@@ -22,7 +21,11 @@ else if not !policy_id then goto policy-based-networking-notice
 
 :tcp-networking:
 on error goto tcp-networking-error
-<run tcp server where
+<if !enable_overlay == true then run tcp server where
+    external_ip=!external_ip and external_port=!anylog_server_port and
+    internal_ip=!overlay_ip and internal_port=!anylog_server_port and
+    bind=!tcp_bind and threads=!tcp_threads>
+<else run tcp server where
     external_ip=!external_ip and external_port=!anylog_server_port and
     internal_ip=!ip and internal_port=!anylog_server_port and
     bind=!tcp_bind and threads=!tcp_threads>
@@ -30,7 +33,11 @@ on error goto tcp-networking-error
 if !overlay_ip then set enable_overlay = true
 :rest-networking:
 on error goto rest-networking-error
-<run rest server where
+<if !enable_overlay == true then run rest server where
+    external_ip=!external_ip and external_port=!anylog_rest_port and
+    internal_ip=!overlay_ip and internal_port=!anylog_rest_port and
+    bind=!rest_bind and threads=!rest_threads and timeout=!rest_timeout>
+<else run rest server where
     external_ip=!external_ip and external_port=!anylog_rest_port and
     internal_ip=!ip and internal_port=!anylog_rest_port and
     bind=!rest_bind and threads=!rest_threads and timeout=!rest_timeout>
@@ -40,7 +47,12 @@ if not !anylog_broker_port then goto end-script
 if !overlay_ip then set enable_overlay = true
 :broker-networking:
 on error goto broker-networking-error
-<run message broker where
+if !enable_overlay == true then 
+<do run message broker where
+    external_ip=!external_ip and external_port=!anylog_broker_port and
+    internal_ip=!overlay_ip and internal_port=!anylog_broker_port and
+    bind=!broker_bind and threads=!broker_threads>
+<else run message broker where
     external_ip=!external_ip and external_port=!anylog_broker_port and
     internal_ip=!ip and internal_port=!anylog_broker_port and
     bind=!broker_bind and threads=!broker_threads>

@@ -22,8 +22,11 @@ set policy new_policy [config][port] = '!anylog_server_port.int'
 if !tcp_bind == false then
 do set policy new_policy [config][ip] = '!external_ip'
 do set policy new_policy [config][local_ip] = '!ip'
+do if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
 else if !tcp_bind == true
+do set policy new_policy [config][external_ip] = '!external_ip'
 do set policy new_policy [config][ip] = '!ip'
+do if !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
 
 :rest-info:
 if not !anylog_rest_port then goto rest-info-message
@@ -32,6 +35,7 @@ set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
 
 if !rest_bind == true then
 do set policy new_policy [config][rest_ip] = !ip
+do if !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
 
 :broker-info:
 if not !anylog_broker_port then goto end-script
@@ -40,6 +44,7 @@ set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
 
 if !broker_bind == true then
 do set policy new_policy [config][broker_ip] = '!ip'
+do if !overlay_ip then set policy new_policy [config][broker_ip] = '!overlay_ip'
 
 :end-script:
 end script

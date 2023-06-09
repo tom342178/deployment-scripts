@@ -18,43 +18,23 @@ set debug off
 set authentication off
 set echo queue on
 
-:directories:
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 set anylog home !anylog_path
-
-if $ANYLOG_ID_DIR then set id_dir = $ANYLOG_ID_DIR
-if $BLOCKCHAIN_DIR then
-do set blockchain_dir = $BLOCKCHAIN_DIR
-do set blockchain_file = !blockchain_dir/blockchain.json
-do set blockchain_new = !blockchain_dir/blockchain.new
-do set blockchain_sql = !blockchain_dir/blockchain/blockchain.sql
-
-if $DATA_DIR then
-do set data_dir = $DATA_DIR
-do set archive_dir = !data_dir/archive
-do set bkup_dir = !data_dir/bkup
-do set blobs_dir = !data_dir/blobs
-do set bwatch_dir = /app/AnyLog-Network/data/bwatch
-do set dbms_dir = /app/AnyLog-Network/data/dbms
-do set distr_dir = /app/AnyLog-Network/data/distr
-do set err_dir = /app/AnyLog-Network/data/error
-do set pem_dir = /app/AnyLog-Network/data/pem
-do set prep_dir = /app/AnyLog-Network/data/prep
-do set test_dir = /app/AnyLog-Network/data/test
-do set tmp_dir = /app/AnyLog-Network/data/tmp
-do set watch_dir = !data_dir/watch
-
-if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
-if $TEST_DIR then set test_dir = $TEST_DIR
-
 create work directories
+
+system mv $ANYLOG_PATH/AnyLog-Network/test $ANYLOG_PATH/AnyLog-Network/data
 
 :set-params:
 process !local_scripts/deployment_scripts/set_params.al
+
+:set-license:
+on error call license-key-error
+if !license_key then set license where activation_key = !license_key
+
 if $NODE_TYPE == none then goto end-script
 
 :declare-policies:
-process !local_scripts/deployment_scripts/declare_policies.al
+if !config_policy == true  then process !local_scripts/deployment_scripts/declare_policies.al
 
 :networking-configs:
 # set basic configurations
@@ -86,11 +66,7 @@ if !deploy_local_script == true then
 do is_file = file test !local_scripts/deployment_scripts/local_script.al
 do if !is_file == true then process !local_scripts/deployment_scripts/local_script.al
 
-#process !local_scripts/sample_code/monitoring_node_policy.al
-
-:set-license:
-on error call license-key-error
-if !license_key then set license where activation_key = !license_key
+process !local_scripts/sample_code/monitoring_node_policy.al
 
 :end-script:
 end script

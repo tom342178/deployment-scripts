@@ -35,22 +35,41 @@ set policy new_policy [!policy_type][port] = !anylog_server_port.int
 if !tcp_bind == false then
 do set policy new_policy [!policy_type][ip] = !external_ip
 do set policy new_policy [!policy_type][local_ip] = !ip
-do if !kubernetes_service_ip then [!policy_type][local_ip] = !kubernetes_service_ip
+
+if !tcp_bind == false and !kubernetes_service_ip then set policy new_policy [!policy_type][local_ip] = !kubernetes_service_ip
+if !tcp_bind == false and !overlay_ip and not !kubernetes_service_ip then set policy new_policy [!policy_type][local_ip] = !overlay_ip
 
 if !tcp_bind == true then
 do set policy new_policy [!policy_type][external_ip] = !external_ip
 do set policy new_policy [!policy_type][ip] = !ip
-do if !kubernetes_service_ip then set policy new_policy [!policy_type][ip] = !kubernetes_service_ip
 
+if !tcp_bind == true and !kubernetes_service_ip then set policy new_policy [!policy_type][ip] = !kubernetes_service_ip
+if !tcp_bind == true and !overlay_ip  and not !kubernetes_service_ip then set policy new_policy [!policy_type][ip] = !overlay_ip
+
+if !proxy_ip then set policy new_policy [!policy_type][proxy_ip] = !proxy_ip
+
+# if overlay with Kubernetes - then use overlay as external IP
+if !kubernetes_service_ip and !overlay_ip then
+do if !tcp_bind == false then set policy new_policy [!policy_type][ip] = !overlay_ip
+do if !tcp_bind == true then set policy new_policy [!policy_type][external_ip] = !overlay_ip
 
 :rest-info:
 if not !anylog_rest_port then goto rest-info-message
+
 set policy new_policy [!policy_type][rest_port] = !anylog_rest_port.int
+
+if !rest_bind == true then set policy new_policy [!policy_type][rest_ip] = !ip
+if !rest_bind == true and !kubernetes_service_ip then set policy new_policy [!policy_type][rest_ip] = !kubernetes_service_ip
+if !rest_bind == true and !overlay_ip then set policy new_policy [!policy_type][rest_ip] = !overlay_ip
 
 :broker-info:
 if not !anylog_broker_port then goto operator-configs
+
 set policy new_policy [!policy_type][broker_port] = !anylog_broker_port.int
 
+if !broker_bind == true then set policy new_policy [!policy_type][broker_ip] = !ip
+if !broker_bind == true and !kubernetes_service_ip then set policy new_policy [!policy_type][broker_ip] = !kubernetes_service_ip
+if !broker_bind == true and !overlay_ip then set policy new_policy [!policy_type][broker_ip] = !overlay_ip
 
 :operator-configs:
 if !policy_type != operator then goto end-script

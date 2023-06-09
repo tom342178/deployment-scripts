@@ -80,7 +80,9 @@ if not !policy then
 }>
 do test_policy = json !mapping_policy test
 do if !test_policy == false then goto json-policy-error
-do on error call declare-policy-error
+
+on error call declare-policy-error
+if not !policy then
 do blockchain prepare policy !mapping_policy
 do blockchain insert where policy=!mapping_policy and local=true and master=!ledger_conn
 
