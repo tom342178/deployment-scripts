@@ -29,7 +29,7 @@ process !local_scripts/deployment_scripts/set_params.al
 
 :set-license:
 on error call license-key-error
-if !license_key then set license where activation_key = !license_key
+set license where activation_key = !license_key
 
 if $NODE_TYPE == none then goto end-script
 
@@ -66,7 +66,7 @@ if !deploy_local_script == true then
 do is_file = file test !local_scripts/deployment_scripts/local_script.al
 do if !is_file == true then process !local_scripts/deployment_scripts/local_script.al
 
-process !local_scripts/sample_code/monitoring_node_policy.al
+#process !local_scripts/sample_code/monitoring_node_policy.al
 
 :end-script:
 end script
