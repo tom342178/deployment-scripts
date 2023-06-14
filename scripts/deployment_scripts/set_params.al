@@ -79,6 +79,10 @@ if $ANYLOG_BROKER_PORT then anylog_broker_port = $ANYLOG_BROKER_PORT
 if $POLICY_BASED_NETWORKING then set policy_based_networking = $POLICY_BASED_NETWORKING
 if !policy_based_networking != true and  !policy_based_networking != false then  set policy_based_networking = false
 
+# whether to setup networking based on a (generic) configuration policy - good for both REST and other nodes
+if $CONFIG_POLICY then set config_policy=$CONFIG_POLICY
+if !config_policy != true and !config_policy != false then set config_policy=true
+
 if $EXTERNAL_IP then set external_ip = $EXTERNAL_IP
 if $LOCAL_IP then set ip = $LOCAL_IP
 if $OVERLAY_IP then set overlay_ip = $OVERLAY_IP
@@ -94,7 +98,6 @@ else if !tcp_bind != true and !tcp_bind != false and !external_ip == !ip then  s
 else if !tcp_bind != true and !tcp_bind != false then set tcp_bind = false
 
 ledger_conn = !ip + ":" + !anylog_server_port
-if !kubernetes_service_ip then ledger_conn = !kubernetes_service_ip + ":" + !anylog_server_port
 if $LEDGER_CONN then ledger_conn = $LEDGER_CONN
 
 if !tcp_bind == false then goto advanced-networking
@@ -130,7 +133,10 @@ if $NODE_TYPE == rest  or !policy_based_networking == false and $BROKER_THREADS 
 if $NODE_TYPE == rest  or !policy_based_networking == false and !broker_threads < 1 then broker_threads=1
 if $NODE_TYPE == rest  or !policy_based_networking == false and not !broker_threads then broker_threads = 6
 
-if $CONFIG_POLICY_NAME then config_policy_name = $CONFIG_POLICY_NAME
+
+if $CONFIG_POLICY_NAME then
+do config_policy_name = $CONFIG_POLICY_NAME
+do goto authentication
 if not $CONFIG_POLICY_NAME and !overlay_ip then goto config-policy-name-overlay
 if not $CONFIG_POLICY_NAME and not !overlay_ip then goto config-policy-name
 
@@ -311,6 +317,14 @@ threshold_time = 60 seconds
 threshold_volume = 10KB
 if $THRESHOLD_TIME then threshold_time = $THRESHOLD_TIME
 if $THRESHOLD_VOLUME then threshold_volume = $THRESHOLD_VOLUME
+
+monitor_nodes = false # whether to monitor node(s)  or not  
+monitor_node = query  # which node type to send monitoring information to 
+monitor_node_company = "New Company" # company node is associted wth
+if $MONITOR_NODES then monitor_nodes = $MONITOR_NODES
+if $MONITOR_NODE then monitor_nodes = $MONITOR_NODE 
+if $MONITOR_NODE_COMPANY then monitor_node_company = $$MONITOR_NODE_COMPANY
+
 
 :end-script:
 end script
