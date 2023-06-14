@@ -60,12 +60,12 @@ if not !is_policy then
 }>
 do test_policy = json !mapping_policy test
 do if !test_policy == false then goto json-policy-error
-do on error call declare-policy-error
+
+on error call declare-policy-error
+if !test_policy == true and not !is_policy
 do blockchain prepare policy !mapping_policy
 do blockchain insert where policy=!mapping_policy and local=true and master=!ledger_conn
 
 <run mqtt client where broker=driver.cloudmqtt.com and port=18742 and user=hqpyyshb and password=bB38GEf93cPG
     and log=false and topic=(name=!topic_name and policy=!topic_name)>
-
-
 
