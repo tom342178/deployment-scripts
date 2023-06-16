@@ -19,12 +19,12 @@
 #    }
 #  ]
 #-----------------------------------------------------------------------------------------------------------------------
-# process /app/deployment_scripts/scri[ts/sample_code/edgex_demo.al
+# process !local_scripts/sample_code/edgex_demo.al
 
 if not !mqtt_topic_dbms then
 do set mqtt_topic_dbms = test
 do if !default_dbms then set mqtt_topic_dbms =  !default_dbms
-topic_name = edgexpert-anylog
+topic_name = LATERAL
 
 is_policy = blockchain get mapping where id = !topic_name
 if not !is_policy then
@@ -66,6 +66,6 @@ if !test_policy == true and not !is_policy
 do blockchain prepare policy !mapping_policy
 do blockchain insert where policy=!mapping_policy and local=true and master=!ledger_conn
 
-<run mqtt client where broker=driver.cloudmqtt.com and port=18742 and user=hqpyyshb and password=bB38GEf93cPG
+<run mqtt client where broker=local and port=32150
     and log=false and topic=(name=!topic_name and policy=!topic_name)>
 
