@@ -6,7 +6,7 @@
 # process !local_scripts/deployment_scripts/declare_policies.al
 
 :declare-policy:
-if !config_policy == true then
+if !policy_based_networking == true then
 do process !local_scripts/deployment_scripts/policies/declare_config_policy.al
 do call reset-new-policy 
 
@@ -42,8 +42,8 @@ do process !local_scripts/deployment_scripts/policies/declare_node_policy.al
 do call reset-new-policy 
 
 :get-id:
-if !config_policy == true then
-do policy = blockchain get config where name = !config_policy_name and company = !company_name
+if !policy_based_networking == true then
+do policy = blockchain get config where name = !policy_based_networking_name and company = !company_name
 do if !policy then goto get-policy-id
 
 if !deploy_ledger == true then

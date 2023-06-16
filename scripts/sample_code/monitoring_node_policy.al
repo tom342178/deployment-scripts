@@ -37,7 +37,7 @@ schedule_policy[schedule][company] = !company_name
     'schedule name = errin and time = !schedule_time task errin = get node info net_io_counters errin',
     'schedule name = errout and time = !schedule_time task errout = get node info net_io_counters errout',
     'schedule name = error_count and time = !schedule_time task node_insight[Network Error] = python int(!errin) + int(!errout)',
-    'schedule name = monitor_node and time = !schedule_time task run client (blockchain get query where company = !company_name bring.ip_port) monitor operators where info = !node_insight'
+    'schedule name = monitor_node and time = !schedule_time task run client (blockchain !monitor_node where company=!monitor_node_company bring.ip_port) monitor operators where info = !node_insight'
 ]>
 
 # set scripts for operator
@@ -51,9 +51,8 @@ if !deploy_operator == true then
     'schedule name = errin and time = !schedule_time task errin = get node info net_io_counters errin',
     'schedule name = errout and time = !schedule_time task errout = get node info net_io_counters errout',
     'schedule name = error_count and time = !schedule_time task node_insight[Network Error] = python int(!errin) + int(!errout)',
-    'schedule name = monitor_node and time = !schedule_time task run client (blockchain get query where company=!company_name bring.ip_port) monitor operators where info = !node_insight'
+    'schedule name = monitor_node and time = !schedule_time task run client (blockchain !monitor_node where company=!monitor_node_company bring.ip_port) monitor operators where info = !node_insight'
 ]>
-
 
 on error call declare-policy-error
 if not !is_policy then

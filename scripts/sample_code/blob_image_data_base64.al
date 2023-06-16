@@ -40,7 +40,7 @@ if not !policy then
         "id": !policy_id,
         "dbms": "bring [dbms]",
         "table": "bring [table]",
-	"readings": "detection",
+	    "readings": "detection",
         "schema": {
             "timestamp": {
                 "type": "timestamp",
@@ -58,7 +58,7 @@ if not !policy then
             "class": {
                 "type": "string",
                 "bring": "[class]",
-		"default": ""
+		        "default": ""
             },
             "bbox": {
                 "type": "string",
@@ -89,7 +89,6 @@ do blockchain insert where policy=!mapping_policy and local=true and master=!led
 
 
 :mqtt-call:
-on error goto mqtt-error
 on error goto mqtt-error
 if !anylog_broker_port then
 <do run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
