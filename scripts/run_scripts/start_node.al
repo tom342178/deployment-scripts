@@ -51,7 +51,7 @@ create work directories
 
 :set-params:
 process !local_scripts/deployment_scripts/set_params.al
-if $NODE_TYPE == none then goto end-script
+if $NODE_TYPE == none then goto set-license
 
 :declare-policies:
 process !local_scripts/deployment_scripts/declare_policies.al
@@ -66,7 +66,7 @@ process !local_scripts/deployment_scripts/network_configs.al
 :set-rest-authentication:
 if !enable_rest_auth == true then process !local_scripts/deployment_scripts/authentication/basic_rest_authentication.al
 
-if $NODE_TYPE == rest then goto end-script
+if $NODE_TYPE == rest then goto set-license
 
 :set-authentication:
 if !enable_auth == true then
@@ -90,7 +90,7 @@ if !monitor_nodes == true then process !local_scripts/sample_code/monitoring_nod
 
 :set-license:
 on error call license-key-error
-if !license_key then set license where activation_key = !license_key
+set license where activation_key = !license_key
 
 :end-script:
 end script
