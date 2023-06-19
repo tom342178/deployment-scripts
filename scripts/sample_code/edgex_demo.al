@@ -22,10 +22,9 @@
 # process !local_scripts/sample_code/edgex_demo.al
 
 if not !mqtt_topic_dbms and not !default_dbms then set mqtt_topic_dbms = test
-else if not !mqtt_topic_dbms and !default_dbms mqtt_topic_dbms =  !default_dbms
+else if not !mqtt_topic_dbms and !default_dbms then mqtt_topic_dbms =  !default_dbms
 
 topic_name = LATERAL
-
 is_policy = blockchain get mapping where id = !topic_name
 if not !is_policy then
 <do mapping_policy = {
@@ -51,9 +50,14 @@ if not !is_policy then
                 "default": ""
             },
             "value": {
-                "type": "float",
+                "condition": "if [sourceName] == PeopleCount",
+                "type": "int",
                 "value": "bring [value]"
 
+            },
+            "value": {
+                "type": "float",
+                "value": "bring [value]"
             }
         }
     }
