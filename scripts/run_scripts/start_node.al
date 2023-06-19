@@ -10,7 +10,7 @@
 #    5. MQTT
 #    6. local  scripts
 #-----------------------------------------------------------------------------------------------------------------------
-# python3.9 AnyLog-Network/source/cmd/user_cmd.pyc process /app/AnyLog-Network/scripts/run_scripts/start_node.al
+# python3.9 AnyLog-Network/source/cmd/user_cmd.pyc process deployment-scripts/scripts/run_scripts/start_node.al
 
 :set-configs:
 on error ignore
@@ -87,6 +87,9 @@ do is_file = file test !local_scripts/deployment_scripts/local_script.al
 do if !is_file == true then process !local_scripts/deployment_scripts/local_script.al
 
 if !monitor_nodes == true then process !local_scripts/sample_code/monitoring_node_policy.al
+set monitor_node = query
+monitor_node_company = AnyLog
+process !local_scripts/sample_code/monitoring_node_policy.al
 
 :set-license:
 on error call license-key-error
