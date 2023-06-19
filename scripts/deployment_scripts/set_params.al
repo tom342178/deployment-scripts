@@ -318,10 +318,10 @@ threshold_volume = 10KB
 if $THRESHOLD_TIME then threshold_time = $THRESHOLD_TIME
 if $THRESHOLD_VOLUME then threshold_volume = $THRESHOLD_VOLUME
 
-monitor_nodes = false # whether to monitor node(s)  or not  
+set monitor_nodes = false # whether to monitor node(s)  or not
 monitor_node = query  # which node type to send monitoring information to 
-monitor_node_company = "New Company" # company node is associated with the monitor node
-if $MONITOR_NODES then monitor_nodes = $MONITOR_NODES
+monitor_node_company = !company_name # company node is associated with the monitor node
+if $MONITOR_NODES then set monitor_nodes = $MONITOR_NODES
 if $MONITOR_NODE then monitor_nodes = $MONITOR_NODE 
 if $MONITOR_NODE_COMPANY then monitor_node_company = $$MONITOR_NODE_COMPANY
 
