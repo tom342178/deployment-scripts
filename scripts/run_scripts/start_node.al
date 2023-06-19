@@ -87,9 +87,6 @@ do is_file = file test !local_scripts/deployment_scripts/local_script.al
 do if !is_file == true then process !local_scripts/deployment_scripts/local_script.al
 
 if !monitor_nodes == true then process !local_scripts/sample_code/monitoring_node_policy.al
-set monitor_node = query
-monitor_node_company = AnyLog
-process !local_scripts/sample_code/monitoring_node_policy.al
 
 :set-license:
 on error call license-key-error
