@@ -49,16 +49,18 @@ if not !is_policy then
                 "value": "bring [units]",
                 "default": ""
             },
-            "value": {
-                "condition": "if [sourceName] == PeopleCount",
-                "type": "int",
-                "value": "bring [value]"
+            "value": [
+                {
+                    "condition": "if [sourceName] == PeopleCount",
+                    "type": "int",
+                    "value": "bring [value]"
 
-            },
-            "value": {
-                "type": "float",
-                "value": "bring [value]"
-            }
+                },
+                {
+                    "type": "float",
+                    "value": "bring [value]"
+                }
+            ]
         }
     }
 }>
