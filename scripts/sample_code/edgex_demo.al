@@ -47,15 +47,9 @@ if not !is_policy then
             "units": {
                 "type": "string",
                 "value": "bring [units]",
-                "optional": true
+                "default": ""
             },
             "value": [
-                {
-                    "condition": "if [sourceName] == PeopleCount",
-                    "type": "int",
-                    "value": "bring [value]"
-
-                },
                 {
                     "type": "float",
                     "value": "bring [value]"
