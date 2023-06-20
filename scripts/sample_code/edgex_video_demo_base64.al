@@ -42,7 +42,7 @@
 #   - Generic MQTT script: !local_scripts/deployment_scripts/mqtt.al
 #   - Documentation: https://github.com/AnyLog-co/documentation/blob/master/image%20mapping.md
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/sample_code/blob_video_data_base64.al
+# process !local_scripts/sample_code/edgex_video_demo_base64.al
 
 # declare policy
 :prepare-policy:
@@ -56,6 +56,10 @@ if not !policy then
         "dbms": "bring [dbms]",
         "table": "bring [table]",
         "schema": {
+            "timestamp": {
+                "type": "timestamp",
+                "default": "now()"
+            },
             "start_ts": {
                 "type": "timestamp",
                 "bring": "[start_ts]"

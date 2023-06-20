@@ -51,9 +51,80 @@ if not !is_policy then
             },
             "value": [
                 {
+                    "condition": "if [sourceName] == Bool",
+                    "type": "bool",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == FanStatus",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == Int8",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == Int16",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == Int32",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == Int64",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == LightOut1",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == LightOut2",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == LightOut3",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == LightOut4",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == Unit8",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == Unit16",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == Unit32",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "condition": "if [sourceName] == Unit64",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
                     "type": "float",
                     "value": "bring [value]"
                 }
+
             ]
         }
     }
@@ -69,3 +140,30 @@ do blockchain insert where policy=!mapping_policy and local=true and master=!led
 <run mqtt client where broker=local and port=32150
     and log=false and topic=(name=!topic_name and policy=!topic_name)>
 
+:end-script:
+end script
+
+:declare-params-error:
+echo "Failed to declare one or more policies. Cannot continue..."
+goto end-script
+
+:connect-dbms-error:
+echo "Failed to connect to MongoDB logical database " !mongo_db_name ". Cannot continue..."
+goto end-script
+
+:blobs-archiver-error:
+echo "Failed to enable blobs archiver"
+return
+
+:json-policy-error:
+echo "Invalid JSON format, cannot declare policy"
+goto end-script
+
+:declare-policy-error:
+echo "Failed to declare policy on blockchain"
+return
+
+
+:mqtt-error:
+echo "Failed to deploy MQTT process"
+goto end-script
