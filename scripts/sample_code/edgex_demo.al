@@ -47,7 +47,7 @@ if not !is_policy then
             "units": {
                 "type": "string",
                 "value": "bring [units]",
-                "default": ""
+                "optional": true
             },
             "value": [
                 {
