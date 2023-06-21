@@ -82,7 +82,7 @@ if not !policy then
             },
             "confidence": {
                 "bring": "[confidence]",
-                "type": "int"
+                "type": "float"
             }
         }
     }
