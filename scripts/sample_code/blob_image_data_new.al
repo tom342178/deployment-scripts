@@ -29,8 +29,9 @@
 #   - Documentation: https://github.com/AnyLog-co/documentation/blob/master/mapping%20data%20to%20tables.md
 #   - Deploying EdgeX: https://github.com/AnyLog-co/lfedge-code/tree/main/edgex
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/sample_code/blob_image_data.al
+# process !local_scripts/sample_code/blob_image_data_new.al
 
+# Conversion type - we support either base64 or OpenCV, if not set, will use bytesio
 conversion_type = base64
 
 :preparre-policy:
@@ -85,8 +86,8 @@ set policy new_policy [mapping][schema][status][default] = ""
 test_policy = json !mapping_policy test
 if !test_policy == false then goto json-policy-error
 on error call declare-policy-error
-blockchain prepare policy !mapping_policy
-blockchain insert where policy=!mapping_policy and local=true and master=!ledger_conn
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 
 
 :mqtt-call:
