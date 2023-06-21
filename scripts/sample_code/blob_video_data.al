@@ -48,81 +48,86 @@
 :prepare-policy:
 policy_id = video-mapping # used also as the mqtt topic name
 policy = blockchain get mapping where id = !policy_id
+if !policy then goto mqtt-call
 
-if not !policy then
-<do mapping_policy = {
-    "mapping": {
-        "id": !policy_id,
-        "dbms": "bring [dbName]",
-        "table": "bring [deviceName]",
-        "source": {
-            "bring": "[deviceName]",
-            "default": "car_data"
-        },
-        "readings": "readings",
-        "schema": {
-            "timestamp": {
-                "type": "timestamp",
-                "bring": "[timestamp]"
-            },
-            "start_ts": {
-                "type": "timestamp",
-                "bring": "[start_ts]"
-            },
-            "end_ts": {
-                "type": "timestamp",
-                "bring": "[end_ts]"
-            },
-            "file": {
-                "blob": true,
-                "bring": "[binaryValue]",
-                "extension": "mp4",
-                "hash": "md5",
-                "type": "varchar"
-            },
-            "file_type": {
-                "bring": "[mediaType]",
-                "type": "string"
-            },
-            "num_cars": {
-                "bring": "[num_cars]",
-                "type": "int"
-            },
-            "speed": {
-                "bring": "[speed]",
-                "type": "float"
-            }
-        }
-    }
-}>
-do test_policy = json !mapping_policy test
-do if !test_policy == false then goto json-policy-error
+# Conversion type - we support either base64 or OpenCV, if not set, will use bytesio
+conversion_type = base64
 
-:declare-policy
+:create-policy:
+on error ignore
+set policy new_policy [mapping] = {}
+set policy new_policy [mapping][id] = !policy_id
+set policy new_policy [mapping][dbms] = "bring [dbName]"
+set policy new_policy [mapping][table] = "bring [deviceName]"
+
+set policy new_policy [mapping][source] = {}
+set policy new_policy [mapping][source][bring] = "[deviceName]"
+set policy new_policy [mapping][source][bring] = "car_data"
+
+set policy new_policy [mapping][readings] = "readings"
+
+set policy new_policy [mapping][schema] = {}
+set policy new_policy [mapping][schema][timestamp] = {}
+set policy new_policy [mapping][schema][timestamp][type] = "timestamp"
+set policy new_policy [mapping][schema][timestamp][bring] = "[timestamp]"
+set policy new_policy [mapping][schema][timestamp][default] = "now()"
+
+set policy new_policy [mapping][schema][start_ts] = {}
+set policy new_policy [mapping][schema][start_ts][type] = "timestamp"
+set policy new_policy [mapping][schema][start_ts][bring] = "[start_ts]"
+
+set policy new_policy [mapping][schema][end_ts] = {}
+set policy new_policy [mapping][schema][end_ts][type] = "timestamp"
+set policy new_policy [mapping][schema][end_ts][bring] = "[end_ts]"
+
+set policy new_policy [mapping][schema][file] = {}
+set policy new_policy [mapping][schema][file][root] = true
+set policy new_policy [mapping][schema][file][blob] = true
+set policy new_policy [mapping][schema][file][bring] = "[file_content]"
+set policy new_policy [mapping][schema][file][extension] = "mp4"
+set policy new_policy [mapping][schema][file][hash] = "md5"
+set policy new_policy [mapping][schema][file][type] = "varchar"
+
+if !conversion_type == base64 then set policy new_policy [mapping][schema][file][apply] = "base64decoding"
+else if !conversion_type == opencv  set policy new_policy [mapping][schema][file][apply] = "opencv"
+
+set policy new_policy [mapping][schema][file_type] = {}
+set policy new_policy [mapping][schema][file_type][type] = "string"
+set policy new_policy [mapping][schema][file_type][bring] = "[mediaType]"
+
+set policy new_policy [mapping][schema][num_cars] = {}
+set policy new_policy [mapping][schema][num_cars][type] = "int"
+set policy new_policy [mapping][schema][num_cars][bring] = "[num_cars]"
+
+set policy new_policy [mapping][schema][num_cars] = {}
+set policy new_policy [mapping][schema][num_cars][type] = "float"
+set policy new_policy [mapping][schema][num_cars][bring] = "[speed]"
+
+:declare-policy:
+test_policy = json !mapping_policy test
+if !test_policy == false then goto json-policy-error
 on error call declare-policy-error
-policy = blockchain get mapping where id=!policy_id
-if not !policy then
-do blockchain prepare policy !mapping_policy
-do blockchain insert where policy=!mapping_policy and local=true and master=!ledger_conn
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 
 
 :mqtt-call:
-on error goto mqtt-error
-if !anylog_broker_port then
-<do run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
-    name=!policy_id and
+#on error goto mqtt-error
+#if !anylog_broker_port then
+#<do run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
+#    name=!policy_id and
+#    policy=!policy_id
+#)>
+#else if not !anylog_broker_port and !user_name and !user_password then
+#<do run mqtt client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
+#    name=!policy_id and
     policy=!policy_id
-)>
-else if not !anylog_broker_port and !user_name and !user_password then
-<do run mqtt client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
-    name=!policy_id and
-    policy=!policy_id
-)>
-else if not !anylog_broker_port then
-<do run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
-    name=!policy_id and
-    policy=!policy_id
-)>
+#)>
+#else if not !anylog_broker_port then
+#<do run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
+#    name=!policy_id and
+#    policy=!policy_id
+#)>
 
 :end-script:
 end script

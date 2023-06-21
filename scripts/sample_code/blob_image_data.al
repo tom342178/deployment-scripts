@@ -29,79 +29,85 @@
 #   - Documentation: https://github.com/AnyLog-co/documentation/blob/master/mapping%20data%20to%20tables.md
 #   - Deploying EdgeX: https://github.com/AnyLog-co/lfedge-code/tree/main/edgex
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/sample_code/blob_image_data.al
+# process !local_scripts/sample_code/blob_image_data_new.al
 
 :preparre-policy:
-policy_id = image-mapping
+policy_id = image-mapping # used also as the mqtt topic name
 policy = blockchain get mapping where id = !policy_id
-if not !policy then
-<do mapping_policy = {
-    "mapping": {
-        "id": !policy_id,
-        "dbms": "bring [dbms]",
-        "table": "bring [table]",
-	"readings": "detection",
-        "schema": {
-            "timestamp": {
-                "type": "timestamp",
-                "default": "now()"
-            },
-            "file": {
-                "root" : true,
-                "blob" : true,
-                "bring" : "[file_content]",
-                "extension" : "jpeg",
-                "hash" : "md5",
-                "type" : "varchar"
-            },
-            "class": {
-                "type": "string",
-                "bring": "[class]",
-		"default": ""
-            },
-            "bbox": {
-                "type": "string",
-                "bring": "[bbox]",
-                "default": ""
-            },
-            "score": {
-                "type": "float",
-                "bring": "[score]",
-                "default": -1
-            },
-            "status": {
-                "root": true,
-                "type": "string",
-                "bring": "[status]",
-                "default": ""
-            }
-	}
-    }
-}>
-do test_policy = json !mapping_policy test
-do if !test_policy == false then goto json-policy-error
-do on error call declare-policy-error
-do blockchain prepare policy !mapping_policy
-do blockchain insert where policy=!mapping_policy and local=true and master=!ledger_conn
+if !policy then goto mqtt-call
+
+# Conversion type - we support either base64 or OpenCV, if not set, will use bytesio
+conversion_type = base64
+
+:create-policy:
+on error ignore
+set policy new_policy [mapping] = {}
+set policy new_policy [mapping][id] = !policy_id
+set policy new_policy [mapping][dbms] = "bring [dbms]"
+set policy new_policy [mapping][table] = "bring [table]"
+set policy new_policy [mapping][readings] = "detection"
+
+set policy new_policy [mapping][schema] = {}
+set policy new_policy [mapping][schema][timestamp] = {}
+set policy new_policy [mapping][schema][timestamp][type] = "timestamp"
+set policy new_policy [mapping][schema][timestamp][default] = "now()"
+
+set policy new_policy [mapping][schema][file] = {}
+set policy new_policy [mapping][schema][file][root] = true
+set policy new_policy [mapping][schema][file][blob] = true
+set policy new_policy [mapping][schema][file][bring] = "[file_content]"
+set policy new_policy [mapping][schema][file][extension] = "jpeg"
+set policy new_policy [mapping][schema][file][hash] = "md5"
+set policy new_policy [mapping][schema][file][type] = "varchar"
+
+if !conversion_type == base64 then set policy new_policy [mapping][schema][file][apply] = "base64decoding"
+else if !conversion_type == opencv  set policy new_policy [mapping][schema][file][apply] = "opencv"
+
+set policy new_policy [mapping][schema][class] = {}
+set policy new_policy [mapping][schema][class][type] = "string"
+set policy new_policy [mapping][schema][class][bring] = "[class]"
+set policy new_policy [mapping][schema][class][default] = ""
+
+set policy new_policy [mapping][schema][bbox] = {}
+set policy new_policy [mapping][schema][bbox][type] = "string"
+set policy new_policy [mapping][schema][bbox][bring] = "[bbox]"
+set policy new_policy [mapping][schema][bbox][default] = ""
+
+set policy new_policy [mapping][schema][source] = {}
+set policy new_policy [mapping][schema][source][type] = "float"
+set policy new_policy [mapping][schema][source][bring] = "[source]"
+set policy new_policy [mapping][schema][source][default] = -1
+
+set policy new_policy [mapping][schema][status] = {}
+set policy new_policy [mapping][schema][status][type] = "string"
+set policy new_policy [mapping][schema][status][bring] = "[bbox]"
+set policy new_policy [mapping][schema][status][default] = ""
+
+:declare-policy:
+test_policy = json !mapping_policy test
+if !test_policy == false then goto json-policy-error
+on error call declare-policy-error
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 
 
 :mqtt-call:
-on error goto mqtt-error
-if !anylog_broker_port then
-<do run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
-    name=!policy_id and
-    policy=!policy_id
-)>
-else if not !anylog_broker_port and !user_name and !user_password then
-<do run mqtt client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
-    name=!policy_id and
-    policy=!policy_id
-)>
-else if not !anylog_broker_port then
-<do run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
-    name=!policy_id and
-    policy=!policy_id
-)>
+#on error goto mqtt-error
+#if !anylog_broker_port then
+#<do run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
+#    name=!policy_id and
+#    policy=!policy_id
+#)>
+#else if not !anylog_broker_port and !user_name and !user_password then
+#<do run mqtt client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
+#    name=!policy_id and
+#    policy=!policy_id
+#)>
+#else if not !anylog_broker_port then
+#<do run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
+#    name=!policy_id and
+#    policy=!policy_id
+#)>
 
 :end-script:
 end script

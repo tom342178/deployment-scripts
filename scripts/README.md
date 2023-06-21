@@ -88,6 +88,6 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 * [edgex_humidity_temp.al](../archive/fujitsu/edgex_humidity_temp.al) - provides a policy based example for _EdgeX_'s Temp/Humidity demo 
 * [fledge.al](sample_code/fledge.al) - provides example code for multiple topics under the same `run mqtt client` command
 accepting data from _FLEDGE_ random data generator and weather app. 
-* [deeptector.al](sample_code/blob_image_data_base64.al) - policy based `run mqtt client` for NTT's _Deeptector_ image analyzer 
-* [car_data.al](sample_code/blob_video_data_base64.al) - image / data policy based used in [Sample Data Generator](https://github.com/AnyLog-co/Sample-Data-Generator/blob/master/data_generator_file_processing.py)
+* [deeptector.al](../archive/blob_image_data_base64.al) - policy based `run mqtt client` for NTT's _Deeptector_ image analyzer 
+* [car_data.al](../archive/blob_video_data_base64.al) - image / data policy based used in [Sample Data Generator](https://github.com/AnyLog-co/Sample-Data-Generator/blob/master/data_generator_file_processing.py)
 * [nvidia.al](../archive/NVIDIA/log_files.al) - code used for NVIDIA POC with _Fleet Command_
