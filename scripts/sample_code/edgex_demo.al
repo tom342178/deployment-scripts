@@ -51,72 +51,72 @@ if not !is_policy then
             },
             "value": [
                 {
-                    "condition": "if [sourceName] == Bool",
+                    "table": "bool",
                     "type": "bool",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == FanStatus",
+                    "table": "fanstatus",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == Int8",
+                    "table": "int8",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == Int16",
+                    "table": "int16",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == Int32",
+                    "table": "int32",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == Int64",
+                    "table": "int64",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == LightOut1",
+                    "table": "lightout1",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == LightOut2",
+                    "table": "lightout2",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == LightOut3",
+                    "table": "lightout3",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == LightOut4",
+                    "table": "lightout4",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == Unit8",
+                    "table": "unit8",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == Unit16",
+                    "table": "unit16",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == Unit32",
+                    "table": "unit32",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "condition": "if [sourceName] == Unit64",
+                    "table": "unit64",
                     "type": "int",
                     "value": "bring [value]"
                 },
