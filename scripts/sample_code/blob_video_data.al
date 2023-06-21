@@ -38,6 +38,54 @@
 #   "sourceName": "OnvifSnapshot"
 # }
 #
+# :sample policy:
+# {
+#    "mapping": {
+#        "id": !policy_id,
+#        "dbms": "bring [dbName]",
+#        "table": "bring [deviceName]",
+#        "source": {
+#            "bring": "[deviceName]",
+#            "default": "car_data"
+#        },
+#        "readings": "readings",
+#        "schema": {
+#            "timestamp": {
+#                "type": "timestamp",
+#                "bring": "[timestamp]"
+#           },
+#            "start_ts": {
+#                "type": "timestamp",
+#                "bring": "[start_ts]"
+#            },
+#            "end_ts": {
+#                "type": "timestamp",
+#                "bring": "[end_ts]"
+#            },
+#            "file": {
+#                "blob": true,
+#                "bring": "[binaryValue]",
+#                "extension": "mp4",
+#                "apply": "base64decoding",
+#                "hash": "md5",
+#                "type": "varchar"
+#            },
+#            "file_type": {
+#                "bring": "[mediaType]",
+#                "type": "string"
+#            },
+#            "num_cars": {
+#                "bring": "[num_cars]",
+#                "type": "int"
+#            },
+#            "speed": {
+#                "bring": "[speed]",
+#                "type": "float"
+#            }
+#        }
+#    }
+# }
+#
 # :documents:
 #   - Generic MQTT script: !local_scripts/deployment_scripts/mqtt.al
 #   - Documentation: https://github.com/AnyLog-co/documentation/blob/master/image%20mapping.md

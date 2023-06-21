@@ -24,6 +24,53 @@
 #        ],
 #        "status": "ok"
 #    }
+#
+# :sample policy:
+# {
+#   "mapping": {
+#       "id": !policy_id,
+#       "dbms": "bring [dbms]",
+#       "table": "bring [table]",
+#       "readings": "detection",
+#       "schema": {
+#           "timestamp": {
+#               "type": "timestamp",
+#               "default": "now()"
+#           },
+#           "file": {
+#               "root" : true,
+#               "blob" : true,
+#               "bring" : "[file_content]",
+#               "extension" : "jpeg",
+#               "apply" : "base64decoding",
+#               "hash" : "md5",
+#               "type" : "varchar"
+#           },
+#           "class": {
+#               "type": "string",
+#               "bring": "[class]",
+#               "default": ""
+#           },
+#           "bbox": {
+#               "type": "string",
+#               "bring": "[bbox]",
+#               "default": ""
+#           },
+#           "score": {
+#               "type": "float",
+#               "bring": "[score]",
+#               "default": -1
+#           },
+#           "status": {
+#               "root": true,
+#               "type": "string",
+#               "bring": "[status]",
+#               "default": ""
+#           }
+#       }
+#   }
+# }
+#
 # :documents:
 #   - Generic MQTT script: !local_scripts/deployment_scripts/mqtt.al
 #   - Documentation: https://github.com/AnyLog-co/documentation/blob/master/mapping%20data%20to%20tables.md
