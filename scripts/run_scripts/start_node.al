@@ -10,7 +10,7 @@
 #    5. MQTT
 #    6. local  scripts
 #-----------------------------------------------------------------------------------------------------------------------
-# python3.9 AnyLog-Network/source/cmd/user_cmd.pyc process /app/AnyLog-Network/scripts/run_scripts/start_node.al
+# python3.9 AnyLog-Network/source/cmd/user_cmd.pyc process deployment-scripts/scripts/run_scripts/start_node.al
 
 :set-configs:
 on error ignore

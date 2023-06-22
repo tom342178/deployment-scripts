@@ -21,11 +21,10 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/sample_code/edgex_demo.al
 
-if not !mqtt_topic_dbms then
-do set mqtt_topic_dbms = test
-do if !default_dbms then set mqtt_topic_dbms =  !default_dbms
-topic_name = LATERAL
+if not !mqtt_topic_dbms and not !default_dbms then set mqtt_topic_dbms = test
+else if not !mqtt_topic_dbms and !default_dbms then mqtt_topic_dbms =  !default_dbms
 
+topic_name = LATERAL
 is_policy = blockchain get mapping where id = !topic_name
 if not !is_policy then
 <do mapping_policy = {
@@ -50,11 +49,83 @@ if not !is_policy then
                 "value": "bring [units]",
                 "default": ""
             },
-            "value": {
-                "type": "float",
-                "value": "bring [value]"
+            "value": [
+                {
+                    "table": "bool",
+                    "type": "bool",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "fanstatus",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "int8",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "int16",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "int32",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "int64",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "lightout1",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "lightout2",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "lightout3",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "lightout4",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "unit8",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "unit16",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "unit32",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "unit64",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "type": "float",
+                    "value": "bring [value]"
+                }
 
-            }
+            ]
         }
     }
 }>
@@ -69,3 +140,30 @@ do blockchain insert where policy=!mapping_policy and local=true and master=!led
 <run mqtt client where broker=local and port=32150
     and log=false and topic=(name=!topic_name and policy=!topic_name)>
 
+:end-script:
+end script
+
+:declare-params-error:
+echo "Failed to declare one or more policies. Cannot continue..."
+goto end-script
+
+:connect-dbms-error:
+echo "Failed to connect to MongoDB logical database " !mongo_db_name ". Cannot continue..."
+goto end-script
+
+:blobs-archiver-error:
+echo "Failed to enable blobs archiver"
+return
+
+:json-policy-error:
+echo "Invalid JSON format, cannot declare policy"
+goto end-script
+
+:declare-policy-error:
+echo "Failed to declare policy on blockchain"
+return
+
+
+:mqtt-error:
+echo "Failed to deploy MQTT process"
+goto end-script
