@@ -100,8 +100,8 @@ set policy new_policy [mapping][schema][timestamp][type] = "timestamp"
 set policy new_policy [mapping][schema][timestamp][default] = "now()"
 
 set policy new_policy [mapping][schema][file] = {}
-set policy new_policy [mapping][schema][file][root] = true
-set policy new_policy [mapping][schema][file][blob] = true
+set policy new_policy [mapping][schema][file][root] = true.bool
+set policy new_policy [mapping][schema][file][blob] = true.bool
 set policy new_policy [mapping][schema][file][bring] = "[file_content]"
 set policy new_policy [mapping][schema][file][extension] = "jpeg"
 set policy new_policy [mapping][schema][file][hash] = "md5"
@@ -139,22 +139,22 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 
 
 :mqtt-call:
-#on error goto mqtt-error
-#if !anylog_broker_port then
-#<do run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
-#    name=!policy_id and
-#    policy=!policy_id
-#)>
-#else if not !anylog_broker_port and !user_name and !user_password then
-#<do run mqtt client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
-#    name=!policy_id and
-#    policy=!policy_id
-#)>
-#else if not !anylog_broker_port then
-#<do run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
-#    name=!policy_id and
-#    policy=!policy_id
-#)>
+on error goto mqtt-error
+if !anylog_broker_port then
+<do run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
+    name=!policy_id and
+    policy=!policy_id
+)>
+else if not !anylog_broker_port and !user_name and !user_password then
+<do run mqtt client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
+    name=!policy_id and
+    policy=!policy_id
+)>
+else if not !anylog_broker_port then
+<do run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
+    name=!policy_id and
+    policy=!policy_id
+)>
 
 :end-script:
 end script

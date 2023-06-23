@@ -1,0 +1,63 @@
+AL anylog-master +> get error log
+
+ID  Count Thread     Time                     Type  Text
+---|-----|----------|------------------------|-----|----------------------------------------------------------------------------------------------------|
+ 23|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/prep                       |
+ 24|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/watch                      |
+ 25|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/pem                        |
+ 26|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/bwatch                     |
+ 27|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/blobs                      |
+ 28|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/tmp                        |
+282|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|(Failed: Error Command Structure) monitor_node = query                                              |
+283|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Script terminated: Error: '[0322] monitor_node = query --> Error Command Structure' in file /app/dep|
+   |     |          |                        |     |loyment-scripts/scripts/deployment_scripts/set_params.al                                            |
+284|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|(Failed: Error Command Structure) process !local_scripts/deployment_scripts/set_params.al           |
+287|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Blockchain file does not exists: /app/AnyLog-Network/blockchain/blockchain.json                     |
+309|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|TCP server is not running                                                                           |
+310|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Failed to retrieve 'cluster' info from local blockchain file or no cluster info                     |
+360|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|TCP server is not running                                                                           |
+366|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|JSON value error (line and column are of the JSON struct): Expecting value: line 1 column 11 (char 1|
+   |     |          |                        |     |0)                                                                                                  |
+367|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|JSON error starting at: [!policy_based_networking_name, ... ]                                       |
+368|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|(Failed: Error in JSON Structure) policy = blockchain get config where name = !policy_based_networki|
+   |     |          |                        |     |ng_name and company = !company_name                                                                 |
+369|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|(Failed: Error in JSON Structure) do policy = blockchain get config where name = !policy_based_netwo|
+   |     |          |                        |     |rking_name and company = !company_name                                                              |
+370|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Script terminated on line 45 with error: 'Error in JSON Structure'                                  |
+371|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|Script terminated: Error: '[0046] do policy = blockchain get config where name = !policy_based_netwo|
+   |     |          |                        |     |rking_name and company = !company_name --> Error in script without 'on error' instruction' in file /|
+   |     |          |                        |     |app/deployment-scripts/scripts/deployment_scripts/declare_policies.al                               |
+372|    1|MainThread|Fri Jun 23 17:37:55 2023|Error|(Failed: Error in script without 'on error' instruction) process !local_scripts/deployment_scripts/d|
+   |     |          |                        |     |eclare_policies.al                                                                                  |
+
+
+ID  Count Thread     Time                     Type  Text
+---|-----|----------|------------------------|-----|----------------------------------------------------------------------------------------------------|
+ 25|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/pem                        |
+ 26|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/bwatch                     |
+ 27|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/blobs                      |
+ 28|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Directory is not accessible or does not exists: /app/AnyLog-Network/data/tmp                        |
+285|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|(Failed: Error Command Structure) monitor_node = query                                              |
+286|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Script terminated: Error: '[0322] monitor_node = query --> Error Command Structure' in file /app/dep|
+   |     |          |                        |     |loyment-scripts/scripts/deployment_scripts/set_params.al                                            |
+287|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|(Failed: Error Command Structure) process !local_scripts/deployment_scripts/set_params.al           |
+290|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Blockchain file does not exists: /app/AnyLog-Network/blockchain/blockchain.json                     |
+315|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|TCP server is not running                                                                           |
+316|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Failed to retrieve 'cluster' info from local blockchain file or no cluster info                     |
+335|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|TCP server is not running                                                                           |
+336|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Failed to retrieve 'operator' to support active clusters: ['24976ddaafd5b03953638905f17839b2']      |
+395|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|TCP server is not running                                                                           |
+401|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|JSON value error (line and column are of the JSON struct): Expecting value: line 1 column 11 (char 1|
+   |     |          |                        |     |0)                                                                                                  |
+402|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|JSON error starting at: [!policy_based_networking_name, ... ]                                       |
+403|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|(Failed: Error in JSON Structure) policy = blockchain get config where name = !policy_based_networki|
+   |     |          |                        |     |ng_name and company = !company_name                                                                 |
+404|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|(Failed: Error in JSON Structure) do policy = blockchain get config where name = !policy_based_netwo|
+   |     |          |                        |     |rking_name and company = !company_name                                                              |
+405|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Script terminated on line 45 with error: 'Error in JSON Structure'                                  |
+406|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|Script terminated: Error: '[0046] do policy = blockchain get config where name = !policy_based_netwo|
+   |     |          |                        |     |rking_name and company = !company_name --> Error in script without 'on error' instruction' in file /|
+   |     |          |                        |     |app/deployment-scripts/scripts/deployment_scripts/declare_policies.al                               |
+407|    1|MainThread|Fri Jun 23 17:37:58 2023|Error|(Failed: Error in script without 'on error' instruction) process !local_scripts/deployment_scripts/d|
+   |     |          |                        |     |eclare_policies.al                                                                                  |
+
