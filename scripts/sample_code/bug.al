@@ -55,4 +55,3 @@ blockchain insert where policy=!mapping_policy and local=true and master=!ledger
      name=!policy_id and
     policy=!policy_id
 )>
-run mqtt client where broker=
