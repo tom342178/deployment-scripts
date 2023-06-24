@@ -46,7 +46,7 @@
 
 # declare policy
 :prepare-policy:
-policy_id = edgex-video # used also as the mqtt topic name
+policy_id = anylogedgex-video-demo # used also as the mqtt topic name
 policy = blockchain get mapping where id = !policy_id
 
 if not !policy then

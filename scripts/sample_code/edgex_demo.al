@@ -24,7 +24,7 @@
 if not !mqtt_topic_dbms and not !default_dbms then set mqtt_topic_dbms = test
 else if not !mqtt_topic_dbms and !default_dbms then mqtt_topic_dbms =  !default_dbms
 
-topic_name = LATERAL
+topic_name = anylogedgex-demo
 is_policy = blockchain get mapping where id = !topic_name
 if not !is_policy then
 <do mapping_policy = {

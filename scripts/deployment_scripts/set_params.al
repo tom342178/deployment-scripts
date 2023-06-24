@@ -132,14 +132,9 @@ if $NODE_TYPE == rest  or !policy_based_networking == false and !broker_threads 
 if $NODE_TYPE == rest  or !policy_based_networking == false and not !broker_threads then broker_threads = 6
 
 :config-policy-name:
+tmp_name = python !node_name.replace(" ","-").replace("_", "-")
+config_policy_name = !tmp_name + "-config"
 if $CONFIG_POLICY_NAME then config_policy_name = $CONFIG_POLICY_NAME
-else if $NODE_TYPE == rest then config_policy_name = rest-config
-else if $NODE_TYPE == ledger then config_policy_name = master-config
-else if $NODE_TYPE == operator then config_policy_name = operator-config
-else if $NODE_TYPE == publisher then config_policy_name = publisher-config
-else if $NODE_TYPE == query then config_policy_name = query-config
-else if $NODE_TYPE == standalone or $NODE_TYPE == standalone-publisher  then config_policy_name = standalone-config
-else config_policy_name = node-config
 
 :authentication:
 # Authentication information
