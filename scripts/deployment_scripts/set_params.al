@@ -303,7 +303,7 @@ set monitor_node = query  # which node type to send monitoring information to
 monitor_node_company = !company_name # company node is associated with the monitor node
 if $MONITOR_NODES then set monitor_nodes = $MONITOR_NODES
 if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
-if $MONITOR_NODE_COMPANY then monitor_node_company = $$MONITOR_NODE_COMPANY
+if $MONITOR_NODE_COMPANY then monitor_node_company = $MONITOR_NODE_COMPANY
 
 
 :end-script:
