@@ -43,7 +43,7 @@ do call reset-new-policy
 
 :get-id:
 if !policy_based_networking == true then
-do policy = blockchain get config where name = !policy_based_networking_name and company = !company_name
+do policy = blockchain get config where name = !config_policy_name and company = !company_name
 do if !policy then goto get-policy-id
 
 if !deploy_ledger == true then

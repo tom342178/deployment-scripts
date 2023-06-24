@@ -97,10 +97,8 @@ if !tcp_bind != true and !tcp_bind != false and !overlay_ip then set tcp_bind = 
 else if !tcp_bind != true and !tcp_bind != false and !external_ip == !ip then  set tcp_bind = true
 else if !tcp_bind != true and !tcp_bind != false then set tcp_bind = false
 
-ledger_conn = !ip + ":" + !anylog_server_port
 if $LEDGER_CONN then ledger_conn = $LEDGER_CONN
-
-if !tcp_bind == false then goto advanced-networking
+else ledger_conn = !ip + ":" + !anylog_server_port
 
 ledger_ip = python !ledger_conn.split(":")[0]
 ledger_port = python !ledger_conn.split(":")[1]
@@ -133,33 +131,15 @@ if $NODE_TYPE == rest  or !policy_based_networking == false and $BROKER_THREADS 
 if $NODE_TYPE == rest  or !policy_based_networking == false and !broker_threads < 1 then broker_threads=1
 if $NODE_TYPE == rest  or !policy_based_networking == false and not !broker_threads then broker_threads = 6
 
-
-if $CONFIG_POLICY_NAME then
-do config_policy_name = $CONFIG_POLICY_NAME
-do goto authentication
-if not $CONFIG_POLICY_NAME and !overlay_ip then goto config-policy-name-overlay
-if not $CONFIG_POLICY_NAME and not !overlay_ip then goto config-policy-name
-
-:config-policy-name: 
-if $NODE_TYPE == rest then config_policy_name = rest-configs
-else if $NODE_TYPE == master then config_policy_name = master-configs
-else if $NODE_TYPE == operator then config_policy_name = operator-configs
-else if $NODE_TYPE == publisher then config_policy_name = publisher-configs
-else if $NODE_TYPE == query then config_policy_name = query-configs
-else if $NODE_TYPE == standalone then config_policy_name = standalone-configs
-else if $NODE_TYPE == standalone-publisher then config_policy_name = standalone-publisher-configs
-else config_policy_name = network-confiig-policy
-goto authentication
-
-:config-policy-name-overlay:
-if $NODE_TYPE == rest then config_policy_name = rest-overlay-configs
-else if $NODE_TYPE == master then config_policy_name = master-overlay-configs
-else if $NODE_TYPE == operator then config_policy_name = operator-overlay-configs
-else if $NODE_TYPE == publisher then config_policy_name = publisher-overlay-configs
-else if $NODE_TYPE == query then config_policy_name = query-overlay-configs
-else if $NODE_TYPE == standalone then config_policy_name = standalone-overlay-configs
-else if $NODE_TYPE == standalone-publisher then config_policy_name = standalone-publisher-overlay-configs
-else config_policy_name = network-confiig-policy-overlay
+:config-policy-name:
+if $CONFIG_POLICY_NAME then config_policy_name = $CONFIG_POLICY_NAME
+else if $NODE_TYPE == rest then config_policy_name = rest-config
+else if $NODE_TYPE == ledger then config_policy_name = master-config
+else if $NODE_TYPE == operator then config_policy_name = operator-config
+else if $NODE_TYPE == publisher then config_policy_name = publisher-config
+else if $NODE_TYPE == query then config_policy_name = query-config
+else if $NODE_TYPE == standalone or $NODE_TYPE == standalone-publisher  then config_policy_name = standalone-config
+else config_policy_name = node-config
 
 :authentication:
 # Authentication information
