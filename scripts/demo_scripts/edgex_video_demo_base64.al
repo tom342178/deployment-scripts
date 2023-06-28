@@ -44,6 +44,9 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/sample_code/edgex_video_demo_base64.al
 
+if not !mqtt_log then set mqtt_log = false
+if not !default_dbms then default_dbms=test
+
 # declare policy
 :prepare-policy:
 policy_id = anylogedgex-video-demo # used also as the mqtt topic name
@@ -99,7 +102,7 @@ do blockchain insert where policy=!mapping_policy and local=true and master=!led
 
 :mqtt-call:
 on error goto mqtt-error
-<run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
+<run mqtt client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
     name=!policy_id and
     policy=!policy_id
 )>

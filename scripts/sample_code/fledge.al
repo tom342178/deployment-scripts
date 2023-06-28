@@ -2,8 +2,7 @@
 # The following demonstrate receiving data from 2 different assets coming from FLEDGE, each with its own topic.
 # For demonstration, FLEDGE is running Random data generator (topic: fledge-random) and OpenWeather data
 # (topic: fledge-weather).
-#
-# FLEDGE sends information to AnyLog via REST POST
+#:steps:
 #
 # :documents:
 #   - Generic MQTT script: !local_scripts/deployment_scripts/mqtt.al
@@ -13,8 +12,8 @@
 # process !local_scripts/sample_code/fledge.al
 
 :set-params:
-if not !default_dbms then default_dbms=test
 if not !mqtt_log then set mqtt_log = false
+if not !default_dbms then default_dbms=test
 
 :mqtt-call:
 on error goto mqtt-error

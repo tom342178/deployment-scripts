@@ -1,4 +1,10 @@
 #-----------------------------------------------------------------------------------------------------------------------
+# The following is used to get data from EdgeX into AnyLog via MQTT client
+# :process:
+#   1. Start EdgeX & configure to send data via MQTT (or REST)
+#   2. If running on publisher node, validate `mqtt_topic_dbms` is set correctly
+#   3. Start EdgeX demo process on AnyLog
+# :sample-data:
 # {
 #  "apiVersion": "v2",
 #  "id": "707564c4-6818-4746-9c54-219a0fd110c6",
@@ -19,13 +25,18 @@
 #    }
 #  ]
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/sample_code/edgex_demo.al
+# process !local_scripts/demo_scripts/edgex_demo.al
+
+if not !mqtt_log then set mqtt_log = false
+if not !default_dbms then default_dbms=test
+
 
 if not !mqtt_topic_dbms and not !default_dbms then set mqtt_topic_dbms = test
 else if not !mqtt_topic_dbms and !default_dbms then mqtt_topic_dbms =  !default_dbms
 
 topic_name = anylogedgex-demo
 is_policy = blockchain get mapping where id = !topic_name
+
 if not !is_policy then
 <do mapping_policy = {
     "mapping": {
@@ -137,8 +148,15 @@ if !test_policy == true and not !is_policy
 do blockchain prepare policy !mapping_policy
 do blockchain insert where policy=!mapping_policy and local=true and master=!ledger_conn
 
-<run mqtt client where broker=local and port=32150
-    and log=false and topic=(name=!topic_name and policy=!topic_name)>
+if !anylog_broker_port then
+<do run mqtt client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
+    name=!topic_name and
+    policy=!topic_name
+)>
+<else run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
+    name=!topic_name and
+policy=!topic_name
+)>
 
 :end-script:
 end script
