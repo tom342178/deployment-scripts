@@ -22,7 +22,7 @@ topic_name = power-data
 
 :mqtt-client:
 on error goto mqtt-client-error
-if !anylog_broker port then
+if !anylog_broker_port then
 <do run mqtt client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
     name=!topic_name and
     dbms="bring [dbms]" and

@@ -174,7 +174,7 @@ do blockchain insert where policy=!mapping_policy and local=true and master=!led
 
 :mqtt-client:
 on error goto mqtt-client-error
-if !anylog_broker port then
+if !anylog_broker_port then
 <do run mqtt client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
     name=!image_policy_id and
     policy=!image_policy_id
