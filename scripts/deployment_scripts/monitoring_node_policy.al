@@ -9,7 +9,7 @@
 # The results for scheduled processes are sent to the different operators query nodes. The data can be viewed through
 # Remote-CLI
 #-----------------------------------------------------------------------------------------------------------------------
-    # process !local_scripts/sample_code/monitoring_node_policy.al
+# process !local_scripts/deployment_scripts/monitoring_node_policy.al
 on error ignore
 
 :set-params:

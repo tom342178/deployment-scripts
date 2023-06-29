@@ -97,10 +97,8 @@ if !tcp_bind != true and !tcp_bind != false and !overlay_ip then set tcp_bind = 
 else if !tcp_bind != true and !tcp_bind != false and !external_ip == !ip then  set tcp_bind = true
 else if !tcp_bind != true and !tcp_bind != false then set tcp_bind = false
 
-ledger_conn = !ip + ":" + !anylog_server_port
 if $LEDGER_CONN then ledger_conn = $LEDGER_CONN
-
-if !tcp_bind == false then goto advanced-networking
+else ledger_conn = !ip + ":" + !anylog_server_port
 
 ledger_ip = python !ledger_conn.split(":")[0]
 ledger_port = python !ledger_conn.split(":")[1]
@@ -133,33 +131,10 @@ if $NODE_TYPE == rest  or !policy_based_networking == false and $BROKER_THREADS 
 if $NODE_TYPE == rest  or !policy_based_networking == false and !broker_threads < 1 then broker_threads=1
 if $NODE_TYPE == rest  or !policy_based_networking == false and not !broker_threads then broker_threads = 6
 
-
-if $CONFIG_POLICY_NAME then
-do config_policy_name = $CONFIG_POLICY_NAME
-do goto authentication
-if not $CONFIG_POLICY_NAME and !overlay_ip then goto config-policy-name-overlay
-if not $CONFIG_POLICY_NAME and not !overlay_ip then goto config-policy-name
-
-:config-policy-name: 
-if $NODE_TYPE == rest then config_policy_name = rest-configs
-else if $NODE_TYPE == master then config_policy_name = master-configs
-else if $NODE_TYPE == operator then config_policy_name = operator-configs
-else if $NODE_TYPE == publisher then config_policy_name = publisher-configs
-else if $NODE_TYPE == query then config_policy_name = query-configs
-else if $NODE_TYPE == standalone then config_policy_name = standalone-configs
-else if $NODE_TYPE == standalone-publisher then config_policy_name = standalone-publisher-configs
-else config_policy_name = network-confiig-policy
-goto authentication
-
-:config-policy-name-overlay:
-if $NODE_TYPE == rest then config_policy_name = rest-overlay-configs
-else if $NODE_TYPE == master then config_policy_name = master-overlay-configs
-else if $NODE_TYPE == operator then config_policy_name = operator-overlay-configs
-else if $NODE_TYPE == publisher then config_policy_name = publisher-overlay-configs
-else if $NODE_TYPE == query then config_policy_name = query-overlay-configs
-else if $NODE_TYPE == standalone then config_policy_name = standalone-overlay-configs
-else if $NODE_TYPE == standalone-publisher then config_policy_name = standalone-publisher-overlay-configs
-else config_policy_name = network-confiig-policy-overlay
+:config-policy-name:
+tmp_name = python !node_name.replace(" ","-").replace("_", "-")
+config_policy_name = !tmp_name + "-config"
+if $CONFIG_POLICY_NAME then config_policy_name = $CONFIG_POLICY_NAME
 
 :authentication:
 # Authentication information
@@ -319,11 +294,11 @@ if $THRESHOLD_TIME then threshold_time = $THRESHOLD_TIME
 if $THRESHOLD_VOLUME then threshold_volume = $THRESHOLD_VOLUME
 
 set monitor_nodes = false # whether to monitor node(s)  or not
-monitor_node = query  # which node type to send monitoring information to 
+set monitor_node = query  # which node type to send monitoring information to
 monitor_node_company = !company_name # company node is associated with the monitor node
 if $MONITOR_NODES then set monitor_nodes = $MONITOR_NODES
-if $MONITOR_NODE then monitor_nodes = $MONITOR_NODE 
-if $MONITOR_NODE_COMPANY then monitor_node_company = $$MONITOR_NODE_COMPANY
+if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
+if $MONITOR_NODE_COMPANY then monitor_node_company = $MONITOR_NODE_COMPANY
 
 
 :end-script:

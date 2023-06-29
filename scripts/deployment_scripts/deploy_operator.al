@@ -18,6 +18,16 @@ on error ignore
 operator_id = blockchain get operator where name = !node_name and company=!company_name bring [*][id] 
 if not !operator_id then goto blockchain-get-error
 
+:enable-nosql:
+on error call
+if !enable_nosql == false then # enable archiver without NoSQL
+<do run blobs archiver where
+    dbms=!blobs_dbms and
+    folder=!blobs_folder and
+    compress=!blobs_compress and
+    reuse_blobs=!blobs_reuse
+>
+
 :run-operator:
 on error goto operator-error
 <run operator where

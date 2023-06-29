@@ -42,11 +42,14 @@
 #   - Generic MQTT script: !local_scripts/deployment_scripts/mqtt.al
 #   - Documentation: https://github.com/AnyLog-co/documentation/blob/master/image%20mapping.md
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/sample_code/edgex_video_demo_base64.al
+# process !local_scripts/demo_scripts/edgex_video_demo_base64.al
+
+if not !mqtt_log then set mqtt_log = false
+if not !default_dbms then default_dbms=test
 
 # declare policy
 :prepare-policy:
-policy_id = edgex-video # used also as the mqtt topic name
+policy_id = anylogedgex-video-demo # used also as the mqtt topic name
 policy = blockchain get mapping where id = !policy_id
 
 if not !policy then
@@ -99,7 +102,12 @@ do blockchain insert where policy=!mapping_policy and local=true and master=!led
 
 :mqtt-call:
 on error goto mqtt-error
-<run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
+if !anylog_broker_port then
+<do run mqtt client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
+    name=!policy_id and
+    policy=!policy_id
+)>
+<else run mqtt client where broker=rest and port=!anylog_rest_port and log=!mqtt_log and topic=(
     name=!policy_id and
     policy=!policy_id
 )>
