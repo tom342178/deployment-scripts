@@ -49,7 +49,7 @@ if !anylog_broker_port then
     dbms="bring [dbms]" and
     table="bring [table]" and
     column.timestamp.timestamp="bring [timestamp]" and
-        column.fic1_pv=(type=float and value="bring [fic1_pv]") and
+    column.fic1_pv=(type=float and value="bring [fic1_pv]") and
     column.fic1_mv=(type=float and value="bring [fic1_sv]") and
     column.fic1_mv=(type=float and value="bring [fic1_mv]") and
     column.lic1_pv=(type=float and value="bring [lic1_pv]") and
