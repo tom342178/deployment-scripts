@@ -3,7 +3,7 @@ on error ignore
 if not !mqtt_log and $MQTT_LOG then set mqtt_log = $MQTT_LOG
 else if not !mqtt_log then set mqtt_log = false
 
-topic_name = trig-datas
+topic_name = performance-datas
 
 :mqtt-client:
 on error goto mqtt-client-error
