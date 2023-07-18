@@ -20,12 +20,10 @@ i = 0
 
 :check-policy:
 policy_id = blockchain get config where name=!network_config_policy_name and company=!company_name bring.first [*][id]
-if !is_policy then
-do on error config-policy-error
-do config from policy where id = !policy_id
-do goto deploy-policy
-else if i == 1 then goto no-policy-error
+if !is_policy then goto goto deploy-policy
 
+:declare-config:
+on error ignore
 set policy new_policy [config] = {}
 
 set policy new_policy [config][name] = !network_config_policy_name
@@ -52,20 +50,29 @@ if not !anylog_broker_port then goto end-script
 if broker_bind == true then set policy new_policy [config][broker_ip] = '!ip'
 set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
 
-:declare-policy:
-process !local_scripts/deployment_scripts/policies/declare_policy.al
-i = 1
-goto check-policy
+:validate-policy:
+on error goto validate-policy-error
+test_policy = json !new_policy
+if !test_policy == false then goto validate-policy-error
+
+:publish-policy:
+on error call declare-policy-error
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+
+on error ignore
+policy_id = blockchain get config where name=!network_config_policy_name and company=!company_name bring.first [*][id]
+
+:run-policy:
+on error goto run-policy-error
+if not !policy_id then go missing-policy-id
+config from policy where id = !policy_id
 
 :end-script:
 end script
 
 :terminate-scripts:
 exit scripts
-
-:config-policy-error:
-echo "Failed to configure node base on policy ID: " !policy_id
-goto terminate-scripts
 
 :tcp-info-error:
 if not !anylog_server_port then echo 'Error: Missing TCP port information, cannot continue'
@@ -76,6 +83,31 @@ goto terminate-scripts
 :rest-info-message:
 echo 'Notice: missing REST information'
 goto broker-info
+
+:sign-policy-error:
+echo "Error: Failed to sign cluster policy"
+goto end-script
+
+:validate-policy-error:
+echo "Error: Issue with cluster policy declaration"
+goto end-script
+
+:declare-policy-error:
+echo "Error: Failed to declare policy for " !policy_type
+return
+
+:config-policy-error:
+echo "Failed to configure node base on policy ID: " !policy_id
+goto terminate-scripts
+
+:missing-policy-id:
+echo "Unable to locate policy for network configuration."
+goto end-script
+
+:run-policy-error:
+echo "Error: failed to run process from policy"
+goto end-script
+
 
 
 

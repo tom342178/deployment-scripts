@@ -84,4 +84,4 @@ goto end-script
 :declare-policy-error:
 echo "Error: Failed to declare policy for " !policy_type
 return
-Footer
+
