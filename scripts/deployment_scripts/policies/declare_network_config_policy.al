@@ -38,7 +38,8 @@ do set policy new_policy [config][ip] = '!external_ip'
 do set policy new_policy [config][local_ip] = '!ip'
 do set policy new_policy [config][port] = '!anylog_server_port.int'
 do set policy new_policy [config][local_port] = '!anylog_server_port.int'
-else if !tcp_bind == true then
+
+if !tcp_bind == true then
 do set policy new_policy [config][ip] = '!ip'
 do set policy new_policy [config][port] = '!anylog_server_port.int'
 
