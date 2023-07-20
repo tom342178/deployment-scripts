@@ -33,11 +33,14 @@ set policy new_policy [config][company] = !company_name
 # if one of the default IPs is missing or the TCP port then we cannot continue
 if not !anylog_server_port or not !external_ip or not !ip then goto goto tcp-info-error
 
-set policy new_policy [config][port] = '!anylog_server_port.int'
 if !tcp_bind == false then
 do set policy new_policy [config][ip] = '!external_ip'
 do set policy new_policy [config][local_ip] = '!ip'
-else if !tcp_bind == true then set policy new_policy [config][ip] = '!ip'
+do set policy new_policy [config][port] = '!anylog_server_port.int'
+do set policy new_policy [config][local_port] = '!anylog_server_port.int'
+else if !tcp_bind == true then
+do set policy new_policy [config][ip] = '!ip'
+do set policy new_policy [config][port] = '!anylog_server_port.int'
 
 :rest-info:
 if not !anylog_rest_port then goto rest-info-message
