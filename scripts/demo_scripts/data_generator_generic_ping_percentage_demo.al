@@ -29,7 +29,7 @@ if !anylog_broker_port then
     table="bring [table]" and
     column.timestamp.timestamp="bring [timestamp]" and
     column.device_name.str="bring [device_name]" and
-    column.parentelement.str="bring [parentelement]" andd
+    column.parentelement.str="bring [parentelement]" and
     column.webid.str="bring [webid]" and
     column.value.float="bring [value]"
 )>
@@ -39,7 +39,7 @@ if !anylog_broker_port then
     table="bring [table]" and
     column.timestamp.timestamp="bring [timestamp]" and
     column.device_name.str="bring [device_name]" and
-    column.parentelement.str="bring [parentelement]" andd
+    column.parentelement.str="bring [parentelement]" and
     column.webid.str="bring [webid]" and
     column.value.float="bring [value]"
 )>

@@ -62,28 +62,33 @@ if not !is_policy then
             },
             "value": [
                 {
-                    "table": "PeopleCount",
+                    "table": "bool",
+                    "type": "bool",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "fanstatus",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "table": "CO2",
-                    "type": "float",
+                    "table": "int8",
+                    "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "table": "AvgTemp",
-                    "type": "float",
+                    "table": "int16",
+                    "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "table": "FreezerTemp1",
-                    "type": "float",
+                    "table": "int32",
+                    "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "table": "FreezerTemp2",
-                    "type": "float",
+                    "table": "int64",
+                    "type": "int",
                     "value": "bring [value]"
                 },
                 {
@@ -107,19 +112,30 @@ if not !is_policy then
                     "value": "bring [value]"
                 },
                 {
-                    "table": "fanstatus",
+                    "table": "unit8",
                     "type": "int",
                     "value": "bring [value]"
                 },
                 {
-                    "table": "zonetemp",
-                    "type": "float",
+                    "table": "unit16",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "unit32",
+                    "type": "int",
+                    "value": "bring [value]"
+                },
+                {
+                    "table": "unit64",
+                    "type": "int",
                     "value": "bring [value]"
                 },
                 {
                     "type": "float",
                     "value": "bring [value]"
                 }
+
             ]
         }
     }
