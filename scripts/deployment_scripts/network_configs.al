@@ -9,16 +9,7 @@
 
 set debug off
 set enable_overlay = false
-if !overlay_ip then enable_overlay = true
-
-if !policy_based_networking == false then goto tcp-networking
-
-:policy-based-networking:
-policy_id =  blockchain get config where name = !config_policy_name and company = !company_name bring [*][id]
-if !policy_id then
-do config from policy where id = !policy_id
-do goto end-script 
-else if not !policy_id then goto policy-based-networking-notice
+if !overlay_ip then set enable_overlay = true
 
 :tcp-networking:
 on error goto tcp-networking-error

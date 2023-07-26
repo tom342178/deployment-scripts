@@ -6,12 +6,6 @@
 # process !local_scripts/deployment_scripts/declare_policies.al
 
 :declare-policy:
-if !policy_based_networking == true then
-do process !local_scripts/deployment_scripts/policies/declare_config_policy.al
-do call reset-new-policy 
-
-if $NODE_TYPE == rest then goto get-id
-
 if !deploy_ledger == true then
 do policy_type  = master
 do process !local_scripts/deployment_scripts/policies/declare_node_policy.al
@@ -65,11 +59,6 @@ if !deploy_query == true then
 do set policy_type = query
 do process !local_scripts/deployment_scripts/policies/validate_node_policy.al
 do goto get-policy-id
-
-:get-policy-id:
-on error call get-id-error
-if !policy then policy_id = from !policy bring.first [*][id]
-else goto get-id-error 
 
 :end-script:
 end script

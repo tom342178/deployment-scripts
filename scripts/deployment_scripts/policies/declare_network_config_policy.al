@@ -20,7 +20,7 @@ i = 0
 
 :check-policy:
 policy_id = blockchain get config where name=!network_config_policy_name and company=!company_name bring.first [*][id]
-if !is_policy then goto goto deploy-policy
+if !is_policy then goto run-policy
 
 :declare-config:
 on error ignore
