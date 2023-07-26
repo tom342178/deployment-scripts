@@ -18,6 +18,15 @@
 on error ignore
 i = 0
 
+if not !network_config_policy_name then
+do if $NODE_TYPE == rest then  network_config_policy_name=rest-configs
+do if $NODE_TYPE == ledger then network_config_policy_name=master-configs
+do if $NODE_TYPE == operator then network_config_policy_name=operator-configs
+do if $NODE_TYPE == publisher then network_config_policy_name=publisher-configs
+do if $NODE_TYPE == query then network_config_policy_name=query-configs
+do if $NODE_TYPE == standalone then network_config_policy_name=standalone-configs
+do if $NODE_TYPE == standalone-publisher then network_config_policy_name=standalone-publisher-configs
+
 :check-policy:
 policy_id = blockchain get config where name=!network_config_policy_name and company=!company_name bring.first [*][id]
 if !is_policy then goto run-policy
