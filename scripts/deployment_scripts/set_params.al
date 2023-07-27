@@ -136,6 +136,8 @@ tmp_name = python !node_name.replace(" ","-").replace("_", "-")
 config_policy_name = !tmp_name + "-config"
 if $CONFIG_POLICY_NAME then config_policy_name = $CONFIG_POLICY_NAME
 
+
+
 :authentication:
 # Authentication information
 if $ENABLE_AUTH then set enable_auth = $ENABLE_AUTH

@@ -3,7 +3,7 @@
 #
 # ---- Sample Policy ---
 #   {"config": {
-#       "name": !network_config_policy_name,
+#       "name": !config_policy_name,
 #       "company": !company_name,
 #       "ip": !external_ip,
 #       "local_ip": !ip,
@@ -18,24 +18,15 @@
 on error ignore
 i = 0
 
-if not !network_config_policy_name then
-do if $NODE_TYPE == rest then  network_config_policy_name=rest-configs
-do if $NODE_TYPE == ledger then network_config_policy_name=master-configs
-do if $NODE_TYPE == operator then network_config_policy_name=operator-configs
-do if $NODE_TYPE == publisher then network_config_policy_name=publisher-configs
-do if $NODE_TYPE == query then network_config_policy_name=query-configs
-do if $NODE_TYPE == standalone then network_config_policy_name=standalone-configs
-do if $NODE_TYPE == standalone-publisher then network_config_policy_name=standalone-publisher-configs
-
 :check-policy:
-policy_id = blockchain get config where name=!network_config_policy_name and company=!company_name bring.first [*][id]
+policy_id = blockchain get config where name=!config_policy_name and company=!company_name bring.first [*][id]
 if !is_policy then goto run-policy
 
 :declare-config:
 on error ignore
 set policy new_policy [config] = {}
 
-set policy new_policy [config][name] = !network_config_policy_name
+set policy new_policy [config][name] = !config_policy_name
 set policy new_policy [config][company] = !company_name
 
 :tcp-info:
@@ -74,7 +65,7 @@ blockchain prepare policy !new_policy
 blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 
 on error ignore
-policy_id = blockchain get config where name=!network_config_policy_name and company=!company_name bring.first [*][id]
+policy_id = blockchain get config where name=!config_policy_name and company=!company_name bring.first [*][id]
 
 :run-policy:
 on error goto run-policy-error
