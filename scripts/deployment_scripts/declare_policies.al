@@ -5,6 +5,8 @@
 #----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/declare_policies.al
 
+call reset-new-policy
+
 :declare-policy:
 if !deploy_ledger == true then
 do policy_type  = master
@@ -30,9 +32,7 @@ do process !local_scripts/deployment_scripts/policies/validate_node_policy.al
 do if not !is_policy then process !local_scripts/deployment_scripts/policies/declare_node_policy.al
 do process !local_scripts/deployment_scripts/policies/validate_node_policy.al
 do if not !is_policy then call check-policy-error
-do call reset-new-policy 
-
-if $NODE_TYPE == publisher or $NODE_TYPE == standalone-publisher then goto get-id
+do call reset-new-policy
 
 if !deploy_query == true then
 do set policy_type = query
