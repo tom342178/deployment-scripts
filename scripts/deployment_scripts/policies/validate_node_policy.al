@@ -10,7 +10,7 @@
 
 
 if not !overlay_ip then goto generic-ip-networking
- 
+
 :overlay-ip-networking: 
 if not !is_policy and !overlay_ip and !tcp_bind == true and !anylog_broker_port then 
 <do is_policy = blockchain get !policy_type where
