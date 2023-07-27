@@ -22,9 +22,7 @@ do call reset-new-policy
 do set policy_type = operator
 do cluster_id = blockchain get cluster where name=!cluster_name and company=!company_name bring.first [*][id]
 do process !local_scripts/deployment_scripts/policies/declare_node_policy.al
-do call reset-new-policy 
-
-if $NODE_TYPE == operator or $NODE_TYPE == standalone then goto get-id
+do call reset-new-policy
 
 if !deploy_publisher == true then
 do set policy_type = publisher
