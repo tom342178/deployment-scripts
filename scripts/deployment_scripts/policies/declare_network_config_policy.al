@@ -13,7 +13,7 @@
 #   }}
 # ---- Sample Policy ---
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/deployment_scripts/policies/network_config_policy.al
+# process !local_scripts/deployment_scripts/policies/declare_network_config_policy.al
 
 on error ignore
 i = 0

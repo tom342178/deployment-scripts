@@ -58,7 +58,7 @@ if $NODE_TYPE == none then goto set-license
 # --> TCP
 # --> REST
 # --> Broker (if set)
-if !policy_based_networking == true then process !local_scripts/deployment_scripts/policies/network_config_policy.al
+if !policy_based_networking == true then process !local_scripts/deployment_scripts/policies/declare_network_config_policy.al
 else process !local_scripts/deployment_scripts/network_configs.al
 
 
