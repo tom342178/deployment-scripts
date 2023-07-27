@@ -49,7 +49,7 @@ if !rest_bind == true then set policy new_policy [config][rest_ip] = '!ip'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
 
 :broker-info:
-if not !anylog_broker_port then goto end-script
+if not !anylog_broker_port then goto validate-policy
 
 if broker_bind == true then set policy new_policy [config][broker_ip] = '!ip'
 set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
