@@ -34,7 +34,7 @@ schedule_policy[schedule] = {
     "name": !policy_name,
     "company": !company_name,
     "scripts": [
-        'schedule name = clean_edgex and time = 1 day task rest delete url = !edgex_delete_url'
+        'schedule name = clean_edgex and time = 1 day task rest delete where url = !edgex_delete_url'
     ]
 }
 
