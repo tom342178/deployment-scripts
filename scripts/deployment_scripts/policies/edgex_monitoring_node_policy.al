@@ -15,7 +15,7 @@ on error ignore
 :set-params:
 policy_id = edgex-purge
 policy_name = Edgex Purge
-schedule_time = 15 seconds
+schedule_time = 1 day
 edgex_delete_url = "http://" + !external_ip + ":59880/api/v2/event/age/"
 
 :calculate-age:
@@ -29,16 +29,15 @@ is_policy = blockchain get schedule where id = !policy_id and name=!policy_name 
 if !is_policy then goto run-policy
 
 :prepare-policy:
-schedule_policy[schedule] = {
-    "id": !policy_id,
-    "name": !policy_name,
-    "company": !company_name,
-    "scripts": [
-        'schedule name = clean_edgex and time = 1 day task rest delete where url = !edgex_delete_url'
-    ]
-}
+schedule_policy[schedule] = {}
+schedule_policy[schedule][id] = !policy_id
+schedule_policy[schedule][name] = !policy_name
+schedule_policy[schedule][company] = !company_name
+schedule_policy[schedule][scripts] = [
+    'schedule name = purge_edgex and time = 1 day task rest delete where url = !edgex_delete_url'
+]
 
-
+:declare-policy:
 on error call declare-policy-error
 if not !is_policy then
 do blockchain prepare policy !schedule_policy
