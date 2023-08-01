@@ -7,6 +7,7 @@
 
 call reset-new-policy
 
+
 :declare-policy:
 if !deploy_ledger == true then
 do policy_type  = master

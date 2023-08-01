@@ -63,7 +63,7 @@ else process !local_scripts/deployment_scripts/network_configs.al
 
 
 :declare-policies:
-process !local_scripts/deployment_scripts/declare_policies.al
+if $NODE_TYPE != edgex then process !local_scripts/deployment_scripts/declare_policies.al
 
 
 :set-rest-authentication:
@@ -81,6 +81,7 @@ if !deploy_ledger == true then process !local_scripts/run_scripts/start_master.a
 if !deploy_operator == true  then process !local_scripts/run_scripts/start_operator.al
 if !deploy_publisher == true then process !local_scripts/run_scripts/start_publisher.al
 if !deploy_query == true then process !local_scripts/run_scripts/start_query.al
+if $NODE_TYPE == edgex then process process !local_scripts/run_scripts/start_edgex_node.al
 
 :other-scripts:
 if !enable_mqtt == true then process !local_scripts/sample_code/basic_mqtt_process.al
