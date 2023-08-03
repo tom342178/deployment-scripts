@@ -33,9 +33,9 @@ schedule_policy[schedule] = {}
 schedule_policy[schedule][id] = !policy_id
 schedule_policy[schedule][name] = !policy_name
 schedule_policy[schedule][company] = !company_name
-schedule_policy[schedule][scripts] = [
+<schedule_policy[schedule][scripts] = [
     'schedule name = purge_edgex and time = 1 day task rest delete where url = !edgex_delete_url'
-]
+]>
 
 :declare-policy:
 on error call declare-policy-error

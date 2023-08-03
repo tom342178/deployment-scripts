@@ -31,6 +31,7 @@ set policy new_policy [config][company] = !company_name
 
 :tcp-info:
 # if one of the default IPs is missing or the TCP port then we cannot continue
+if !overlay_ip then goto tcp-overlay-ip
 if not !anylog_server_port or not !external_ip or not !ip then goto goto tcp-info-error
 
 if !tcp_bind == false then
@@ -41,6 +42,21 @@ do set policy new_policy [config][local_port] = '!anylog_server_port.int'
 
 if !tcp_bind == true then
 do set policy new_policy [config][ip] = '!ip'
+do set policy new_policy [config][port] = '!anylog_server_port.int'
+
+
+:tcp-info:
+# if one of the default IPs is missing or the TCP port then we cannot continue
+if not !anylog_server_port or not !external_ip or not !overlay_ip then goto goto tcp-info-error
+
+if !tcp_bind == false then
+do set policy new_policy [config][ip] = '!external_ip'
+do set policy new_policy [config][local_ip] = '!overlay_ip'
+do set policy new_policy [config][port] = '!anylog_server_port.int'
+do set policy new_policy [config][local_port] = '!anylog_server_port.int'
+
+if !tcp_bind == true then
+do set policy new_policy [config][ip] = '!overlay_ip'
 do set policy new_policy [config][port] = '!anylog_server_port.int'
 
 :rest-info:

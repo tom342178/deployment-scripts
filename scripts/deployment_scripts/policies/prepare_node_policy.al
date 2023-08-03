@@ -47,6 +47,7 @@ do policy new_policy [!policy_type][local_ip] = !kubernetes_service_ip
 if !tcp_bind == true and !kubernetes_service_ip then
 do set policy new_policy [!policy_type][ip] = !kubernetes_service_ip
 
+if !overlay_ip then then set policy new_policy [!policy_type][overlay_ip] = !overlay_ip
 
 :rest-info:
 if not !anylog_rest_port then goto rest-info-message
