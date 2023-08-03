@@ -134,6 +134,7 @@ if $NODE_TYPE == rest  or !policy_based_networking == false and not !broker_thre
 :config-policy-name:
 tmp_name = python !node_name.replace(" ","-").replace("_", "-")
 config_policy_name = !tmp_name + "-config"
+if !overlay_ip then config_policy_name = !tmp_name + "-overlay-config"
 if $CONFIG_POLICY_NAME then config_policy_name = $CONFIG_POLICY_NAME
 
 
