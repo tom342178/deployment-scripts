@@ -12,7 +12,6 @@ if !is_policy then
 do echo A policy for !policy_type named !node_name for !company_name already exists
 do goto end-script
 
-if !overlay_ip then goto generic-ip-networking
 :check-node-policy:
 if !tcp_bind == true and not !overlay_ip then
 <do is_policy = blockchain get !policy_type where
@@ -39,7 +38,7 @@ if !tcp_bind == false and not !overlay_ip then
     port=!anylog_server_port and
     rest=!anylog_rest_port>
 
-if !tcp_bind == false and not !overlay_ip then
+if !tcp_bind == false and !overlay_ip then
 <do is_policy = blockchain get !policy_type where
     name=!node_name and
     company=!company_name and
