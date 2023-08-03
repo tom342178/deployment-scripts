@@ -32,14 +32,15 @@ if not !anylog_server_port or not !external_ip or not !ip then goto goto tcp-inf
 
 set policy new_policy [!policy_type][port] = !anylog_server_port.int
 
-
 if !tcp_bind == false then
 do set policy new_policy [!policy_type][ip] = !external_ip
 do set policy new_policy [!policy_type][local_ip] = !ip
+if !tc_bind == false and !overlay_ip then set policy new_policy [!policy_type][local_ip] = !overlay_ip
+
 
 if !tcp_bind == true then
 do set policy new_policy [!policy_type][ip] = !ip
-do set policy new_policy [!policy_type][external_ip] = !external_ip
+if !tc_bind == true and !overlay_ip then set policy new_policy [!policy_type][ip] = !overlay_ip
 
 if !tcp_bind == false and !kubernetes_service_ip then
 do policy new_policy [!policy_type][local_ip] = !kubernetes_service_ip
