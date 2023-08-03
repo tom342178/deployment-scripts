@@ -36,14 +36,14 @@ if not !anylog_server_port or not !external_ip or not !ip then goto goto tcp-inf
 if !tcp_bind == false then
 do set policy new_policy [config][ip] = '!external_ip'
 do set policy new_policy [config][local_ip] = '!ip'
-do if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
 do set policy new_policy [config][port] = '!anylog_server_port.int'
 do set policy new_policy [config][local_port] = '!anylog_server_port.int'
 
 if !tcp_bind == true then
 do set policy new_policy [config][ip] = '!ip'
-do if !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
 do set policy new_policy [config][port] = '!anylog_server_port.int'
+
+if !tcp_bind == true and !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
 
 :rest-info:
 if not !anylog_rest_port then goto rest-info-message
