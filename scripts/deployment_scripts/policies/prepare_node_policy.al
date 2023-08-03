@@ -35,12 +35,12 @@ set policy new_policy [!policy_type][port] = !anylog_server_port.int
 if !tcp_bind == false then
 do set policy new_policy [!policy_type][ip] = !external_ip
 do set policy new_policy [!policy_type][local_ip] = !ip
-if !tc_bind == false and !overlay_ip then set policy new_policy [!policy_type][local_ip] = !overlay_ip
+do if !overlay_ip then set policy new_policy [!policy_type][local_ip] = !overlay_ip
 
 
 if !tcp_bind == true then
 do set policy new_policy [!policy_type][ip] = !ip
-if !tc_bind == true and !overlay_ip then set policy new_policy [!policy_type][ip] = !overlay_ip
+do if !overlay_ip then set policy new_policy [!policy_type][ip] = !overlay_ip
 
 if !tcp_bind == false and !kubernetes_service_ip then
 do policy new_policy [!policy_type][local_ip] = !kubernetes_service_ip
