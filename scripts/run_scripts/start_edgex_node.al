@@ -19,8 +19,8 @@ process !local_scripts/deployment_scripts/run_scheduler.al
 process !local_scripts/deployment_scripts/policies/edgex_node_policy.al
 
 :monitoring:
-process !local_scripts/deployment_scripts/policies/monitoring_node_policy.al
-process !local_scripts/deployment_scripts/policies/edgex_monitoring_node_policy.al
+process !local_scripts/deployment_scripts/monitoring/monitoring_node_policy.al
+process !local_scripts/deployment_scripts/monitoring/edgex_monitoring_node_policy.al
 
 :end-script:
 end script

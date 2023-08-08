@@ -24,7 +24,16 @@ do goto end-script
 
 :prep-policy:
 on error ignore
-process !local_scripts/deployment_scripts/policies/prepare_cluster_policy.al
+if !default_dbms then
+<do new_policy = {"cluster": {
+    "company": !company_name,
+    "name": !cluster_name,
+    "dbms": !default_dbms
+}}>
+<else new_policy = {"cluster": {
+    "company": !company_name,
+    "name": !cluster_name
+}}>
 
 :sign-policy:
 if !enable_auth == true then
