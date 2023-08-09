@@ -9,7 +9,5 @@ on error ignore
 :run-processes:
 process !local_scripts/deployment_scripts/database/configure_dbms_system_query.al
 
-process !local_scripts/deployment_scripts/run_scheduler.al
-
 :end-script:
 end script

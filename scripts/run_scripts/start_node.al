@@ -63,6 +63,7 @@ else process !local_scripts/deployment_scripts/network_configs.al
 
 
 :declare-policies:
+process !local_scripts/deployment_scripts/run_scheduler.al
 if $NODE_TYPE != edgex then process !local_scripts/deployment_scripts/declare_policies.al
 
 
