@@ -24,6 +24,7 @@ if !is_policy then goto run-policy
 
 :declare-config:
 on error ignore
+set new_policy = ""
 set policy new_policy [config] = {}
 
 set policy new_policy [config][name] = !config_policy_name

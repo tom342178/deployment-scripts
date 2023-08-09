@@ -12,8 +12,8 @@ set enable_overlay = false
 if !overlay_ip then set enable_overlay = true
 
 :policy-based-networking:
+on error ignore
 if !policy_based_networking == true then
-do new_policy = ""
 do process !local_scripts/deployment_scripts/policies/declare_network_config_policy.al
 do goto query-pool
 
