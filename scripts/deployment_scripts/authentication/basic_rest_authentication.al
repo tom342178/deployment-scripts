@@ -8,7 +8,7 @@
 
 :set-local-password:
 on error goto set-local-password-error
-set local password = !node_passwd
+set local password = !node_password
 
 :enable-authentication:
 on error goto enable-authentication-error
