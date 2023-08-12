@@ -147,16 +147,6 @@ if !enable_auth != true and !enable_auth != false then set enable_auth = false
 if $ENABLE_REST_AUTH then set enable_rest_auth = $ENABLE_REST_AUTH
 if !enable_rest_auth != true and !enable_rest_auth != false then set enable_rest_auth = false
 
-if $NODE_PASSWORD then set node_password = $NODE_PASSWORD
-if $USER_NAME then user_name = $USER_NAME
-if $USER_PASSWORD then user_password = $USER_PASSWORD
-if $USER_TYPE then user_type = $USER_TYPE
-
-if $ROOT_USER then root_user = $ROOT_USER
-if not !root_user then root_user = admin
-
-if $ROOT_PASSWORD then root_password = $ROOT_PASSWORD
-
 :database:
 # Database params
 db_type = sqlite

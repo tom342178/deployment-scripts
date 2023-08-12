@@ -3,7 +3,7 @@ The following provides a simplified explanation for securing an AnyLog node / ne
 scripts. 
 
 * [Authentication](https://github.com/AnyLog-co/documentation/blob/master/authentication.md)
-* [Security](https://github.com/AnyLog-co/documentation/blob/master/examples/Secure%20Network.md)
+w* [Security](https://github.com/AnyLog-co/documentation/blob/master/examples/Secure%20Network.md)
 
 ## REST Authentication
 AnyLog REST authentication configures the node to require users to specify authentication information when sending
@@ -30,3 +30,13 @@ curl -X GET 127.0.0.1:32049 -H "command: get status" -H "User-Agent: AnyLog/1.23
 Reminder, there is no need for _Authentication_ header if REST authentication is disabled  
 
 
+## Security 
+1. On an AnyLog node, declare root user. _Root_ is the only member that can grant permissions to other 
+users and/or nodes.
+   * Generate keys for the Root User
+   * Declare root user policy
+```shell
+process !local_scripts/deployment_scripts/authentication/root_user_config.al
+```
+
+2. 
