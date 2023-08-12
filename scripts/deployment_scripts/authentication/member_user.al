@@ -1,43 +1,49 @@
 #--------------------------------------------------------------------------------------------------------
-# Create root member policy. An AnyLog network should only have 1 root member, which is used for granting
-# permissions to other users and/or nodes.
+# Create member policy for a user. Each node should have its own member policy
 #--------------------------------------------------------------------------------------------------------
-# process !local_scripts/deployment_scripts/authentication/member_root_user.al
+# process !local_scripts/deployment_scripts/authentication/member_user.al
 
 :declare-params:
 on error ignore
-root_password = passwd
-if $ROOT_PASSWORD  then set root_password = $ROOT_PASSWORD
-policy_name = !company_name + " root policy"
+set user_name = admin
+set user_password = passwd
+set user_type = admin
 
-:check-policy:
-is_policy = blockchain get member where type=root and company=!company_name and name=!policy_name
+if $NODE_PASSWORD then node_password = $NODE_PASSWORD
+if $USER_NAME then user_name = $USER_NAME
+if $USER_PASSWORD then user_password = $USER_PASSWORD
+if $USER_TYPE == user or $USER_TYPE == admin then user_type = $USER_TYPE
+
+key_name = python !user_name.replace(" ", "_").replace("-", "_").strip()
+
+is_policy = blockchain get member where name=!user_name and company=!company_name
 if !is_policy then goto end-script
 
 :clean-keys:
-system rm -rf !id_dir/root_keys.pem
+del_name = !id_dir + !key_name + "*"
+system rm -rf !del_name
 
 :create-keys:
 on error goto create-keys-error
-id create keys where password = !root_password and keys_file = root_keys
+id create keys where password = !node_password and keys_file = !key_name
 
 on error ignore
-private_key = get private key where keys_file = root_keys
+private_key = get private key where keys_file = !key_name
 if not !private_key then goto private-key-error
-public_key = get public key where keys_file = root_keys
+public_key = get public key where keys_file = !key_name
 if not !public_key then goto public-key-error
 
-:create-policy:
-<new_policy = {"member": {
-    "type": "root",
-    "name": !policy_name,
-    "company": !company_name,
+:prepare-policy:
+<new_policy = {"member': {
+    "type" : !user_type,
+    "name": !user_name,
+    "company": !company_name
     "public_key": !public_key
 }}>
 
 :prepare-policy:
 on error goto prepare-policy-error
-if !enable_auth == true then  new_policy = id sign !new_policy where key = !new_policy and password = !root_password
+if !enable_auth == true then  new_policy = id sign !new_policy where key = !new_policy and password = !user_password
 validate_policy = json !new_policy
 if not !validate_policy then goto prepare-policy-error
 

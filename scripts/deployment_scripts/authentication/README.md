@@ -1,6 +1,6 @@
 # Authentication & Security
 The following provides a simplified explanation for securing an AnyLog node / network using the associated AnyLog
-scripts. 
+scripts.  
 
 * [Authentication](https://github.com/AnyLog-co/documentation/blob/master/authentication.md)
 w* [Security](https://github.com/AnyLog-co/documentation/blob/master/examples/Secure%20Network.md)
@@ -57,3 +57,21 @@ process !local_scripts/deployment_scripts/authentication/permissions_operator.al
 ```
    
 The following steps should be done on the same AnyLog nodes the user wants the private / public key to reside
+
+3a. On each AnyLog node, declare an associated member policy
+   * Generate keys for the node
+   * Declare member node policy 
+```anylog
+process !local_scripts/deployment_scripts/authentication/member_node.al
+```
+
+3b. Create a policy for a specific user
+   * Generate keys for the node
+   * Declare member node policy
+```anylog
+process !local_scripts/deployment_scripts/authentication/member_user.al
+```
+
+4. Once **both** _members_ and _permissions_ are define, the root user, or someone with root privileges, needs to associate
+between member(s) and permission(s). 
+
