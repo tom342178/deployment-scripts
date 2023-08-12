@@ -31,12 +31,29 @@ Reminder, there is no need for _Authentication_ header if REST authentication is
 
 
 ## Security 
+
+The following steps should be done a node that'll act as a "root" account within the network
+
 1. On an AnyLog node, declare root user. _Root_ is the only member that can grant permissions to other 
 users and/or nodes.
    * Generate keys for the Root User
    * Declare root user policy
-```shell
-process !local_scripts/deployment_scripts/authentication/root_user_config.al
+```anylog
+process !local_scripts/deployment_scripts/authentication/member_root_user.al
 ```
 
-2. 
+2. Declare permissions to be used be used by users and / or node within the network
+   * [permissions_no_restrictions.al](permissions_no_restrictions.al) - access to all commands and databases 
+   * [permissions_limited_restrictions.al](permissions_limited_restrictions.al) - access to all commands and databases, 
+   except `drop` command 
+   * [permissions_master.al](permissions_master.al) - access to commands, but only access to the blockchain logical database
+   * [permissions_operator.al](permissions_operator.al) - access to commands, but only access to the _default_ operator 
+   database and `almgm` logical database
+```anylog
+process !local_scripts/deployment_scripts/authentication/permissions_no_restrictions.al
+process !local_scripts/deployment_scripts/authentication/permissions_limited_restrictions.al
+process !local_scripts/deployment_scripts/authentication/permissions_master.al
+process !local_scripts/deployment_scripts/authentication/permissions_operator.al
+```
+   
+The following steps should be done on the same AnyLog nodes the user wants the private / public key to reside
