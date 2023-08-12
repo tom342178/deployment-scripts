@@ -13,19 +13,17 @@
 on error ignore
 
 :set-params:
-policy_id = node-monitoring
 policy_name = Node Monitoring
 if !deploy_operator == true then
 do policy_id = operator-node-monitoring
 do policy_name = Operator Node Monitoring
 schedule_time = 15 seconds
 
-is_policy = blockchain get schedule where id = !policy_id and company = !company_name
+is_policy = blockchain get schedule where name=!policy_name and company = !company_name
 if !is_policy then goto run-policy
 
 :prepare-policy:
 schedule_policy[schedule] = {}
-schedule_policy[schedule][id] = !policy_id
 schedule_policy[schedule][name] = !policy_name
 schedule_policy[schedule][company] = !company_name
 <schedule_policy[schedule][script] = [
