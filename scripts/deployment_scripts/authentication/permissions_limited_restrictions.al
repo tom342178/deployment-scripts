@@ -17,7 +17,7 @@ if !is_policy then goto end-script
 :prepare-policy:
 <new_policy = {"permissions" : {
     "name" : "no restrictions",
-    "company": !company_name
+    "company": !company_name,
     "databases" : ["*"],
     "enable" : ["*"],
     "disbale": ["drop"]

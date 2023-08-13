@@ -37,7 +37,7 @@ if not !public_key then goto public-key-error
 <new_policy = {"member': {
     "type" : !user_type,
     "name": !user_name,
-    "company": !company_name
+    "company": !company_name,
     "public_key": !public_key
 }}>
 
