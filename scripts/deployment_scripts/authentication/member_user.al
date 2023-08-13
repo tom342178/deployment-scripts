@@ -7,12 +7,11 @@
 on error ignore
 set user_name = admin
 set user_password = passwd
-set user_type = admin
 
 if $NODE_PASSWORD then node_password = $NODE_PASSWORD
 if $USER_NAME then user_name = $USER_NAME
 if $USER_PASSWORD then user_password = $USER_PASSWORD
-if $USER_TYPE == user or $USER_TYPE == admin then user_type = $USER_TYPE
+if $USER_TYPE == user or $USER_TYPE == admin then w = $USER_TYPE
 
 key_name = python !user_name.replace(" ", "_").replace("-", "_").strip()
 

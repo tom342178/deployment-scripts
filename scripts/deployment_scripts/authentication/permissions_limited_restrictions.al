@@ -11,12 +11,12 @@ if $ROOT_PASSWORD  then set root_password = $ROOT_PASSWORD
 if $ROOT_USER then root_user = $ROOT_USER
 
 :check-policy:
-is_policy = blockchain get permissions where name="no restrictions" and company=!company_name
+is_policy = blockchain get permissions where name="limited restrictions" and company=!company_name
 if !is_policy then goto end-script
 
 :prepare-policy:
 <new_policy = {"permissions" : {
-    "name" : "no restrictions",
+    "name" : "limited restrictions",
     "company": !company_name,
     "databases" : ["*"],
     "enable" : ["*"],

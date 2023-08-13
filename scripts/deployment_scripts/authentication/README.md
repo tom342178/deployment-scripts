@@ -73,5 +73,14 @@ process !local_scripts/deployment_scripts/authentication/member_user.al
 ```
 
 4. Once **both** _members_ and _permissions_ are define, the root user, or someone with root privileges, needs to associate
-between member(s) and permission(s). 
+between member(s) and permission(s).
+* Sample call for associating a node with a set of permissions 
+```anylog
+process !local_scripts/deployment_scripts/authentication/assignment_node.al
+```
+* Sample call for associating a user with a set of permissions
+```anylog
+process !local_scripts/deployment_scripts/authentication/assignment_user.al
+```
 
+## Communication using Keys
