@@ -14,7 +14,7 @@ if $ROOT_USER then root_user = $ROOT_USER
 is_policy = blockchain get permissions where name="master node restrictions" and company=!company_name
 if !is_policy then goto end-script
 
-:prepare-policy:
+:create-policy:
 <new_policy = {"permissions" : {
     "name" : "master node restrictions",
     "company": !company_name,
