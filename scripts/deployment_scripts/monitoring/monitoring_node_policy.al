@@ -18,14 +18,21 @@ if !deploy_operator == true then
 do policy_id = operator-node-monitoring
 do policy_name = Operator Node Monitoring
 schedule_time = 15 seconds
+monitoring_type = generic
+if !deploy_operator == true then monitoring_type = operator
+if !deploy_publisher == true then monitoring_type = publisher
 
-is_policy = blockchain get schedule where name=!policy_name and company = !company_name
+is_policy = blockchain get schedule where name=!policy_name and company = !company_name and monitoring_type = !monitoring_type
 if !is_policy then goto run-policy
 
 :prepare-policy:
 schedule_policy[schedule] = {}
 schedule_policy[schedule][name] = !policy_name
 schedule_policy[schedule][company] = !company_name
+schedule_policy[schedule][monitoring_type] = !monitoring_type
+
+if !monitoring_type == operator then goto operator-monitoring
+
 <schedule_policy[schedule][script] = [
     'schedule name = get_node_stat and time = !schedule_time task node_insight = get status include statistics where format=json',
     'schedule name = disk_space and time = !schedule_time task node_insight[Free space %] = get disk percentage .',
@@ -38,6 +45,9 @@ schedule_policy[schedule][company] = !company_name
     'schedule name = monitor_node and time = !schedule_time task run client (blockchain get !monitor_node where company=!monitor_node_company bring.ip_port) monitor operators where info = !node_insight'
 ]>
 
+goto declare-node
+
+:operator-monitoring:
 # set scripts for operator
 if !deploy_operator == true then
 <do schedule_policy[schedule][script] = [
@@ -52,10 +62,18 @@ if !deploy_operator == true then
     'schedule name = monitor_node and time = !schedule_time task run client (blockchain get !monitor_node where company=!monitor_node_company bring.ip_port) monitor operators where info = !node_insight'
 ]>
 
+:declare-node:
 on error call declare-policy-error
 if not !is_policy then
 do blockchain prepare policy !schedule_policy
 do blockchain insert where policy=!schedule_policy and local=true and master=!ledger_conn
+
+on error ignore
+is_policy = blockchain get schedule where name=!policy_name and company = !company_name and monitoring_type = !monitoring_type
+if !is_policy then goto run-policy
+if not !is_policy then
+do echo "Failed to declare policy / unable to find policy for schedule process"
+do goto end-script
 
 :run-policy:
 on error goto run-policy-error
