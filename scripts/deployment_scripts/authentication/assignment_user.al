@@ -38,7 +38,7 @@ blockchain prepare policy !new_policy
 blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 
 :end-script:
-end-script
+end script
 
 :certificate-error:
 echo "Failed to get public key for node policy"

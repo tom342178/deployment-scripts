@@ -47,7 +47,7 @@ blockchain prepare policy !new_policy
 blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 
 :end-script:
-end-script
+end script
 
 :create-keys-error:
 echo "Failed to create root keys. Cannot continue with process"
