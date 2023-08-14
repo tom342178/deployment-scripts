@@ -67,4 +67,4 @@ goto end-script
 
 :declare-policy-error:
 echo "Error: Failed to declare policy for root member"
-returns
+return
