@@ -22,10 +22,8 @@ on error goto create-keys-error
 id create keys where password = !root_password and keys_file = root_keys
 
 on error ignore
-private_key = get private key where keys_file = root_keys
-if not !private_key then goto private-key-error
-public_key = get public key where keys_file = root_keys
-if not !public_key then goto public-key-error
+root_private_key = get private key where keys_file = root_keys
+if not !root_private_key then goto private-key-error
 
 :create-policy:
 <new_policy = {"member": {
@@ -36,7 +34,7 @@ if not !public_key then goto public-key-error
 
 :prepare-policy:
 on error goto prepare-policy-error
-new_policy = id sign !new_policy where key = !new_policy and password = !root_password
+new_policy = id sign !new_policy where key = !root_private_key and password = !root_password
 validate_policy = json !new_policy
 if not !validate_policy then goto prepare-policy-error
 

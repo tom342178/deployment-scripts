@@ -1,6 +1,6 @@
-#-----------------------------------------------------------------------------------------------------------------
-# Declare a generic permission, with no limitiations
-#-----------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+# Declare a generic permission, with no limitations. The code is using the root private key for signing permission policy
+#-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/authentication/permissions_no_restrictions.al
 
 :set-params:
@@ -14,6 +14,11 @@ if $ROOT_USER then root_user = $ROOT_USER
 is_policy = blockchain get permissions where name="no restrictions" and company=!company_name
 if !is_policy then goto end-script
 
+:get-private-key:
+on error ignore
+private_key = get private key where keys_file = root_keys
+if not !private_key then goto private-key-error
+
 :create-policy:
 <new_policy = {"permissions" : {
     "name" : "no restrictions",
@@ -24,7 +29,7 @@ if !is_policy then goto end-script
 
 :prepare-policy:
 on error goto prepare-policy-error
-new_policy = id sign !new_policy where key = !new_policy and password = !root_password
+new_policy = id sign !new_policy where key = !private_key and password = !root_password
 validate_policy = json !new_policy
 if not !validate_policy then goto prepare-policy-error
 
@@ -35,6 +40,10 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 
 :end-script:
 end script
+
+:private-key-error:
+echo "Failed to get private key rom generated root key"
+goto end-script
 
 :prepare-policy-error:
 echo "Failed to prepare member root policy for publishing on blockchain"
