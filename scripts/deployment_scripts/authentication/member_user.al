@@ -25,7 +25,7 @@ system rm -rf !del_name
 
 :create-keys:
 on error goto create-keys-error
-id create keys where password = !node_password and keys_file = !key_name
+id create keys where password = !user_password and keys_file = !key_name
 
 on error ignore
 private_key = get private key where keys_file = !key_name

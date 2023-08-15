@@ -66,8 +66,8 @@ process !local_scripts/deployment_scripts/authentication/member_node.al
 ```
 
 3b. Create a policy for a specific user
-   * Generate keys for the node
-   * Declare member node policy
+   * Generate keys for the user
+   * Declare member user policy
 ```anylog
 process !local_scripts/deployment_scripts/authentication/member_user.al
 ```
