@@ -47,9 +47,9 @@ operator1 = blockchain get operator bring.unique.first [*][name]
 operator2 = blockchain get operator bring.unique.last [*][name]
 
 # check number of unique operators
-#if operator_count != 2 then
-#do print Found !operator_count operators. Expected 2 operators
-#do goto end-script
+if operator_count != 2 then
+do print Found !operator_count operators. Expected 2 operators
+do goto end-script
 
 # validate the two operators are not using the same name
 if !operator1 == !operator2 then
