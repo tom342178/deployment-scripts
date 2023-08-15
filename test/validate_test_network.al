@@ -47,20 +47,16 @@ operator1 = blockchain get operator bring.unique.first [*][name]
 operator2 = blockchain get operator bring.unique.last [*][name]
 
 # check number of unique operators
-if operator_count != 2 then
+if !operator_count != 2 then
 do print Found !operator_count operators. Expected 2 operators
 do goto end-script
+else print 2 unique clusters - found
 
 # validate the two operators are not using the same name
 if !operator1 == !operator2 then
 do print operator 1 and 2 share the same name, whereas each operator should have its own name
 do goto end-script
 else print 2 unique operators - found
-
-:test-network:
-# the following step shows which nodes are part of the network, in the blockchain and whether they're accessible
-test network
-
 
 :end-script:
 end script
