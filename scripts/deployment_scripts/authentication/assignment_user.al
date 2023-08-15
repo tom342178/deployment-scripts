@@ -37,7 +37,7 @@ bring [permissions][id]>
 
 if not !permission-id then goto permission-id-error
 
-:declare-policy:
+:create-policy:
 <new_policy = {"assignment" : {
     "name" : !policy_user_name,
     "permissions"  : !permission_id,
