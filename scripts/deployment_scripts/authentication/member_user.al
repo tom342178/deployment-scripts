@@ -31,7 +31,7 @@ on error ignore
 private_key = get private key where keys_file = !key_name
 if not !private_key then goto private-key-error
 
-:prepare-policy:
+:create-policy:
 <new_policy = {"member": {
     "type" : !user_type,
     "name": !user_name,
