@@ -5,19 +5,11 @@
 
 :set-params:
 on error ignore
-root_password = passwd
-if $ROOT_PASSWORD  then set root_password = $ROOT_PASSWORD
-policy_name = !company_name + " root policy"
-
 # this value needs to change when adding a node that is not root
 policy_node_name = !node_name
 
 is_policy = blockchain get assignment where name=!node_name and company=!company_name
 if !is_policy goto end-script
-
-:get-keys:
-root_private_key = get private key where keys_file = root_keys
-if not !root_private_key then goto private-key-error
 
 :get-ids:
 <member_certificate = blockchain get member where

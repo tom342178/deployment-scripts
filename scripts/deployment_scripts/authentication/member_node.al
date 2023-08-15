@@ -3,12 +3,11 @@
 #--------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/authentication/member_node.al
 
-:declare-params:
+:set-params:
 on error ignore
-set node_password = passwd
-if $NODE_PASSWORD then node_password = $NODE_PASSWORD
 key_name = python !node_name.replace("-", "_").replace(" ", "_").strip()
 
+:check-policy:
 is_policy = blockchain get member where type=node and name=!node_name and company=!company_name
 if !is_policy then goto end-script
 
@@ -20,10 +19,6 @@ system rm -rf !del_name
 on error goto create-keys-error
 id create keys where password = !node_password and keys_file = !key_name
 
-on error ignore
-private_key = get private key where keys_file = !key_name
-if not !private_key then goto private-key-error
-
 :create-policy:
 <new_policy = {"member": {
     "type" : "node",
@@ -31,36 +26,27 @@ if not !private_key then goto private-key-error
     "company": !company_name
 }}>
 
-:prepare-policy:
-on error goto prepare-policy-error
-new_policy = id sign !new_policy where key = !private_key and password = !node_password
-validate_policy = json !new_policy
-if not !validate_policy then goto prepare-policy-error
-
-:declare-policy:
-on error call declare-policy-error
-blockchain prepare policy !new_policy
-blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+:publish-policy:
+process !local_scripts/deployment_scripts/policies/publish_policy.al
+if error_code == 1 then goto sign-policy-error
+if error_code == 2 then goto prepare-policy-error
+if error_code == 3 then declare-policy-error
 
 :end-script:
 end script
 
 :create-keys-error:
-echo "Failed to create root keys. Cannot continue with process"
+echo "Failed to create node keys. Cannot continue with process"
 goto end-script
 
-:private-key-error:
-echo "Failed to get private key rom generated root key"
-goto end-script
-
-:public-key-error:
-echo "Missing public key, cannot create valid member policy"
+:sign-policy-error:
+echo "Failed to sign node policy"
 goto end-script
 
 :prepare-policy-error:
-echo "Failed to prepare member root policy for publishing on blockchain"
+echo "Failed to prepare member node policy for publishing on blockchain"
 goto end-script
 
 :declare-policy-error:
-echo "Error: Failed to declare policy for root member"
-return
+echo "Failed to declare node policy on blockchain"
+goto end-script

@@ -1,14 +1,21 @@
 #-----------------------------------------------------------------------------------------------------------------------
-# generic process to declare policy on blockchain
+# generic process to declare policy on blockchain (using node key)
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/policies/publish_policy.al
 
 :set-params:
 error_code = 0
+key_name = python !node_name.replace("-", "_").replace(" ", "_").strip()
+
+:private-key:
+if !enable_auth == true
+do on error ignore
+do node_private_key = get private key where keys_file = !key_name
+do if not !private_key then goto private-key-error
 
 :prepare-policy:
 on error goto sign-policy-error
-if !enable_auth == true then new_policy = id sign !new_policy where key = !private_key and password = !node_password
+if !enable_auth == true then new_policy = id sign !new_policy where key = !node_private_key and password = !node_password
 validate_policy = json !new_policy
 if not !validate_policy then goto prepare-policy-error
 
@@ -19,6 +26,10 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 
 :end-script:
 end script
+
+:private-key-error:
+echo "Failed to get private key from generated node key"
+goto end-script
 
 :sign-policy-error:
 # error code 1 - failed to sign policy

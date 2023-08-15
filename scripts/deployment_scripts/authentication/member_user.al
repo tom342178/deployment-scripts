@@ -19,7 +19,7 @@ on error goto create-keys-error
 id create keys where password = !user_password and keys_file = !key_name
 
 on error ignore
-private_key = get private key where keys_file = !key_name
+user_private_key = get private key where keys_file = !key_name
 if not !private_key then goto private-key-error
 
 :create-policy:
@@ -31,7 +31,7 @@ if not !private_key then goto private-key-error
 
 :prepare-policy:
 on error goto prepare-policy-error
-new_policy = id sign !new_policy where key = !private_key and password = !user_password
+new_policy = id sign !new_policy where key = !user_private_key and password = !user_password
 validate_policy = json !new_policy
 if not !validate_policy then goto prepare-policy-error
 
@@ -44,21 +44,17 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 end script
 
 :create-keys-error:
-echo "Failed to create root keys. Cannot continue with process"
+echo "Failed to create user keys. Cannot continue with process"
 goto end-script
 
 :private-key-error:
-echo "Failed to get private key rom generated root key"
-goto end-script
-
-:public-key-error:
-echo "Missing public key, cannot create valid member policy"
+echo "Failed to get private key from generated user key"
 goto end-script
 
 :prepare-policy-error:
-echo "Failed to prepare member root policy for publishing on blockchain"
+echo "Failed to prepare member user policy for publishing on blockchain"
 goto end-script
 
 :declare-policy-error:
-echo "Error: Failed to declare policy for root member"
+echo "Error: Failed to declare policy for user member"
 return

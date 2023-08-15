@@ -4,6 +4,9 @@
 #--------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/authentication/member_root_user.al
 
+:set-params:
+root_policy_name = !company_name + " root policy"
+
 :check-policy:
 is_policy = blockchain get member where type=root and company=!company_name and name=!root_policy_name
 if !is_policy then goto end-script
