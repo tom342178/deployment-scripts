@@ -31,13 +31,12 @@ if not !public_key then goto public-key-error
 <new_policy = {"member": {
     "type": "root",
     "name": !policy_name,
-    "company": !company_name,
-    "public_key": !public_key
+    "company": !company_name
 }}>
 
 :prepare-policy:
 on error goto prepare-policy-error
-if !enable_auth == true then  new_policy = id sign !new_policy where key = !new_policy and password = !root_password
+new_policy = id sign !new_policy where key = !new_policy and password = !root_password
 validate_policy = json !new_policy
 if not !validate_policy then goto prepare-policy-error
 

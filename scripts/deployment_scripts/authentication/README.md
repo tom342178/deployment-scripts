@@ -3,7 +3,7 @@ The following provides a simplified explanation for securing an AnyLog node / ne
 scripts.  
 
 * [Authentication](https://github.com/AnyLog-co/documentation/blob/master/authentication.md)
-w* [Security](https://github.com/AnyLog-co/documentation/blob/master/examples/Secure%20Network.md)
+* [Security](https://github.com/AnyLog-co/documentation/blob/master/examples/Secure%20Network.md)
 
 ## REST Authentication
 AnyLog REST authentication configures the node to require users to specify authentication information when sending
