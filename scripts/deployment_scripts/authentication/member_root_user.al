@@ -27,7 +27,7 @@ on error ignore
 process !local_scripts/deployment_scripts/authentication/publish_policy_root.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
-if error_code == 3 declare-policy-error
+if error_code == 3 then declare-policy-error
 
 :end-script:
 end script
