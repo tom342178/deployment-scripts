@@ -23,7 +23,8 @@ do process !local_scripts/deployment_scripts/authentication/permissions_master.a
 do process !local_scripts/deployment_scripts/authentication/permissions_operator.al
 
 :declare-node:
-process process !local_scripts/deployment_scripts/authentication/member_node.al
+if !node_password then
+do process process !local_scripts/deployment_scripts/authentication/member_node.al
 
 :declare-user:
 if !user_name and !user_password then

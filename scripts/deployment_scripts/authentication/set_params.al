@@ -15,7 +15,6 @@ do set root_user = root
 do if $ROOT_USER then set root_user = $ROOT_USER
 
 :node-credentials:
-set node_password = passwd
 if $NODE_PASSWORD then node_password = $NODE_PASSWORD
 
 :user-credentials:
