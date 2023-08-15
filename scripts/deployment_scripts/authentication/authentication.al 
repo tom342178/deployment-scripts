@@ -1,0 +1,7 @@
+on error ignore
+
+:set-params:
+process !local_scripts/deployment_scripts/authentication/set_params.al
+
+if !root_password then
+do process !local_scripts/deployment_scripts/authentication/member_root_user.al

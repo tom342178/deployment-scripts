@@ -4,13 +4,6 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/authentication/permissions_master.al
 
-:set-params:
-on error ignore
-root_user = admin
-root_password = passwd
-if $ROOT_PASSWORD  then set root_password = $ROOT_PASSWORD
-if $ROOT_USER then root_user = $ROOT_USER
-
 :check-policy:
 is_policy = blockchain get permissions where name="operator node permissions" and company=!company_name
 if !is_policy then goto end-script

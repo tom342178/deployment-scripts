@@ -5,15 +5,6 @@
 
 :declare-params:
 on error ignore
-user_type = user
-set user_name = admin
-set user_password = passwd
-
-if $NODE_PASSWORD then node_password = $NODE_PASSWORD
-if $USER_NAME then user_name = $USER_NAME
-if $USER_PASSWORD then user_password = $USER_PASSWORD
-if $USER_TYPE == user or $USER_TYPE == admin then user_type = $USER_TYPE
-
 key_name = python !user_name.replace(" ", "_").replace("-", "_").strip()
 
 is_policy = blockchain get member where type=!user_type and name=!user_name and company=!company_name

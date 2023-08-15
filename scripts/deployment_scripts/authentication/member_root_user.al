@@ -4,14 +4,8 @@
 #--------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/authentication/member_root_user.al
 
-:declare-params:
-on error ignore
-root_password = passwd
-if $ROOT_PASSWORD  then set root_password = $ROOT_PASSWORD
-policy_name = !company_name + " root policy"
-
 :check-policy:
-is_policy = blockchain get member where type=root and company=!company_name and name=!policy_name
+is_policy = blockchain get member where type=root and company=!company_name and name=!root_policy_name
 if !is_policy then goto end-script
 
 :clean-keys:
@@ -21,27 +15,19 @@ system rm -rf !id_dir/root_keys.pem
 on error goto create-keys-error
 id create keys where password = !root_password and keys_file = root_keys
 
-on error ignore
-root_private_key = get private key where keys_file = root_keys
-if not !root_private_key then goto private-key-error
-
 :create-policy:
+on error ignore
 <new_policy = {"member": {
     "type": "root",
-    "name": !policy_name,
+    "name": !root_policy_name,
     "company": !company_name
 }}>
 
-:prepare-policy:
-on error goto prepare-policy-error
-new_policy = id sign !new_policy where key = !root_private_key and password = !root_password
-validate_policy = json !new_policy
-if not !validate_policy then goto prepare-policy-error
-
-:declare-policy:
-on error call declare-policy-error
-blockchain prepare policy !new_policy
-blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+:publish-policy:
+process !local_scripts/deployment_scripts/authentication/publish_policy_root.al
+if error_code == 1 then goto sign-policy-error
+if error_code == 2 then goto prepare-policy-error
+if error_code == 3 declare-policy-error
 
 :end-script:
 end script
@@ -50,12 +36,8 @@ end script
 echo "Failed to create root keys. Cannot continue with process"
 goto end-script
 
-:private-key-error:
-echo "Failed to get private key rom generated root key"
-goto end-script
-
-:public-key-error:
-echo "Missing public key, cannot create valid member policy"
+:sign-policy-error:
+echo "Failed to sign root policy"
 goto end-script
 
 :prepare-policy-error:
@@ -63,5 +45,5 @@ echo "Failed to prepare member root policy for publishing on blockchain"
 goto end-script
 
 :declare-policy-error:
-echo "Error: Failed to declare policy for root member"
-return
+echo "Failed to declare root policy on blockchain"
+goto end-script
