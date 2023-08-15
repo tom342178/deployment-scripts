@@ -11,7 +11,7 @@ if not !root_private_key then goto private-key-error
 
 :prepare-policy:
 on error goto sign-policy-error
-new_policy = id sign !new_policy where key = !private_key and password = !node_password
+new_policy = id sign !new_policy where key = !root_private_key and password = !root_password
 validate_policy = json !new_policy
 if not !validate_policy then goto prepare-policy-error
 
