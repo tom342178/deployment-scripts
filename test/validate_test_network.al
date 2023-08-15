@@ -8,6 +8,12 @@
 #   5. check number of unique operators
 #   6. validate the two operators do not share a name
 #   7. execute `test network` to validate
+# :sample output:
+# AL anylog-master +> process !test_dir/validate_test_network.al
+#     'master - found'
+#     'query - found'
+#     '2 unique clusters - found'
+#     '2 unique operators - found'
 #-----------------------------------------------------------------------------------------------------------------------
 # process !test_dir/validate_test_network.al
 
@@ -50,7 +56,6 @@ operator2 = blockchain get operator bring.unique.last [*][name]
 if !operator_count != 2 then
 do print Found !operator_count operators. Expected 2 operators
 do goto end-script
-else print 2 unique clusters - found
 
 # validate the two operators are not using the same name
 if !operator1 == !operator2 then
