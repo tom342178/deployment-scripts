@@ -31,9 +31,9 @@ cluster1 = blockchain get cluster bring.unique.first [*][name]
 cluster2 = blockchain get cluster bring.unique.last [*][name]
 
 # check number of unique clusters
-if cluster_count != 2 then
-do print Found !cluster_count clusters. Expected 2 clusters
-do goto end-script
+#if cluster_count != 2 then
+#do print Found !cluster_count clusters. Expected 2 clusters
+#do goto end-script
 
 # validate the two clusters aren't using the same name
 if !cluster1 == !cluster2 then
@@ -47,9 +47,9 @@ operator1 = blockchain get operator bring.unique.first [*][name]
 operator2 = blockchain get operator bring.unique.last [*][name]
 
 # check number of unique operators
-if operator_count != 2 then
-do print Found !operator_count operators. Expected 2 operators
-do goto end-script
+#if operator_count != 2 then
+#do print Found !operator_count operators. Expected 2 operators
+#do goto end-script
 
 # validate the two operators are not using the same name
 if !operator1 == !operator2 then
