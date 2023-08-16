@@ -9,7 +9,7 @@ on error ignore
 policy_node_name = !node_name
 
 is_policy = blockchain get assignment where name=!node_name and company=!company_name
-if !is_policy goto end-script
+if !is_policy then goto end-script
 
 :get-ids:
 <member_certificate = blockchain get member where
