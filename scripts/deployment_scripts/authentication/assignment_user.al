@@ -28,7 +28,7 @@ if not !member_certificate then goto certificate-error
     company = !company_name
 bring [permissions][id]>
 
-if not !permission-id then goto permission-id-error
+if not !permission_id then goto permission-id-error
 
 :create-policy:
 <new_policy = {"assignment" : {

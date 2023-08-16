@@ -8,7 +8,7 @@ on error ignore
 # this value needs to change when adding a node that is not root
 policy_node_name = !node_name
 
-permission_name = "no restrictions""
+permission_name = "no restrictions"
 
 is_policy = blockchain get assignment where name=!node_name and company=!company_name and name = !permission_name
 if !is_policy then goto end-script
@@ -27,7 +27,7 @@ if not !member_certificate then goto certificate-error
     company = !company_name
 bring [permissions][id]>
 
-if not !permission-id then goto permission-id-error
+if not !permission_id then goto permission-id-error
 
 :create-policy:
 <new_policy = {"assignment" : {
