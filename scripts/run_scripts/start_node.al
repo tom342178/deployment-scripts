@@ -53,22 +53,20 @@ create work directories
 process !local_scripts/deployment_scripts/set_params.al
 if $NODE_TYPE == none then goto set-license
 
+:authentication:
+if !enable_rest_auth == true then process !local_scripts/deployment_scripts/authentication/basic_rest_authentication.al
+if !enable_auth == true then process !local_scripts/deployment_scripts/authentication/authentication.al
+
 :networking-configs:
 # set basic configurations
 # --> TCP
 # --> REST
 # --> Broker (if set)
-
-else process !local_scripts/deployment_scripts/network_configs.al
-
+process !local_scripts/deployment_scripts/network_configs.al
 
 :declare-policies:
 process !local_scripts/deployment_scripts/run_scheduler.al
 if $NODE_TYPE != edgex then process !local_scripts/deployment_scripts/declare_policies.al
-
-
-:set-rest-authentication:
-if !enable_rest_auth == true then process !local_scripts/deployment_scripts/authentication/basic_rest_authentication.al
 
 if $NODE_TYPE == rest then goto set-license
 

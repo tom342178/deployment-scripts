@@ -7,7 +7,7 @@
 error_code = 0
 
 :private-key:
-if !enable_auth == true
+if !enable_auth == true and not !node_private_key then
 do on error ignore
 do node_private_key = get private key where keys_file = !key_name
 do if not !node_private_key then goto private-key-error
