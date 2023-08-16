@@ -8,7 +8,9 @@ on error ignore
 # this value needs to change when adding a node that is not root
 policy_node_name = !node_name
 
-is_policy = blockchain get assignment where name=!node_name and company=!company_name
+permission_name = "no restrictions""
+
+is_policy = blockchain get assignment where name=!node_name and company=!company_name and name = !permission_name
 if !is_policy then goto end-script
 
 :get-ids:
@@ -21,7 +23,7 @@ bring [member][public_key]>
 if not !member_certificate then goto certificate-error
 
 <permission_id = blockchain get permissions where
-    name = "no restrictions" and
+    name = !permission_name and
     company = !company_name
 bring [permissions][id]>
 
