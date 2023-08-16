@@ -9,6 +9,9 @@ on error ignore
 policy_node_name = !node_name
 
 permission_name = "no restrictions"
+if !deploy_ledger  == true then permission_name = "master node permissions"
+if !deploy_operator == true then permission_name = "operator node permissions"
+if !deploy_publisher == true then permission_name = "publisher node permissions"
 
 is_policy = blockchain get assignment where name=!node_name and company=!company_name and name = !permission_name
 if !is_policy then goto end-script

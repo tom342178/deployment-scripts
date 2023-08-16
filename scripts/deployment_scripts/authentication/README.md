@@ -31,8 +31,9 @@ Reminder, there is no need for _Authentication_ header if REST authentication is
 
 
 ## Security
-
-The following steps should be done a node that'll act as a "root" account within the network
+When deploying the network, with authentication on, we automatically run [authentication.al](authentication.al), which 
+does these steps 1-3 automatically. However, step 4 is done automatically **only** if you're the new AnyLog node has a 
+_root_ account associated with it.
 
 1. On an AnyLog node, declare root user. _Root_ is the only member that can grant permissions to other 
 users and/or nodes.
@@ -82,5 +83,3 @@ process !local_scripts/deployment_scripts/authentication/assignment_node.al
 ```anylog
 process !local_scripts/deployment_scripts/authentication/assignment_user.al
 ```
-
-## Communication using Keys

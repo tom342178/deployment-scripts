@@ -1,19 +1,19 @@
 #-----------------------------------------------------------------------------------------------------------------------
-# Declare a permission that's used by the operator node, which only grants those with the policy access to the `blockchain`
+# Declare a permission that's used by the publisher node, which only grants those with the policy access to the `blockchain`
 # database. The code is using the root private key for signing permission policy
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/deployment_scripts/authentication/permissions_operator.al
+# process !local_scripts/deployment_scripts/authentication/permissions_publisher.al
 
 :check-policy:
-is_policy = blockchain get permissions where name="operator node permissions" and company=!company_name
+is_policy = blockchain get permissions where name="publisher node permissions" and company=!company_name
 if !is_policy then goto end-script
 
 :create-policy:
 <new_policy = {"permissions" : {
-    "name" : "operator node permissions",
+    "name" : "publisher node permissions",
     "company": !company_name,
     "enable" : ["*"],
-    "database": ["almgm", '!default_dbms']
+    "database": ["almgm"]
 }}>
 
 :publish-policy:

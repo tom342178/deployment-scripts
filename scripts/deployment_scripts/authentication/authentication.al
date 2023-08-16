@@ -21,6 +21,7 @@ do process !local_scripts/deployment_scripts/authentication/permissions_no_restr
 do process !local_scripts/deployment_scripts/authentication/permissions_limited_restrictions.al
 do process !local_scripts/deployment_scripts/authentication/permissions_master.al
 do process !local_scripts/deployment_scripts/authentication/permissions_operator.al
+do process !local_scripts/deployment_scripts/authentication/permissions_publisher.al
 
 :declare-node:
 if !node_password then
