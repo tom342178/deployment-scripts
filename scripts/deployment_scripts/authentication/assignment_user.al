@@ -46,6 +46,14 @@ if error_code == 3 then declare-policy-error
 :end-script:
 end script
 
+:certificate-error:
+echo "Failed to get public key for user policy"
+goto end-script
+
+:permission-id-error:
+echo "Failed locate permission ID to associate the user against"
+goto end-script
+
 :private-key-error:
 echo "Failed to get private key from generated root key"
 goto end-script
