@@ -3,9 +3,9 @@
 #   -> declare authentication params
 #   -> if root_password is configured, then declare root account and permissions
 #   -> declare node member
-#   ->
+#   -> on a root account, associate node member policy with its permissions
 #   -> if user name and password, then declare user member policy
-#   -> on a root account, associate user member policy
+#   -> on a root account, associate user member policy with its permissions
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/authentication/authentication.al
 

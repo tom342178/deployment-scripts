@@ -30,7 +30,7 @@ curl -X GET 127.0.0.1:32049 -H "command: get status" -H "User-Agent: AnyLog/1.23
 Reminder, there is no need for _Authentication_ header if REST authentication is disabled  
 
 
-## Security 
+## Security
 
 The following steps should be done a node that'll act as a "root" account within the network
 
