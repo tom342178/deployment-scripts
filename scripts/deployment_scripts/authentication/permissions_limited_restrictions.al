@@ -14,7 +14,7 @@ if !is_policy then goto end-script
     "company": !company_name,
     "databases" : ["*"],
     "enable" : ["*"],
-    "disable": ["drop", "system", "python", "exit", "disconnect dbms"]
+    "disable": ["drop", "system", "python", "exit", "disconnect dbms", "reset signatory", "file delete"]
 }}>
 
 :publish-policy:
