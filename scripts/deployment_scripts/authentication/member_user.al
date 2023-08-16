@@ -20,7 +20,7 @@ id create keys where password = !user_password and keys_file = !key_name
 
 on error ignore
 user_private_key = get private key where keys_file = !key_name
-if not !private_key then goto private-key-error
+if not !user_private_key then goto private-key-error
 
 :create-policy:
 <new_policy = {"member": {
