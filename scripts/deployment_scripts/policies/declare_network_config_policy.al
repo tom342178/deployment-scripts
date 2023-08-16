@@ -53,7 +53,7 @@ if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_i
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
 
 :broker-info:
-if not !anylog_broker_port then goto validate-policy
+if not !anylog_broker_port then goto publish-policy
 
 if broker_bind == true then set policy new_policy [config][broker_ip] = '!ip'
 if !rest_bind == true and !overlay_ip then set policy new_policy [config][broker_ip] = '!overlay_ip'
