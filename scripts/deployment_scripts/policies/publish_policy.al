@@ -5,13 +5,12 @@
 
 :set-params:
 error_code = 0
-key_name = python !node_name.replace("-", "_").replace(" ", "_").strip()
 
 :private-key:
 if !enable_auth == true
 do on error ignore
 do node_private_key = get private key where keys_file = !key_name
-do if not !private_key then goto private-key-error
+do if not !node_private_key then goto private-key-error
 
 :prepare-policy:
 on error goto sign-policy-error
