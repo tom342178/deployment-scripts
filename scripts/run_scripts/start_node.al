@@ -57,6 +57,9 @@ if $NODE_TYPE == none then goto set-license
 if !enable_rest_auth == true then process !local_scripts/deployment_scripts/authentication/basic_rest_authentication.al
 if !enable_auth == true then process !local_scripts/deployment_scripts/authentication/authentication.al
 
+
+if !deploy_ledger == true then process !local_scripts/run_scripts/start_master.al
+
 :networking-configs:
 # set basic configurations
 # --> TCP
@@ -76,7 +79,6 @@ do set authentication on
 do process !local_scripts/deployment_scripts/authentication/node_keys.al
 
 :node-specific-scripts:
-if !deploy_ledger == true then process !local_scripts/run_scripts/start_master.al
 if !deploy_operator == true  then process !local_scripts/run_scripts/start_operator.al
 if !deploy_publisher == true then process !local_scripts/run_scripts/start_publisher.al
 if !deploy_query == true then process !local_scripts/run_scripts/start_query.al

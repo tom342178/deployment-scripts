@@ -65,7 +65,6 @@ if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
 
-
 on error ignore
 policy_id = blockchain get config where name=!config_policy_name and company=!company_name bring.first [*][id]
 
