@@ -32,7 +32,7 @@ state = "Unknown"
 city = "Unknown"
 
 if $NODE_NAME then node_name = $NODE_NAME
-if $NODE_TYPE != rest and !node_type ==  anylog-node then node_name=$NODE_TYPE
+if $NODE_TYPE != rest and !node_name ==  anylog-node then node_name=$NODE_TYPE
 
 if $COMPANY_NAME then company_name = $COMPANY_NAME
 if $LOCATION then loc = $LOCATION
