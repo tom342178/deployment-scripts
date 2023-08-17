@@ -60,7 +60,7 @@ if !rest_bind == true and !overlay_ip then set policy new_policy [config][broker
 set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
 
 :publish-policy:
-process !local_scripts/deployment_scripts/authentication/publish_policy_root.al
+process !local_scripts/deployment_scripts/policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
