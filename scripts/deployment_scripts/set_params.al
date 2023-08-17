@@ -164,7 +164,7 @@ do if $DB_PASSWD then set db_passwd = $DB_PASSWD
 do if $DB_IP then db_ip = $DB_IP
 do if $DB_PORT then db_port = $DB_PORT
 
-if $AUTOCOMMIT == false or $AUTOCOMMIT == False or $AUTOCOMMIT == FALSE set autocommit = false
+if $AUTOCOMMIT == false or $AUTOCOMMIT == False or $AUTOCOMMIT == FALSE then set autocommit = false
 
 if !deploy_query == true or $DEPLOY_SYSTEM_QUERY == true or $DEPLOY_SYSTEM_QUERY == True or $DEPLOY_SYSTEM_QUERY == TRUE  then
 do set deploy_system_query = true
