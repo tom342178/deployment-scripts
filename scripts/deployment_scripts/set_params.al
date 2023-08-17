@@ -210,7 +210,7 @@ do operator_threads = $OPERATOR_THREADS
 do if !operator_threads.int < 1 then operator_threads = 1
 if $QUERY_POOL then
 do query_pool = $QUERY_POOL
-do !query_pool.int < 3 then query_pool = 3
+do if !query_pool.int < 3 then query_pool = 3
 
 :blockchain:
 ledger_conn = !ip + ":" + !anylog_server_port
