@@ -2,6 +2,7 @@
 # generic process to declare policy on blockchain
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/authentication/publish_policy_root.al
+on error ignore
 
 :set-params:
 error_code = 0
