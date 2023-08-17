@@ -26,13 +26,14 @@ do set deploy_publisher = false
 :general-params:
 hostname = get hostname
 node_name = anylog-node
-if $NODE_TYPE then node_name = $NODE_TYPE
 company_name = "New Company"
 country = "Unknown"
 state = "Unknown"
 city = "Unknown"
 
 if $NODE_NAME then node_name = $NODE_NAME
+if $NODE_TYPE != rest and !node_type ==  anylog-node then node_name=$NODE_TYPE
+
 if $COMPANY_NAME then company_name = $COMPANY_NAME
 if $LOCATION then loc = $LOCATION
 if $COUNTRY then country = $COUNTRY
