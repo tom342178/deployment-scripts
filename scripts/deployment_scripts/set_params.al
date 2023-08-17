@@ -231,7 +231,7 @@ if $DESTINATION then set blockchain_destination=$DESTINATION
 :operator-settings:
 # Operator specific params & partitions
 enable_partitions=false
-cluster_name = python !company_name.replace(" ","-").replace("_", "-")
+cluster_name = cluster1
 table_name=*
 partition_column = insert_timestamp
 partition_interval = "14 days"
