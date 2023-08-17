@@ -89,7 +89,6 @@ goto terminate-scripts
 echo 'Notice: missing REST information'
 goto broker-info
 
-
 :sign-policy-error:
 echo "Failed to sign assignment policy"
 goto terminate-scripts

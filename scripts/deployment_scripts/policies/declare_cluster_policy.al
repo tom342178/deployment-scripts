@@ -35,33 +35,25 @@ if !default_dbms then
     "name": !cluster_name
 }}>
 
-:sign-policy:
-if !enable_auth == true then
-do on error goto sign-policy-error
-do id sign !new_policy where key = !private_key and password = !node_password
-
-:validate-policy:
-on error goto validate-policy-error
-test_policy = json !new_policy
-if !test_policy == false then goto validate-policy-error
-
 :publish-policy:
-on error call declare-policy-error
-blockchain prepare policy !new_policy
-blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+process !local_scripts/deployment_scripts/policies/publish_policy.al
+if error_code == 1 then goto sign-policy-error
+if error_code == 2 then goto prepare-policy-error
+if error_code == 3 then declare-policy-error
+
+goto check-policy
 
 :end-script:
 end script
 
 :sign-policy-error:
-echo "Error: Failed to sign cluster policy"
-goto end-script
+echo "Failed to sign cluster policy"
+goto terminate-scripts
 
-:validate-policy-error:
-echo "Error: Issue with cluster policy declaration"
-goto end-script
+:prepare-policy-error:
+echo "Failed to prepare member cluster policy for publishing on blockchain"
+goto terminate-scripts
 
 :declare-policy-error:
-echo "Error: Failed to declare policy for " !policy_type
-return
-Footer
+echo "Failed to declare cluster policy on blockchain"
+goto terminate-scripts
