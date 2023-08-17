@@ -211,7 +211,7 @@ do query_pool = $QUERY_POOL
 do if !query_pool.int < 3 then query_pool = 3
 
 :blockchain:
-ledger_conn = !ip + ":" + !anylog_server_port
+ledger_conn = !ip + ":32048"
 if $LEDGER_CONN then ledger_conn = $LEDGER_CONN
 
 ledger_ip = python !ledger_conn.split(":")[0]
