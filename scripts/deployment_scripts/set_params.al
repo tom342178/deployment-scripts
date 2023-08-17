@@ -26,6 +26,7 @@ do set deploy_publisher = false
 :general-params:
 hostname = get hostname
 node_name = anylog-node
+if $NODE_TYPE then node_name = $NODE_TYPE
 company_name = "New Company"
 country = "Unknown"
 state = "Unknown"
