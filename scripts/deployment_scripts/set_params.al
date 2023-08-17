@@ -235,7 +235,7 @@ partition_interval = "14 days"
 partition_keep = 6 # keep about 3 months of data
 partition_sync = "1 day"
 
-if $ENABLE_PARTITIONS == true or $ENABLE_PARTITIONS == True or $ENABLE_PARTITIONS == TRUE or  enable_partitions=true
+if $ENABLE_PARTITIONS == true or $ENABLE_PARTITIONS == True or $ENABLE_PARTITIONS == TRUE then enable_partitions=true
 if $CLUSTER_NAME then cluster_name = $CLUSTER_NAME
 if $TABLE_NAME then table_name=$TABLE_NAME
 if $PARTITION_COLUMN then partition_column = $PARTITION_COLUMN
@@ -269,9 +269,9 @@ if $MQTT_PASSWD then mqtt_passwd=$MQTT_PASSWD
 if $MQTT_TOPIC then mqtt_topic=$MQTT_TOPIC
 if $MQTT_DBMS then mqtt_dbms=$MQTT_DBMS
 if $MQTT_TABLE then mqtt_table=$MQTT_TABLE
-if $MQTT_TIMESTAMP_COLUMN mqtt_timestamp_column=$MQTT_TIMESTAMP_COLUMN
+if $MQTT_TIMESTAMP_COLUMN then mqtt_timestamp_column=$MQTT_TIMESTAMP_COLUMN
 if $MQTT_VALUE_COLUMN_TYPE then mqtt_value_column_type=$MQTT_VALUE_COLUMN_TYPE
-if $MQTT_VALUE_COLUMN thne mqtt_value_column=$MQTT_VALUE_COLUMN
+if $MQTT_VALUE_COLUMN then mqtt_value_column=$MQTT_VALUE_COLUMN
 
 :other-settings:
 set deploy_local_script = false
