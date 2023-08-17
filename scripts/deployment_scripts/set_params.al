@@ -85,12 +85,10 @@ else if $NODE_TYPE == query then anylog_server_port=32348
 if $TCP_BIND == true or $TCP_BIND == True or $TCP_BIND == TRUE then set tcp_bind = true
 
 if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
-else if $NODE_TYPE == master or $NODE_TYPE == standalone or $NODE_TYPE == standalone-publisher then anylog_server_port=32049
-else if $NODE_TYPE == operator then anylog_server_port=32149
-else if $NODE_TYPE == publisher then anylog_server_port=32249
-else if $NODE_TYPE == query then anylog_server_port=32349
-else if $ANYLOG_SERVER_PORT then anylog_server_port  = $ANYLOG_SERVER_PORT
-
+else if $NODE_TYPE == master or $NODE_TYPE == standalone or $NODE_TYPE == standalone-publisher then anylog_rest_port=32049
+else if $NODE_TYPE == operator then anylog_rest_port=32149
+else if $NODE_TYPE == publisher then anylog_rest_port=32249
+else if $NODE_TYPE == query then anylog_rest_port=32349
 if $REST_BIND == true or $REST_BIND == True or $REST_BIND == TRUE then set rest_bind = true
 
 if $ANYLOG_BROKER_PORT then anylog_broker_port = $ANYLOG_BROKER_PORT
