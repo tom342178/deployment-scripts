@@ -107,7 +107,7 @@ if $KUBERNETES_SERVICE_IP then set kubernetes_service_ip = $KUBERNETES_SERVICE_I
 policy_based_networking = true
 config_policy=true
 tmp_name = python !node_name.replace(" ","-").replace("_", "-")
-config_policy_name = !tmp_name + "-config"
+if !node_name == query then config_policy_name = query-config
 
 if !overlay_ip then config_policy_name = !tmp_name + "-overlay-config"
 
