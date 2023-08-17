@@ -140,9 +140,12 @@ do if !broker_threads.int < 1 then broker_threads = 1
 # Authentication information
 enable_auth = false
 enable_rest_auth = false
+rest_ssl = false
 
 if $ENABLE_AUTH == true or $ENABLE_AUTH == True or $ENABLE_AUTH == TRUE then set enable_auth = true
-if $ENABLE_REST_AUTH == true or $ENABLE_REST_AUTH == True or $ENABLE_REST_AUTH == TRUE then set enable_auth = true
+if $ENABLE_REST_AUTH == true or $ENABLE_REST_AUTH == True or $ENABLE_REST_AUTH == TRUE then
+do set enable_rest_auth = true
+do rest_ssl = true
 
 :database:
 # Database params
