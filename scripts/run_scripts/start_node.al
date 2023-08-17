@@ -83,7 +83,7 @@ if !deploy_query == true then process !local_scripts/run_scripts/start_query.al
 if $NODE_TYPE == edgex then process !local_scripts/run_scripts/start_edgex_node.al
 
 :other-scripts:
-if !enable_mqtt == true then process !local_scripts/sample_code/basic_mqtt_process.al
+if !enable_mqtt == true then process !local_scripts/demo_scripts/basic_mqtt.al
 
 if !deploy_local_script == true then
 do is_file = file test !local_scripts/deployment_scripts/local_script.al

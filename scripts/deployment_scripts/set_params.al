@@ -69,91 +69,94 @@ if not !info and not !city then city = Unknown
 :networking:
 on error call set-params-error
 # networking params
-anylog_server_port=32048
-anylog_rest_port=32049
+anylog_server_port=32548
+anylog_server_port=32549
+tcp_bind = false
+rest_bind = false
+broker_bind = false
 
 if $ANYLOG_SERVER_PORT then anylog_server_port  = $ANYLOG_SERVER_PORT
+else if $NODE_TYPE == master or $NODE_TYPE == standalone or $NODE_TYPE == standalone-publisher then anylog_server_port=32048
+else if $NODE_TYPE == operator then anylog_server_port=32148
+else if $NODE_TYPE == publisher then anylog_server_port=32248
+else if $NODE_TYPE == query then anylog_server_port=32348
+if $TCP_BIND == true or $TCP_BIND == True or $TCP_BIND == TRUE then set tcp_bind = true
+
 if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
+else if $NODE_TYPE == master or $NODE_TYPE == standalone or $NODE_TYPE == standalone-publisher then anylog_server_port=32049
+else if $NODE_TYPE == operator then anylog_server_port=32149
+else if $NODE_TYPE == publisher then anylog_server_port=32249
+else if $NODE_TYPE == query then anylog_server_port=32349
+else if $ANYLOG_SERVER_PORT then anylog_server_port  = $ANYLOG_SERVER_PORT
+
+if $REST_BIND == true or $REST_BIND == True or $REST_BIND == TRUE then set rest_bind = true
+
 if $ANYLOG_BROKER_PORT then anylog_broker_port = $ANYLOG_BROKER_PORT
-
-if $POLICY_BASED_NETWORKING then set policy_based_networking = $POLICY_BASED_NETWORKING
-if !policy_based_networking != true and  !policy_based_networking != false then  set policy_based_networking = false
-
-# whether to setup networking based on a (generic) configuration policy - good for both REST and other nodes
-if $CONFIG_POLICY then set config_policy=$CONFIG_POLICY
-if !config_policy != true and !config_policy != false then set config_policy=true
+if $BROKER_BIND == true or $BROKER_BIND == True or $BROKER_BIND == TRUE then broker_bind = true
 
 if $EXTERNAL_IP then set external_ip = $EXTERNAL_IP
 if $LOCAL_IP then set ip = $LOCAL_IP
 if $OVERLAY_IP then set overlay_ip = $OVERLAY_IP
 if $PROXY_IP then proxy_ip=$PROXY_IP
 
-# Kubernetes service name - used in stead of local IP on the blockchain if set / no overlay IP
+# Kubernetes service name - used instead of local IP on the blockchain if set / no overlay IP
 if $KUBERNETES_SERVICE_IP then set kubernetes_service_ip = $KUBERNETES_SERVICE_IP
 
-# if a user doesn't set TCP bind, assume true unless external != local IP adddress
-if $TCP_BIND then set tcp_bind = $TCP_BIND
-if !tcp_bind != true and !tcp_bind != false and !overlay_ip then set tcp_bind = true
-else if !tcp_bind != true and !tcp_bind != false and !external_ip == !ip then  set tcp_bind = true
-else if !tcp_bind != true and !tcp_bind != false then set tcp_bind = false
-
-if $LEDGER_CONN then ledger_conn = $LEDGER_CONN
-else ledger_conn = !ip + ":" + !anylog_server_port
-
-ledger_ip = python !ledger_conn.split(":")[0]
-ledger_port = python !ledger_conn.split(":")[1]
-if (!ledger_ip == 127.0.0.1 or !ledger_ip == localhost) and !overlay_ip then ledger_conn = !overlay_ip + ":" + !ledger_port
-if (!ledger_ip == 127.0.0.1 or !ledger_ip == localhost) and not !overlay_ip then ledger_conn = !ip + ":" + !ledger_port
-
-:advanced-networking:
-# Advanced Networking Configurations
-if $NODE_TYPE == rest  or !policy_based_networking == false and $TCP_THREADS then tcp_threads=$TCP_THREADS
-if $NODE_TYPE == rest  or !policy_based_networking == false and !tcp_threads < 1 then tcp_threads=1
-if $NODE_TYPE == rest  or !policy_based_networking == false and not !tcp_threads then tcp_threads=6
-
-if $REST_BIND then set rest_bind = $REST_BIND
-if !rest_bind != true and !rest_bind != false then set rest_bind = false
-
-if $NODE_TYPE == rest  or !policy_based_networking == false and $REST_THREADS then  rest_threads = $REST_THREADS
-if $NODE_TYPE == rest  or !policy_based_networking == false and !rest_threads < 1 then rest_threads=1
-if $NODE_TYPE == rest  or !policy_based_networking == false and not !rest_threads then rest_threads = 6
-
-if $NODE_TYPE == rest  or !policy_based_networking == false and  $REST_TIMEOUT then set rest_timeout = $REST_TIMEOUT
-if $NODE_TYPE == rest  or !policy_based_networking == false and !rest_timeout < 0 then rest_timeout = 0
-if $NODE_TYPE == rest  or !policy_based_networking == false and not !rest_timeout then rest_timeout = 20
-
-rest_ssl = false # need to implement REST SSL code
-
-if $BROKER_BIND then set broker_bind = $BROKER_BIND
-if !broker_bind != true and !broker_bind != false then set broker_bind = false
-
-if $NODE_TYPE == rest  or !policy_based_networking == false and $BROKER_THREADS then  broker_threads = $BROKER_THREADS
-if $NODE_TYPE == rest  or !policy_based_networking == false and !broker_threads < 1 then broker_threads=1
-if $NODE_TYPE == rest  or !policy_based_networking == false and not !broker_threads then broker_threads = 6
-
-:config-policy-name:
+:network-config-policy:
+# network configuration policy
+policy_based_networking = true
+config_policy=true
 tmp_name = python !node_name.replace(" ","-").replace("_", "-")
 config_policy_name = !tmp_name + "-config"
+
 if !overlay_ip then config_policy_name = !tmp_name + "-overlay-config"
+
+if $POLICY_BASED_NETWORKING == false or $POLICY_BASED_NETWORKING == False or $POLICY_BASED_NETWORKING == FALSE then set policy_based_networking = false
+if $CONFIG_POLICY == false or $CONFIG_POLICY == False or $CONFIG_POLICY == FALSE then set config_policy = false
 if $CONFIG_POLICY_NAME then config_policy_name = $CONFIG_POLICY_NAME
 
+:advanced-networking:
+tcp_threads=6
+rest_threads=6
+rest_timeout=30
+broker_threads=6
 
+if $TCP_THREADS then
+do tcp_threads = $TCP_THREADS
+do if !tcp_threads.int < 1  then tcp_threads = 1
+
+if $REST_THREADS then
+do rest_threads = $REST_THREADS
+do if !rest_threads.int < 1 then rest_threads = 1
+if $REST_TIMEOUT then
+do rest_timeout=$REST_TIMEOUT
+do if !rest_timeout.int < 0 then rest_timeout=0
+
+if $BROKER_THREADS then
+do broker_threads = $BROKER_THREADS
+do if !broker_threads.int < 1 then broker_threads = 1
 
 :authentication:
 # Authentication information
-if $ENABLE_AUTH then set enable_auth = $ENABLE_AUTH
-if !enable_auth != true and !enable_auth != false then set enable_auth = false
+enable_auth = false
+enable_rest_auth = false
 
-if $ENABLE_REST_AUTH then set enable_rest_auth = $ENABLE_REST_AUTH
-if !enable_rest_auth != true and !enable_rest_auth != false then set enable_rest_auth = false
+if $ENABLE_AUTH == true or $ENABLE_AUTH == True or $ENABLE_AUTH == TRUE set enable_auth = true
+if $ENABLE_REST_AUTH == true or $ENABLE_REST_AUTH == True or $ENABLE_REST_AUTH == TRUE set enable_auth = true
 
 :database:
 # Database params
 db_type = sqlite
-if !deploy_operator then set default_dbms=test
+autocommit = true
+set deploy_system_query = false
 
 if $DB_TYPE then db_type = $DB_TYPE
-if !db_type != psql and !db_type != sqlite then db_type = sqlite
+if !db_type != sqlite and !db_type != psql then
+do echo "Invalidate database type " + !db_type
+do terminate scripts
+
+if !deploy_operator then set default_dbms=test
+if !deploy_operator == true and $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
 
 if !db_type != sqlite then
 do if $DB_USER then db_user = $DB_USER
@@ -161,50 +164,57 @@ do if $DB_PASSWD then set db_passwd = $DB_PASSWD
 do if $DB_IP then db_ip = $DB_IP
 do if $DB_PORT then db_port = $DB_PORT
 
-if !deploy_operator == true and $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
+if $AUTOCOMMIT == false or $AUTOCOMMIT == False or $AUTOCOMMIT == FALSE set autocommit = false
 
-set autocommit = $AUTOCOMMIT
-if !autocommit != true and !autocommit != false then set autocommit=false
+if !deploy_query == true or $DEPLOY_SYSTEM_QUERY == true or $DEPLOY_SYSTEM_QUERY == True or $DEPLOY_SYSTEM_QUERY == TRUE  then
+do set deploy_system_query = true
+do memory = true
+do if $MEMORY == false or $MEMORY == False or $MEMORY == FALSE then memory=false
 
-if !deploy_query == true then set deploy_system_query = true
-else if $DEPLOY_SYSTEM_QUERY == true or $DEPLOY_SYSTEM_QUERY == false  then set deploy_system_query=$DEPLOY_SYSTEM_QUERY
-else set deploy_system_query = false
 
-if $MEMORY then !memory = $MEMORY
-if !memory != true and !memory != false then set memory = false
-
-if $NOSQL_ENABLE then set enable_nosql=$NOSQL_ENABLE
-if !enable_nosql != true and !enable_nosql != false then enable_nosql=false
+:database-mongodb:
+set enable_nosql = false
+if $NOSQL_ENABLE == true or $NOSQL_ENABLE == True or $NOSQL_ENABLE == TRUE then set enable_nosql = true
 
 nosql_type = mongo
-if $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
 nosql_ip = 127.0.0.1
-if $NOSQL_IP then nosql_ip = $NOSQL_IP
 nosql_port = 27017
-if $NOSQL_PORT then nosql_port = $NOSQL_PORT
+set blobs_dbms = false
+set blobs_folder = true
+set blobs_compress = true
+set blobs_reuse = true
 
+if $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
+if $NOSQL_IP then nosql_ip = $NOSQL_IP
+if $NOSQL_PORT then nosql_port = $NOSQL_PORT
 if $NOSQL_USER then nosql_user = $NOSQL_USER
 if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
-if $NOSQL_BLOBS_DBMS then set blobs_dbms = $NOSQL_BLOBS_DBMS
-if !blobs_dbms != true and !blobs_dbms != false then set blobs_dbms=false
-if $NOSQL_BLOBS_FOLDER then set blobs_folder = $NOSQL_BLOBS_FOLDER
-if !blobs_folder != true and !blobs_folder != false then set blobs_folder=true
-if $NOSQL_BLOBS_COMPRESS then set blobs_compress = $NOSQL_BLOBS_COMPRESS
-if !blobs_compress != true and !blobs_compres != false then set blobs_compress=true
-if $NOSQL_BLOBS_REUSE then set blobs_reuse = $NOSQL_BLOBS_REUSE
-if !blobs_reuse != true and !blobs_reuse != false then set blobs_reuse = true
-
+if $NOSQL_BLOBS_DBMS == true or $NOSQL_BLOBS_DBMS == True or $NOSQL_BLOBS_DBMS == TRUE  then set blobs_dbms = true
+if $NOSQL_BLOBS_FOLDER == false or $NOSQL_BLOBS_FOLDER == False or $NOSQL_BLOBS_FOLDER == FALSE  then set blobs_folder = false
+if $NOSQL_BLOBS_COMPRESS == false or $NOSQL_BLOBS_COMPRESS == False or $NOSQL_BLOBS_COMPRESS == FALSE  then set blobs_folder = false
+if $NOSQL_BLOBS_REUSE == false or $NOSQL_BLOBS_REUSE == False or $NOSQL_BLOBS_REUSE == FALSE  then set blobs_folder = false
 
 :settings:
 # settings
 operator_threads = 1
 query_pool = 3
 
-if $OPERATOR_THREADS then operator_threads = $OPERATOR_THREADS
-if !operater_threads < 1 then operator_threads = 1
-if $QUERY_POOL then query_pool = $QUERY_POOL
-if $QUERY_POOL and query_pool < 3 then query_pool = 3
+if $OPERATOR_THREADS then
+do operator_threads = $OPERATOR_THREADS
+do if !operator_threads.int < 1 then operator_threads = 1
+if $QUERY_POOL then
+do query_pool = $QUERY_POOL
+do !query_pool.int < 3 then query_pool = 3
+
+:blockchain:
+ledger_conn = !ip + ":" + !anylog_server_port
+if $LEDGER_CONN then ledger_conn = $LEDGER_CONN
+
+ledger_ip = python !ledger_conn.split(":")[0]
+ledger_port = python !ledger_conn.split(":")[1]
+if (!ledger_ip == 127.0.0.1 or !ledger_ip == localhost) and !overlay_ip then ledger_conn = !overlay_ip + ":" + !ledger_port
+if (!ledger_ip == 127.0.0.1 or !ledger_ip == localhost) and not !overlay_ip then ledger_conn = !ip + ":" + !ledger_port
 
 # blockchain sync
 sync_time="30 seconds"
@@ -217,15 +227,15 @@ if $DESTINATION then set blockchain_destination=$DESTINATION
 
 :operator-settings:
 # Operator specific params & partitions
-enable_partitions=true
-cluster_name = !company_name
+enable_partitions=false
+cluster_name = python !company_name.replace(" ","-").replace("_", "-")
 table_name=*
 partition_column = insert_timestamp
 partition_interval = "14 days"
 partition_keep = 6 # keep about 3 months of data
 partition_sync = "1 day"
 
-if $ENABLE_PARTITIONS then enable_partitions=$ENABLE_PARTITIONS
+if $ENABLE_PARTITIONS == true or $ENABLE_PARTITIONS == True or $ENABLE_PARTITIONS == TRUE or  enable_partitions=true
 if $CLUSTER_NAME then cluster_name = $CLUSTER_NAME
 if $TABLE_NAME then table_name=$TABLE_NAME
 if $PARTITION_COLUMN then partition_column = $PARTITION_COLUMN
@@ -235,61 +245,77 @@ if $PARTITION_SYNC then partition_sync = $PARTITION_SYNC
 
 if $MEMBER then member = $MEMBER
 
+:mqtt:
+set enable_mqtt = false
+mqtt_broker = driver.cloudmqtt.com
+mqtt_port = 18785
+mqtt_user = ibglowct
+mqtt_password = MSY4e009J7ts
+mqtt_topic = anylogedgex-demo
+set mqtt_log = false
+set mqtt_dbms = test
+if !default_dbms then set mqtt_dbms = !default_dbms
+mqtt_table = "bring [sourceName]"
+mqtt_timestamp_column = now
+mqtt_value_column_type = float
+mqtt_value_column = "bring [readings][][value]"
+
+if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = true
+if $MQTT_LOG == true or $MQTT_LOG == True or $MQTT_LOG == TRUE then set mqtt_log = true
+if $MQTT_BROKER then mqtt_broker=$MQTT_BROKER
+if $MQTT_PORT then mqtt_port=$MQTT_PORT
+if $MQTT_USER then mqtt_user=$MQTT_USER
+if $MQTT_PASSWD then mqtt_passwd=$MQTT_PASSWD
+if $MQTT_TOPIC then mqtt_topic=$MQTT_TOPIC
+if $MQTT_DBMS then mqtt_dbms=$MQTT_DBMS
+if $MQTT_TABLE then mqtt_table=$MQTT_TABLE
+if $MQTT_TIMESTAMP_COLUMN mqtt_timestamp_column=$MQTT_TIMESTAMP_COLUMN
+if $MQTT_VALUE_COLUMN_TYPE then mqtt_value_column_type=$MQTT_VALUE_COLUMN_TYPE
+if $MQTT_VALUE_COLUMN thne mqtt_value_column=$MQTT_VALUE_COLUMN
+
 :other-settings:
-if $ENABLE_MQTT then set enable_mqtt = $ENABLE_MQTT
-if !enable_mqtt != true and !enable_mqtt != false then set enable_mqtt = false
+set deploy_local_script = false
+set create_table = true
+set update_tsd_info = true
+set archive = true
+set distributor = true
+set compress_file = true
+set move_json = true
+set publisher_compress_file = true
+set write_immediate = true
+set enable_ha = false
 
-if $DEPLOY_LOCAL_SCRIPT then set deploy_local_script=$DEPLOY_LOCAL_SCRIPT
-if !deploy_local_script != true and !deploy_local_script != false then set deploy_local_script = false
+dbms_file_location = file_name[0]
+table_file_location = file_name[1]
+threshold_time = 60 seconds
+threshold_volume = 10KB
 
-# run operator / publisher configs
-if $CREATE_TABLE then set create=$CREATE_TABLE
-if !create_table != true and !create_table != false then set create_table = true
+set monitor_nodes = false
+set monitor_node = query
+monitor_node_company = !company_name
 
-if $UPDATE_TSD_INFO then set update_tsd_info=$UPDATE_TSD_INFO
-if !update_tsd_info != true and !update_tsd_info != false then set update_tsd_info=true
+if $DEPLOY_LOCAL_SCRIPT == true or $DEPLOY_LOCAL_SCRIPT == True or $DEPLOY_LOCAL_SCRIPT == TRUE then set deploy_local_script=true
+if $CREATE_TABLE == false or $CREATE_TABLE == False or $CREATE_TABLE == FALSE then set create_table=false
+if $UPDATE_TSD_INFO == false or $UPDATE_TSD_INFO == False or $UPDATE_TSD_INFO == FALSE then set update_tsd_info=false
+if $ARCHIVE == false or $ARCHIVE == False or $ARCHIVE == FALSE then set archive=false
+if $DISTRIBUTOR == false or $DISTRIBUTOR == False or $DISTRIBUTOR == FALSE then set distributor=false
+if $COMPRESS_FILE == false or $COMPRESS_FILE == False or $COMPRESS_FILE == FALSE then set compress_file=false
+if $MOVE_JSON == false or $MOVE_JSON == False or $MOVE_JSON == FALSE then set move_json=false
+if $PUBLISHER_COMPRESS_FILE == false or $PUBLISHER_COMPRESS_FILE == False or $PUBLISHER_COMPRESS_FILE == FALSE then set publisher_compress_file=false
+if $WRITE_IMMEDIATE == false or $WRITE_IMMEDIATE == False or $WRITE_IMMEDIATE == FALSE then set write_immediate=false
 
-if $ARCHIVE then set archive=$ARCHIVE
-if !archive != true and !archive != false then set archive=true
-
-if $DISTRIBUTOR then set distributor=$DISTRIBUTOR
-if !distributor != true and !distributor != false then set distributor=true
-
-if $COMPRESS_FILE then set compress_file = $COMPRESS_FILE
-if !compress_file != true and !compress_file != false then set compress_file = true
-
-if $MOVE_JSON then set move_json = $MOVE_JSON
-if !move_json != true and !move_json != false then set move_json = true
-
-if $DBMS_FILE_LOCATION then dbms_file_location = $DBMS_FILE_LOCATION
-else dbms_file_location = file_name[0]
-
-if $PUBLISHER_COMPRESS_FILE then set publisher_compress_file = $PUBLISHER_COMPRESS_FILE
-if !publisher_compress_file != true and !publisher_compress_file != false then publisher_compress_file=false
-
-if $TABLE_FILE_LOCATION then table_file_location = $TABLE_FILE_LOCATION
-else table_file_location = file_name[1]
-
-if $ENABLE_HA then set enable_ha = $ENABLE_HA
-if !enable_ha != true and !enable_ha != false then set enable_ha = false
-
-if !enable_ha == true then
+if $ENABLE_HA == true or $ENABLE_HA == True or $ENABLE_HA == TRUE then
+do set enable_ha=true
 do ha_start_date = -30d
 do if $START_DATE then ha_start_date = $START_DATE
 
-set write_immediate = true
-if $WRITE_IMMEDIATE then set write_immediate = $WRITE_IMMEDIATE
-if !write_immediate != true and !write_immediate != false then set write_immediate = true
+if $DBMS_FILE_LOCATION then dbms_file_location = $DBMS_FILE_LOCATION
+if $TABLE_FILE_LOCATION then table_file_location = $TABLE_FILE_LOCATION
 
-threshold_time = 60 seconds
-threshold_volume = 10KB
 if $THRESHOLD_TIME then threshold_time = $THRESHOLD_TIME
 if $THRESHOLD_VOLUME then threshold_volume = $THRESHOLD_VOLUME
 
-set monitor_nodes = false # whether to monitor node(s)  or not
-set monitor_node = query  # which node type to send monitoring information to
-monitor_node_company = !company_name # company node is associated with the monitor node
-if $MONITOR_NODES then set monitor_nodes = $MONITOR_NODES
+if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then set monitor_nodes=true
 if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
 if $MONITOR_NODE_COMPANY then monitor_node_company = $MONITOR_NODE_COMPANY
 
