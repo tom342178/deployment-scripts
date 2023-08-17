@@ -105,11 +105,14 @@ if $KUBERNETES_SERVICE_IP then set kubernetes_service_ip = $KUBERNETES_SERVICE_I
 :network-config-policy:
 # network configuration policy
 policy_based_networking = true
-config_policy=true
-tmp_name = python !node_name.replace(" ","-").replace("_", "-")
-if !node_name == query then config_policy_name = query-config
+set config_policy=true
+config_policy_name = node-network-config
+if $NODE_TYPE == master then config_policy_name = master-network-configs
+else if $NODE_TYPE == operator then  config_policy_name = operator-network-configs
+else if $NODE_TYPE == publisher then  config_policy_name = publisher-network-configs
+else if $NODE_TYPE == publisher then  config_policy_name = query-network-configs
 
-if !overlay_ip then config_policy_name = !tmp_name + "-overlay-config"
+# if !overlay_ip then config_policy_name = !config_policy_name + "-overlay-config"
 
 if $POLICY_BASED_NETWORKING == false or $POLICY_BASED_NETWORKING == False or $POLICY_BASED_NETWORKING == FALSE then set policy_based_networking = false
 if $CONFIG_POLICY == false or $CONFIG_POLICY == False or $CONFIG_POLICY == FALSE then set config_policy = false
