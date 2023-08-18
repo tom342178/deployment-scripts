@@ -22,6 +22,7 @@ do process !local_scripts/deployment_scripts/policies/declare_cluster_policy.al
 do call reset-new-policy 
 do set policy_type = operator
 do cluster_id = blockchain get cluster where name=!cluster_name and company=!company_name bring.first [*][id]
+do call reset-new-policy
 do process !local_scripts/deployment_scripts/policies/declare_node_policy.al
 do call reset-new-policy
 
