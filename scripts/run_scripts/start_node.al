@@ -60,12 +60,14 @@ if !enable_auth == true then process !local_scripts/deployment_scripts/authentic
 :master-node:
 if !deploy_ledger == true then process !local_scripts/run_scripts/start_master.al
 
+
 :networking-configs:
 # set basic configurations
 # --> TCP
 # --> REST
 # --> Broker (if set)
 process !local_scripts/deployment_scripts/network_configs.al
+if !deploy_operator == true then goto set-license
 
 :declare-policies:
 process !local_scripts/deployment_scripts/run_scheduler.al
