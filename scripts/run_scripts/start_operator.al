@@ -8,6 +8,7 @@
 #-----------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/run_scripts/start_operator.al
 
+set debug on
 on error ignore
 :run-processes:
 process !local_scripts/deployment_scripts/database/configure_dbms_operator.al
