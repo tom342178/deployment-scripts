@@ -15,6 +15,7 @@
 on error ignore
 :general-info:
 # declare policy
+set new_policy = ""
 set policy new_policy [!policy_type] = {}
 
 # basic information
