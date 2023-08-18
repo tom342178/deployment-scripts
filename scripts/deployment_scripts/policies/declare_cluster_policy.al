@@ -18,7 +18,7 @@
 :check-policy:
 on error ignore
 is_policy = blockchain get cluster where name=!cluster_name and company=!company_name bring.first
-if !is_policy goto end-script
+if !is_policy then goto end-script
 
 :prep-policy:
 on error ignore

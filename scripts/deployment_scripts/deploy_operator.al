@@ -19,8 +19,8 @@ operator_id = blockchain get operator where name = !node_name and company=!compa
 if not !operator_id then goto blockchain-get-error
 
 :enable-nosql:
-on error call
-if !enable_nosql == false then # enable archiver without NoSQL
+on error call enable-nosql-error
+if !enable_nosql == true then
 <do run blobs archiver where
     dbms=!blobs_dbms and
     folder=!blobs_folder and
@@ -57,6 +57,10 @@ return
 :blockchain-get-error:
 echo "Failed to get Operator ID from blockchain. Cannot execute `run operator` code`"
 goto terminate-scripts
+
+:enable-nosql-error:
+echo "Failed to initiate blobs archiver"
+return
 
 :operator-error:
 echo "Error: Failed to start operator process"

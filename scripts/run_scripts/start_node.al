@@ -74,11 +74,6 @@ if $NODE_TYPE != edgex then process !local_scripts/deployment_scripts/declare_po
 
 if $NODE_TYPE == rest then goto set-license
 
-:set-authentication:
-if !enable_auth == true then
-do set authentication on
-do process !local_scripts/deployment_scripts/authentication/node_keys.al
-
 :node-specific-scripts:
 if !deploy_operator == true  then process !local_scripts/run_scripts/start_operator.al
 if !deploy_publisher == true then process !local_scripts/run_scripts/start_publisher.al

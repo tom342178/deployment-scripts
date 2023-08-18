@@ -9,9 +9,12 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/authentication/authentication.al
 
-on error ignore
+:enable-authentication:
+on error goto enable-authentication-error
+set authentication on
 
 :set-params:
+on error ignore
 process !local_scripts/deployment_scripts/authentication/set_params.al
 
 :declare-root-and-permissions:
@@ -32,5 +35,13 @@ do process !local_scripts/deployment_scripts/authentication/assignment_node.al
 if !user_name and !user_password then
 do process !local_scripts/deployment_scripts/authentication/member_user.al
 do if !root_password then process !local_scripts/deployment_scripts/authentication/assignment_user.al
+
+:end-script:
+end script
+
+:enable-authentication-error:
+echo "Failed to enable authentication. Continuing without it..."
+set enable_auth = false
+goto end-script
 
 
