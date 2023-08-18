@@ -110,9 +110,8 @@ config_policy_name = node-network-config
 if $NODE_TYPE == master then config_policy_name = master-network-configs
 else if $NODE_TYPE == operator then  config_policy_name = operator-network-configs
 else if $NODE_TYPE == publisher then  config_policy_name = publisher-network-configs
-else if $NODE_TYPE == publisher then  config_policy_name = query-network-configs
-
-# if !overlay_ip then config_policy_name = !config_policy_name + "-overlay-config"
+else if $NODE_TYPE == query then  config_policy_name = query-network-configs
+if !overlay_ip then config_policy_name = !config_policy_name + "-overlay-config"
 
 if $POLICY_BASED_NETWORKING == false or $POLICY_BASED_NETWORKING == False or $POLICY_BASED_NETWORKING == FALSE then set policy_based_networking = false
 if $CONFIG_POLICY == false or $CONFIG_POLICY == False or $CONFIG_POLICY == FALSE then set config_policy = false
