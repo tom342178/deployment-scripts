@@ -18,9 +18,7 @@
 :check-policy:
 on error ignore
 is_policy = blockchain get cluster where name=!cluster_name and company=!company_name bring.first
-if !is_policy then
-do echo "Notice: Cluster Policy " + !cluster_name + " already exists"
-do goto end-script
+if !is_policy goto end-script
 
 :prep-policy:
 on error ignore

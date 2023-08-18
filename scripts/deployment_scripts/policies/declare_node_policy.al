@@ -47,9 +47,7 @@
 :check-policy:
 on error ignore
 process !local_scripts/deployment_scripts/policies/validate_node_policy.al
-if !is_policy then
-do echo "Notice: " + !policy_type + " policy " + !node_name + " already exists"
-do goto end-script
+if !is_policy thengoto end-script
 
 :prep-policy:
 on error ignore
