@@ -47,7 +47,7 @@
 :check-policy:
 on error ignore
 process !local_scripts/deployment_scripts/policies/validate_node_policy.al
-if !is_policy thengoto end-script
+if !is_policy then goto end-script
 
 :prep-policy:
 on error ignore
