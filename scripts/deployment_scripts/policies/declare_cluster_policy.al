@@ -22,16 +22,21 @@ if !is_policy then goto end-script
 
 :prep-policy:
 on error ignore
-if !default_dbms then
-<do new_policy = {"cluster": {
-    "company": !company_name,
-    "name": !cluster_name,
-    "dbms": !default_dbms
-}}>
-<else new_policy = {"cluster": {
+<new_policy = {"cluster": {
     "company": !company_name,
     "name": !cluster_name
 }}>
+
+#if !default_dbms then
+#<do new_policy = {"cluster": {
+#    "company": !company_name,
+#    "name": !cluster_name,
+#    "dbms": !default_dbms
+#}}>
+#<else new_policy = {"cluster": {
+#    "company": !company_name,
+#    "name": !cluster_name
+#}}>
 
 :publish-policy:
 process !local_scripts/deployment_scripts/policies/publish_policy.al
