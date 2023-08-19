@@ -50,7 +50,7 @@ run scheduler 1
 
 # blockchain sync
 on error goto blockchain-sync-error
-run blockchain sync where source=operator and time="30 seconds" and dest=file and connection=!ledger_conn
+run blockchain sync where source=master and time="30 seconds" and dest=file and connection=!ledger_conn
 
 check_policy_count = 0
 :check-cluster-id:
