@@ -70,7 +70,7 @@ do goto  check-node-id
 
 on error goto declare-cluster-policy-error
 blockchain prepare policy !new_policy
-blockchain insert where policy=!new_policy and local=true and operator=!ledger_conn
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 cluster_id = 1
 goto check-cluster-id
 
