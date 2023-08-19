@@ -31,13 +31,13 @@ connect dbms system_query where type=sqlite and memory=true
 policy_config_count = 0
 :network-id:
 on error ignore
-network_policy_id = blockchain get config where name = master-network-config and company=!company_name bring [config][id]
+network_policy_id = blockchain get config where name = query-network-config and company=!company_name bring [config][id]
 if not !network_policy_id and !policy_config_count == 1 then goto network-id-error
 else if !network_policy_id then goto execute-policy
 
 :configure-network:
 <new_policy = {"config": {
-   "name": "master-network-config",
+   "name": "query-network-config",
    "company": !company_name,
    "ip": "!external_ip",
    "local_ip": "!ip",
