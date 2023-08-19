@@ -6,7 +6,7 @@
 # process !local_scripts/run_scripts/start_empty_node.al
 
 :directories:
-ignore error log
+on error ignore
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 set anylog home !anylog_path
 if $ANYLOG_ID_DIR then set id_dir = $ANYLOG_ID_DIR

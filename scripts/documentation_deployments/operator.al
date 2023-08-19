@@ -11,22 +11,6 @@ set debug off             # disable debugging, by setting debug to `on` users ca
 set authentication off    # Disable users authentication
 set echo queue on         # Some messages are stored in a queue (otherwise printed to the consul)
 
-:set-directories:
-# This is an ENV variable, that's preset as part of the dockerfile - $ANYLOG_PATH = /app
-anylog_path = $ANYLOG_PATH
-
-# define the root directory for AnyLog
-set anylog home !anylog_path
-
-# This is an ENV variable, that's preset as part of the dockerfile - $LOCAL_SCRIPTS=/app/deployment-scripts/scripts
-set local_scripts = $LOCAL_SCRIPTS
-
-# This is an ENV variable, that's preset as part of the dockerfile - $TEST_DIR=/app/deployment-scripts/tests
-set test_dir = $TEST_DIR
-
-# create directories (such as blockchain, data/watch. anylog) that are used by the AnyLog node
-create work directories
-
 :set-params:
 node_name = Operator              # Adds a name to the CLI prompt
 company_name="New Company"
