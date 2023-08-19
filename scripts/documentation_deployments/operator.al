@@ -26,9 +26,13 @@ rest_timeout=30
 ledger_conn=127.0.0.1:32048
 
 :connect-database:
-# connect to defaault dbms logical database
+# connect to default dbms
 on error goto connect-dbms-error
 connect dbms !default_dbms where type=sqlite
+
+# connect `almgm` database and cretae `tsd_info` table
+connect dbms almgm where type=sqlite
+create table tsd_info where dbms=almgm
 
 :configure-network:
 on error goto tcp-network-error
