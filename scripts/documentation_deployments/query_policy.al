@@ -2,7 +2,7 @@
 # Script is based on `Network Setup - Policies.md` file in the documentation.
 # If a step fails, then an error is printed to screen and scripts stops
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/documentation_deployments/query_network_policy.al
+# process !local_scripts/documentation_deployments/query_policy.al
 
 :disable-authentication:
 # Disable authentication and enable message queue
@@ -21,27 +21,14 @@ set rest_bind=false
 tcp_threads=6
 rest_threads=6
 rest_timeout=30
-ledger_conn=127.0.0.1:32048
-
 sync_time = "30 seconds"
+ledger_conn=127.0.0.1:32048
 
 policy_count = 0
 :check-node-id:
 node_id = blockchain get master where name = master-node and company=!company_name bring [*][id]
 if not !node_id and !policy_count == 1 then goto declare-node-policy-error
 else if !node_id then goto execute-policy
-
-:connect-database:
-# connect to system_query using in-memory SQLite
-on error goto connect-dbms-error
-connect dbms system_query where type=sqlite and memory=true
-
-policy_config_count = 0
-:network-id:
-on error ignore
-network_policy_id = blockchain get config where name = query-network-config and company=!company_name bring [config][id]
-if not !network_policy_id and !policy_config_count == 1 then goto network-id-error
-else if !network_policy_id then goto execute-policy
 
 :declare-node:
 on error ignore
@@ -65,7 +52,7 @@ blockchain prepare policy !new_policy
 blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 
 :execute-policy:
-on error goto network-id-error
+on error goto execute-policy-error
 config from policy where id = !node_id
 
 :confirmation:
@@ -75,38 +62,10 @@ get processes
 :end-script:
 end script
 
-:connect-dbms-error:
-print "Failed to connect to system_operator database"
-goto end-script
-
-:ledger-table-error:
-print "Failed to create ledger table"
-goto end-script
-
-:network-id-error:
-print "Failed to connect to TCP and/or REST service."
-goto end-script
-
-:declare-config-policy-error:
-print "Failed to declare network config policy on the blockchain"
-goto end-script
-
-:schedule1-error:
-print "Failed to start `scheduler 1` service"
-goto end-script
-
-:blockchain-sync-error:
-print "Failed to start blockchain sync process"
-goto end-script
-
-:declare-cluster-policy-error:
-print "Failed to declare cluster policy on the blockchain"
-goto end-script
-
 :declare-node-policy-error:
 print "Failed to declare node policy on the blockchain"
 goto end-script
 
-:declare-partitions-error:
-print "Failed to configure partitions for " + !default_dbms
+:execute-policy-error:
+print "Failed to execute query node wth the given configurations"
 goto end-script

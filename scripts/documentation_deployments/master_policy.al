@@ -39,8 +39,8 @@ set rest_bind=false
 tcp_threads=6
 rest_threads=6
 rest_timeout=30
-ledger_conn=127.0.0.1:32048
 sync_time = "30 seconds"
+ledger_conn=127.0.0.1:32048
 
 policy_count = 0
 :check-node-id:
@@ -83,30 +83,10 @@ get processes
 :end-script:
 end script
 
-:connect-dbms-error:
-print "Failed to connect to system_operator database"
-goto end-script
-
-:ledger-table-error:
-print "Failed to create ledger table"
-goto end-script
-
-:network-id-error:
-print "Failed to connect to TCP and/or REST service."
-goto end-script
-
-:declare-config-policy-error:
-print "Failed to declare network config policy on the blockchain"
-goto end-script
-
-:schedule1-error:
-print "Failed to start `scheduler 1` service"
-goto end-script
-
-:blockchain-sync-error:
-print "Failed to start blockchain sync process"
-goto end-script
-
 :declare-node-policy-error:
 print "Failed to declare node policy on the blockchain"
+goto end-script
+
+:execute-policy-error:
+print "Failed to execute master node wth the given configurations"
 goto end-script
