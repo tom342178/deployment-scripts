@@ -22,8 +22,9 @@ tcp_threads=6
 rest_threads=6
 rest_timeout=30
 ledger_conn=127.0.0.1:32048
-
+sync_time = "30 seconds"
 policy_count = 0
+
 :check-node-id:
 node_id = blockchain get master where name = master-node and company=!company_name bring [*][id]
 if not !node_id and !policy_count == 1 then goto declare-node-policy-error
@@ -40,10 +41,10 @@ on error ignore
   "port": !anylog_server_port.int,
   "rest_port": !anylog_rest_port.int,
    "script": [
-       "connect dbms blockchain where type=sqlite",
-       "create table ledger where dbms=blockchain",
-       "run scheduler 1",
-       "run blockchain sync where source=master and time="30 seconds" and dest=file and connection=!ledger_conn"
+       'connect dbms blockchain where type=sqlite',
+       'create table ledger where dbms=blockchain',
+       'run scheduler 1',
+       'run blockchain sync where source=master and time=!sync_time seconds and dest=file and connection=!ledger_conn'
    ]
 }}>
 
