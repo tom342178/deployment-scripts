@@ -51,6 +51,10 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 policy_config_count = 1
 goto network-id
 
+:execute-policy:
+on error goto network-id-error
+config from policy where id = !network_policy_id
+
 :schedule-processes:
 # start scheduler (that service the rule engine)
 on error goto schedule1-error
