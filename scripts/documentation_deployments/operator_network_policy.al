@@ -1,8 +1,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
-# Script is based on `Network Setup - Part I.md` file in the documentation.
+# Script is based on `Network Setup - Policies.md` file in the documentation.
 # If a step fails, then an error is printed to screen and scripts stops
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/documentation_deployments/operator.al
+# process !local_scripts/documentation_deployments/operator_network_policy.al
 
 :disable-authentication:
 # Disable authentication and enable message queue
@@ -34,18 +34,32 @@ connect dbms !default_dbms where type=sqlite
 connect dbms almgm where type=sqlite
 create table tsd_info where dbms=almgm
 
-:configure-network:
-on error goto tcp-network-error
-<run tcp server where
-    external_ip=!external_ip and external_port=!anylog_server_port and
-    internal_ip=!ip and internal_port=!anylog_server_port and
-    bind=!tcp_bind and threads=!tcp_threads>
+policy_config_count = 0
+:network-id:
+on error ignore
+network_policy_id = blockchain get config where name = operator-network-config and company=!company_name bring [config][id]
+if not !network_policy_id and !policy_config_count == 1 then goto network-id-error
+else if !network_policy_id then goto execute-policy
 
-on error goto rest-network-error
-<run rest server where
-    external_ip=!external_ip and external_port=!anylog_rest_port and
-    internal_ip=!ip and internal_port=!anylog_rest_port and
-    bind=!rest_bind and threads=!rest_threads and timeout=!rest_timeout>
+:configure-network:
+<new_policy = {"config": {
+   "name": "operator-network-config",
+   "company": !company_name,
+   "ip": "!external_ip",
+   "local_ip": "!ip",
+   "port": "!anylog_server_port.int",
+   "rest_port": "!anylog_rest_port.int"
+}}>
+
+on error goto declare-node-policy-error
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+policy_config_count = 1
+goto network-id
+
+:execute-policy:
+on error goto network-id-error
+config from policy where id = !network_policy_id
 
 :schedule-processes:
 # start scheduler (that service the rule engine)
@@ -71,7 +85,7 @@ do goto  check-node-id
     "name": "cluster1"
 }}>
 
-on error goto declare-cluster-policy-error
+on error goto declare-config-policy-error
 blockchain prepare policy !new_policy
 blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 cluster_id = 1
@@ -140,12 +154,12 @@ end script
 print "Failed to connect to system_operator database"
 goto end-script
 
-:tcp-network-error:
-print "Failed to connect to TCP networking service"
+:network-id-error:
+print "Failed to connect to TCP and/or REST service."
 goto end-script
 
-:rest-network-error:
-print "Failed to connect to REST networking service"
+:declare-config-policy-error:
+print "Failed to declare network config policy on the blockchain"
 goto end-script
 
 :schedule1-error:
