@@ -41,7 +41,7 @@ create work directories
 
 :set-license:
 on error goto set-license-error
-if $LICENSE_KEY then w
+if $LICENSE_KEY then set license where activation_key = $LICENSE_KEY
 
 :end-script:
 end script
