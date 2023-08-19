@@ -1,6 +1,24 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Script is based on `Network Setup - Policies.md` file in the documentation.
 # If a step fails, then an error is printed to screen and scripts stops
+#:sample-policy:
+#   {'master' : {
+#        'name' : 'master-node',
+#        'company' : 'New Company',
+#        'ip' : '73.202.142.172',
+#        'local_ip' : '192.168.65.3',
+#        'port' : 32048,
+#        'rest_port' : 32049,
+#        'script' : [
+#           'connect dbms blockchain where type=sqlite',
+#           'create table ledger where dbms=blockchain',
+#           'run scheduler 1',
+#           'run blockchain sync where source=master and time=!sync_time and dest=file and connection=!ledger_conn'
+#        ],
+#        'id' : '2e76a73278ba013a58e39c35796a60cd',
+#        'date' : '2023-08-19T21:50:23.385263Z',
+#        'ledger' : 'global'
+#   }}
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/documentation_deployments/master_policy.al
 
@@ -55,7 +73,7 @@ policy_count = 1
 goto check-node-id
 
 :execute-policy:
-on error goto network-id-error
+on error goto execute-policy-error
 config from policy where id = !node_id
 
 :confirmation:
