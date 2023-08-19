@@ -44,7 +44,7 @@ on error ignore
        'connect dbms blockchain where type=sqlite',
        'create table ledger where dbms=blockchain',
        'run scheduler 1',
-       'run blockchain sync where source=master and time=!sync_time seconds and dest=file and connection=!ledger_conn'
+       'run blockchain sync where source=master and time=!sync_time and dest=file and connection=!ledger_conn'
    ]
 }}>
 
@@ -56,7 +56,7 @@ goto check-node-id
 
 :execute-policy:
 on error goto network-id-error
-config from policy where id = !network_policy_id
+config from policy where id = !node_id
 
 :confirmation:
 print "All blockchain policies and AnyLog services have been initiated"
