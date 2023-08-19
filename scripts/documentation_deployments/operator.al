@@ -98,6 +98,7 @@ on error goto declare-node-policy-error
 blockchain prepare policy !new_policy
 blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 check_policy_count = 1
+goto check-node-id
 
 :declare-partitions:
 # declare partitions of the node - this step is optional, but provides better query performance
