@@ -35,6 +35,21 @@ do set watch_dir = !data_dir/watch
 if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
 if $TEST_DIR then set test_dir = $TEST_DIR
 
+:create-directories:
+on error goto create-directories-error
 create work directories
 
+:set-license:
+on error goto set-license-error
 if $LICENSE_KEY then set license where activation_key = $LICENSE_KEY
+
+:end-script:
+end script
+
+:create-directories-error:
+print "Failed to create work directories"
+goto end-script
+
+:set-license-error:
+print "Failed to set license key. License key must be set for any other commands to be executed"
+goto end-script
