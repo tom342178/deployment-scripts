@@ -55,8 +55,8 @@ on error goto blockchain-sync-error
 run blockchain sync where source=master and time="30 seconds" and dest=file and connection=!ledger_conn
 
 :check-node-id:
-master_id = blockchain get master where name = master-node and company=!company_name bring [*][id]
-if !master_node goto confirmation
+node_id = blockchain get master where name = master-node and company=!company_name bring [*][id]
+if !node_id then goto confirmation
 
 :declare-node:
 on error ignore
