@@ -90,7 +90,8 @@ on error ignore
   "ip": !external_ip,
   "local_ip": !ip,
   "port": !anylog_server_port.int,
-  "rest_port": !anylog_rest_port.int
+  "rest_port": !anylog_rest_port.int,
+  "cluster": !cluster_id
 }}>
 
 on error goto declare-node-policy-error
