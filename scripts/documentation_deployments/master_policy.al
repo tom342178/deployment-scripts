@@ -23,8 +23,8 @@ rest_threads=6
 rest_timeout=30
 ledger_conn=127.0.0.1:32048
 sync_time = "30 seconds"
-policy_count = 0
 
+policy_count = 0
 :check-node-id:
 node_id = blockchain get master where name = master-node and company=!company_name bring [*][id]
 if not !node_id and !policy_count == 1 then goto declare-node-policy-error
