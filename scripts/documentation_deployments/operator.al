@@ -133,6 +133,7 @@ on error goto operator-error
 
 :confirmation:
 print "All blockchain policies and AnyLog services have been initiated"
+get processes
 
 :end-script:
 end script

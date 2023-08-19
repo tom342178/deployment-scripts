@@ -72,6 +72,7 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 
 :confirmation:
 print "All blockchain policies and AnyLog services have been initiated"
+get processes
 
 :end-script:
 end script
