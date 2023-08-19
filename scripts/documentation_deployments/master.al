@@ -2,7 +2,7 @@
 # Script is based on `Network Setup - Part I.md` file in the documentation.
 # If a step fails, then an error is printed to screen and scripts stops
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/documentation_deployments/operator.al
+# process !local_scripts/documentation_deployments/master.al
 
 :disable-authentication:
 # Disable authentication and enable message queue
@@ -12,11 +12,10 @@ set authentication off    # Disable users authentication
 set echo queue on         # Some messages are stored in a queue (otherwise printed to the consul)
 
 :set-params:
-node_name = Operator              # Adds a name to the CLI prompt
+node_name = Master              # Adds a name to the CLI prompt
 company_name="New Company"
-set default_dbms = test
-anylog_server_port=32148
-anylog_rest_port=32149
+anylog_server_port=32048
+anylog_rest_port=32049
 set tcp_bind=false
 set rest_bind=false
 tcp_threads=6
@@ -26,9 +25,12 @@ rest_timeout=30
 ledger_conn=127.0.0.1:32048
 
 :connect-database:
-# connect to defaault dbms logical database
+# connect to default dbms logical database & create ledger table
 on error goto connect-dbms-error
-connect dbms !default_dbms where type=sqlite
+connect dbms blockchain where type=sqlite
+
+on error goto ledger-table-error
+create table ledger where dbms=blockchain
 
 :configure-network:
 on error goto tcp-network-error
@@ -53,39 +55,16 @@ on error goto blockchain-sync-error
 run blockchain sync where source=master and time="30 seconds" and dest=file and connection=!ledger_conn
 
 check_policy_count = 0
-:check-cluster-id:
-on error ignore
-cluster_id = blockchain get cluster where name = cluster1 and company=!company_name bring [cluster][id]
-if not !cluster_id and !check_policy_count == 0  then goto declare-cluster
-else if not !cluster_id and !check_policy_count == 1 then goto declare-cluster-policy-error
-else if !cluster_id then
-do check_policy_count = 0
-do goto  check-node-id
-
-:declare-cluster:
-<new_policy = {"cluster": {
-    "company": !company_name,
-    "name": "cluster1"
-}}>
-
-on error goto declare-cluster-policy-error
-blockchain prepare policy !new_policy
-blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
-cluster_id = 1
-goto check-cluster-id
-
 :check-node-id:
-operator_id = blockchain get operator where name = operator1-node and company=!company_name and cluster=!cluster_id bring [operator][id]
-if not !operator_id and !check_policy_count == 0  then goto declare-node
-if not !operator_id and !check_policy_count == 1 then goto declare-node-policy-error
-else if !operator_id then
-do goto start-operator
+master_id = blockchain get master where name = master-node and company=!company_name
+if not !master_id and !check_policy_count == 0  then goto declare-node
+if not !master_id and !check_policy_count == 1 then goto declare-node-policy-error
 
 :declare-node:
 on error ignore
 # if TCP bind is false, then state both external and local IP addresses
-<new_policy = {"operator": {
-  "name": "operator1-node",
+<new_policy = {"master": {
+  "name": "master-node",
   "company": !company_name,
   "ip": !external_ip,
   "local_ip": !ip,
@@ -99,33 +78,6 @@ blockchain prepare policy !new_policy
 blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 check_policy_count = 1
 
-:declare-partitions:
-# declare partitions of the node - this step is optional, but provides better query performance
-on error goto declare-partitions-error
-partition !default_dbms * using insert_timestamp by 1 day
-
-:start-operator:
-# buffer thresholds size and time
-on error goto buffer-error
-set buffer threshold where time=60 seconds and volume=10KB and write_immediate=true
-
-# Enable the streamer service - to writes streaming data to files
-on error goto streamer-error
-run streamer
-
-# start operator to accept data coming in
-on error goto operator-error
-<run operator where
-    create_table=true and
-    update_tsd_info=true and
-    compress_json=true and
-    compress_sql=true and
-    archive=true and
-    master_node=!ledger_conn and
-    policy=!operator_id and
-    threads = !operator_threads
->
-
 :confirmation:
 print "All blockchain policies and AnyLog services have been initiated"
 
@@ -134,6 +86,10 @@ end script
 
 :connect-dbms-error:
 print "Failed to connect to system_operator database"
+goto end-script
+
+:ledger-table-error:
+print "Failed to create ledger table"
 goto end-script
 
 :tcp-network-error:
