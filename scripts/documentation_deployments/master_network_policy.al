@@ -2,7 +2,7 @@
 # Script is based on `Network Setup - Policies.md` file in the documentation.
 # If a step fails, then an error is printed to screen and scripts stops
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/documentation_deployments/master.al
+# process !local_scripts/documentation_deployments/master_network_policy.al
 
 :disable-authentication:
 # Disable authentication and enable message queue
@@ -118,26 +118,6 @@ goto end-script
 print "Failed to start blockchain sync process"
 goto end-script
 
-:declare-cluster-policy-error:
-print "Failed to declare cluster policy on the blockchain"
-goto end-script
-
 :declare-node-policy-error:
 print "Failed to declare node policy on the blockchain"
-goto end-script
-
-:declare-partitions-error:
-print "Failed to configure partitions for " + !default_dbms
-goto end-script
-
-:buffer-error:
-print "Failed to set operator buffer size"
-goto end-script
-
-:streamer-error:
-print "Failed to run streamer service"
-goto end-script
-
-:operator-error:
-print "Failed to start operator error to accept data"
 goto end-script

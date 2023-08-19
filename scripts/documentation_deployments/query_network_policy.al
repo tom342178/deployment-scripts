@@ -28,18 +28,28 @@ ledger_conn=127.0.0.1:32048
 on error goto connect-dbms-error
 connect dbms system_query where type=sqlite and memory=true
 
-:configure-network:
-on error goto tcp-network-error
-<run tcp server where
-    external_ip=!external_ip and external_port=!anylog_server_port and
-    internal_ip=!ip and internal_port=!anylog_server_port and
-    bind=!tcp_bind and threads=!tcp_threads>
+policy_config_count = 0
+:network-id:
+on error ignore
+network_policy_id = blockchain get config where name = master-network-config and company=!company_name bring [config][id]
+if not !network_policy_id and !policy_config_count == 1 then goto network-id-error
+else if !network_policy_id then goto execute-policy
 
-on error goto rest-network-error
-<run rest server where
-    external_ip=!external_ip and external_port=!anylog_rest_port and
-    internal_ip=!ip and internal_port=!anylog_rest_port and
-    bind=!rest_bind and threads=!rest_threads and timeout=!rest_timeout>
+:configure-network:
+<new_policy = {"config": {
+   "name": "master-network-config",
+   "company": !company_name,
+   "ip": "!external_ip",
+   "local_ip": "!ip",
+   "port": "!anylog_server_port.int",
+   "rest_port": "!anylog_rest_port.int"
+}}>
+
+on error goto declare-config-policy-error
+blockchain prepare policy !new_policy
+blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+policy_config_count = 1
+goto network-id
 
 :schedule-processes:
 # start scheduler (that service the rule engine)
@@ -111,16 +121,4 @@ goto end-script
 
 :declare-partitions-error:
 print "Failed to configure partitions for " + !default_dbms
-goto end-script
-
-:buffer-error:
-print "Failed to set operator buffer size"
-goto end-script
-
-:streamer-error:
-print "Failed to run streamer service"
-goto end-script
-
-:operator-error:
-print "Failed to start operator error to accept data"
 goto end-script
