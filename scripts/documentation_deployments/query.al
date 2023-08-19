@@ -2,7 +2,7 @@
 # Script is based on `Network Setup - Part I.md` file in the documentation.
 # If a step fails, then an error is printed to screen and scripts stops
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/documentation_deployments/master.al
+# process !local_scripts/documentation_deployments/query.al
 
 :disable-authentication:
 # Disable authentication and enable message queue
@@ -12,10 +12,10 @@ set authentication off    # Disable users authentication
 set echo queue on         # Some messages are stored in a queue (otherwise printed to the consul)
 
 :set-params:
-node_name = Master              # Adds a name to the CLI prompt
+node_name = Query              # Adds a name to the CLI prompt
 company_name="New Company"
-anylog_server_port=32048
-anylog_rest_port=32049
+anylog_server_port=32348
+anylog_rest_port=33049
 set tcp_bind=false
 set rest_bind=false
 tcp_threads=6
@@ -24,12 +24,9 @@ rest_timeout=30
 ledger_conn=127.0.0.1:32048
 
 :connect-database:
-# connect to default dbms logical database & create ledger table
+# connect to system_query using in-memory SQLite
 on error goto connect-dbms-error
-connect dbms blockchain where type=sqlite
-
-on error goto ledger-table-error
-create table ledger where dbms=blockchain
+connect dbms system_query where type=sqlite and memory=true
 
 :configure-network:
 on error goto tcp-network-error
@@ -54,14 +51,14 @@ on error goto blockchain-sync-error
 run blockchain sync where source=master and time="30 seconds" and dest=file and connection=!ledger_conn
 
 :check-node-id:
-node_id = blockchain get master where name = master-node and company=!company_name bring [*][id]
+node_id = blockchain get query where name = master-node and company=!company_name bring [*][id]
 if !node_id then goto confirmation
 
 :declare-node:
 on error ignore
 # if TCP bind is false, then state both external and local IP addresses
-<new_policy = {"master": {
-  "name": "master-node",
+<new_policy = {"query": {
+  "name": "query-node",
   "company": !company_name,
   "ip": !external_ip,
   "local_ip": !ip,
