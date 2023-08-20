@@ -13,7 +13,7 @@ set echo queue on         # Some messages are stored in a queue (otherwise print
 
 :set-params:
 node_name = Operator              # Adds a name to the CLI prompt
-company_name="New Company"
+company_name=My_Company
 set default_dbms = test
 anylog_server_port=32148
 anylog_rest_port=32149
