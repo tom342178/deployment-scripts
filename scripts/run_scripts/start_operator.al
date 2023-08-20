@@ -15,8 +15,6 @@ if !enable_nosql == true then process !local_scripts/deployment_scripts/database
 process !local_scripts/deployment_scripts/database/configure_dbms_almgm.al
 if !deploy_system_query == true then process !local_scripts/deployment_scripts/database/configure_dbms_system_query.al
 
-process !local_scripts/deployment_scripts/run_scheduler.al
-
 process !local_scripts/deployment_scripts/data_partitioning.al
 process !local_scripts/deployment_scripts/pre_deployment.al
 process !local_scripts/deployment_scripts/deploy_operator.al

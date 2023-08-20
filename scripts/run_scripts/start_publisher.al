@@ -13,8 +13,6 @@ on error ignore
 process !local_scripts/deployment_scripts/database/configure_dbms_almgm.al
 if !deploy_system_query == true then process !local_scripts/deployment_scripts/database/configure_dbms_system_query.al
 
-process !local_scripts/deployment_scripts/run_scheduler.al
-
 process !local_scripts/deployment_scripts/pre_deployment.al
 process !local_scripts/deployment_scripts/deploy_publisher.al
 process !local_scripts/deployment_scripts/deploy_basic_mqtt_process.al

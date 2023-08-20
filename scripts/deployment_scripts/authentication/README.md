@@ -1,112 +1,85 @@
-# Authentication
+# Authentication & Security
+The following provides a simplified explanation for securing an AnyLog node / network using the associated AnyLog
+scripts.  
 
-The following directions are based on [Securing the Network](https://github.com/AnyLog-co/documentation/blob/master/examples/Secure%20Network.md) 
-document, and are specifically for certificate-based authentication.
- 
-Certificate based authentication, can be set for a _node_ or _user_. In addition, there should be a _root_ account that's
-responsible for managing access for all other members. 
+* [Authentication](https://github.com/AnyLog-co/documentation/blob/master/authentication.md)
+* [Security](https://github.com/AnyLog-co/documentation/blob/master/examples/Secure%20Network.md)
 
-**Disclaimer**: We do not recommend setting up the `root` account on the master node
+## REST Authentication
+AnyLog REST authentication configures the node to require users to specify authentication information when sending
+requests via _REST_.
 
-## Root Authentication & Preset Permissions
-Root user grants permissions to members (nodes and users) - this should be done only on a single AnyLog instance.
-
-1. [AnyLog-Network/scripts/deployment_scripts/authentication/set_params.al](set_params.al)
-presets the configurations values used to configure certificate based authentication. Directions for updating configuration 
-values in [Docker](https://github.com/AnyLog-co/documentation/blob/master/deployments/Docker/docker_volumes.md) | [Kubernetes](https://github.com/AnyLog-co/documentation/blob/master/deployments/Kubernetes/volumes.md).
-
-**Relevant Params for creating a _root_ user**: 
-* root_name 
-* root_password 
-
+1. On the AnyLog node enable REST authentication
+   * set local (node) password
+   * enable user authentication 
+   * create user 
 ```anylog
-process !local_scripts/deployment_scripts/authentication/set_params.al 
-``` 
-
-2. Generate keys for the Root User - if keys already exists, the script stores the private key as a
-variable called `!private_key`.
-```anylog
-process !local_scripts/deployment_scripts/authentication/root_keys.al
+process !local_scripts/deployment_scripts/authentication/basic_rest_authentication.al
 ```
 
-3. Create root user policy & store in blockchain.  
-```anylog
-process !local_scripts/deployment_scripts/authentication/declare_root_member.al
+2. Declare variable consisting of username and password with [base64](https://linux.die.net/man/1/base64) encoding. 
+Make sure the username and password match the credentials used wheb declaring `id user` command.   
+```shell
+AUTH=`echo -ne "$USERNAME:$PASSWORD" | base64 --wrap 0`
 ```
 
-At this point the node which declared the has the keys `root` can be used to declare other member in the network, as well
-as their permissions. We recommend having a [node member](#declare-non-root-member) for the node as well.
+3. Execute cURL command 
+```shell
+curl -X GET 127.0.0.1:32049 -H "command: get status" -H "User-Agent: AnyLog/1.23" -H "Authentication: ${AUTH}"
+```
+Reminder, there is no need for _Authentication_ header if REST authentication is disabled  
 
-## Declare non-Root Member
-Except for `root` member policy, all other members must be associated with a subset of permissions of what their respective 
-keys can and cannot do. The default scripts provide examples for permissions with [no restrictions](no_restrictions_permissions.al) 
-and with [limited permissions](limited_permissions.al). The limited permissions allows commands such as: _get_, _sql_ and _blockchain_.
 
-1. Declare no restrictions permissions policy 
+## Security
+When deploying the network, with authentication on, we automatically run [authentication.al](authentication.al), which 
+does these steps 1-3 automatically. However, step 4 is done automatically **only** if you're the new AnyLog node has a 
+_root_ account associated with it.
+
+1. On an AnyLog node, declare root user. _Root_ is the only member that can grant permissions to other 
+users and/or nodes.
+   * Generate keys for the Root User
+   * Declare root user policy
 ```anylog
-process !local_scripts/deployment_scripts/authentication/no_restrictions_permissions.al
+process !local_scripts/deployment_scripts/authentication/member_root_user.al
 ```
 
-2. Declare limited permissions policy
+2. Declare permissions to be used be used by users and / or node within the network
+   * [permissions_no_restrictions.al](permissions_no_restrictions.al) - access to all commands and databases 
+   * [permissions_limited_restrictions.al](permissions_limited_restrictions.al) - access to all commands and databases, 
+   except `drop` command 
+   * [permissions_master.al](permissions_master.al) - access to commands, but only access to the blockchain logical database
+   * [permissions_operator.al](permissions_operator.al) - access to commands, but only access to the _default_ operator 
+   database and `almgm` logical database
 ```anylog
-process !local_scripts/deployment_scripts/authentication/limited_permissions.al 
+process !local_scripts/deployment_scripts/authentication/permissions_no_restrictions.al
+process !local_scripts/deployment_scripts/authentication/permissions_limited_restrictions.al
+process !local_scripts/deployment_scripts/authentication/permissions_master.al
+process !local_scripts/deployment_scripts/authentication/permissions_operator.al
+```
+   
+The following steps should be done on the same AnyLog nodes the user wants the private / public key to reside
+
+3a. On each AnyLog node, declare an associated member policy
+   * Generate keys for the node
+   * Declare member node policy 
+```anylog
+process !local_scripts/deployment_scripts/authentication/member_node.al
 ```
 
-### Node Authentication
-The node authentication requires access to **both** the new AnyLog node (_new node_), as-well-as a node with permissions that allows 
-adding a new AnyLog instance to the network (_root node_). If you do not have access to such a node, please work with your administrator
-to connect your node to the network.
-
-1. [AnyLog-Network/scripts/deployment_scripts/authentication/set_params.al](set_params.al)
-presets the configurations values used to configure certificate based authentication; this step needs to be done on **both**
-the _root node_, as-well-as the _new node_ being added to the network. Directions for updating configuration 
-values in [Docker](https://github.com/AnyLog-co/documentation/blob/master/deployments/Docker/docker_volumes.md) | [Kubernetes](https://github.com/AnyLog-co/documentation/blob/master/deployments/Kubernetes/volumes.md).
-
-**Relevant Params on New Node**: 
-* `node_password` - node password for when creating node_keys -- used for both private and local password in enable_authentication.al
-
-
-**Relevant Params on Root Node**: 
-* `remote_node_conn` - IP:PORT information for _new node_ that"ll be added to network 
-* `remote_node_name` - set the name for the _new node_ you want to add to the network
-* `remote_node_company` - set the company associated with the _new node_
-
+3b. Create a policy for a specific user
+   * Generate keys for the user
+   * Declare member user policy
 ```anylog
-process !local_scripts/deployment_scripts/authentication/set_params.al 
+process !local_scripts/deployment_scripts/authentication/member_user.al
 ```
 
-2. On the _new node_ create a private and public key - if keys already exists, the script stores the private key as a
-variable called `!private_key_node`.
+4. Once **both** _members_ and _permissions_ are define, the root user, or someone with root privileges, needs to associate
+between member(s) and permission(s).
+* Sample call for associating a node with a set of permissions 
 ```anylog
-process !local_scripts/deployment_scripts/authentication/node_keys.al
+process !local_scripts/deployment_scripts/authentication/assignment_node.al
 ```
-
-3. On the _root node_ declare a member policy that"ll be associated with the _new node_
+* Sample call for associating a user with a set of permissions
 ```anylog
-process !local_scripts/deployment_scripts/authentication/declare_node_member.al
-```
-
-4. Once a member policy is declared for a node, the _root node_ needs to give this member permissions. The scripts provided
-currently give (new) node members full access. However, administrators may choose to set different permissions for different
-nodes. Directions for updating configuration values in [Docker](https://github.com/AnyLog-co/documentation/blob/master/deployments/Docker/docker_volumes.md) | [Kubernetes](https://github.com/AnyLog-co/documentation/blob/master/deployments/Kubernetes/volumes.md).
-```anylog
-process !local_scripts/deployment_scripts/authentication/assign_node_privileges.al
-```
-
-5. Once a member policy (and it's permissions) are declared, then the _new node_ can enable authentication. The script 
-also configures [password security](../../authentication.md#passwords) for the private key using `node_password` as the 
-default password value. 
-```anylog
-process !local_scripts/deployment_scripts/authentication/enable_authentication.al 
-```
-At this point the _new node_, has the correct privileges to communicate with the network, and act as is expected of it.
-If the _new node_ is configured as _REST_, then users can **either** deploy the process(es) for the desired node type
-**or** execute `blockchain sync` in view its privileges, and access other nodes in the network. 
-
-```anylog 
-# blockchain sync
-run blockchain sync where source=!blockchain_source and time=!sync_time and dest=!blockchain_destination and connection=!ledger_conn
-
-# deploy a desired node type on the node - the example is for an Operator Node 
-process !local_scripts/run_scripts/start_operator.al 
+process !local_scripts/deployment_scripts/authentication/assignment_user.al
 ```

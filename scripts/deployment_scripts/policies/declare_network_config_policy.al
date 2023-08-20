@@ -24,6 +24,7 @@ if !is_policy then goto run-policy
 
 :declare-config:
 on error ignore
+set new_policy = ""
 set policy new_policy [config] = {}
 
 set policy new_policy [config][name] = !config_policy_name
@@ -43,26 +44,26 @@ if !tcp_bind == true then
 do set policy new_policy [config][ip] = '!ip'
 do set policy new_policy [config][port] = '!anylog_server_port.int'
 
+if !tcp_bind == true and !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
+
 :rest-info:
 if not !anylog_rest_port then goto rest-info-message
 if !rest_bind == true then set policy new_policy [config][rest_ip] = '!ip'
+if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
 
 :broker-info:
-if not !anylog_broker_port then goto validate-policy
+if not !anylog_broker_port then goto publish-policy
 
 if broker_bind == true then set policy new_policy [config][broker_ip] = '!ip'
+if !rest_bind == true and !overlay_ip then set policy new_policy [config][broker_ip] = '!overlay_ip'
 set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
 
-:validate-policy:
-on error goto validate-policy-error
-test_policy = json !new_policy
-if !test_policy == false then goto validate-policy-error
-
 :publish-policy:
-on error call declare-policy-error
-blockchain prepare policy !new_policy
-blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+process !local_scripts/deployment_scripts/policies/publish_policy.al
+if error_code == 1 then goto sign-policy-error
+if error_code == 2 then goto prepare-policy-error
+if error_code == 3 then declare-policy-error
 
 on error ignore
 policy_id = blockchain get config where name=!config_policy_name and company=!company_name bring.first [*][id]
@@ -89,16 +90,16 @@ echo 'Notice: missing REST information'
 goto broker-info
 
 :sign-policy-error:
-echo "Error: Failed to sign cluster policy"
-goto end-script
+echo "Failed to sign assignment policy"
+goto terminate-scripts
 
-:validate-policy-error:
-echo "Error: Issue with cluster policy declaration"
-goto end-script
+:prepare-policy-error:
+echo "Failed to prepare member assignment policy for publishing on blockchain"
+goto terminate-scripts
 
 :declare-policy-error:
-echo "Error: Failed to declare policy for " !policy_type
-return
+echo "Failed to declare assignment policy on blockchain"
+goto terminate-scripts
 
 :config-policy-error:
 echo "Failed to configure node base on policy ID: " !policy_id

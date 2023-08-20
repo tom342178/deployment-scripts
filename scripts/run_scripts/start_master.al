@@ -12,7 +12,5 @@ on error ignore
 process !local_scripts/deployment_scripts/database/configure_dbms_blockchain.al
 if !deploy_system_query == true then process !local_scripts/deployment_scripts/database/configure_dbms_system_query.al
 
-process !local_scripts/deployment_scripts/run_scheduler.al
-
 :end-script:
 end script

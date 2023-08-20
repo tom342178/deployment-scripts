@@ -53,43 +53,41 @@ create work directories
 process !local_scripts/deployment_scripts/set_params.al
 if $NODE_TYPE == none then goto set-license
 
+:authentication:
+if !enable_rest_auth == true then process !local_scripts/deployment_scripts/authentication/basic_rest_authentication.al
+if !enable_auth == true then process !local_scripts/deployment_scripts/authentication/authentication.al
+
+:master-node:
+if !deploy_ledger == true then process !local_scripts/run_scripts/start_master.al
+
+
 :networking-configs:
 # set basic configurations
 # --> TCP
 # --> REST
 # --> Broker (if set)
-if !policy_based_networking == true then process !local_scripts/deployment_scripts/policies/declare_network_config_policy.al
-else process !local_scripts/deployment_scripts/network_configs.al
-
+process !local_scripts/deployment_scripts/network_configs.al
 
 :declare-policies:
-process !local_scripts/deployment_scripts/declare_policies.al
-
-
-:set-rest-authentication:
-if !enable_rest_auth == true then process !local_scripts/deployment_scripts/authentication/basic_rest_authentication.al
+process !local_scripts/deployment_scripts/run_scheduler.al
+if $NODE_TYPE != edgex then process !local_scripts/deployment_scripts/declare_policies.al
 
 if $NODE_TYPE == rest then goto set-license
 
-:set-authentication:
-if !enable_auth == true then
-do set authentication on
-do process !local_scripts/deployment_scripts/authentication/node_keys.al
-
 :node-specific-scripts:
-if !deploy_ledger == true then process !local_scripts/run_scripts/start_master.al
 if !deploy_operator == true  then process !local_scripts/run_scripts/start_operator.al
 if !deploy_publisher == true then process !local_scripts/run_scripts/start_publisher.al
 if !deploy_query == true then process !local_scripts/run_scripts/start_query.al
+if $NODE_TYPE == edgex then process !local_scripts/run_scripts/start_edgex_node.al
 
 :other-scripts:
-if !enable_mqtt == true then process !local_scripts/sample_code/basic_mqtt_process.al
+if !enable_mqtt == true then process !local_scripts/demo_scripts/basic_mqtt.al
 
 if !deploy_local_script == true then
 do is_file = file test !local_scripts/deployment_scripts/local_script.al
 do if !is_file == true then process !local_scripts/deployment_scripts/local_script.al
 
-if !monitor_nodes == true then process !local_scripts/deployment_scripts/policies/monitoring_node_policy.al
+if !monitor_nodes == true then process !local_scripts/deployment_scripts/monitoring/monitoring_node_policy.al
 
 :set-license:
 on error call license-key-error

@@ -68,12 +68,6 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 check_count = 1
 goto check-policy
 
-:declare-policy:
-on error goto declare-policy-error
-blockchain prepare policy !new_policy
-blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
-
-
 :end-script:
 end script
 

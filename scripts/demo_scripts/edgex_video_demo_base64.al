@@ -107,7 +107,7 @@ if !anylog_broker_port then
     name=!policy_id and
     policy=!policy_id
 )>
-<else run mqtt client where broker=rest and port=!anylog_rest_port and log=!mqtt_log and topic=(
+<else run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
     name=!policy_id and
     policy=!policy_id
 )>

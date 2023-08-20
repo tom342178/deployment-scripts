@@ -5,14 +5,14 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/deployment_scripts/run_scheduler.al
 
+:blockchain-sync:
+if $NODE_TYPE != rest and $NODE_TYPE != none  and $NODE_TYPE != edgex then
+do on error call blockchain-sync-error
+do run blockchain sync where source=!blockchain_source and time=!sync_time and dest=!blockchain_destination and connection=!ledger_conn
+
 :set-scheduler:
 on error goto scheduler-error1
 run scheduler 1
-
-:blockchain-sync:
-if $NODE_TYPE != rest and $NODE_TYPE != none then
-do on error call blockchain-sync-error
-do run blockchain sync where source=!blockchain_source and time=!sync_time and dest=!blockchain_destination and connection=!ledger_conn
 
 :end-script:
 end script

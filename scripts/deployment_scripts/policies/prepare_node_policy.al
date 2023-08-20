@@ -15,6 +15,7 @@
 on error ignore
 :general-info:
 # declare policy
+set new_policy = ""
 set policy new_policy [!policy_type] = {}
 
 # basic information
@@ -32,14 +33,15 @@ if not !anylog_server_port or not !external_ip or not !ip then goto goto tcp-inf
 
 set policy new_policy [!policy_type][port] = !anylog_server_port.int
 
-
 if !tcp_bind == false then
 do set policy new_policy [!policy_type][ip] = !external_ip
 do set policy new_policy [!policy_type][local_ip] = !ip
+do if !overlay_ip then set policy new_policy [!policy_type][local_ip] = !overlay_ip
+
 
 if !tcp_bind == true then
 do set policy new_policy [!policy_type][ip] = !ip
-do set policy new_policy [!policy_type][external_ip] = !external_ip
+do if !overlay_ip then set policy new_policy [!policy_type][ip] = !overlay_ip
 
 if !tcp_bind == false and !kubernetes_service_ip then
 do policy new_policy [!policy_type][local_ip] = !kubernetes_service_ip
@@ -47,6 +49,7 @@ do policy new_policy [!policy_type][local_ip] = !kubernetes_service_ip
 if !tcp_bind == true and !kubernetes_service_ip then
 do set policy new_policy [!policy_type][ip] = !kubernetes_service_ip
 
+if !overlay_ip then then set policy new_policy [!policy_type][overlay_ip] = !overlay_ip
 
 :rest-info:
 if not !anylog_rest_port then goto rest-info-message

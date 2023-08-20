@@ -1,17 +1,29 @@
-:set-params:
-# IP:PORT information for node that'll be added to network
-remote_node_conn = 127.0.0.1:32048
+#-----------------------------------------------------------------------------------------------------------------------
+# declare params for authentication process
+# - node
+# - root
+# - user
+#-----------------------------------------------------------------------------------------------------------------------
+# process !local_scripts/deployment_scripts/authentication/set_params.al
 
-# set the name for the new node you want to add to the network
-remote_node_name = new_node
+on error ignore
 
-# set the company associated with the new member node
-remote_node_company = New Company
+:root-credentials:
+if $ROOT_PASSWORD  then
+do set root_password = $ROOT_PASSWORD
+do set root_user = root
+do if $ROOT_USER then set root_user = $ROOT_USER
 
+:node-credentials:
+if $NODE_PASSWORD then node_password = $NODE_PASSWORD
 
-# credentials for when creating root_keys
-root_name = admin
-root_password = demo
+:user-credentials:
+if $USER_NAME then user_name = $USER_NAME
+if $USER_PASSWORD then user_password = $USER_PASSWORD
+user_type = user
+if $USER_TYPE == admin then user_type = $USER_TYPE
 
-# node password for when creating node_keys -- used for both private and local password in enable_authentication.al
-node_password = 1234
+if !user_name and !user_password and not !user_type then
+
+:end-script:
+end script
