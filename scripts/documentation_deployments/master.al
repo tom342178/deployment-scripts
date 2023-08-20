@@ -13,7 +13,7 @@ set echo queue on         # Some messages are stored in a queue (otherwise print
 
 :set-params:
 node_name = Master              # Adds a name to the CLI prompt
-company_name="New Company"
+company_name="My_Company"
 anylog_server_port=32048
 anylog_rest_port=32049
 set tcp_bind=false
