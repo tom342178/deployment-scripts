@@ -5,7 +5,12 @@
 
 :ledger-dbms:
 on error goto ledger-db-error
-if !db_type == psql then connect dbms blockchain where type=!db_type and user = !db_user and password = !db_passwd and ip = !db_ip and port = !db_port
+<if !db_type == psql then connect dbms blockchain where
+    type=!db_type and
+    user = !db_user and
+    password = !db_passwd and
+    ip = !db_ip and
+    port = !db_port.int>
 else if !deploy_ledger == true and !db_type == sqlite then connect dbms blockchain where type=!db_type
 
 on error goto ledger-table-error

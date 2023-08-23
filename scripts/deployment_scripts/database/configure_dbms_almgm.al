@@ -5,7 +5,12 @@
 
 :almgm-dbms:
 on error goto almgm-dbms-error
-if !db_type == psql then connect dbms almgm where type=!db_type and user = !db_user and password = !db_passwd and ip = !db_ip and port = !db_port
+<if !db_type == psql then connect dbms almgm where
+    type=!db_type and
+    user = !db_user and
+    password = !db_passwd and
+    ip = !db_ip and
+    port = !db_port.int>
 else connect dbms almgm where type=!db_type
 
 on error goto almgm-table-error
