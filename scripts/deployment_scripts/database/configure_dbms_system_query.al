@@ -5,7 +5,12 @@
 :system-query-dbms:
 on error goto system-query-db-error
 if !db_type == sqlite or !memory == true then connect dbms system_query where type=sqlite and memory=!memory
-else connect dbms system_query where type=!db_type and user = !db_user and password = !db_passwd and ip = !db_ip and port = !db_port
+<else connect dbms system_query where
+    type=!db_type and
+    user = !db_user and
+    password = !db_passwd and
+    ip = !db_ip and
+    port = !db_port.int>
 
 :end-script:
 end script
