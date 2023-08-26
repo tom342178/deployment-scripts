@@ -22,7 +22,8 @@ monitoring_type = generic
 if !deploy_operator == true then monitoring_type = operator
 if !deploy_publisher == true then monitoring_type = publisher
 
-is_policy = blockchain get schedule where name=!policy_name and company = !company_name and monitoring_type = !monitoring_type
+:policy-id:
+is_policy = blockchain get schedule where name=!policy_name and company = !company_name and monitoring_type = !monitoring_type bring [schedule][id]
 if !is_policy then goto run-policy
 
 :prepare-policy:
@@ -67,13 +68,7 @@ on error call declare-policy-error
 if not !is_policy then
 do blockchain prepare policy !schedule_policy
 do blockchain insert where policy=!schedule_policy and local=true and master=!ledger_conn
-
-on error ignore
-is_policy = blockchain get schedule where name=!policy_name and company = !company_name and monitoring_type = !monitoring_type
-if !is_policy then goto run-policy
-if not !is_policy then
-do echo "Failed to declare policy / unable to find policy for schedule process"
-do goto end-script
+goto policy-id
 
 :run-policy:
 on error goto run-policy-error

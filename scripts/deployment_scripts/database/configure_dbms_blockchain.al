@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Based on node_type create relevant databases / tables for master node
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/deployment_scripts/configure_dbms_master.al
+# process !local_scripts/deployment_scripts/database/configure_dbms_blockchain.al
 
 :ledger-dbms:
 on error goto ledger-db-error
