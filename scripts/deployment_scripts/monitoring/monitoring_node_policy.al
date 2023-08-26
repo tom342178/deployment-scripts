@@ -82,16 +82,16 @@ end script
 
 :sign-policy-error:
 echo "Failed to sign assignment policy"
-goto terminate-scripts
+goto end-script
 
 :prepare-policy-error:
 echo "Failed to prepare member assignment policy for publishing on blockchain"
-goto terminate-scripts
+goto end-script
 
 :declare-policy-error:
 echo "Failed to declare assignment policy on blockchain"
-goto terminate-scripts
+goto end-script
 
 :config-policy-error:
 echo "Failed to configure node base on policy ID: " !policy_id
-goto terminate-scripts
+goto end-script
