@@ -15,16 +15,17 @@ on error ignore
 :set-params:
 policy_name = Node Monitoring
 if !deploy_operator == true then
-do policy_id = operator-node-monitoring
 do policy_name = Operator Node Monitoring
 schedule_time = 15 seconds
 monitoring_type = generic
 if !deploy_operator == true then monitoring_type = operator
 if !deploy_publisher == true then monitoring_type = publisher
 
+policy_id_status = 0
 :get-policy-id:
 policy_id = blockchain get schedule where name=!policy_name and company = !company_name and monitoring_type = !monitoring_type bring [schedule][id]
 if !policy_id then goto run-policy
+if not !policy_id and !poicy_id_status == 1 then goto  declare-policy-error
 
 :prepare-policy:
 schedule_policy[schedule] = {}
@@ -68,6 +69,7 @@ on error call declare-policy-error
 if not !is_policy then
 do blockchain prepare policy !schedule_policy
 do blockchain insert where policy=!schedule_policy and local=true and master=!ledger_conn
+policy_id_status = 1
 goto get-policy-id
 
 :run-policy:
