@@ -11,7 +11,7 @@ if !db_type == psql then
     user = !db_user and
     password = !db_passwd and
     ip = !db_ip and
-    port = !db_port.int and
+    port = !db_port and
     autocommit = !autocommit
 >
 else connect dbms !default_dbms where type=!db_type

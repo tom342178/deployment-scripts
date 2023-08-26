@@ -10,7 +10,7 @@ if !nosql_user and !nosql_passwd then
 <do connect dbms !default_dbms where
     type=!nosql_type and
     ip=!nosql_ip and
-    port=!nosql_port.int and
+    port=!nosql_port and
     user=!nosql_user and
     password=!nosql_passwd
 >
