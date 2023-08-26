@@ -312,7 +312,9 @@ if $WRITE_IMMEDIATE == false or $WRITE_IMMEDIATE == False or $WRITE_IMMEDIATE ==
 if $ENABLE_HA == true or $ENABLE_HA == True or $ENABLE_HA == TRUE then
 do set enable_ha=true
 do ha_start_date = -30d
-do if $START_DATE then ha_start_date = $START_DATE
+if !enable_ha === true and $START_DATE then
+do start_date = $START_DATE
+do ha_start_date = - + !start_date + d
 
 if $DBMS_FILE_LOCATION then dbms_file_location = $DBMS_FILE_LOCATION
 if $TABLE_FILE_LOCATION then table_file_location = $TABLE_FILE_LOCATION
