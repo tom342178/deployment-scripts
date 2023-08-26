@@ -23,11 +23,13 @@ do policy_name = Operator Node Monitoring
 do monitoring_type = operator
 else if !deploy_publisher == true then then monitoring_type = publisher
 
-policy_id_status = 0
 :get-policy-id:
-policy_id = blockchain get schedule where name=!policy_name and company = !company_name and monitoring_type = !monitoring_type bring [schedule][id]
-if !policy_id then goto run-policy
-if not !policy_id and !policy_id_status == 1 then goto  declare-policy-error
+<policy_id = blockchain get schedule where
+    name=!policy_name and
+    company = !company_name and
+    monitoring_type = !monitoring_type
+bring [schedule][id]>
+if !policy_id goto run-policy
 
 :prepare-policy:
 set new_policy[schedule] = {}
@@ -71,7 +73,12 @@ process !local_scripts/deployment_scripts/policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
-policy_id_status = 1
+
+<policy_id = blockchain get schedule where
+    name=!policy_name and
+    company = !company_name and
+    monitoring_type = !monitoring_type
+bring [schedule][id]>
 
 :run-policy:
 on error goto config-policy-error
