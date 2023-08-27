@@ -15,7 +15,7 @@ do run data consumer where start_date = !ha_start_date
 
 :blockchain-get:
 on error ignore
-operator_id = blockchain get operator where name = !node_name and company=!company_name bring [*][id] 
+operator_id = blockchain get operator where name = !node_name and company=!company_name bring [*][id]
 if not !operator_id then goto blockchain-get-error
 
 :enable-nosql:
