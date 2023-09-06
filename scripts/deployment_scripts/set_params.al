@@ -40,6 +40,9 @@ if $COUNTRY then country = $COUNTRY
 if $STATE then state = $STATE
 if $CITY then city = $CITY
 
+# set node name
+set node name = !node_name
+
 #----------------------------------------------------------#
 # Sample output from cURL request
 #{
