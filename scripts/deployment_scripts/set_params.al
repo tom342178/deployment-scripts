@@ -4,7 +4,6 @@
 # process !local_scripts/deployment_scripts/set_params.al
 
 on error call set-params-error
-
 if $LICENSE_KEY then set license_key = $LICENSE_KEY
 
 :node-types:
