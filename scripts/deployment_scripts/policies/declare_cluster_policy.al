@@ -47,6 +47,9 @@ if error_code == 3 then declare-policy-error
 :end-script:
 end script
 
+:terminate-scripts:
+exit scripts
+
 :sign-policy-error:
 echo "Failed to sign cluster policy"
 goto terminate-scripts
