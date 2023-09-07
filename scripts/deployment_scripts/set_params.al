@@ -40,7 +40,7 @@ if $STATE then state = $STATE
 if $CITY then city = $CITY
 
 # set node name
-set node name = !node_name
+set node name !node_name
 
 #----------------------------------------------------------#
 # Sample output from cURL request
@@ -75,8 +75,8 @@ on error call set-params-error
 # networking params
 anylog_server_port=32548
 anylog_server_port=32549
-tcp_bind = false
-rest_bind = false
+set tcp_bind = false
+set rest_bind = false
 broker_bind = false
 
 if $ANYLOG_SERVER_PORT then anylog_server_port  = $ANYLOG_SERVER_PORT
