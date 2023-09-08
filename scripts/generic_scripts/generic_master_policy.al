@@ -23,10 +23,10 @@ if !is_policy then goto end-script
         "rest_port": !anylog_rest_port,
         "scripts": [
             'set node name !node_name',
-            "run scheduler 1",
+            'run scheduler 1',
             'run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn',
-            "connect dbms blockchain where dbms=sqlite",
-            "create table ledger where dbms=blockchain"
+            'connect dbms blockchain where dbms=sqlite',
+            'create table ledger where dbms=blockchain'
         ]
 }}>
 
