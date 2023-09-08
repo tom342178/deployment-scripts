@@ -66,7 +66,7 @@ if !node_type == generic then
 process !local_scripts/generic_scripts/generic_policy.al
 process !local_scripts/generic_scripts/generic_master_policy.al
 process !local_scripts/generic_scripts/generic_query_policy.al
-process !local_scripts/generic_scripts/generic_publsher_policy.al
+process !local_scripts/generic_scripts/generic_publisher_policy.al
 
 :execute-policy:
 node_type = publisher
