@@ -58,6 +58,8 @@ if $NODE_NAME then set node_name = $NODE_NAME
 if $NODE_TYPE then set node_type = $NODE_TYPE
 if $LEDGER_CONN then set ledger_conn = $LEDGER_CONN
 if $DEFAULT_DBMS then set default_dbms = $DEFAULT_DBMS
+
+# user defined policy ID
 if $CONFIG_ID then set config_id = $CONFIG_ID
 
 if !node_type == generic
