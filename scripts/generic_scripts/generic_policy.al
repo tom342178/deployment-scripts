@@ -2,7 +2,7 @@
 # Declare a generic node policy
 #   -> connect to TCP, REST and broker (all not bind)
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/generic_scripts/generic_generic_policy.al
+# process !local_scripts/generic_scripts/generic_policy.al
 on error ignore
 
 :is-policy:

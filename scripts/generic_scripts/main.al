@@ -63,11 +63,7 @@ if !node_type == generic then
     anylog_broker_port=32050
 
 :declare-policies:
-process !local_scripts/generic_scripts/generic_generic_policy.al
-#process !local_scripts/generic_scripts/generic_master_policy.al
-#process !local_scripts/generic_scripts/generic_operator_policy.al
-#process !local_scripts/generic_scripts/generic_publisher_policy.al
-#process !local_scripts/generic_scripts/generic_query_policy.al
+process !local_scripts/generic_scripts/generic_policy.al
 
 :execute-policy:
 policy_id = blockchain get config where node_type = !node_type bring [*][id]
@@ -87,7 +83,7 @@ end script
 
 :config-from-policy-error:
 print "Failed to configure from policy for node type " !node_type
-goto end-script
+return
 
 :license-key-error:
 print "Failed to enable license key"
