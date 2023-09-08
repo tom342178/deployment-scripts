@@ -59,7 +59,7 @@ if $NODE_TYPE then set node_type = $NODE_TYPE
 if $LEDGER_CONN then set ledger_conn = $LEDGER_CONN
 if $DEFAULT_DBMS then set default_dbms = $DEFAULT_DBMS
 
-if !node_type == generic
+if !node_type == generic then
     anylog_broker_port=32050
 
 :declare-policies:
