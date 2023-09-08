@@ -8,7 +8,7 @@
 # process !local_scripts/generic_scripts/main.al
 
 on error ignore
-set debug on
+set debug off
 set authentication off
 set echo queue on
 
