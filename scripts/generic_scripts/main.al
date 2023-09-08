@@ -65,9 +65,10 @@ if !node_type == generic then
 :declare-policies:
 process !local_scripts/generic_scripts/generic_policy.al
 process !local_scripts/generic_scripts/generic_master_policy.al
+process !local_scripts/generic_scripts/generic_query_policy.al
 
 :execute-policy:
-node_type = master
+node_type = query
 policy_id = blockchain get config where node_type = !node_type bring [*][id]
 on error call config-from-policy-error
 if !policy_id then config from policy where id = !policy_id
