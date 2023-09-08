@@ -23,19 +23,19 @@ if !is_policy then goto end-script
         "local_ip": '!ip',
         "port": '!anylog_server_port.int',
         "rest_port": '!anylog_rest_port.int',
-        "scripts": [
-            'set node name !node_name',
-            'run scheduler 1',
-            'run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn',
-            'connect dbms !default_dbms where type=sqlite',
-            'connect dbms almgm where dbms=sqlite',
-            'create table tsd_info where dbms=sqlite',
-            'partition !default_dbms * using insert_timestamp by day',
-            'schedule time=1 day and name="Drop Partitions" task drop partition where dbms=!default_dbms and table=* and keep=3',
-            'set buffer threshold where time=60 seconds and volume=10KB and write_immediate=true',
-            'run streamer',
-            'run blobs archiver where dbms=false and folder=true and compress=true and reuse_blobs=true',
-            'run operator where create_table=true and update_tsd_info=true and compress_json=true and compress_sql=true and archive=true and master_node=!ledger_conn and policy=!operator_id and threads=3'
+        "script": [
+            "set node name !node_name",
+            "run scheduler 1",
+            "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
+            "connect dbms !default_dbms where type=sqlite",
+            "connect dbms almgm where type=sqlite",
+            "create table tsd_info where dbms=sqlite",
+            "partition !default_dbms * using insert_timestamp by day",
+            "schedule time=1 day and name="Drop Partitions" task drop partition where dbms=!default_dbms and table=* and keep=3",
+            "set buffer threshold where time=60 seconds and volume=10KB and write_immediate=true",
+            "run streamer",
+            "run blobs archiver where dbms=false and folder=true and compress=true and reuse_blobs=true",
+            "run operator where create_table=true and update_tsd_info=true and compress_json=true and compress_sql=true and archive=true and master_node=!ledger_conn and policy=!operator_id and threads=3"
         ]
 }}>
 

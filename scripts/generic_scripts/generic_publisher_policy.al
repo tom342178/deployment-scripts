@@ -26,7 +26,7 @@ if !is_policy then goto end-script
             "set node name !node_name",
             "run scheduler 1",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
-            "connect dbms almgm where dbms=sqlite",
+            "connect dbms almgm where type=sqlite",
             "create table tsd_info where dbms=sqlite",
             "set buffer threshold where time=60 seconds and volume=10KB and write_immediate=true",
             "run streamer",
