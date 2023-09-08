@@ -29,8 +29,6 @@ if !is_policy then goto end-script
             "connect dbms !default_dbms where type=sqlite",
             "connect dbms almgm where dbms=sqlite",
             "create table tsd_info where dbms=sqlite",
-            "partition !default_dbms * using insert_timestamp by day",
-            "schedule time=1 day and name="Drop Partitions" task drop partition where dbms=!default_dbms and table=* and keep=3",
             "set buffer threshold where time=60 seconds and volume=10KB and write_immediate=true",
             "run streamer",
             "run publisher where compress_json=true and compress_sql=true and master_node=!ledger_conn and dbms_name=0 and table_name=1"

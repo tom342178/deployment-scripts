@@ -18,7 +18,7 @@ if !is_policy then goto end-script
         "local_ip": '!ip',
         "port": '!anylog_server_port.int',
         "rest_port": '!anylog_rest_port.int',
-        "broker_port": 'anylog_broker_port.int',
+        "broker_port": '!anylog_broker_port.int',
         "scripts": [
             "set node name !node_name",
             "run scheduler 1",
