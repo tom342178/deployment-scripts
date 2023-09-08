@@ -7,7 +7,13 @@
 #   -> execute `run publisher`
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/generic_scripts/generic_publisher_policy.al
+on error ignore
 
+:is-policy:
+is_policy = blockchain get config where id = generic-publisher-policy
+if !is_policy then goto end-script
+
+:declare-policy:
 <new_policy = {
     "config": {
         "id": "generic-publisher-policy",

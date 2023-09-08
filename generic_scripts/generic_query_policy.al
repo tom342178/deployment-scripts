@@ -5,7 +5,13 @@
 #   -> create system_query database in memory
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/generic_scripts/generic_query_policy.al
+on error ignore
 
+:is-policy:
+is_policy = blockchain get config where id = generic-query-policy
+if !is_policy then goto end-script
+
+:declare-policy:
 <new_policy = {
     "config": {
         "id": "generic-query-policy",

@@ -8,7 +8,13 @@
 #   -> execute `run operator`
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/generic_scripts/generic_operator_policy.al
+on error ignore
 
+:is-policy:
+is_policy = blockchain get config where id = generic-operator-policy
+if !is_policy then goto end-script
+
+:declare-policy:
 <new_policy = {
     "config": {
         "id": "generic-operator-policy",
