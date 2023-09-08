@@ -65,7 +65,6 @@ if !node_type == generic
 :declare-policies:
 process !local_scripts/generic_scripts/generic_generic_policy.al
 process !local_scripts/generic_scripts/generic_master_policy.al
-# process !local_scripts/generic_scripts/generic_operator_policy.al
 process !local_scripts/generic_scripts/generic_publisher_policy.al
 process !local_scripts/generic_scripts/generic_query_policy.al
 
