@@ -1,0 +1,10 @@
+1. user configs
+    -> LICENSE_KEY
+    -> NODE_NAME
+    -> NODE_TYPE
+    -> LEDGER_CONN
+    -> for operator DEFAULT_DBMS
+    -> CONFIG_ID
+
+2. `run operator` needs operator ID (depends on Operator policy)
+
