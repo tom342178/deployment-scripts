@@ -59,9 +59,6 @@ if $NODE_TYPE then set node_type = $NODE_TYPE
 if $LEDGER_CONN then set ledger_conn = $LEDGER_CONN
 if $DEFAULT_DBMS then set default_dbms = $DEFAULT_DBMS
 
-# user defined policy ID
-if $CONFIG_ID then set config_id = $CONFIG_ID
-
 if !node_type == generic
     anylog_broker_port=32050
 
@@ -73,16 +70,12 @@ process !local_scripts/generic_scripts/generic_publisher_policy.al
 process !local_scripts/generic_scripts/generic_query_policy.al
 
 :execute-policy:
-if !config_id then
-do on error call config-from-policy-error
-do config from policy where id = !config_id
-if not !config_id the
-do policy_id = blockchain get config where node_type = !node_type bring [*][id]
-do on error call config-from-policy-error
-do if !policy_id then config from policy where id = !policy_id
+policy_id = blockchain get config where node_type = !node_type bring [*][id]
+on error call config-from-policy-error
+if !policy_id then config from policy where id = !policy_id
 
 :create-keys:
-
+on error ignore
 public_key = get public key where keys_file = node_id
 if not !public_key then
 do id create keys where password = dummy and keys_file = node_id
