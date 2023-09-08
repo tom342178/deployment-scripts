@@ -20,7 +20,7 @@ if !is_policy then goto end-script
         "local_ip": '!ip',
         "port": '!anylog_server_port.int',
         "rest_port": '!anylog_rest_port.int',
-        "scripts": [
+        "script": [
             "set node name !node_name",
             "run scheduler 1",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
