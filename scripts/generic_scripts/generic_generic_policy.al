@@ -21,7 +21,7 @@ if !is_policy then goto end-script
         "broker_port": '!anylog_broker_port.int',
         "scripts": [
             "set node name !node_name",
-            "run scheduler 1",
+            "run scheduler 1"
         ]
 }}>
 
