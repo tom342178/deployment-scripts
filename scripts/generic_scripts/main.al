@@ -8,7 +8,7 @@
 # process !local_scripts/generic_scripts/main.al
 
 on error ignore
-set debug off
+set debug on
 set authentication off
 set echo queue on
 
@@ -54,11 +54,11 @@ node_type = generic
 ledger_conn = 127.0.0.1:32048
 set default_dbms = test
 
-if $NODE_NAME then    set node_name = $NODE_NAME
-if $NODE_TYPE then    set node_type = $NODE_TYPE
-if $LEDGER_CONN then  set ledger_conn = $LEDGER_CONN
+if $NODE_NAME then set node_name = $NODE_NAME
+if $NODE_TYPE then set node_type = $NODE_TYPE
+if $LEDGER_CONN then set ledger_conn = $LEDGER_CONN
 if $DEFAULT_DBMS then set default_dbms = $DEFAULT_DBMS
-if $CONFIG_ID then    set config_id = $CONFIG_ID
+if $CONFIG_ID then set config_id = $CONFIG_ID
 
 if !node_type == generic
     anylog_broker_port=32050
@@ -71,7 +71,7 @@ process !local_scripts/generic_scripts/generic_publisher_policy.al
 process !local_scripts/generic_scripts/generic_query_policy.al
 
 :execute-policy:
-olicy_id = blockchain get config where node_type = !node_type bring [*][id]
+policy_id = blockchain get config where node_type = !node_type bring [*][id]
 on error config-from-policy-error
 if !policy_id then config from policy where id = !policy_id
 
