@@ -71,11 +71,16 @@ process !local_scripts/generic_scripts/generic_publisher_policy.al
 process !local_scripts/generic_scripts/generic_query_policy.al
 
 :execute-policy:
-policy_id = blockchain get config where node_type = !node_type bring [*][id]
-on error config-from-policy-error
-if !policy_id then config from policy where id = !policy_id
+if !config_id then
+do on error call config-from-policy-error
+do config from policy where id = !config_id
+if not !config_id the
+do policy_id = blockchain get config where node_type = !node_type bring [*][id]
+do on error call config-from-policy-error
+do if !policy_id then config from policy where id = !policy_id
 
 :create-keys:
+
 public_key = get public key where keys_file = node_id
 if not !public_key then
 do id create keys where password = dummy and keys_file = node_id
