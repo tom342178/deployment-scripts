@@ -20,13 +20,13 @@ if !is_policy then goto end-script
         "ip": '!external_ip',
         "local_ip": '!ip',
         "port": '!anylog_server_port.int',
-        "rest_port": !anylog_rest_port,
-        "scripts": [
-            'set node name !node_name',
-            'run scheduler 1',
-            'run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn',
-            'connect dbms blockchain where dbms=sqlite',
-            'create table ledger where dbms=blockchain'
+        "rest_port": '!anylog_rest_port.int',
+        "script": [
+            "set node name !node_name",
+            "run scheduler 1",
+            "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
+            "connect dbms blockchain where type=sqlite",
+            "create table ledger where dbms=blockchain"
         ]
 }}>
 
