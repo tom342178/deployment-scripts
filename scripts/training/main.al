@@ -5,7 +5,7 @@
 #   -> declare policies
 #   -> execute based on node type
 #----------------------------------------------------------------------------------------------------------------------#
-# process !local_scripts/generic_scripts/main.al
+# process !local_scripts/training/main.al
 
 on error ignore
 set debug off
@@ -63,11 +63,11 @@ if !node_type == generic then
     anylog_broker_port=32050
 
 :declare-policies:
-process !local_scripts/generic_scripts/generic_policy.al
-process !local_scripts/generic_scripts/generic_master_policy.al
-process !local_scripts/generic_scripts/generic_operator_policy.al
-process !local_scripts/generic_scripts/generic_query_policy.al
-process !local_scripts/generic_scripts/generic_publisher_policy.al
+process !local_scripts/training/generic_policies/generic_policy.al
+process !local_scripts/training/generic_policies/generic_master_policy.al
+process !local_scripts/training/generic_policies/generic_operator_policy.al
+process !local_scripts/training/generic_policies/generic_query_policy.al
+process !local_scripts/training/generic_policies/generic_publisher_policy.al
 
 :execute-policy:
 policy_id = blockchain get config where node_type = !node_type bring [*][id]
