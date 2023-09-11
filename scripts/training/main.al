@@ -77,11 +77,24 @@ if !policy_id then config from policy where id = !policy_id
 
 :create-keys:
 on error ignore
-public_key = get public key where keys_file = node_id
+node_id = get node id
 if not !public_key then
 do id create keys where password = dummy and keys_file = node_id
 do goto create-keys
 print !public_key
+
+
+:create-policy:
+if !node_type == master then
+<do new_policy = create policy master where
+        name=!node_name and
+        company=!company_name and
+        ip=!external_ip and
+        local_ip=!ip and
+        port=!anylog_server_port and
+        rest_port=!anylog_rest_port and
+        id=!node_id>
+
 
 :end-script:
 end script
