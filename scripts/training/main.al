@@ -68,6 +68,7 @@ process !local_scripts/training/generic_policies/generic_master_policy.al
 process !local_scripts/training/generic_policies/generic_operator_policy.al
 process !local_scripts/training/generic_policies/generic_query_policy.al
 process !local_scripts/training/generic_policies/generic_publisher_policy.al
+process !local_scripts/training/generic_policies/generic_monitoring_policy.al
 
 :execute-policy:
 policy_id = blockchain get config where node_type = !node_type bring [*][id]

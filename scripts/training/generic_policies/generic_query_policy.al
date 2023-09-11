@@ -4,7 +4,7 @@
 #   -> run blockchain sync
 #   -> create system_query database in memory
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/generic_scripts/generic_query_policy.al
+# process !local_scripts/training/generic_policies/generic_query_policy.al
 on error ignore
 
 :is-policy:
@@ -28,7 +28,7 @@ if !is_policy then goto end-script
         ]
 }}>
 
-process !local_scripts/generic_scripts/publish_policy.al
+process !local_scripts/training/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
@@ -40,13 +40,13 @@ end script
 exit scripts
 
 :sign-policy-error:
-echo "Failed to sign cluster policy"
+echo "Failed to sign generic query policy"
 goto terminate-scripts
 
 :prepare-policy-error:
-echo "Failed to prepare member cluster policy for publishing on blockchain"
+echo "Failed to prepare sign policy for publishing on blockchain"
 goto terminate-scripts
 
 :declare-policy-error:
-echo "Failed to declare cluster policy on blockchain"
+echo "Failed to declare generic query policy on blockchain"
 goto terminate-scripts
