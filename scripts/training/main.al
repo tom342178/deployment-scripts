@@ -16,7 +16,17 @@ set echo queue on
 on error call license-key-error
 if $LICENSE_KEY then set license where activation_key = $LICENSE_KEY
 
+:directories:
+if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
+set anylog home !anylog_path
+if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
+if $TEST_DIR then set test_dir = $TEST_DIR
+
+on error call work-dirs-error
+create work directories
+
 :set-params:
+on error ignore
 process !local_scripts/training/set_params.al
 
 :declare-policies:
@@ -64,3 +74,6 @@ return
 print "Failed to enable license key"
 return
 
+:work-dirs-error;
+echo "Failed to create directories"
+return
