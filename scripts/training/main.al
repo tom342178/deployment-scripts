@@ -38,7 +38,8 @@ if $LEDGER_CONN then set ledger_conn = $LEDGER_CONN
 if $DEFAULT_DBMS then set default_dbms = $DEFAULT_DBMS
 
 if !node_type == generic then
-    anylog_broker_port=32050
+    anylog_server_port = 32548
+    anylog_server_port = 32548
 
 :declare-policies:
 process !local_scripts/training/generic_policies/generic_policy.al
