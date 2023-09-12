@@ -54,6 +54,12 @@ policy_id = blockchain get config where node_type = !node_type bring [*][id]
 on error call config-from-policy-error
 if !policy_id then config from policy where id = !policy_id
 
+:execute-license:
+on error call license-error
+if not $LICENSE_KEY then
+do license_key = blockchain get master bring [*][license]
+do set license where activation_key=!license_key
+
 :end-script:
 end script
 
@@ -65,10 +71,14 @@ return
 print "Failed to enable license key"
 return
 
-:work-dirs-error;
+:work-dirs-error:
 echo "Failed to create directories"
 return
 
 :get-seed-error:
 echo "Failed to get seed value from blockchain"
 goto declare-policies
+
+:license-error:
+print "Failed to set license key..."
+goto end-script

@@ -22,7 +22,7 @@ if !is_policy then goto end-script
         "port": '!anylog_server_port.int',
         "rest_port": '!anylog_rest_port.int',
         "script": [
-            "if !node_name then new_policy = create policy master with defaults where name=!node_name and company=!company_name",
+            "if !node_name then new_policy = create policy master with defaults where name=!node_name and company=!company_name and license=$LICENSE_KEY",
             "if not !node_name then new_policy = create policy master with defaults where company=!company_name",
             "process !local_scripts/training/publish_policy.al",
             "if not !node_name then node_name = blockchain get master bring [*][name]",
