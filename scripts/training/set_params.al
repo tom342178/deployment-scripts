@@ -22,6 +22,7 @@ do set anylog_broker_port = 32550
 else if !node_type == master then
 do set anylog_server_port = 32048
 do set anylog_rest_port = 32049
+do ledger_conn = !ip + : + !anylog_server_port
 
 else if !node_type == operator then
 do set anylog_server_port = 32148
