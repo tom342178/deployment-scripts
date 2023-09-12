@@ -5,7 +5,7 @@
 #   -> declare policies
 #   -> execute based on node type
 #----------------------------------------------------------------------------------------------------------------------#
-# process !local_scripts/training/main.al
+# python3 /app/AnyLog-Network/anylog.py process $ANYLOG_PATH/deployment-scripts/scripts/training/main.al
 
 on error ignore
 set debug off
