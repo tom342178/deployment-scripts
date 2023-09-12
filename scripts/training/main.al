@@ -25,6 +25,19 @@ if $TEST_DIR then set test_dir = $TEST_DIR
 on error call work-dirs-error
 create work directories
 
+:set-params:
+on error ignore
+process !local_scripts/training/set_params.al
+
+:get-seed:
+on error goto get-seed-error
+is_blockchain = blockchain test
+if !is_blockchain == false then
+do blockchain seed !ledger_conn
+do goto get-seed
+ledger_conn = blockchain get master bring.ip_port
+
+
 :declare-policies:
 on error ignore
 process !local_scripts/training/generic_policies/generic_policy.al
@@ -33,9 +46,6 @@ process !local_scripts/training/generic_policies/generic_operator_policy.al
 process !local_scripts/training/generic_policies/generic_query_policy.al
 process !local_scripts/training/generic_policies/generic_publisher_policy.al
 process !local_scripts/training/generic_policies/generic_monitoring_policy.al
-
-:set-params:
-process !local_scripts/training/set_params.al
 
 :execute-policy:
 policy_id = blockchain get config where node_type = !node_type bring [*][id]
@@ -56,3 +66,7 @@ return
 :work-dirs-error;
 echo "Failed to create directories"
 return
+
+:get-seed-error:
+echo "Failed to get seed value from blockchain"
+goto declare-policies

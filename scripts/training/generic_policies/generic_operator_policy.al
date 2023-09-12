@@ -31,7 +31,7 @@ if !is_policy then goto end-script
             "connect dbms almgm where type=sqlite",
             "create table tsd_info where type=sqlite",
             "partition !default_dbms * using insert_timestamp by day",
-            "schedule time=1 day and name="Drop Partitions" task drop partition where dbms=!default_dbms and table=* and keep=3",
+            "schedule time=1 day and name='Drop Partitions' task drop partition where dbms=!default_dbms and table=* and keep=3",
             "set buffer threshold where time=60 seconds and volume=10KB and write_immediate=true",
             "run streamer",
             "run blobs archiver where dbms=false and folder=true and compress=true and reuse_blobs=true",
