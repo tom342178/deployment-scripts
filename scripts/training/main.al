@@ -32,6 +32,7 @@ process !local_scripts/training/set_params.al
 :get-seed:
 on error goto get-seed-error
 is_blockchain = blockchain test
+if !is_blockchain == false and !node_type == master goto declare-policies
 if !is_blockchain == false then
 do blockchain seed !ledger_conn
 do goto get-seed

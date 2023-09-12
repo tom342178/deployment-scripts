@@ -29,7 +29,7 @@ if !is_policy then goto end-script
             "set node name !node_name",
             "run scheduler 1",
             "connect dbms blockchain where type=sqlite",
-            "create table ledger where dbms=blockchain"
+            "create table ledger where dbms=blockchain",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
             "config from policy where id = generic-schedule-policy"
         ]
