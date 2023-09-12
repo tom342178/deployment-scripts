@@ -48,7 +48,7 @@ operator_id = blockchain get operator where company=!company_name and cluster=!c
 if !operator_id then goto end-script
 if !j == 1 then goto operator-id-error
 
-new_policy = create policy operator with defaults where company=!company_name and cluster=!cluster_id
+new_policy = create policy operator with defaults where company=!company_name and cluster=!cluster_id and port=!anylog_server_port and rest=!anylog_rest_port
 goto declare-policy
 
 

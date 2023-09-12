@@ -23,6 +23,11 @@ if !is_policy then goto end-script
         "port": '!anylog_server_port.int',
         "rest_port": '!anylog_rest_port.int',
         "script": [
+            "is_policy = blockchain get publisher where company=!company_name and ip=!external_ip and port=!anylog_server_port",
+            "if !node_name and not !is_policy then new_policy = create policy publisher with defaults where name=!node_name and company=!company_name and license=$LICENSE_KEY",
+            "if not !node_name and not !is_policy then new_policy = create policy publisher with defaults where company=!company_name and license=$LICENSE_KEY",
+            "if not !is_policy then process !local_scripts/training/publish_policy.al",
+
             "set node name !node_name",
             "run scheduler 1",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
@@ -30,7 +35,8 @@ if !is_policy then goto end-script
             "create table tsd_info where dbms=sqlite",
             "set buffer threshold where time=60 seconds and volume=10KB and write_immediate=true",
             "run streamer",
-            "run publisher where compress_json=true and compress_sql=true and master_node=!ledger_conn and dbms_name=0 and table_name=1"
+            "run publisher where compress_json=true and compress_sql=true and master_node=!ledger_conn and dbms_name=0 and table_name=1",
+            "config from policy where id = generic-schedule-policy"
         ]
 }}>
 
