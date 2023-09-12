@@ -40,7 +40,6 @@ do blockchain seed !ledger_conn
 do goto get-seed
 ledger_conn = blockchain get master bring.ip_port
 
-
 :declare-policies:
 on error ignore
 process !local_scripts/training/generic_policies/generic_policy.al
