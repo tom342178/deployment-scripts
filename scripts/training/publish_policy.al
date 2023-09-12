@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # generic process to declare policy on blockchain (using node key)
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/generic_scripts/publish_policy.al
+# process !local_scripts/training/publish_policy.al
 
 :set-params:
 error_code = 0
@@ -21,7 +21,7 @@ if not !validate_policy then goto prepare-policy-error
 :declare-policy:
 on error call declare-policy-error
 blockchain prepare policy !new_policy
-blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+blockchain insert where policy=!new_policy and local=true
 
 :end-script:
 end script
