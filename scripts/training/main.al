@@ -25,23 +25,22 @@ if $TEST_DIR then set test_dir = $TEST_DIR
 on error call work-dirs-error
 create work directories
 
-:set-params:
-on error ignore
-process !local_scripts/training/set_params.al
-
 :get-seed:
 on error goto get-seed-error
 is_blockchain = blockchain test
 if !is_blockchain == false and !node_type == master then
 do ledger_conn = 127.0.0.1:32048
-do goto declare-policies
+do goto set-params
 if !is_blockchain == false then
-do blockchain seed !ledger_conn
+do blockchain seed $LEDGER_CONN
 do goto get-seed
 ledger_conn = blockchain get master bring.ip_port
 
-:declare-policies:
+:set-params:
 on error ignore
+process !local_scripts/training/set_params.al
+
+:declare-policies:
 process !local_scripts/training/generic_policies/generic_policy.al
 process !local_scripts/training/generic_policies/generic_master_policy.al
 process !local_scripts/training/generic_policies/generic_operator_policy.al
