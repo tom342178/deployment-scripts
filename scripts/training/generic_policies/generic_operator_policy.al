@@ -23,6 +23,7 @@ if !is_policy then goto end-script
         "local_ip": '!ip',
         "port": '!anylog_server_port.int',
         "rest_port": '!anylog_rest_port.int',
+        "broker_port": '!anylog_broker_port',
         "script": [
             "is_policy = blockchain get operator where company=!company_name and ip=!external_ip and port=!anylog_server_port",
             "if not !is_policy then process !local_scripts/training/generic_policies/declare_operator_policy.al",
