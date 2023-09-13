@@ -3,7 +3,7 @@
 #   -> set directory structure
 #   -> set configs
 #   -> declare policies
-#   -> execute based on node type
+#   -> deploy based on node type
 #----------------------------------------------------------------------------------------------------------------------#
 # python3 /app/AnyLog-Network/anylog.py process $ANYLOG_PATH/deployment-scripts/scripts/training/main.al
 
@@ -23,13 +23,13 @@ create work directories
 
 :set-params:
 on error ignore
-if $NODE_TYPE then set node_type = $NODE_TYPE
-else node_type = generic
-if $NODE_NAME then set node_name = $NODE_NAME
-else goto missing-node-name
+process !local_scripts/training/set_params.al
+process !local_scripts/training/run_tcp_server.al
+process !local_scripts/training/set_params_blockchain.al
 
 :call-process:
-if $NODE_TYPE == master then process !local_scripts/training/generic_policies/mains/master.al
+process !local_scripts/training/generic_policies/generic_monitoring_policy.al
+if !node_type == master then process !local_scripts/training/generic_policies/generic_master_policy.al
 
 :execute-policy:
 policy_id = blockchain get config where node_type = !node_type bring [*][id]

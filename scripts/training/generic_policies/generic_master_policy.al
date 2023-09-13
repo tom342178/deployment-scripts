@@ -22,10 +22,10 @@ if !is_policy then goto end-script
         "port": '!anylog_server_port.int',
         "rest_port": '!anylog_rest_port.int',
         "script": [
-            "is_policy = blockchain get master where company=!company_name and ip=!external_ip and port=!anylog_server_port",
-            "if not !is_policy  then new_policy = create policy master with defaults where name=!node_name and company=!company_name and license=$LICENSE_KEY and port=!anylog_server_port and rest_port=!anylog_rest_port"
-            "if not !is_policy then process !local_scripts/training/publish_policy.al",
             "set node name !node_name",
+            "is_policy = blockchain get master where name=!node_name and company=!company_name",
+            "if not !is_policy  then new_policy = create policy master with defaults where name=!node_name and company=!company_name and license=!license_key and port=!anylog_server_port and rest_port=!anylog_rest_port"
+            "if not !is_policy then process !local_scripts/training/publish_policy.al",
             "run scheduler 1",
             "connect dbms blockchain where type=sqlite",
             "create table ledger where dbms=blockchain",
