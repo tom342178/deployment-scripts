@@ -9,7 +9,7 @@ on error ignore
 # validate if blockchain exists or not
 is_blockchain = blockchain test
 if !is_blockchain == true then goto get-params
-if !is_blockchain == false and !node_type == master then goto end-script
+if !is_blockchain == false and !node_type == master then goto validate-params
 if !is_blockchain == false and !seed_count == 1 then goto blockchain-seed-error
 
 # get blockchain using `blockchain seed` command

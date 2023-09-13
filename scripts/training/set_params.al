@@ -36,7 +36,7 @@ do anylog_rest_port=32149
 do anylog_broker_port=32150
 do if not $LEDGER_CONN then goto ledger-conn-error
 
-if $LICENSE_KEY then license_key=$lICENSE_KEY
+if $LICENSE_KEY then license_key=$LICENSE_KEY
 if $COMPANY_NAME then company_name = $COMPANY_NAME
 if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 
