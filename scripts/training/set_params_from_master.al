@@ -9,17 +9,18 @@
 # :optional_params:
 #   -> server and rest ports
 #----------------------------------------------------------------------------------------------------------------------#
+on error ignore
 
 is_master = blockchain get master
 if !is_master then
 do company_name = blockchain get master bring [*][company]
 do license_key = blockchain get master bring [*][license]
-else if $LICENSE_KEY then license_key = $LICENSE_KEY
 
 if !node_type == generic then
 do set anylog_server_port = 32548
 do set anylog_rest_port = 32549
 do set anylog_broker_port = 32550
+do if $LICENSE_KEY then license_key = $LICENSE_KEY
 
 else if !node_type == operator then
 do set anylog_server_port = 32148

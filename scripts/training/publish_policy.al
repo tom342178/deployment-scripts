@@ -5,7 +5,7 @@
 
 :set-params:
 error_code = 0
-
+z
 :private-key:
 if !enable_auth == true and not !node_private_key then
 do on error ignore
