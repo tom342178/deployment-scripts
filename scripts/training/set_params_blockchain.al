@@ -3,6 +3,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/training/set_params_blockchain.al
 
+on error ignore
+
 :blockchain-seed:
 # validate if blockchain exists or not
 is_blockchain = blockchain test
