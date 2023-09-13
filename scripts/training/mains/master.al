@@ -1,3 +1,14 @@
+#----------------------------------------------------------------------------------------------------------------------#
+# Prepare for deployment of a master node policy
+# :process:
+#   1. declare node name / node type (in main)
+#   2. declare company name, license and ports (optional)
+#   3. format LEDGER_CONN based on TCP service port and IP
+#   4. declare init policy for master
+#   5.
+#----------------------------------------------------------------------------------------------------------------------#
+# process !local_scripts/training/generic_policies/mains/master.al
+
 :set-params:
 set anylog_server_port = 32048
 set anylog_rest_port = 32049
@@ -19,9 +30,6 @@ if not !company_name then goto goto missing-company-name
 on error ignore
 process !local_scripts/training/generic_policies/generic_master_policy.al
 
-policy_id = blockchain get config where node_type = !node_type bring [*][id]
-on error call config-from-policy-error
-if !policy_id then config from policy where id = !policy_id
 
 :execute-license:
 on error call license-error
@@ -35,14 +43,9 @@ end scripts
 
 :missing-license-key:
 print "Missing license key, cannot continue..."
-goto end-script
+goto terminate-scripts
 
 :missing-company-name:
 print "Missing company name, cannot continue..."
-goto end-script
-
-
-:license-error:
-print "Failed to set license key..."
-goto end-script
+goto terminate-scripts
 

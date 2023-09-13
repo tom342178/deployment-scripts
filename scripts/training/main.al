@@ -40,7 +40,6 @@ if !policy_id then config from policy where id = !policy_id
 on error call license-error
 set license where activation_key=!license_key
 
-
 :end-script:
 end script
 
