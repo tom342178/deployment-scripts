@@ -56,3 +56,4 @@ goto terminate-scripts
 :declare-policy-error:
 echo 'Failed to declare (generic) master policy on blockchain'
 goto terminate-scripts
+
