@@ -30,26 +30,35 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/training/generic_policies/declare_operator_policy.al
 on error ignore
-cluster_name = !node_name -cluster
-cluster_name = python !cluster_name.replace(" ", "")
+:set-params:
+cluster_name = !node_name + -cluster
 operator_conn = !ip + : + !anylog_server_port
 
-i = 0
+
 :cluster-id:
 cluster_id = blockchain get cluster where company=!company_name and name=!cluster_name and host=!operator_conn  bring [*][id]
 if !cluster_id then goto operator-id
-if !i == 1 then goto cluster-id-error
+if not !cluster_id and !cluster_status == true then goto cluster-id-error
 
-new_policy = create policy cluster with defaults where company=!company_name and name=!cluster_name and host=!operator_conn
-goto declare-policy
+:prepare-cluster:
+<new_policy = create policy cluster with defaults where
+    company=!company_name and
+    name=!cluster_name and
+    host=!operator_conn>
+process !local_scripts/training/publish_policy.al
+if error_code == 1 then goto sign-policy-error
+if error_code == 2 then goto prepare-policy-error
+if error_code == 3 then declare-policy-error
+
+cluster_status = true
+goto cluster-id
 
 :operator-id:
-on error ignore
-if not !j then j = 0
 operator_id = blockchain get operator where company=!company_name and name=!node_name and cluster=!cluster_id bring [*][id]
 if !operator_id then goto end-script
-if !j == 1 then goto operator-id-error
+if not !operator_id and !operator_status == true then goto operator-id-error
 
+:operator-id:
 <new_policy = create policy operator with defaults where
     company=!company_name and
     name=!node_name and
@@ -57,21 +66,12 @@ if !j == 1 then goto operator-id-error
     port=!anylog_server_port and
     rest=!anylog_rest_port and
     broker=!anylog_broker_port>
-
-goto declare-policy
-
-
-:declare-policy:
 process !local_scripts/training/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
 
-if !j == 0 then
-do j = 1
-do goto operator-id
-goto cluster-id
-
+operator_status == true
 
 :end-script:
 end script
