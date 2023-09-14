@@ -5,6 +5,7 @@
 
 on error ignore
 
+seed_count = 0
 :blockchain-seed:
 # validate if blockchain exists or not
 is_blockchain = blockchain test
