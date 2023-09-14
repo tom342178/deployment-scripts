@@ -30,15 +30,17 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/training/generic_policies/declare_operator_policy.al
 on error ignore
+cluster_name = !node_name -cluster
+cluster_name = python !cluster_name.replace(" ", "")
 operator_conn = !ip + : + !anylog_server_port
 
 i = 0
 :cluster-id:
-cluster_id = blockchain get cluster where host=!operator_conn and company=!company_name bring [*][id]
+cluster_id = blockchain get cluster where company=!company_name and name=!cluster_name and host=!operator_conn  bring [*][id]
 if !cluster_id then goto operator-id
 if !i == 1 then goto cluster-id-error
 
-new_policy = create policy cluster with defaults where company=!company_name and host=!operator_conn
+new_policy = create policy cluster with defaults where company=!company_name and name=!cluster_name and host=!operator_conn
 goto declare-policy
 
 :operator-id:
