@@ -25,10 +25,9 @@ if !is_policy then goto end-script
         "rest_port": '!anylog_rest_port.int',
         "broker_port": '!anylog_broker_port',
         "script": [
-            "is_policy = blockchain get operator where company=!company_name and ip=!external_ip and port=!anylog_server_port",
+            "is_policy = blockchain get operator where company=!company_name and name=!node_name",
             "if not !is_policy then process !local_scripts/training/generic_policies/declare_operator_policy.al",
-            "operator_id = blockchain get operator where company=!company_name and ip=!external_ip and port=!anylog_server_port bring [*][id]",
-            "if not !node_name then node_name = blockchain get operator where company=!company_name and ip=!external_ip and port=!anylog_server_port bring [*][name]",
+            "operator_id = blockchain get operator where company=!company_name and name=!node_name bring [*][id]",
             "set node name !node_name",
             "run scheduler 1",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
@@ -41,7 +40,8 @@ if !is_policy then goto end-script
             "run streamer",
             "run blobs archiver where dbms=false and folder=true and compress=true and reuse_blobs=true",
             "run operator where create_table=true and update_tsd_info=true and compress_json=true and compress_sql=true and archive=true and master_node=!ledger_conn and policy=!operator_id and threads=3",
-            "config from policy where id = generic-schedule-policy"
+            "config from policy where id = generic-schedule-policy",
+            "if !enable_mqtt then process !local_scripts/training/mqtt_call.al"
         ]
 }}>
 

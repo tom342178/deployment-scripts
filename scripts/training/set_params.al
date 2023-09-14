@@ -4,6 +4,7 @@
 #   -> NODE_TYPE
 #   -> NODE_NAME
 #   -> LEDGER_CONN (except master)
+#   -> ENABLE_MQTT (operator only)
 # :first-time:
 #   -> ANYLOG_SERVER_PORT
 #   -> ANYLOG_REST_PORT
@@ -43,6 +44,9 @@ if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
 if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
 if $ANYLOG_BROKER_PORT then anylog_broker_port = $ANYLOG_BROKER_PORT
+
+set enable_mqtt = false
+if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = $ENABLE_MQTT
 
 :end-script:
 end script
