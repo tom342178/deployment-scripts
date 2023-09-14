@@ -58,7 +58,7 @@ operator_id = blockchain get operator where company=!company_name and name=!node
 if !operator_id then goto end-script
 if not !operator_id and !operator_status == true then goto operator-id-error
 
-:operator-id:
+:prepare-operator:
 <new_policy = create policy operator with defaults where
     company=!company_name and
     name=!node_name and
