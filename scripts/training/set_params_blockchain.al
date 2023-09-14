@@ -5,19 +5,13 @@
 
 on error ignore
 
-seed_count = 0
 :blockchain-seed:
 # validate if blockchain exists or not
+blockchain seed from !ledger_conn
 is_blockchain = blockchain test
 if !is_blockchain == true then goto get-params
 if !is_blockchain == false and !node_type == master then goto validate-params
-if !is_blockchain == false and !seed_count == 1 then goto blockchain-seed-error
-
-# get blockchain using `blockchain seed` command
-if !is_blockchain == false and !ledger_conn then
-do blockchain seed from !ledger_conn
-do seed_count = 1
-do goto blockchain-seed
+if !is_blockchain == false goto blockchain-seed-error
 
 :get-params:
 # using the master node policy, get needed information
