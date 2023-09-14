@@ -42,7 +42,7 @@ if not !company_name then goto missing-company-name
 end script
 
 :terminate-scripts:
-end scripts
+exit scripts
 
 :blockchain-seed-error:
 echo "Failed to get information from ledger conn"

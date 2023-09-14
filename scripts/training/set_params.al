@@ -52,7 +52,7 @@ if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set
 end script
 
 :terminate-scripts:
-end scripts
+exit scripts
 
 :missing-node-name:
 print "Missing node name, cannot continue..."
