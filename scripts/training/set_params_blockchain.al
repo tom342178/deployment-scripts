@@ -23,9 +23,13 @@ if !is_master then ledger_conn = blockchain get master bring.ip_port
 # check if policy already exists (based on company and name), if so - use its values rather than defaults
 policy = blockchain get !node_type where company=!company_name and name=!node_name
 if !policy then
-do anylog_server_port = blockchain get !node_type where company=!company_name and name=!node_name bring [*][port]
-do anylog_rest_port = blockchain get !node_type where company=!company_name and name=!node_name bring [*][rest_port]
-do anylog_broker_port = blockchain get !node_type where company=!company_name and name=!node_name bring [*][broker_port]
+do server_port = blockchain get !node_type where company=!company_name and name=!node_name bring [*][port]
+do rest_port = blockchain get !node_type where company=!company_name and name=!node_name bring [*][rest_port]
+do broker_port = blockchain get !node_type where company=!company_name and name=!node_name bring [*][broker_port]
+
+if !server_port then anylog_server_port = !server_port
+if !rest_port then anylog_rest_port = !rest_port
+if !broker_port then anylog_broker_port = !broker_port
 
 :validate-params:
 # validate if license and company exist
