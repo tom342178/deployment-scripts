@@ -11,7 +11,7 @@ blockchain seed from !ledger_conn
 is_blockchain = blockchain test
 if !is_blockchain == true then goto get-params
 if !is_blockchain == false and !node_type == master then goto validate-params
-if !is_blockchain == false goto blockchain-seed-error
+if !is_blockchain == false then goto blockchain-seed-error
 
 :get-params:
 # using the master node policy, get needed information

@@ -38,7 +38,7 @@ do anylog_broker_port=32150
 if $LICENSE_KEY then license_key=$LICENSE_KEY
 if $COMPANY_NAME then company_name = $COMPANY_NAME
 if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
-if not !ledger_conn goto ledger-conn-error
+if not !ledger_conn then goto ledger-conn-error
 
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
 if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
