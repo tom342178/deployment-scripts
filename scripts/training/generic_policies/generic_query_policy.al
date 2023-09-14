@@ -23,7 +23,7 @@ if !is_policy then goto end-script
         "script": [
             "set node name !node_name",
             "run scheduler 1",
-            "is_policy = blockchain get query where company=!company_and name name=!node_name and ip=!external_ip and port=!anylog_server_port",
+            "is_policy = blockchain get query where company=!company_name and name=!node_name and ip=!external_ip and port=!anylog_server_port",
             "if not !is_policy then new_policy = create policy query with defaults where name=!node_name and port=!anylog_server_port and rest_port=!anylog_rest_port and company=!company_name",
             "if not !is_policy then process !local_scripts/training/publish_policy.al",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
