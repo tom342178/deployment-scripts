@@ -25,7 +25,7 @@ if !is_policy then goto end-script
             "set node name !node_name",
             "run scheduler 1",
             "is_policy = blockchain get master where name=!node_name and company=!company_name",
-            "if not !is_policy then new_policy = create policy master with defaults where name=!node_name and port=!anylog_server_port and rest_port=!anylog_rest_port and company=!company_name and license=!license_key",
+            "if not !is_policy then new_policy = create policy master with defaults where name=!node_name and port=!anylog_server_port.int and rest_port=!anylog_rest_port.int and company=!company_name and license=!license_key",
             "if not !is_policy then process !local_scripts/training/publish_policy.al",
             "connect dbms blockchain where type=sqlite",
             "create table ledger where dbms=blockchain",
