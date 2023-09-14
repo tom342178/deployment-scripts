@@ -21,10 +21,9 @@ do goto blockchain-seed
 :get-params:
 # using the master node policy, get needed information
 is_master = blockchain get master
-if !is_master then
-do if not !company_name then company_name = blockchain get master bring [*][company]
-do if not !license_key then  license_key = blockchain get master bring [*][license]
-do ledger_conn = blockchain get master bring.ip_port
+if !is_master and not !company_name then company_name = blockchain get master bring [*][company]
+if !is_master and not !license_key then license_key = blockchain get master bring [*][license]
+if !is_master then ledger_conn = blockchain get master bring.ip_port
 
 # check if policy already exists (based on company and name), if so - use its values rather than defaults
 policy = blockchain get !node_type where company=!company_name and name=!node_name
