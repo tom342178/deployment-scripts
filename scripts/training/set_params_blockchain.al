@@ -16,7 +16,7 @@ if !is_blockchain == false and !seed_count == 1 then goto blockchain-seed-error
 if !is_blockchain == false and !ledger_conn then
 do blockchain seed from !ledger_conn
 do seed_count = 1
-do goto get-seed
+do goto blockchain-seed
 
 :get-params:
 # using the master node policy, get needed information
