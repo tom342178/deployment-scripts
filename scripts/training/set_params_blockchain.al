@@ -21,11 +21,11 @@ if !is_master and not !license_key then license_key = blockchain get master brin
 if !is_master then ledger_conn = blockchain get master bring.ip_port
 
 # check if policy already exists (based on company and name), if so - use its values rather than defaults
-policy = blockchain get !node_type where company=!company_name and name=!node_name
+policy = blockchain get !node_type where company=!company_name and name=!node_name and ip=!external_ip and local_ip=!ip
 if !policy then
-do server_port = blockchain get !node_type where company=!company_name and name=!node_name bring [*][port]
-do rest_port = blockchain get !node_type where company=!company_name and name=!node_name bring [*][rest_port]
-do broker_port = blockchain get !node_type where company=!company_name and name=!node_name bring [*][broker_port]
+do server_port = blockchain get !node_type where company=!company_name and name=!node_name and ip=!external_ip and local_ip=!ip bring [*][port]
+do rest_port = blockchain get !node_type where company=!company_name and name=!node_name and ip=!external_ip and local_ip=!ip   bring [*][rest_port]
+do broker_port = blockchain get !node_type where company=!company_name and name=!node_name and ip=!external_ip and local_ip=!ip bring [*][broker_port]
 
 if !server_port then anylog_server_port = !server_port
 if !rest_port then anylog_rest_port = !rest_port
