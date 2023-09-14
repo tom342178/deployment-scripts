@@ -30,7 +30,6 @@ mqtt_user = ibglowct
 mqtt_password = MSY4e009J7ts
 mqtt_topic = anylogedgex-demo
 set mqtt_log = false
-set mqtt_dbms = test
 if !default_dbms then set mqtt_dbms = !default_dbms
 mqtt_table = "bring [sourceName]"
 mqtt_timestamp_column = now
@@ -42,7 +41,7 @@ on error call run-mqtt-client
 <run mqtt client where broker=!mqtt_broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd
 and log=!mqtt_log and topic=(
     name=!mqtt_topic and
-    dbms=!mqtt_dbms and
+    dbms=!company_name.name and
     table=!mqtt_table and
     column.timestamp.timestamp=!mqtt_timestamp_column and
     column.value=(type=!mqtt_value_column_type and value=!mqtt_value_column)
