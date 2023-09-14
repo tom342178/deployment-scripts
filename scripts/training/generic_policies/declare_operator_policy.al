@@ -64,8 +64,8 @@ if not !operator_id and !operator_status == true then goto operator-id-error
     name=!node_name and
     cluster=!cluster_id and
     port=!anylog_server_port.int and
-    rest=!anylog_rest_port.int and
-    broker=!anylog_broker_port.int>
+    rest_port=!anylog_rest_port.int and
+    broker_port=!anylog_broker_port.int>
 
 process !local_scripts/training/publish_policy.al
 if error_code == 1 then goto sign-policy-error
