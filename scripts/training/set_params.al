@@ -45,7 +45,7 @@ if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
 if $ANYLOG_BROKER_PORT then anylog_broker_port = $ANYLOG_BROKER_PORT
 
 set enable_mqtt = false
-if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = $ENABLE_MQTT
+if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = true
 
 :end-script:
 end script

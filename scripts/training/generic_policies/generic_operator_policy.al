@@ -41,7 +41,7 @@ if !is_policy then goto end-script
             "run blobs archiver where dbms=false and folder=true and compress=true and reuse_blobs=true",
             "run operator where create_table=true and update_tsd_info=true and compress_json=true and compress_sql=true and archive=true and master_node=!ledger_conn and policy=!operator_id and threads=3",
             "config from policy where id = generic-schedule-policy",
-            "if !enable_mqtt then process !local_scripts/training/mqtt_call.al"
+            "if !enable_mqtt == true then process !local_scripts/training/mqtt_call.al"
         ]
 }}>
 
