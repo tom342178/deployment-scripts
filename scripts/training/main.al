@@ -24,8 +24,9 @@ create work directories
 :set-params:
 on error ignore
 process !local_scripts/training/set_params.al
-process !local_scripts/training/run_tcp_server.al
-process !local_scripts/training/set_params_blockchain.al
+if !node_type != master then
+do process !local_scripts/training/run_tcp_server.al
+do process !local_scripts/training/set_params_blockchain.al
 
 :call-process:
 process !local_scripts/training/generic_policies/generic_monitoring_policy.al
