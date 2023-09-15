@@ -33,7 +33,7 @@ if !is_policy then goto end-script
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
             "connect dbms !company_name.name where type=sqlite",
             "connect dbms almgm where type=sqlite",
-            "create table tsd_info where type=sqlite",
+            "create table tsd_info where dbms=almgm",
             "partition !company_name.name * using insert_timestamp by day",
             "schedule time=1 day and name='Drop Partitions' task drop partition where dbms=!company_name.name and table=* and keep=3",
             "set buffer threshold where time=60 seconds and volume=10KB and write_immediate=true",
