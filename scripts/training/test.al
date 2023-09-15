@@ -12,7 +12,7 @@ if $TEST_DIR then set test_dir = $TEST_DIR
 on error call work-dirs-error
 create work directories
 
-process !local_scripts/training/generic_policies/run_tcp_server.al
+process !local_scripts/training/run_tcp_server.al
 
 blockchain seed from $LEDGER_CONN
 
