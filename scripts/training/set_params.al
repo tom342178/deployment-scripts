@@ -47,10 +47,6 @@ if $ANYLOG_BROKER_PORT then anylog_broker_port = $ANYLOG_BROKER_PORT
 set enable_mqtt = false
 if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = true
 
-:blockchain-seed:
-on error goto blockchain-seed-error
-blockchain seed from !ledger_conn
-
 :end-script:
 end script
 
@@ -63,8 +59,4 @@ goto terminate-scripts
 
 :ledger-conn-error:
 print "Missing ledger connection information, cannot continue..."
-goto terminate-scripts
-
-:blockchain-seed-error:
-print "Failed to execute blockchain seed"
 goto terminate-scripts

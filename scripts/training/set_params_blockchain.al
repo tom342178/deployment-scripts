@@ -4,10 +4,15 @@
 # process !local_scripts/training/set_params_blockchain.al
 
 on error ignore
+reset error log
 
 :blockchain-seed:
-# validate if blockchain exists or not
+on error goto blockchain-seed-error
 blockchain seed from !ledger_conn
+
+:blockchain-test:
+# validate if blockchain exists or not
+on error ignore
 is_blockchain = blockchain test
 if !is_blockchain == true then goto get-params
 if !is_blockchain == false and !node_type == master then goto validate-params
@@ -39,12 +44,13 @@ if not !company_name then goto missing-company-name
 :end-script:
 end script
 
+
 :terminate-scripts:
 exit scripts
 
 :blockchain-seed-error:
-echo "Failed to get information from ledger conn"
-goto validate-params
+print "Failed to execute blockchain seed"
+goto terminate-scripts
 
 :missing-license-key:
 print "Missing license key, cannot continue..."
@@ -53,7 +59,5 @@ goto terminate-scripts
 :missing-company-name:
 print "Missing company name, cannot continue..."
 goto terminate-scripts
-
-
 
 
