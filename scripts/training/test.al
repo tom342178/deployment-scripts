@@ -13,6 +13,9 @@ create work directories
 
 process !local_scripts/training/run_tcp_server.al
 
-blockchain seed from $LEDGER_CONN
+ledger_conn = $LEDGER_CONN
+license_key = $LICENSE_KEY
 
-set license where activation_key = $LICENSE_KEY
+blockchain seed from !ledger_conn
+
+set license where activation_key = !license_key
