@@ -9,7 +9,6 @@ set anylog home !anylog_path
 if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
 if $TEST_DIR then set test_dir = $TEST_DIR
 
-on error call work-dirs-error
 create work directories
 
 process !local_scripts/training/run_tcp_server.al
