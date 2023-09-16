@@ -25,10 +25,10 @@ create work directories
 on error ignore
 process !local_scripts/training/set_params.al
 if !node_type != master then
+do process !local_scripts/training/run_tcp_server.aldo process !local_scripts/training/run_tcp_server.al
 do on error goto blockchain-seed-error
 do blockchain seed from !ledger_conn
 do on error ignore
-do process !local_scripts/training/run_tcp_server.al
 do process !local_scripts/training/set_params_blockchain.al
 
 :call-process:
