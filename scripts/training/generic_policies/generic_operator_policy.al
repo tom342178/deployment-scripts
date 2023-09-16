@@ -11,13 +11,7 @@
 on error ignore
 
 :set-params:
-cluster_name = !node_name + -cluster
-default_dbms = !company_name.name
 operator_conn = !ip + : + !anylog_server_port
-
-if $CLUSTER_NAME then cluster_name = $CLUSTER_NAME
-if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
-
 
 :is-policy:
 is_policy = blockchain get config where id = generic-operator-policy

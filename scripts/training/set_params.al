@@ -51,6 +51,12 @@ if $ANYLOG_BROKER_PORT then anylog_broker_port = $ANYLOG_BROKER_PORT
 set enable_mqtt = false
 if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = true
 
+cluster_name = !node_name + -cluster
+default_dbms = !company_name.name
+
+if $CLUSTER_NAME then cluster_name = $CLUSTER_NAME
+if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
+
 
 :end-script:
 end script
