@@ -30,10 +30,6 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/training/generic_policies/declare_operator_policy.al
 on error ignore
-:set-params:
-cluster_name = !node_name + -cluster
-operator_conn = !ip + : + !anylog_server_port
-
 
 :cluster-id:
 cluster_id = blockchain get cluster where company=!company_name and name=!cluster_name and host=!operator_conn  bring [*][id]

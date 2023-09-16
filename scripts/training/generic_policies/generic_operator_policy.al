@@ -10,6 +10,13 @@
 # process !local_scripts/training/generic_policies/generic_operator_policy.al
 on error ignore
 
+:set-params:
+cluster_name = !node_name + -cluster
+default_dbms = !company_name.name
+if $CLUSTER_NAME then cluster_name = $CLUSTER_NAME
+if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
+operator_conn = !ip + : + !anylog_server_port
+
 :is-policy:
 is_policy = blockchain get config where id = generic-operator-policy
 if !is_policy then goto end-script
@@ -31,11 +38,11 @@ if !is_policy then goto end-script
             "if not !is_policy then process !local_scripts/training/generic_policies/declare_operator_policy.al",
             "operator_id = blockchain get operator where company=!company_name and name=!node_name bring [*][id]",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
-            "connect dbms !company_name.name where type=sqlite",
+            "connect dbms !default_dbms where type=sqlite",
             "connect dbms almgm where type=sqlite",
             "create table tsd_info where dbms=almgm",
-            "partition !company_name.name * using insert_timestamp by day",
-            "schedule time=1 day and name='Drop Partitions' task drop partition where dbms=!company_name.name and table=* and keep=3",
+            "partition !default_dbms * using insert_timestamp by day",
+            "schedule time=1 day and name='Drop Partitions' task drop partition where dbms=!default_dbms and table=* and keep=3",
             "set buffer threshold where time=60 seconds and volume=10KB and write_immediate=true",
             "run streamer",
             "run blobs archiver where dbms=false and folder=true and compress=true and reuse_blobs=true",
