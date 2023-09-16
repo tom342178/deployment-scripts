@@ -26,10 +26,6 @@ on error ignore
 process !local_scripts/training/set_params.al
 # process !local_scripts/training/run_tcp_server.aldo process !local_scripts/training/run_tcp_server.al
 
-:execute-license:
-on error call license-error
-set license where activation_key=!license_key
-
 :call-process:
 process !local_scripts/training/generic_policies/generic_monitoring_policy.al
 if !node_type == master then process !local_scripts/training/generic_policies/generic_master_policy.al
@@ -40,6 +36,11 @@ if !node_type == operator then process !local_scripts/training/generic_policies/
 policy_id = blockchain get config where node_type = !node_type bring [*][id]
 on error call config-from-policy-error
 if !policy_id then config from policy where id = !policy_id
+
+:execute-license:
+on error call license-error
+set license where activation_key=!license_key
+
 
 :end-script:
 end script
