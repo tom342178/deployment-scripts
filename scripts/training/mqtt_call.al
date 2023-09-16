@@ -37,7 +37,7 @@ mqtt_value_column_type = float
 mqtt_value_column = "bring [readings][][value]"
 
 :run-mqtt-client:
-on error call run-mqtt-client
+on error call run-mqtt-client-error
 <run mqtt client where broker=!mqtt_broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd
 and log=!mqtt_log and topic=(
     name=!mqtt_topic and
@@ -50,6 +50,6 @@ and log=!mqtt_log and topic=(
 :end-script:
 end script
 
-:run-mqtt-client:
+:run-mqtt-client-error:
 print "failed to start MQTT client"
 goto end-script
