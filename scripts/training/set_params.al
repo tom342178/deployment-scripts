@@ -14,10 +14,12 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/training/set_params_blockchain.al
 
+on error ignore
+
 :set-params:
 on error ignore
 if $NODE_TYPE then set node_type = $NODE_TYPE
-else node_type = generic
+else goto missing-node-type
 if $NODE_NAME then set node_name = $NODE_NAME
 else goto missing-node-name
 
@@ -36,9 +38,11 @@ do anylog_rest_port=32149
 do anylog_broker_port=32150
 
 if $LICENSE_KEY then license_key=$LICENSE_KEY
+else goto missing-license-key
 if $COMPANY_NAME then company_name = $COMPANY_NAME
+else goto missing-companay-name
 if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
-if not !ledger_conn then goto ledger-conn-error
+else goto missing-ledger-conn
 
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
 if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
@@ -47,16 +51,30 @@ if $ANYLOG_BROKER_PORT then anylog_broker_port = $ANYLOG_BROKER_PORT
 set enable_mqtt = false
 if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = true
 
+
 :end-script:
 end script
 
 :terminate-scripts:
 exit scripts
 
+:missing-node-type:
+print "Missing node type, cannot continue..."
+goto terminate-scripts
+
+:missing-license-key:
+print "Missing license key, cannot continue..."
+goto terminate-scripts
+
+:missing-company-name:
+print "Missing company name, cannot continue..."
+goto terminate-scripts
+
 :missing-node-name:
 print "Missing node name, cannot continue..."
 goto terminate-scripts
 
-:ledger-conn-error:
+:missing-ledger-conn:
 print "Missing ledger connection information, cannot continue..."
 goto terminate-scripts
+

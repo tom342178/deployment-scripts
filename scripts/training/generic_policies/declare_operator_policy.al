@@ -45,7 +45,8 @@ if not !cluster_id and !cluster_status == true then goto cluster-id-error
     company=!company_name and
     name=!cluster_name and
     host=!operator_conn>
-process !local_scripts/training/publish_policy.al
+
+process !local_scripts/training/generic_policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
@@ -67,12 +68,13 @@ if not !operator_id and !operator_status == true then goto operator-id-error
     rest_port=!anylog_rest_port.int and
     broker_port=!anylog_broker_port.int>
 
-process !local_scripts/training/publish_policy.al
+process !local_scripts/training/generic_policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
 
-operator_status == true
+operator_status = true
+goto operator-id 
 
 :end-script:
 end script
@@ -81,24 +83,24 @@ end script
 exit scripts
 
 :cluster-id-error:
-echo "Failed to declare cluster policy, cannot continue..."
+print "Failed to declare cluster policy, cannot continue..."
 goto terminate-scripts
 
 :operator-id-error:
-echo "Failed to declare operator policy, cannot continue..."
+print "Failed to declare operator policy, cannot continue..."
 goto terminate-scripts
 
 :sign-policy-error:
-if !j then echo "Failed to sign operator policy"
-else echo "Failed to sign cluster policy"
+if !j then print "Failed to sign operator policy"
+else print "Failed to sign cluster policy"
 goto terminate-scripts
 
 :prepare-policy-error:
-if !j then echo "Failed to prepare operator policy for publishing on blockchain"
-else echo "Failed to prepare cluster policy for publishing on blockchain"
+if !j then print "Failed to prepare operator policy for publishing on blockchain"
+else print "Failed to prepare cluster policy for publishing on blockchain"
 goto terminate-scripts
 
 :declare-policy-error:
-if !j then echo "Failed to declare operator policy on blockchain"
-else echo "Failed to declare cluster policy on blockchain"
+if !j then print "Failed to declare operator policy on blockchain"
+else print "Failed to declare cluster policy on blockchain"
 goto terminate-scripts

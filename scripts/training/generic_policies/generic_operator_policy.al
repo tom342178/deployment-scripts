@@ -45,7 +45,7 @@ if !is_policy then goto end-script
         ]
 }}>
 
-process !local_scripts/training/publish_policy.al
+process !local_scripts/training/generic_policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
@@ -57,13 +57,13 @@ end script
 exit scripts
 
 :sign-policy-error:
-echo "Failed to sign (generic) operator policy"
+print "Failed to sign (generic) operator policy"
 goto terminate-scripts
 
 :prepare-policy-error:
-echo "Failed to prepare (generic) operator policy for publishing on blockchain"
+print "Failed to prepare (generic) operator policy for publishing on blockchain"
 goto terminate-scripts
 
 :declare-policy-error:
-echo "Failed to declare (generic) operator policy on blockchain"
+print "Failed to declare (generic) operator policy on blockchain"
 goto terminate-scripts
