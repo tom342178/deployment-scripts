@@ -26,6 +26,14 @@ on error ignore
 process !local_scripts/training/set_params.al
 # process !local_scripts/training/run_tcp_server.aldo process !local_scripts/training/run_tcp_server.al
 
+:execute-license:
+on error call license-error
+set license where activation_key=!license_key
+
+:blockchain-seed:
+on error call blockchain-seed-error
+blockchain seed from !ledger_conn
+
 :call-process:
 process !local_scripts/training/generic_policies/generic_monitoring_policy.al
 if !node_type == master then process !local_scripts/training/generic_policies/generic_master_policy.al
@@ -37,23 +45,20 @@ policy_id = blockchain get config where node_type = !node_type bring [*][id]
 on error call config-from-policy-error
 if !policy_id then config from policy where id = !policy_id
 
-:execute-license:
-on error call license-error
-set license where activation_key=!license_key
-
-
 :end-script:
 end script
 
-:missing-node-name:
-print "Missing node name, cannot continue..."
-goto end-script
+:license-key-error:
+print "Failed to enable license key"
+return
+
+:blockchain-seed-error:
+print "Failed to run blockchain seed"
+return
 
 :config-from-policy-error:
 print "Failed to configure from policy for node type " !node_type
 return
 
-:license-key-error:
-print "Failed to enable license key"
-return
+
 
