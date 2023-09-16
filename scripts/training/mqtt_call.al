@@ -27,7 +27,7 @@ on  error ignore
 mqtt_broker = driver.cloudmqtt.com
 mqtt_port = 18785
 mqtt_user = ibglowct
-mqtt_password = MSY4e009J7ts
+mqtt_passwd = MSY4e009J7ts
 mqtt_topic = anylogedgex-demo
 set mqtt_log = false
 if !default_dbms then set mqtt_dbms = !default_dbms
