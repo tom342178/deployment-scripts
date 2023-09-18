@@ -1,3 +1,8 @@
+on error ignore
+set debug off
+set authentication off
+set echo queue on
+
 :prepare-node:
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 set anylog home !anylog_path
