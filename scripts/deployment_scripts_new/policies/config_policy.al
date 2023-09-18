@@ -1,5 +1,11 @@
-:declare-base:
+on error ignore
+:check-policy:
 config_name = !node_type.name + - + !company_name.name + -configs
+policy_id = blockchain get config where name = !config_name and node_type=!node_type and company=!company_name bring [*][id]
+if !policy_id then goto end-script
+if not !policy_id and !create_policy == true then goto declare-policy-error
+
+:declare-base:
 set policy new_policy [config] = {}
 
 set policy new_policy [config][name] = !config_name
@@ -28,10 +34,12 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout'
 if !anylog_broker_port then set policy new_policy [config][broker_threads] = '!broker_threads'
 
 :publish-policy:
-process !local_scripts/training/generic_policies/publish_policy.al
+process !local_scripts//publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
+set create_policy = true
+goto check-policy
 
 :end-script:
 end script
