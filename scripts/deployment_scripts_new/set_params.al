@@ -191,7 +191,6 @@ do set start_date = $START_DATE
 
 if !start_date.int then start_date = - + $START_DATE + d
 
-
 :mqtt:
 set enable_mqtt = false
 mqtt_broker = driver.cloudmqtt.com
@@ -229,7 +228,6 @@ if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE th
 if !monitor_nodes == true then
 do if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
 do if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
-
 
 :other-settings:
 set deploy_local_script = false
