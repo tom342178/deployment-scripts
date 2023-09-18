@@ -45,6 +45,11 @@ policy_id = blockchain get config where node_type = !node_type bring [*][id]
 on error call config-from-policy-error
 if !policy_id then config from policy where id = !policy_id
 
+:get-processes:
+on error ignore
+get processes
+if !enablee_mqtt == true then get msg client
+
 :end-script:
 end script
 
