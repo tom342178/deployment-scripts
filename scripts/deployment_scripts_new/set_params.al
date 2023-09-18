@@ -82,7 +82,7 @@ do anylog_broker_port = 32550
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
 if $TCP_BIND == true or $TCP_BIND == True or $TCP_BIND == TRUE then tcp_bind = true
 if $TCP_THREADS then tcp_threads = $TCP_THREADS
-if !tcp_bind.int < 1 then tcp_bind = 1
+if !tcp_threads.int < 1 then tcp_threads = 1
 
 if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
 if $REST_BIND == true or $REST_BIND == True or $REST_BIND == TRUE then rest_bind = true

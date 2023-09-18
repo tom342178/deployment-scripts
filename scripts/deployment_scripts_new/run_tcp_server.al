@@ -2,7 +2,7 @@
 # Set network configuration
 # --> TCP
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/deployment_scripts/network_configs.al
+# process !local_scripts/deployment_scripts/run_tcp_server.al
 
 on error goto tcp-networking-error
 <if !overlay_ip then run tcp server where
