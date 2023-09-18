@@ -287,6 +287,6 @@ goto terminate-scripts
 print "Invalid SQL database type " $DB_TYPE ", cannot continue..."
 goto terminate-scripts
 
-:invalid-sql-database:
+:invalid-nosql-database:
 print "Invalid NoSQL database type " $NOSQL_TYPE ", cannot continue..."
 goto terminate-scripts
