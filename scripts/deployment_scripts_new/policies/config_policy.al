@@ -34,7 +34,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout'
 if !anylog_broker_port then set policy new_policy [config][broker_threads] = '!broker_threads'
 
 :publish-policy:
-process !local_scripts//publish_policy.al
+process !local_scripts/deployment_scripts_new/policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
