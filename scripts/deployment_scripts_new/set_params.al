@@ -115,7 +115,7 @@ if !node_type == operator then
 do default_dbms=!company_name.name
 do if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
 
-if $DB_TYPE != psql and $DB_TYPE != sqlite then goto invalid-sql-database
+if $DB_TYPE and $DB_TYPE != psql and $DB_TYPE != sqlite then goto invalid-sql-database
 if $DB_TYPE == psql then db_type = $DB_TYPE
 
 if !db_type != sqlite then
