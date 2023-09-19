@@ -7,7 +7,7 @@
 #   3. blockchain seed
 #   4. config policy
 #-----------------------------------------------------------------------------------------------------------------------
-# python3.10 AnyLog-Network/source/anylog.py process deployment-scripts/scripts/run_scripts/start_node.al
+# python3.10 AnyLog-Network/source/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
 
 :set-configs:
 on error ignore
