@@ -43,6 +43,8 @@ set policy new_policy [!node_type][port] = !anylog_server_port.int
 set policy new_policy [!node_type][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [!node_type][rest_port] = !anylog_broker_port.int
 
+if !license_key then set policy new_policy [!node_type][license] = !license_key
+
 :location:
 if !loc then set policy new_policy [!node_type][loc] = !loc
 if !country then set policy new_policy [!node_type][country] = !country
