@@ -42,7 +42,7 @@ process !local_scripts/deployment_scripts/run_tcp_server.al
 :blockchain-seed:
 reset error log
 on error goto blockchain-seed-error
-blockchain seed from !ledger_conn
+if !ledger_conn then blockchain seed from !ledger_conn
 
 :get-license:
 on error ignore

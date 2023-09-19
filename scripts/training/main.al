@@ -27,7 +27,7 @@ process !local_scripts/training/set_params.al
 
 :blockchain-seed:
 reset error log
-on error call blockchain-seed-error
+on error goto blockchain-seed-error
 blockchain seed from !ledger_conn
 
 :get-license:
