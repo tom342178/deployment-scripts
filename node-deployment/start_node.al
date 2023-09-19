@@ -29,19 +29,23 @@ create work directories
 process !local_scripts/deployment_scripts/set_params.al
 process !local_scripts/deployment_scripts/run_tcp_server.al
 
+:create-database:
+if !node_type == master then process !local_scripts/database/configure_dbms_blockchain.al
+
 :blockchain-seed:
-reset error log
 on error goto blockchain-seed-error
 if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
 wait 5
 
 :blockchain-get:
+on error ignore
 master_policy = blockchain get master
 if !master_policy then
 do license_key = from !master_policy bring.license
 do ledger_conn = from !master_policy bring.ip_port
 
-:declare-network-policy:
+:declare-policy:
+if !node_type == operator then process !local_scripts/policies/create_cluster.al
 
 
 :execute-license:
