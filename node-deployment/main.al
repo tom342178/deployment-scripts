@@ -26,8 +26,8 @@ if $TEST_DIR then set test_dir = $TEST_DIR
 create work directories
 
 :set-params:
-process !local_scripts/deployment_scripts/set_params.al
-process !local_scripts/deployment_scripts/run_tcp_server.al
+process !local_scripts/set_params.al
+process !local_scripts/run_tcp_server.al
 
 :create-database:
 if !node_type == master then process !local_scripts/database/configure_dbms_blockchain.al
