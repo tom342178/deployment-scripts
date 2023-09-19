@@ -1,6 +1,5 @@
 on error ignore
 :check-policy:
-config_name = !node_type.name + - + !company_name.name + -configs
 policy_id = blockchain get config where name = !config_name and node_type=!node_type and company=!company_name bring [*][id]
 if !policy_id then goto end-script
 if not !policy_id and !create_policy == true then goto declare-policy-error
@@ -24,14 +23,37 @@ if not !overlay_ip and !rest_bind == true then set policy new_policy [config][re
 if !anylog_broker_port and !overlay_ip and !broker_bind == true then set policy new_policy [config][broker_ip] = '!overlay_ip'
 if !anylog_broker_port and not !overlay_ip and !broker_bind == true then set policy new_policy [config][broker_ip] = '!ip'
 
-set policy new_policy [config][port] = '!anylog_server_port'
-set policy new_policy [config][rest_port] = '!anylog_rest_port'
-if !anylog_broker_port then set policy new_policy[config][broker_port] = '!anylog_broker_port'
+set policy new_policy [config][port] = '!anylog_server_port.int'
+set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
+if !anylog_broker_port then set policy new_policy[config][broker_port] = '!anylog_broker_port.int'
 
-set policy new_policy [config][tcp_threads] = '!tcp_threads'
-set policy new_policy [config][rest_threads] = '!rest_threads'
-set policy new_policy [config][rest_timeout] = '!rest_timeout'
-if !anylog_broker_port then set policy new_policy [config][broker_threads] = '!broker_threads'
+set policy new_policy [config][threads] = '!tcp_threads.int'
+set policy new_policy [config][rest_threads] = '!rest_threads.int'
+set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
+if !anylog_broker_port then set policy new_policy [config][broker_threads] = '!broker_threads.int'
+
+:scripts:
+#----------------------------------------------------------------------------------------------------------------------#
+# scripts
+#   --> run scheduler
+#   --> blockchain_sync
+#   --> declare policy
+#   --> connect database(s)
+#   --> run operator || publisher
+#   --> run monitoring
+#   --> run mqtt client
+#   --> ru personalized script
+#----------------------------------------------------------------------------------------------------------------------#
+#set policy new_policy [config][scripts] = [
+    "run scheduler 1",
+    "do run blockchain sync where source=!blockchain_source and time=!sync_time and dest=!blockchain_destination and connection=!ledger_conn",
+#    "if !node_type == master then process !local_scripts/deployment_scripts_new/database/configure_dbms_blockchain.al",
+#    "if !deploy_system_query == true then process !local_scripts/deployment_scripts_new/database/configure_dbms_system_query.al",
+#    "if !node_type == operator then process !local_scripts/deployment_scripts_new/database/configure_dbms_system_query.al",
+#    "if !node_type == operator then process !local_scripts/deployment_scripts_new/database/configure_dbms_system_query.al",
+#    "if !enable_nosql == true then process !local_scripts/deployment_scripts_new/database/configure_dbms_nosql.al",
+#    "if !node_type == operator or !node_type == publisher then process !local_scripts/deployment_scripts_new/database/configure_dbms_almgm.al",
+#]
 
 :publish-policy:
 process !local_scripts/deployment_scripts_new/policies/publish_policy.al

@@ -24,15 +24,21 @@ create work directories
 :set-params:
 on error ignore
 process !local_scripts/training/set_params.al
-# process !local_scripts/training/run_tcp_server.aldo process !local_scripts/training/run_tcp_server.al
+
+:blockchain-seed:
+reset error log
+on error call blockchain-seed-error
+blockchain seed from !ledger_conn
+
+:get-license:
+master_policy = blockchain get master
+if !master_policy then
+do license_key = from !master_policy bring [master][license]
+do ledger_conn = from !master_policy bring.ip_port
 
 :execute-license:
 on error call license-error
 set license where activation_key=!license_key
-
-:blockchain-seed:
-on error call blockchain-seed-error
-blockchain seed from !ledger_conn
 
 :call-process:
 process !local_scripts/training/generic_policies/generic_monitoring_policy.al

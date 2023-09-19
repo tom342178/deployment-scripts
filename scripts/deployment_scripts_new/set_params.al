@@ -48,6 +48,7 @@ do if not !state then state = from !loc_info bring [state]
 do if not !city then city = from !loc_info bring [city]
 
 :networking:
+config_name = !node_type.name + - + !company_name.name + -configs
 tcp_bind = false
 tcp_threads=6
 rest_bind = false
@@ -97,6 +98,7 @@ if !broker_threads.int < 1 then broker_threads = 1
 
 if $OVERLAY_IP then overlay_ip = $OVERLAY_IP
 if $PROXY_IP then proxy_ip = $PROXY_IP
+if $CONFIG_NAME then config_name = $CONFIG_NAME
 
 :authentication:
 enable_auth = false
