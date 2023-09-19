@@ -32,7 +32,7 @@ set license where activation_key=!license_key
 
 :blockchain-seed:
 on error call blockchain-seed-error
-blockchain seed from !ledger_conn
+if !node_type != master then blockchain seed from !ledger_conn
 
 :call-process:
 process !local_scripts/training/generic_policies/generic_monitoring_policy.al
