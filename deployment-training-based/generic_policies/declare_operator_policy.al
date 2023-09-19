@@ -28,7 +28,7 @@
 #                'ledger' : 'global'
 #   }}
 #----------------------------------------------------------------------------------------------------------------------#
-# process !training_scripts/generic_policies/declare_operator_policy.al
+# process !local_scripts/generic_policies/declare_operator_policy.al
 on error ignore
 
 :cluster-id:

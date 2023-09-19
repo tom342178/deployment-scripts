@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # TCP connection temporarily used in order to get the initial blockchain configs
 #----------------------------------------------------------------------------------------------------------------------#
-# process !training_scripts/run_tcp_server.al
+# process !local_scripts/run_tcp_server.al
 
 :tcp-networking:
 on error goto tcp-networking-error

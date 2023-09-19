@@ -12,7 +12,7 @@
 #   -> LICNESE_KEY (master only)
 #   -> COMPANY_NAME (master only)
 #-----------------------------------------------------------------------------------------------------------------------
-# process !training_scripts/set_params_blockchain.al
+# process !local_scripts/set_params_blockchain.al
 
 on error ignore
 

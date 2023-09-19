@@ -5,7 +5,7 @@
 #   -> networking IO
 #   -> networking error count
 #-----------------------------------------------------------------------------------------------------------------------
-# process !training_scripts/generic_monitoring_policy.al
+# process !local_scripts/generic_monitoring_policy.al
 on error ignore
 
 :is-policy:
@@ -33,7 +33,7 @@ schedule_time = 30 seconds
 
 
 
-process !training_scripts/publish_policy.al
+process !local_scripts/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error

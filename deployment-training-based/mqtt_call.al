@@ -19,7 +19,7 @@
 #   }]
 # }
 #----------------------------------------------------------------------------------------------------------------------#
-# process !training_scripts/mqtt_call.al
+# process !local_scripts/mqtt_call.al
 
 on  error ignore
 

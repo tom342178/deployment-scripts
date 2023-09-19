@@ -44,14 +44,14 @@ if !node_type == master then
     "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn"
 ]>
 
-#if !node_type == query then
-#<do set policy new_policy [config][script] = [
-#    "set node name !node_name",
-#    "process !local_scripts/policies/generic_policy.al",
-#    "process !local_scripts/database/configure_dbms_system_query.al",
-#    "run scheduler 1",
-#    "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn"
-#]>
+if !node_type == query then
+<do set policy new_policy [config][script] = [
+    "set node name !node_name",
+    "process !local_scripts/policies/generic_policy.al",
+    "process !local_scripts/database/configure_dbms_system_query.al",
+    "run scheduler 1",
+    "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn"
+]>
 
 #if !node_type == publisher then
 #<do set policy new_policy [config][script] = [

@@ -5,7 +5,7 @@
 #   -> create blockchain database
 #   -> create ledger table
 #-----------------------------------------------------------------------------------------------------------------------
-# process !training_scripts/generic_policies/generic_master_policy.al
+# process !local_scripts/generic_policies/generic_master_policy.al
 on error ignore
 
 :is-policy:
@@ -26,14 +26,14 @@ if !is_policy then goto end-script
             "run scheduler 1",
             "is_policy = blockchain get master where name=!node_name and company=!company_name",
             "if not !is_policy then new_policy = create policy master with defaults where name=!node_name and port=!anylog_server_port.int and rest_port=!anylog_rest_port.int and company=!company_name and license=!license_key",
-            "if not !is_policy then process !training_scripts/generic_policies/publish_policy.al",
+            "if not !is_policy then process !local_scripts/generic_policies/publish_policy.al",
             "connect dbms blockchain where type=sqlite",
             "create table ledger where dbms=blockchain",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn"
         ]
 }}>
 #             "config from policy where id = generic-schedule-policy"
-process !training_scripts/generic_policies/publish_policy.al
+process !local_scripts/generic_policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
