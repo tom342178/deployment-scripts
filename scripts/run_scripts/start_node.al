@@ -57,7 +57,7 @@ set license where activation_key=!license_key
 
 
 :end-script:
-end script:
+end script
 
 :blockchain-seed-error:
 print "Failed to run blockchain seed"
