@@ -54,7 +54,7 @@ if !policy_id then config from policy where id = !policy_id
 :get-processes:
 on error ignore
 get processes
-if !enablee_mqtt == true then get msg client
+if !enable_mqtt == true then get msg client
 
 :end-script:
 end script
@@ -65,7 +65,7 @@ return
 
 :blockchain-seed-error:
 print "Failed to run blockchain seed"
-return
+goto end-script
 
 :config-from-policy-error:
 print "Failed to configure from policy for node type " !node_type

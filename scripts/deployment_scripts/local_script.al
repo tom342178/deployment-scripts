@@ -9,4 +9,4 @@
 #
 # Documentation: https://github.com/AnyLog-co/documentation
 #-----------------------------------------------------------------------------------------------------------------------
-# process !anylog_path/AnyLog-Network/scripts/local_script.al
+# process !local_scripts/deployment_scripts/local_script.al

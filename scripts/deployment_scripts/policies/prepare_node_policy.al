@@ -73,6 +73,16 @@ if !enable_partitions == false then goto end-script
     'schedule time=!partition_sync and name="Drop Partitions" task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep'
 ]>
 
+
+:query-pool:
+# set query pool if different from default.
+on error goto query-pool-error
+if !query_pool != 3 then
+do exit workers
+do sleep 5
+do set query pool !query_pool
+
+
 :end-script:
 end script
 

@@ -27,7 +27,7 @@ if $CITY then city = $CITY
 ...
 ```
 
-3. [network_configs.al](deployment_scripts/network_configs.al) - Setup network configurations, such as TCP and REST
+3. [network_configs.al](demo_scripts/network_configs.al) - Setup network configurations, such as TCP and REST
 ```anylog
 run tcp server !external_ip !anylog_server_port !ip !anylog_server_port 
 run rest server !anylog_rest_port 
