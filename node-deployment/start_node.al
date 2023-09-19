@@ -1,0 +1,61 @@
+#-----------------------------------------------------------------------------------------------------------------------
+# The following is intended to deploy an AnyLog instance based on user configurations
+# If !policy_based_networking == true, the deployment is executed in the following way
+# Script: !local_scripts/start_node_policy_based.al
+#   1. set params
+#   2. run tcp server
+#   3. blockchain seed
+#   4. config policy
+#-----------------------------------------------------------------------------------------------------------------------
+# python3.10 AnyLog-Network/source/anylog.py process deployment-scripts/scripts/run_scripts/start_node.al
+
+:set-configs:
+on error ignore
+set debug off
+set authentication off
+set echo queue on
+
+:directories:
+if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
+set anylog home !anylog_path
+if $ANYLOG_ID_DIR then set id_dir = $ANYLOG_ID_DIR
+
+if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
+if $TEST_DIR then set test_dir = $TEST_DIR
+
+create work directories
+
+:set-params:
+process !local_scripts/deployment_scripts/set_params.al
+process !local_scripts/deployment_scripts/run_tcp_server.al
+
+:blockchain-seed:
+reset error log
+on error goto blockchain-seed-error
+if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
+wait 5
+
+:blockchain-get:
+master_policy = blockchain get master
+if !master_policy then
+do license_key = from !master_policy bring.license
+do ledger_conn = from !master_policy bring.ip_port
+
+:declare-network-policy:
+
+
+:execute-license:
+on error call license-error
+set license where activation_key=!license_key
+
+
+:end-script:
+end script
+
+:blockchain-seed-error:
+print "Failed to run blockchain seed"
+goto end-script
+
+:license-key-error:
+print "Failed to enable license key"
+return
