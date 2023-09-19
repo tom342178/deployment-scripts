@@ -24,21 +24,15 @@ create work directories
 :set-params:
 on error ignore
 process !local_scripts/training/set_params.al
-
-:blockchain-seed:
-reset error log
-on error goto blockchain-seed-error
-blockchain seed from !ledger_conn
-
-:get-license:
-master_policy = blockchain get master
-if !master_policy then
-do license_key = from !master_policy bring [master][license]
-do ledger_conn = from !master_policy bring.ip_port
+# process !local_scripts/training/run_tcp_server.aldo process !local_scripts/training/run_tcp_server.al
 
 :execute-license:
 on error call license-error
 set license where activation_key=!license_key
+
+:blockchain-seed:
+on error call blockchain-seed-error
+blockchain seed from !ledger_conn
 
 :call-process:
 process !local_scripts/training/generic_policies/generic_monitoring_policy.al
@@ -54,7 +48,7 @@ if !policy_id then config from policy where id = !policy_id
 :get-processes:
 on error ignore
 get processes
-if !enable_mqtt == true then get msg client
+if !enablee_mqtt == true then get msg client
 
 :end-script:
 end script
@@ -65,7 +59,7 @@ return
 
 :blockchain-seed-error:
 print "Failed to run blockchain seed"
-goto end-script
+return
 
 :config-from-policy-error:
 print "Failed to configure from policy for node type " !node_type
