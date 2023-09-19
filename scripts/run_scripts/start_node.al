@@ -12,13 +12,6 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # python3.10 AnyLog-Network/source/anylog.py process deployment-scripts/scripts/run_scripts/start_node.al
 
-:enable-cli:
-set enable_cli = true
-if $ENABLE_CLI == false or $ENABLE_CLI == False or $ENABLE_CLI == FALSE then set enable_cli = false
-
-on error call enable-cli-error
-if !enable_cli == false then set cli off
-
 :set-configs:
 on error ignore
 set debug off
