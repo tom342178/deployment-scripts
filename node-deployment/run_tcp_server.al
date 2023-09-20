@@ -10,8 +10,6 @@ on error goto tcp-networking-error
     internal_ip=!ip and internal_port=!anylog_server_port and
     bind=false and threads=3>
 
-get connections
-
 :end-script:
 end script
 

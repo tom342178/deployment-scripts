@@ -50,9 +50,9 @@ if error_code == 3 then declare-policy-error
 set create_policy = true
 goto check-policy
 
-:config-policy: 
-on error goto config-policy-error 
-config from policy where id=!cofig_id
+#:config-policy:
+#on error goto config-policy-error
+#config from policy where id=!cofig_id
 
 :end-script:
 end script
