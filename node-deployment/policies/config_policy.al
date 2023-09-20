@@ -52,7 +52,6 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 ]>
 
 <if !node_type == publisher then set policy new_policy [config][script] = [
-    "if !anylog_broker_port then ...
     "process !local_scripts/policies/publisher_policy.al",
     "process !local_scripts/database/configure_dbms_almgm.al",
     "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
