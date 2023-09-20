@@ -1,4 +1,3 @@
-set debug on
 :check-policy:
 config_id = blockchain get config where company=!company_name and config=!config_name bring [*][id]
 if !config_id then goto config-policy
@@ -52,9 +51,9 @@ if error_code == 3 then declare-policy-error
 set create_policy = true
 goto check-policy
 
-#:config-policy:
-#on error goto config-policy-error
-#config from policy where id=!cofig_id
+:config-policy:
+on error goto config-policy-error
+config from policy where id=!cofig_id
 
 :end-script:
 end script
