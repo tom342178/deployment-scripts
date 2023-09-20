@@ -42,10 +42,10 @@ on error ignore
 master_policy = blockchain get master
 if !master_policy then
 do set debug on
-do if not !license_key then license_key = from !master_policy bring [*][license]
-do ledger_conn = from !master_policy bring.ip_port
-do print "license key: " !license_key
-do print !ledger_conn
+do if not !license_key then license_key = blockchain get master bring [*][license]
+do ledger_conn = blockchain get master bring.ip_port
+do print "license: " !license_key
+do print "Ledger: " !ledger_conn
 do set deug off
 
 :declare-policy:
