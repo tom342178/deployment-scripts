@@ -43,9 +43,8 @@ master_policy = blockchain get master
 if !master_policy then
 do if not !license_key then license_key = blockchain get master bring [*][license]
 do ledger_conn = blockchain get master bring.ip_port
-if not !master_policy and not !license_key then
-do print "Failed to get blockchain"
-do end-script
+if not !master_policy and not !license_key then goto missing-license
+do goto end-script
 
 :declare-policy:
 process !local_scripts/policies/config_policy.al
@@ -60,6 +59,10 @@ end script
 
 :blockchain-seed-error:
 print "Failed to run blockchain seed"
+goto end-script
+
+:missing-license:
+print "Failed to get blockchain"
 goto end-script
 
 :license-key-error:
