@@ -46,7 +46,7 @@ do if not !license_key then license_key = blockchain get master bring [*][licens
 do ledger_conn = blockchain get master bring.ip_port
 do print "license: " !license_key
 do print "Ledger: " !ledger_conn
-do set deug off
+do set debug off
 
 :declare-policy:
 process !local_scripts/policies/config_policy.al
