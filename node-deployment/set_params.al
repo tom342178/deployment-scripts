@@ -251,8 +251,8 @@ if $DEPLOY_LOCAL_SCRIPT == true or $DEPLOY_LOCAL_SCRIPT == True or $DEPLOY_LOCAL
 if $COMPRESS_FILE == false or $COMPRESS_FILE == False or $COMPRESS_FILE == FALSE then set compress_file=false
 if $WRITE_IMMEDIATE == false or $WRITE_IMMEDIATE == False or $WRITE_IMMEDIATE == FALSE then set write_immediate=false
 
-if $DBMS_FILE_LOCATION then dbms_file_location = $DBMS_FILE_LOCATION
-if $TABLE_FILE_LOCATION then table_file_location = $TABLE_FILE_LOCATION
+#if $DBMS_FILE_LOCATION then dbms_file_location = $DBMS_FILE_LOCATION
+#if $TABLE_FILE_LOCATION then table_file_location = $TABLE_FILE_LOCATION
 
 if $THRESHOLD_TIME then threshold_time = $THRESHOLD_TIME
 if $THRESHOLD_VOLUME then threshold_volume = $THRESHOLD_VOLUME

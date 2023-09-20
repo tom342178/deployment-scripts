@@ -61,7 +61,6 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location"
 ]>
 
-
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
