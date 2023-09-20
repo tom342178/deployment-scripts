@@ -21,25 +21,23 @@ do set policy new_policy [config][internal_ip] = '!ip'
 if !overlay_ip and !rest_bind == true then set policy new_policy [config][rest_ip] = '!overlay_ip'
 if not !overlay_ip and !rest_bind == true then set policy new_policy [config][rest_ip] = '!ip'
 
-if !anylog_broker_port and (!node_type == 'operator' or !node_type == publisher) then
+if !anylog_broker_port and (!node_type == operator or !node_type == publisher) then
 do if !overlay_ip and !bind_bind == true then set policy new_policy [config][bind_ip] = '!overlay_ip'
 do if not !overlay_ip and !bind_bind == true then set policy new_policy [config][bind_ip] = '!ip'
 
+
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
-if !anylog_broker_port and (!node_type == 'operator' or !node_type == publisher) then set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
+if !anylog_broker_port and (!node_type == operator or !node_type == publisher) then set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
 
 set policy new_policy [config][threads] = '!tcp_threads.int'
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
-set policy new_policy [config][broker_threads] = '!broker_threads.int'
+if !anylog_broker_port and (!node_type == operator or !node_type == publisher) then set policy new_policy [config][broker_threads] = '!broker_threads.int'
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 
 :scripts:
-if !node_type == master then
-<do set policy new_policy [config][script] = [
-    "set node name !node_name",
+<if !node_type == master then set policy new_policy [config][script] = [
     "process !local_scripts/policies/generic_policy.al",
-    "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
 ]>
