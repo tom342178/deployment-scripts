@@ -41,7 +41,7 @@ wait 5
 on error ignore
 master_policy = blockchain get master
 if !master_policy then
-do license_key = from !master_policy bring [*][license]
+do if not !license_key then license_key = from !master_policy bring [*][license]
 do ledger_conn = from !master_policy bring.ip_port
 
 :declare-policy:

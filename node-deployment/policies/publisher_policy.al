@@ -20,13 +20,18 @@
 #----------------------------------------------------------------------------------------------------------------------#
 
 :check-policy:
-is_policy = blockchain get operator where company=!company_name and name=!node_name
-if not !is_policy then goto create-policy
-if !is_policy and not !create_policy  then
+is_policy = blockchain get publisher where company=!company_name and name=!node_name
+
+# just created the policy + exists
+if !is_policy and !create_policy == true then goto end-script
+
+# policy pre-exists - validate IP addresses
+if !is_policy and not !create_policy == false  then
 do ip_address = from !is_policy bring [*][ip]
 do if !ip_address != !external_ip and !ip_address != !ip and !ip_address != !overlay_ip then goto ip-error
+do goto end-script
 
-if !is_policy then goto end-script
+# failure show created policy
 if not !is_policy and !create_policy == true then goto declare-policy-error
 
 :create-policy:
@@ -48,8 +53,6 @@ do set policy new_policy [publisher][internal_ip] = !ip
 set policy new_policy [publisher][port] = !anylog_server_port.int
 set policy new_policy [publisher][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [publisher][rest_port] = !anylog_broker_port.int
-
-if !license_key then set policy new_policy [publisher][license] = !license_key
 
 :location:
 if !loc then set policy new_policy [publisher][loc] = !loc
