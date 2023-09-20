@@ -19,19 +19,17 @@
 #   }}
 #----------------------------------------------------------------------------------------------------------------------#
 
-create_policy = false
 :check-policy:
 is_policy = blockchain get operator where company=!company_name and name=!node_name
-if !is_policy then goto end-script
-if not !is_policy and !create_policy == true then goto declare-policy-error
-
-if not !is_policy then goto create-policy
+# just created the policy + exists
+if !is_policy and !create_policy == true then goto end-script
+# policy pre-exists - validate IP addresses
 if !is_policy and not !create_policy == false  then
 do ip_address = from !is_policy bring [*][ip]
 do if !ip_address != !external_ip and !ip_address != !ip and !ip_address != !overlay_ip then goto ip-error
-
-
-
+do goto end-script
+# failure show created policy
+if not !is_policy and !create_policy == true then goto declare-policy-error
 
 :create-policy:
 set new_policy = ""
