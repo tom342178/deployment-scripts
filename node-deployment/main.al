@@ -52,7 +52,8 @@ do set debug off
 process !local_scripts/policies/config_policy.al
 
 :execute-license:
-on error call license-error
+if not !license_key then goto license-key-error
+on error goto license-key-error
 set license where activation_key = !license_key
 
 :end-script:
@@ -64,4 +65,4 @@ goto end-script
 
 :license-key-error:
 print "Failed to enable license key"
-return
+goto end-script
