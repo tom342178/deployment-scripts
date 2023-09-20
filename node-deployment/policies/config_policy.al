@@ -1,7 +1,6 @@
-set debug on
 :check-policy:
 config_id = blockchain get config  where company=!company_name and name=!config_name bring [*][id]
-if !config_id then goto end-script
+if !config_id then goto config-policy
 if not !config_id and !create_config == true then goto declare-policy-error
 
 :preapare-new-policy:
