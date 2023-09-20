@@ -1,5 +1,5 @@
 :check-policy:
-config_id = blockchain get config  where company=!company_name and name=!config_name bring [*][id]
+config_id = blockchain get config where company=!company_name and name=!config_name bring [*][id]
 if !config_id then goto config-policy
 if not !config_id and !create_config == true then goto declare-policy-error
 
@@ -8,6 +8,7 @@ new_policy = ""
 set policy new_policy [config] = {}
 set policy new_policy [config][name] = !config_name
 set policy new_policy [config][company] = !company_name
+
 
 :network-configs:
 if !overlay_ip and !tcp_bind == true then set policy new_policy [config][ip] = '!overlay_ip'
@@ -51,6 +52,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 ]>
 
 <if !node_type == publisher then set policy new_policy [config][script] = [
+    "if !anylog_broker_port then ...
     "process !local_scripts/policies/publisher_policy.al",
     "process !local_scripts/database/configure_dbms_almgm.al",
     "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",

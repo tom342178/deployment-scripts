@@ -41,8 +41,12 @@ wait 5
 on error ignore
 master_policy = blockchain get master
 if !master_policy then
+do set debug on
 do if not !license_key then license_key = from !master_policy bring [*][license]
 do ledger_conn = from !master_policy bring.ip_port
+do print !license_key
+do print !ledger_conn
+do set deug off
 
 :declare-policy:
 process !local_scripts/policies/config_policy.al
