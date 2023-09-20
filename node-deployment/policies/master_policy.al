@@ -20,7 +20,7 @@
 #----------------------------------------------------------------------------------------------------------------------#
 
 :check-policy:
-is_policy = blockchain get operator where company=!company_name and name=!node_name
+is_policy = blockchain get master where company=!company_name and name=!node_name
 
 # just created the policy + exists
 if !is_policy and !create_policy == true then goto end-script
