@@ -49,7 +49,7 @@ process !local_scripts/policies/config_policy.al
 
 :execute-license:
 on error call license-error
-set license where activation_key=!license_key
+set license where activation_key = !license_key
 
 
 :end-script:
