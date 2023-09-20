@@ -36,8 +36,8 @@ if !anylog_broker_port and (!node_type == operator or !node_type == publisher) t
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 
 :scripts:
-<if !node_type == master then set policy new_policy [config][script] = [
-    "process !local_scripts/policies/generic_policy.al",
+<set policy new_policy [config][script] = [
+    "if !node_type == master then process !local_scripts/policies/master_policy.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
 ]>
