@@ -1,3 +1,4 @@
+set debug on
 :check-policy:
 config_id = blockchain get config where company=!company_name and config=!config_name bring [*][id]
 if !config_id then goto end-script
