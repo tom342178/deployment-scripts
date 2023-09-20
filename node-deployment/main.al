@@ -51,7 +51,6 @@ process !local_scripts/policies/config_policy.al
 on error call license-error
 set license where activation_key = !license_key
 
-
 :end-script:
 end script
 
