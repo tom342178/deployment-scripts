@@ -1,6 +1,6 @@
 :check-policy:
 config_id = blockchain get config where company=!company_name and config=!config_name bring [*][id]
-if !config_id then goto config-policy
+if !config_id then goto end-script
 if not !config_id and !create_config == true then goto declare-policy-error
 
 :preapare-new-policy:
@@ -25,7 +25,6 @@ if not !overlay_ip and !rest_bind == true then set policy new_policy [config][re
 if !anylog_broker_port and (!node_type == operator or !node_type == publisher) then
 do if !overlay_ip and !bind_bind == true then set policy new_policy [config][bind_ip] = '!overlay_ip'
 do if not !overlay_ip and !bind_bind == true then set policy new_policy [config][bind_ip] = '!ip'
-
 
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
