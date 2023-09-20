@@ -45,7 +45,7 @@ do license_key = from !master_policy bring [*][license]
 do ledger_conn = from !master_policy bring.ip_port
 
 :declare-policy:
-# process !local_scripts/policies/config_policy.al
+process !local_scripts/policies/config_policy.al
 
 :execute-license:
 on error call license-error
