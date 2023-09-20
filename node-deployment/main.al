@@ -35,7 +35,7 @@ if !node_type == master then process !local_scripts/database/configure_dbms_bloc
 :blockchain-seed:
 on error goto blockchain-seed-error
 if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
-wait 5
+wait 30
 
 :blockchain-get:
 on error ignore
