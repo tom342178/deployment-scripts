@@ -20,7 +20,12 @@
 #----------------------------------------------------------------------------------------------------------------------#
 
 :check-policy:
-is_policy = blockchain get master where company=!company_name and name=!node_name
+is_policy = blockchain get operator where company=!company_name and name=!node_name
+if not !is_policy then goto create-policy
+if !is_policy and not !create_policy  then
+do ip_address = from !is_policy bring [*][ip]
+do if !ip_address != !external_ip and !ip_address != !ip and !ip_address != !overlay_ip then goto ip-error
+
 if !is_policy then goto end-script
 if not !is_policy and !create_policy == true then goto declare-policy-error
 
@@ -65,6 +70,10 @@ end script
 
 :terminate-scripts:
 exit scripts
+
+:ip-error:
+print "A Master node policy with the same company and node name already exists under a different IP address: " !ip_address
+goto terminate scripts
 
 :sign-policy-error:
 print "Failed to sign master policy"

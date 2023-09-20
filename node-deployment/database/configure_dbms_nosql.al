@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_nosql.al
 
+if !enable_nosql == false then goto blobs-archiver
+
 :connect-dbms:
 on error goto connect-dbms-error
 if !nosql_user and !nosql_passwd then
