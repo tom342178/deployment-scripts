@@ -62,7 +62,7 @@ print "Failed to run blockchain seed"
 goto end-script
 
 :missing-license:
-print "Failed to get blockchain"
+print "Failed to get license from blockchain"
 goto end-script
 
 :license-key-error:
