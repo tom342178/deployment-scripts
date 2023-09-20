@@ -37,12 +37,20 @@ if !anylog_broker_port and (!node_type == operator or !node_type == publisher) t
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 
 :scripts:
-<set policy new_policy [config][script] = [
+<if !node_type == master then set policy new_policy [config][script] = [
     "process !local_scripts/policies/master_policy.al",
+    "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_almgm.al
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
 ]>
 
+<if !node_type == query then set policy new_policy [config][script] = [
+    "process !local_scripts/policies/query_policy.al",
+    "run scheduler 1",
+    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
+]>
+
+<if !node
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
