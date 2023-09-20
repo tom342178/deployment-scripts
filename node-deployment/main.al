@@ -45,7 +45,7 @@ do license_key = from !master_policy bring.license
 do ledger_conn = from !master_policy bring.ip_port
 
 :declare-policy:
-if !node_type == operator then process !local_scripts/policies/create_cluster.al
+process !local_scripts/policies/config_policy.al
 
 
 :execute-license:

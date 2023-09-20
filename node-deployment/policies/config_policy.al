@@ -41,30 +41,8 @@ if !node_type == master then
     "process !local_scripts/policies/generic_policy.al",
     "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
     "run scheduler 1",
-    "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn"
+    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
 ]>
-
-if !node_type == query then
-<do set policy new_policy [config][script] = [
-    "set node name !node_name",
-    "process !local_scripts/policies/generic_policy.al",
-    "process !local_scripts/database/configure_dbms_system_query.al",
-    "run scheduler 1",
-    "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn"
-]>
-
-#if !node_type == publisher then
-#<do set policy new_policy [config][script] = [
-#    "set node name !node_name",
-#    "process !local_scripts/policies/generic_policy.al",
-#    "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
-#    "process !local_scripts/database/configure_dbms_almgm.al",
-#    "run scheduler 1",
-#    "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
-#    "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
-#    "run streamer",
-#    "run publisher where compress_json=!publisher_compress_file and compress_sql=!publisher_compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location"
-#]>
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al

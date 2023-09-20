@@ -11,7 +11,7 @@ on error goto ledger-db-error
     password = !db_passwd and
     ip = !db_ip and
     port = !db_port>
-else if !deploy_ledger == true and !db_type == sqlite then connect dbms blockchain where type=!db_type
+else if !db_type == sqlite then connect dbms blockchain where type=!db_type
 
 on error goto ledger-table-error
 is_table = info table blockchain ledger exists
