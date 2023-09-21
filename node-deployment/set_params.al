@@ -167,7 +167,7 @@ set enable_partitions = true
 cluster_name = !node_name.name + -cluster
 table_name=*
 partition_column = insert_timestamp
-partition_interval = 6
+partition_interval = day
 partition_keep = 3
 partition_sync = 1 day
 
