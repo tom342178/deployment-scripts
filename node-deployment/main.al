@@ -32,19 +32,19 @@ process !local_scripts/run_tcp_server.al
 :create-database:
 if !node_type == master then process !local_scripts/database/configure_dbms_blockchain.al
 
-:blockchain-seed:
-on error goto blockchain-seed-error
-if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
-wait 30
+#:blockchain-seed:
+#on error goto blockchain-seed-error
+#if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
+#wait 30
 
-:blockchain-get:
-on error ignore
-master_policy = blockchain get master
-if !master_policy then
-do if not !license_key then license_key = blockchain get master bring [*][license]
-do ledger_conn = blockchain get master bring.ip_port
-if not !master_policy and not !license_key then goto missing-license
-do goto end-script
+#:blockchain-get:
+#on error ignore
+#master_policy = blockchain get master
+#if !master_policy then
+#do if not !license_key then license_key = blockchain get master bring [*][license]
+#do ledger_conn = blockchain get master bring.ip_port
+#if not !master_policy and not !license_key then goto missing-license
+#do goto end-script
 
 :declare-policy:
 process !local_scripts/policies/config_policy.al
