@@ -8,7 +8,8 @@ if !is_policy then goto config-policy
 if not !is_policy and !create_policy == true then goto declare-policy-error
 
 :schedule-policy: 
-on error ignore 
+on error ignore
+new_policy=""
 <new_policy = {
     "schedule": {
         "id": "generic-schedule-policy",
