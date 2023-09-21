@@ -54,7 +54,7 @@ if not !license_key then goto license-key-error
 on error goto license-key-error
 set license where activation_key = !license_key
 
-:enable-scheduler:
+:monitoring:
 on error ignore
 process !local_scripts/local_script.al
 
