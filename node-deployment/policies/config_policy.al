@@ -74,7 +74,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
     "run streamer",
     "if !enable_ha == true then run data distributor",
-    "if !enable_ha == true then run data consumer where start_date=!ha_start_date",
+    "if !enable_ha == true then run data consumer where start_date=!start_data",
     "run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads"
 ]>
 
