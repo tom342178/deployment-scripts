@@ -65,10 +65,9 @@ if !city then set policy new_policy [operator][city] = !city
 
 :partitions:
 # for operator node, extend to have partitioning is initially enabled
-if !enable_partitions == true then
-<do set policy new_policy [operator][script] = [
-    'partition !default_dbms !table_name using !partition_column by !partition_interval',
-    'schedule time=!partition_sync and name="Drop Partitions" task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep'
+<set policy new_policy [operator][script] = [
+    'if !enable_partitions == true then partition !default_dbms !table_name using !partition_column by !partition_interval',
+    'if !enable_partitions == true then schedule time=!partition_sync and name="Drop Partitions" task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep'
 ]>
 
 :publish-policy:

@@ -23,7 +23,7 @@
 is_policy = blockchain get master where company=!company_name and name=!node_name
 
 # just created the policy + exists
-if !is_policy and !create_policy == true then goto end-script
+if !is_policy then goto end-script
 
 # policy pre-exists - validate IP addresses
 if !is_policy and not !create_policy == false  then

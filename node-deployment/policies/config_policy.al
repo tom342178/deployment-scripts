@@ -41,14 +41,16 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "process !local_scripts/policies/master_policy.al",
     "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
     "run scheduler 1",
-    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
+    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
+    "!monitor_nodes == true then process !local_scripts/policies/monitoring_policy.al"
 ]>
 
 <if !node_type == query then set policy new_policy [config][script] = [
     "process !local_scripts/policies/query_policy.al",
     "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
     "run scheduler 1",
-    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
+    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
+    "!monitor_nodes == true then process !local_scripts/policies/monitoring_policy.al"
 ]>
 
 <if !node_type == publisher then set policy new_policy [config][script] = [
@@ -59,7 +61,8 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
     "run streamer",
-    "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location"
+    "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
+    "!monitor_nodes == true then process !local_scripts/policies/monitoring_policy.al"
 ]>
 
 <if !node_type == operator then set policy new_policy [config][script] = [
@@ -75,7 +78,8 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "run streamer",
     "if !enable_ha == true then run data distributor",
     "if !enable_ha == true then run data consumer where start_date=!start_data",
-    "run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads"
+    "run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
+    "!monitor_nodes == true then process !local_scripts/policies/monitoring_policy.al"
 ]>
 
 :publish-policy:
