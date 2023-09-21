@@ -9,7 +9,7 @@
 #       "name": "anylog-operator",
 #       "company": "AnyLog Co.",
 #       "ip": "136.23.47.189",
-#       "internal_ip": "136.23.47.189",
+#       "local_ip": "136.23.47.189",
 #       "port": 32248,
 #       "rest_port": 32249,
 #       "cluster": "",
@@ -46,10 +46,10 @@ if !overlay_ip and !tcp_bind == true then set policy new_policy [operator][ip] =
 if not !overlay_ip and !tcp_bind == true then set policy new_policy [operator][ip] = !ip
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [operator][ip] = !external_ip
-do set policy new_policy [operator][internal_ip] = !overlay_ip
+do set policy new_policy [operator][local_ip] = !overlay_ip
 if not !overlay_ip and !tcp_bind == false then
 do set policy new_policy [operator][ip] = !external_ip
-do set policy new_policy [operator][internal_ip] = !ip
+do set policy new_policy [operator][local_ip] = !ip
 
 set policy new_policy [operator][port] = !anylog_server_port.int
 set policy new_policy [operator][rest_port] = !anylog_rest_port.int
@@ -65,11 +65,11 @@ if !city then set policy new_policy [operator][city] = !city
 
 :partitions:
 # for operator node, extend to have partitioning is initially enabled
-#if !enable_partitions == true then
-#<do set policy new_policy [operator][script] = [
-#    "partition !default_dbms !table_name using !partition_column by !partition_interval",
-#    "schedule time=!partition_sync and name="Drop Partitions" task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep"
-#]>
+if !enable_partitions == true then
+<do set policy new_policy [operator][script] = [
+    "partition !default_dbms !table_name using !partition_column by !partition_interval",
+    "schedule time=!partition_sync and name="Drop Partitions" task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep"
+]>
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al

@@ -9,7 +9,7 @@
 #       "name": "anylog-query",
 #       "company": "AnyLog Co.",
 #       "ip": "136.23.47.189",
-#       "internal_ip": "136.23.47.189",
+#       "local_ip": "136.23.47.189",
 #       "port": 32348,
 #       "rest_port": 32349,
 #       "loc": "37.425423, -122.078360",
@@ -45,15 +45,15 @@ if !overlay_ip and !tcp_bind == true then set policy new_policy [query][ip] = !o
 if not !overlay_ip and !tcp_bind == true then set policy new_policy [query][ip] = !ip
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [query][ip] = !external_ip
-do set policy new_policy [query][internal_ip] = !overlay_ip
+do set policy new_policy [query][local_ip] = !overlay_ip
 if not !overlay_ip and !tcp_bind == false then
 do set policy new_policy [query][ip] = !external_ip
-do set policy new_policy [query][internal_ip] = !ip
+do set policy new_policy [query][local_ip] = !ip
 
 set policy new_policy [query][port] = !anylog_server_port.int
 set policy new_policy [query][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [query][rest_port] = !anylog_broker_port.int
-
+r
 :location:
 if !loc then set policy new_policy [query][loc] = !loc
 if !country then set policy new_policy [query][country] = !country

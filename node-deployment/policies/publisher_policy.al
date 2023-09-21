@@ -9,7 +9,7 @@
 #       "name": "anylog-publisher",
 #       "company": "AnyLog Co.",
 #       "ip": "136.23.47.189",
-#       "internal_ip": "136.23.47.189",
+#       "local_ip": "136.23.47.189",
 #       "port": 32248,
 #       "rest_port": 32249,
 #       "loc": "37.425423, -122.078360",
@@ -45,10 +45,10 @@ if !overlay_ip and !tcp_bind == true then set policy new_policy [publisher][ip] 
 if not !overlay_ip and !tcp_bind == true then set policy new_policy [publisher][ip] = !ip
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [publisher][ip] = !external_ip
-do set policy new_policy [publisher][internal_ip] = !overlay_ip
+do set policy new_policy [publisher][local_ip] = !overlay_ip
 if not !overlay_ip and !tcp_bind == false then
 do set policy new_policy [publisher][ip] = !external_ip
-do set policy new_policy [publisher][internal_ip] = !ip
+do set policy new_policy [publisher][local_ip] = !ip
 
 set policy new_policy [publisher][port] = !anylog_server_port.int
 set policy new_policy [publisher][rest_port] = !anylog_rest_port.int
