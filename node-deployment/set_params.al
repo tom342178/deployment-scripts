@@ -226,7 +226,7 @@ set monitor_nodes = false
 set monitor_node = query
 monitor_node_company = !company_name
 
-if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then monitor_nodes == true
+if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then set monitor_nodes = true
 if !monitor_nodes == true then
 do if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
 do if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
