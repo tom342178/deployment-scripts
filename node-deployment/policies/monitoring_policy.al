@@ -38,7 +38,7 @@ goto check-policy
 
 :config-policy:
 on error goto config-policy-error
-if !deploy_local_script == true then  config from policy where id=generic-schedule-policy
+if !deploy_local_script == true then config from policy where id=generic-schedule-policy
 
 :end-script:
 end script
