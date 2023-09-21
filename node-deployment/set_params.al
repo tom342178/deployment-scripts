@@ -241,6 +241,7 @@ set compress_file = true
 set move_json = true
 set publisher_compress_file = true
 set write_immediate = true
+operator_threads = 3
 
 dbms_file_location = file_name[0]
 table_file_location = file_name[1]
@@ -257,6 +258,7 @@ if $WRITE_IMMEDIATE == false or $WRITE_IMMEDIATE == False or $WRITE_IMMEDIATE ==
 if $THRESHOLD_TIME then threshold_time = $THRESHOLD_TIME
 if $THRESHOLD_VOLUME then threshold_volume = $THRESHOLD_VOLUME
 
+if $OPERATOR_THREADS the operator_threads=$OPERATOR_THREADS
 
 
 :end-script:
