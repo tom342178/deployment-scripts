@@ -258,7 +258,7 @@ if $WRITE_IMMEDIATE == false or $WRITE_IMMEDIATE == False or $WRITE_IMMEDIATE ==
 if $THRESHOLD_TIME then threshold_time = $THRESHOLD_TIME
 if $THRESHOLD_VOLUME then threshold_volume = $THRESHOLD_VOLUME
 
-if $OPERATOR_THREADS the operator_threads=$OPERATOR_THREADS
+if $OPERATOR_THREADS then operator_threads=$OPERATOR_THREADS
 
 
 :end-script:
