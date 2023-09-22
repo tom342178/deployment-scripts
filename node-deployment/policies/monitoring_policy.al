@@ -1,3 +1,4 @@
+set debg on
 on error ignore
 
 schedule_id = generic-schedule-policy
