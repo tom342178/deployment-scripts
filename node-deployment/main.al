@@ -35,7 +35,7 @@ if !node_type == master then process !local_scripts/database/configure_dbms_bloc
 :blockchain-seed:
 on error goto blockchain-seed-error
 if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
-wait 30
+# wait 30
 
 #:blockchain-get:
 #on error ignore
@@ -46,13 +46,13 @@ wait 30
 #if not !master_policy and not !license_key then goto missing-license
 #do goto end-script
 
-:declare-policy:
-process !local_scripts/policies/config_policy.al
-
 :execute-license:
 if not !license_key then goto license-key-error
 on error goto license-key-error
 set license where activation_key = !license_key
+
+:declare-policy:
+process !local_scripts/policies/config_policy.al
 
 :end-script:
 end script
