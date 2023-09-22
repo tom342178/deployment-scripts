@@ -89,6 +89,7 @@ goto check-policy
 
 :config-policy:
 on error goto config-policy-error
+config from policy where id = !config_id
 
 :end-script:
 end script
