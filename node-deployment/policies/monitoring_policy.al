@@ -27,7 +27,7 @@ new_policy=""
             "schedule name = errin and time = 30 seconds task errin = get node info net_io_counters errin",
             "schedule name = errout and time = 30 seconds task errout = get node info net_io_counters errout",
             "schedule name = error_count and time = 30 seconds task node_insight[Network Error] = python int(!errin) + int(!errout)",
-            "schedule name = monitor_node and time = 30 seconds task run client (!monitor_node where company=!monitor_node_company) monitor operators where info = !node_insight"
+            "schedule name = monitor_node and time = 30 seconds task run client (blockchain get !monitor_node  where company=!monitor_node_company bring.ip_port) monitor operators where info = !node_insight"
         ]
 }}>
 
