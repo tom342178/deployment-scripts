@@ -1,5 +1,8 @@
+on error ignore
+
+schedule_id = generic-schedule-policy
 :check-policy:
-is_policy = blockchain get schedule where id=generic-schedule-policy
+is_policy = blockchain get schedule where id=!schedule_id
 
 # just created the policy + exists
 if !is_policy then goto config-policy
@@ -7,13 +10,12 @@ if !is_policy then goto config-policy
 # failure show created policy
 if not !is_policy and !create_policy == true then goto declare-policy-error
 
-:schedule-policy: 
-on error ignore
+:schedule-policy:
 new_policy=""
 <new_policy = {
     "schedule": {
-        "id": "generic-schedule-policy",
-        "name": "Generic Schedule",
+        "id": !schedule_id,
+        "name": "Generic Monitoring Schedule",
         "script": [
 	        "operator_status = test process operator",
             "if !operator_status == true then schedule name = get_operator_stat and time = 30 seconds task node_insight = get operator stat format = json",
@@ -38,7 +40,7 @@ goto check-policy
 
 :config-policy:
 on error goto config-policy-error
-if !deploy_local_script == true then config from policy where id=generic-schedule-policy
+if !deploy_local_script == true then config from policy where id=!schedule_id
 
 :end-script:
 end script
@@ -55,6 +57,6 @@ print "Failed to prepare member schedule policy for publishing on blockchain"
 goto terminate-scripts
 
 :declare-policy-error:
-print "Failed to declare operator schedule on blockchain"
+print "Failed to declare schedule policy on blockchain"
 goto terminate-scripts
 
