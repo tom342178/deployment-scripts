@@ -23,6 +23,8 @@
 #       ]
 #   }}
 #----------------------------------------------------------------------------------------------------------------------#
+on error ignore
+set create_policy = false
 
 :check-policy:
 is_policy = blockchain get operator where company=!company_name and name=!node_name

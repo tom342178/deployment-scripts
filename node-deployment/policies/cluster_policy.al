@@ -13,6 +13,8 @@
 # ---- Sample Policy ---
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/policies/declare_cluster_policy.al
+on error ignore
+set create_policy = false
 
 :check-policy:
 on error ignore

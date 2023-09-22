@@ -1,7 +1,7 @@
-set debug on
 on error ignore
-
 schedule_id = generic-schedule-policy
+set create_policy = false
+
 :check-policy:
 is_policy = blockchain get schedule where id=!schedule_id
 

@@ -18,6 +18,8 @@
 #       "city": "Mountain View"
 #   }}
 #----------------------------------------------------------------------------------------------------------------------#
+on error ignore
+set create_policy = false
 
 :check-policy:
 is_policy = blockchain get query where company=!company_name and name=!node_name
