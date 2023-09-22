@@ -41,7 +41,9 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "process !local_scripts/policies/master_policy.al",
     "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
     "run scheduler 1",
-    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
+    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
+    "process !local_scripts/policies/monitoring_policy.al",
+    "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
 <if !node_type == query then set policy new_policy [config][script] = [
