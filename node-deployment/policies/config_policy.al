@@ -65,8 +65,8 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "run streamer",
     "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
     "process !local_scripts/policies/monitoring_policy.al",
-    "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al", "if !enable_mqtt == true then prrocess !local_scripts/basic_mqtt.al",
-    "if !deploy_local_script == true then process !local_scripts/local_script.al"
+    "if !deploy_local_script == true then process !local_scripts/local_script.al",
+    "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al", "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al"
 ]>
 
 <if !node_type == operator then set policy new_policy [config][script] = [
@@ -84,8 +84,8 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "if !enable_ha == true then run data consumer where start_date=!start_data",
     "run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "process !local_scripts/policies/monitoring_policy.al",
-    "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al",
-    "if !deploy_local_script == true then process !local_scripts/local_script.al"
+    "if !deploy_local_script == true then process !local_scripts/local_script.al",
+    "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al"
 ]>
 
 :publish-policy:

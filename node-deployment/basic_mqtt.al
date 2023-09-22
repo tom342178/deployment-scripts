@@ -12,7 +12,8 @@ user-agent=anylog and log=!mqtt_log and topic=(
     column.timestamp.timestamp=!mqtt_timestamp_column and
     column.value=(type=!mqtt_value_column_type and value=!mqtt_value_column)
 )>
-<else run mqtt client where broker=!mqtt_broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd
+if !mqtt_broker != rest then
+<do run mqtt client where broker=!mqtt_broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd
 and log=!mqtt_log and topic=(
     name=!mqtt_topic and
     dbms=!mqtt_dbms and
