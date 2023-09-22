@@ -209,17 +209,17 @@ mqtt_value_column = "bring [readings][][value]"
 
 if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = true
 if !enable_mqtt == true then
-do if $DEFAULT_DBMS then mqtt_dbms = $DEFAULT_DBMS
-do if $MQTT_BROKER then mqtt_broker=$MQTT_BROKER
-do if $MQTT_PORT then mqtt_port=$MQTT_PORT
-do if $MQTT_USER then mqtt_user=$MQTT_USER
-do if $MQTT_PASSWD then mqtt_passwd=$MQTT_PASSWD
-do if $MQTT_TOPIC then mqtt_topic=$MQTT_TOPIC
-do if $MQTT_DBMS then mqtt_dbms=$MQTT_DBMS
-do if $MQTT_TABLE then mqtt_table=$MQTT_TABLE
-do if $MQTT_TIMESTAMP_COLUMN then mqtt_timestamp_column=$MQTT_TIMESTAMP_COLUMN
-do if $MQTT_VALUE_COLUMN_TYPE then mqtt_value_column_type=$MQTT_VALUE_COLUMN_TYPE
-do if $MQTT_VALUE_COLUMN then mqtt_value_column=$MQTT_VALUE_COLUMN
+if $DEFAULT_DBMS then mqtt_dbms = $DEFAULT_DBMS
+if $MQTT_BROKER then mqtt_broker=$MQTT_BROKER
+if $MQTT_PORT then mqtt_port=$MQTT_PORT
+if $MQTT_USER then mqtt_user=$MQTT_USER
+if $MQTT_PASSWD then mqtt_passwd=$MQTT_PASSWD
+if $MQTT_TOPIC then mqtt_topic=$MQTT_TOPIC
+if $MQTT_DBMS then mqtt_dbms=$MQTT_DBMS
+if $MQTT_TABLE then mqtt_table=$MQTT_TABLE
+if $MQTT_TIMESTAMP_COLUMN then mqtt_timestamp_column=$MQTT_TIMESTAMP_COLUMN
+if $MQTT_VALUE_COLUMN_TYPE then mqtt_value_column_type=$MQTT_VALUE_COLUMN_TYPE
+if $MQTT_VALUE_COLUMN then mqtt_value_column=$MQTT_VALUE_COLUMN
 
 :node-monitoring:
 set monitor_nodes = false
