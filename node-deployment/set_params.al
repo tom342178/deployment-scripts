@@ -46,6 +46,11 @@ do if not !loc then loc = from !loc_info bring [loc]
 do if not !country then country = from !loc_info bring [country]
 do if not !state then state = from !loc_info bring [state]
 do if not !city then city = from !loc_info bring [city]
+else
+do if not !loc then loc = 0.0, 0.0
+do if not !country then country = Unknown
+do if not !state then state = Unknown
+do if not !city then city = Unknown
 
 :networking:
 config_name = !node_type.name + - + !company_name.name + -configs
@@ -64,12 +69,10 @@ do anylog_server_rest = 32048
 if !node_type == operator then
 do anylog_server_port = 32148
 do anylog_server_rest = 32148
-# do anylog_broker_port = 32150
 
 if !node_type == publisher then
 do anylog_server_port = 32248
 do anylog_server_rest = 32248
-# do anylog_broker_port = 32250
 
 if !node_type == query then
 do anylog_server_port = 32348
@@ -78,7 +81,6 @@ do anylog_server_rest = 32348
 if !node_type == generic then
 do anylog_server_port = 32548
 do anylog_server_rest = 32548
-# do anylog_broker_port = 32550
 
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
 if $TCP_BIND == true or $TCP_BIND == True or $TCP_BIND == TRUE then tcp_bind = true
@@ -113,24 +115,25 @@ do rest_ssl = true
 :sql-database:
 db_type = sqlite
 set autocommit = true
-if !node_type == operator then
-do default_dbms=!company_name.name
-do if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
+default_dbms=!company_name.name
+set deploy_system_query = false
+set memory = true
+
+if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
 
 if $DB_TYPE and $DB_TYPE != psql and $DB_TYPE != sqlite then goto invalid-sql-database
 if $DB_TYPE == psql then db_type = $DB_TYPE
 
 if !db_type != sqlite then
-do if $DB_USER then db_user = $DB_USER
-do if $DB_PASSWD then set db_passwd = $DB_PASSWD
-do if $DB_IP then db_ip = $DB_IP
-do if $DB_PORT then db_port = $DB_PORT
+if $DB_USER then db_user = $DB_USER
+if $DB_PASSWD then set db_passwd = $DB_PASSWD
+if $DB_IP then db_ip = $DB_IP
+if $DB_PORT then db_port = $DB_PORT
 
 if $AUTOCOMMIT == false or $AUTOCOMMIT == False or $AUTOCOMMIT == FALSE then set autocommit = false
 if !node_type == query or $DEPLOY_SYSTEM_QUERY == true or $DEPLOY_SYSTEM_QUERY == True or $DEPLOY_SYSTEM_QUERY == TRUE  then
 do set deploy_system_query = true
-do memory = true
-do if $MEMORY == false or $MEMORY == False or $MEMORY == FALSE then memory=false
+do if $MEMORY == false or $MEMORY == False or $MEMORY == FALSE then set memory=false
 
 :nosql-database:
 set enable_nosql = false
@@ -143,13 +146,12 @@ set blobs_compress = true
 set blobs_reuse = true
 
 if $NOSQL_BLOBS_DBMS == true or $NOSQL_BLOBS_DBMS == True or $NOSQL_BLOBS_DBMS == TRUE  then set blobs_dbms = true
-if !blobs_dbms == true then
-do if $NOSQL_TYPE != mongo then  goto invalid-nosql-database
-do if $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
-do if $NOSQL_IP then nosql_ip = $NOSQL_IP
-do if $NOSQL_PORT then nosql_port = $NOSQL_PORT
-do if $NOSQL_USER then nosql_user = $NOSQL_USER
-do if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
+$NOSQL_TYPE != mongo then  goto invalid-nosql-database
+$NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
+$NOSQL_IP then nosql_ip = $NOSQL_IP
+$NOSQL_PORT then nosql_port = $NOSQL_PORT
+$NOSQL_USER then nosql_user = $NOSQL_USER
+$NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
 :blockchain:
 ledger_conn = !ip + ":32048"
@@ -182,15 +184,13 @@ do if $PARTITION_INTERVAL then partition_interval = $PARTITION_INTERVAL
 do if $PARTITION_KEEP then partition_keep = $PARTITION_KEEP
 do if $PARTITION_SYNC then partition_sync = $PARTITION_SYNC
 
-
 :operator-ha:
 set enable_ha = false
 start_data = -30d
 
-if $ENABLE_HA == true or $ENABLE_HA == True or $ENABLE_HA == TRUE then
-do set enable_ha = true
-do set start_date = $START_DATE
+if $ENABLE_HA == true or $ENABLE_HA == True or $ENABLE_HA == TRUE then set enable_ha = true
 
+if $START_DATE then start_date = $START_DATE
 if !start_date.int then start_date = - + $START_DATE + d
 
 :mqtt:
@@ -228,8 +228,8 @@ monitor_node_company = !company_name
 
 if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then set monitor_nodes = true
 if !monitor_nodes == true then
-do if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
-do if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
+if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
+if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
 
 :other-settings:
 set deploy_local_script = false
@@ -258,7 +258,9 @@ if $WRITE_IMMEDIATE == false or $WRITE_IMMEDIATE == False or $WRITE_IMMEDIATE ==
 if $THRESHOLD_TIME then threshold_time = $THRESHOLD_TIME
 if $THRESHOLD_VOLUME then threshold_volume = $THRESHOLD_VOLUME
 
-if $OPERATOR_THREADS then operator_threads=$OPERATOR_THREADS
+if $OPERATOR_THREADS and $OPERATOR_THREADS.int then operator_threads=$OPERATOR_THREADS
+if !operator_threads.int < 1 then operator_threads=1
+
 
 
 :end-script:
