@@ -20,7 +20,7 @@ new_policy=""
         "script": [
 	        "operator_status = test process operator",
             "if !operator_status == true then schedule name = get_operator_stat and time = 30 seconds task node_insight = get operator stat format = json",
-            "if !operator_status == false then then schedule name = node_name and time = 30 seconds task node_insight[Node name] = get node name",
+            "if !operator_status == false then then schedule name=get_node_name and time = 30 seconds task node_insight[Node name] = get node name",
             "schedule name = disk_space and time = 30 seconds task node_insight[Free space %] = get disk percentage .",
             "schedule name = cpu_percent and time = 30 seconds task node_insight[CPU %] = get node info cpu_percent",
             "schedule name = packets_recv and time = 30 seconds task node_insight[Packets Recv] = get node info net_io_counters packets_recv",
