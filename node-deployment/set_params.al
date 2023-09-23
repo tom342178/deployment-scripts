@@ -145,7 +145,9 @@ set blobs_folder = true
 set blobs_compress = true
 set blobs_reuse = true
 
-if $NOSQL_BLOBS_DBMS == true or $NOSQL_BLOBS_DBMS == True or $NOSQL_BLOBS_DBMS == TRUE  then set blobs_dbms = true
+if $BLOBS_DBMS == true or $BLOBS_DBMS == True or $BLOBS_DBMS == TRUE  then set blobs_dbms = true
+if $BLOBS_REUSE == false or $BLOBS_REUSE == False or $BLOBS_REUSE == FALSE  or set blobs_reuse = false
+
 $NOSQL_TYPE != mongo then  goto invalid-nosql-database
 $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
 $NOSQL_IP then nosql_ip = $NOSQL_IP
@@ -239,9 +241,9 @@ set archive = true
 set distributor = true
 set compress_file = true
 set move_json = true
-set publisher_compress_file = true
 set write_immediate = true
 operator_threads = 3
+query_pool = 6
 
 dbms_file_location = file_name[0]
 table_file_location = file_name[1]
@@ -260,6 +262,9 @@ if $THRESHOLD_VOLUME then threshold_volume = $THRESHOLD_VOLUME
 
 if $OPERATOR_THREADS and $OPERATOR_THREADS.int then operator_threads=$OPERATOR_THREADS
 if !operator_threads.int < 1 then operator_threads=1
+
+if $QUERY_POOL and $QUERY_POOL.int then query_pool=$QUERY_POOL
+if !query_pool.int < 1 then query_pool = 1
 
 
 
