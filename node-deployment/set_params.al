@@ -179,12 +179,12 @@ if $MEMBER and $MEMBER.int then member = $MEMBER
 
 if $ENABLE_PARTITIONS == false or $ENABLE_PARTITIONS == False or $ENABLE_PARTITIONS == FALSE then set enable_partitions=false
 if $CLUSTER_NAME then cluster_name = $CLUSTER_NAME
-if !enable_partition == true then
-do if $TABLE_NAME then table_name=$TABLE_NAME
-do if $PARTITION_COLUMN then partition_column = $PARTITION_COLUMN
-do if $PARTITION_INTERVAL then partition_interval = $PARTITION_INTERVAL
-do if $PARTITION_KEEP then partition_keep = $PARTITION_KEEP
-do if $PARTITION_SYNC then partition_sync = $PARTITION_SYNC
+
+if $TABLE_NAME then table_name=$TABLE_NAME
+if $PARTITION_COLUMN then set partition_column = $PARTITION_COLUMN
+if $PARTITION_INTERVAL then set partition_interval = $PARTITION_INTERVAL
+if $PARTITION_KEEP then set partition_keep = $PARTITION_KEEP
+if $PARTITION_SYNC then set partition_sync = $PARTITION_SYNC
 
 :operator-ha:
 set enable_ha = false
