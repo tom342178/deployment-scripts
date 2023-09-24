@@ -54,7 +54,7 @@ do set policy new_policy [publisher][local_ip] = !ip
 
 set policy new_policy [publisher][port] = !anylog_server_port.int
 set policy new_policy [publisher][rest_port] = !anylog_rest_port.int
-if !anylog_broker_port then set policy new_policy [publisher][rest_port] = !anylog_broker_port.int
+if !anylog_broker_port then set policy new_policy [publisher][broker    _port] = !anylog_broker_port.int
 
 :location:
 if !loc then set policy new_policy [publisher][loc] = !loc

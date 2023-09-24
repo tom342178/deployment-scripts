@@ -55,7 +55,7 @@ do set policy new_policy [operator][local_ip] = !ip
 
 set policy new_policy [operator][port] = !anylog_server_port.int
 set policy new_policy [operator][rest_port] = !anylog_rest_port.int
-if !anylog_broker_port then set policy new_policy [operator][rest_port] = !anylog_broker_port.int
+if !anylog_broker_port then set policy new_policy [operator][broker_port] = !anylog_broker_port.int
 
 if !cluster_id then set policy new_policy [operator][cluster] = !cluster_id
 
