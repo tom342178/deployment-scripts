@@ -8,7 +8,7 @@ if !enable_nosql == false then goto blobs-archiver
 
 :connect-dbms:
 on error goto connect-dbms-error
-<if !nosql_user and !nosql_passwd then
+if !nosql_user and !nosql_passwd then
 <do connect dbms !default_dbms where
     type=!nosql_type and
     ip=!nosql_ip and
