@@ -145,7 +145,9 @@ set blobs_folder = true
 set blobs_compress = true
 set blobs_reuse = true
 
-if $ENABLE_NOSQL == true or $ENABLE_NOSQL == True or $ENABLE_NOSQL == TRUE then set enable_nosql=$ENABLE_NOSQL
+if $ENABLE_NOSQL == true or $ENABLE_NOSQL == True or $ENABLE_NOSQL == TRUE then
+do set enable_nosql=true
+do set blobs_dbms = true
 if $BLOBS_DBMS == true or $BLOBS_DBMS == True or $BLOBS_DBMS == TRUE  then set blobs_dbms = true
 if $BLOBS_REUSE == false or $BLOBS_REUSE == False or $BLOBS_REUSE == FALSE then set blobs_reuse = false
 
