@@ -31,7 +31,7 @@ if !is_policy then goto end-script
             "set node name !node_name",
             "run scheduler 1",
             "is_policy = blockchain get operator where name=!node_name and company=!company_name",
-            "if not !is_policy then process !local_scripts/declare_operator_policy.al",
+            "if not !is_policy then process !local_scripts/generic_policies/declare_operator_policy.al",
             "operator_id = blockchain get operator where company=!company_name and name=!node_name bring [*][id]",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
             "connect dbms !default_dbms where type=sqlite",
