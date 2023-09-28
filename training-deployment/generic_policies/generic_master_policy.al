@@ -29,10 +29,10 @@ if !is_policy then goto end-script
             "if not !is_policy then process !local_scripts/generic_policies/publish_policy.al",
             "connect dbms blockchain where type=sqlite",
             "create table ledger where dbms=blockchain",
-            "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn"
+            "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
+            "config from policy where id = generic-schedule-policy"
         ]
 }}>
-#             "config from policy where id = generic-schedule-policy"
 process !local_scripts/generic_policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error

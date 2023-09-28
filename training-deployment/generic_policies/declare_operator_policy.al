@@ -42,7 +42,7 @@ if not !cluster_id and !cluster_status == true then goto cluster-id-error
     name=!cluster_name and
     host=!operator_conn>
 
-process !training_scripts//generic_policies/publish_policy.al
+process !local_scripts/generic_policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
@@ -64,7 +64,7 @@ if not !operator_id and !operator_status == true then goto operator-id-error
     rest_port=!anylog_rest_port.int and
     broker_port=!anylog_broker_port.int>
 
-process !training_scripts//generic_policies/publish_policy.al
+process !local_scripts/generic_policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
