@@ -31,8 +31,6 @@ schedule_time = 30 seconds
         ]
 }}>
 
-
-
 process !local_scripts/generic_policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
