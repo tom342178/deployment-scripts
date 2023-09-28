@@ -48,8 +48,9 @@ if !policy_id then config from policy where id = !policy_id
 
 :get-processes:
 on error ignore
+wait 5
 get processes
-if !enablee_mqtt == true then get msg client
+if !enable_mqtt == true then get msg client
 
 :end-script:
 end script
