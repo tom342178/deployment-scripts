@@ -43,7 +43,7 @@ master_policy = blockchain get master
 if !master_policy then
 do if not !license_key then license_key = blockchain get master bring [*][license]
 do ledger_conn = blockchain get master bring.ip_port
-if not !master_policy and not !license_key then
+if not !license_key then
 do goto missing-license
 do goto end-script
 
@@ -56,12 +56,14 @@ on error goto license-key-error
 set license where activation_key = !license_key
 
 :end-script:
+wait 5
 get processes
+if !enable_mqtt == true then get msg client
 end script
 
 :blockchain-seed-error:
 print "Failed to run blockchain seed"
-goto end-script
+return
 
 :missing-license:
 print "Failed to get license from blockchain"
