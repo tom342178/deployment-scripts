@@ -40,7 +40,7 @@ do anylog_broker_port=32150
 if $LICENSE_KEY then license_key=$LICENSE_KEY
 else goto missing-license-key
 if $COMPANY_NAME then company_name = $COMPANY_NAME
-else goto missing-companay-name
+else goto missing-company-name
 if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 else goto missing-ledger-conn
 
