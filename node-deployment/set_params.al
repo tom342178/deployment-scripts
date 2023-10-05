@@ -151,8 +151,10 @@ do set blobs_dbms = true
 if $BLOBS_DBMS == true or $BLOBS_DBMS == True or $BLOBS_DBMS == TRUE  then set blobs_dbms = true
 if $BLOBS_REUSE == false or $BLOBS_REUSE == False or $BLOBS_REUSE == FALSE then set blobs_reuse = false
 
-if $NOSQL_TYPE != mongo then  goto invalid-nosql-database
-if $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
+# no need as there's only MongoDB at this time
+# if $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
+# if !nosql_type != mongo then  goto invalid-nosql-database
+
 if $NOSQL_IP then nosql_ip = $NOSQL_IP
 if $NOSQL_PORT then nosql_port = $NOSQL_PORT
 if $NOSQL_USER then nosql_user = $NOSQL_USER
