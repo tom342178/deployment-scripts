@@ -121,7 +121,7 @@ set memory = true
 
 if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
 
-if $DB_TYPE then $DB_TYPE != psql and $DB_TYPE != sqlite then goto invalid-sql-database
+if $DB_TYPE and $DB_TYPE != psql and $DB_TYPE != sqlite then goto invalid-sql-database
 if $DB_TYPE then db_type = $DB_TYPE
 
 if $DB_USER then db_user = $DB_USER
