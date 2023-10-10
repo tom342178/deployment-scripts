@@ -124,7 +124,6 @@ if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
 if $DB_TYPE and $DB_TYPE != psql and $DB_TYPE != sqlite then goto invalid-sql-database
 if $DB_TYPE == psql then db_type = $DB_TYPE
 
-if !db_type != sqlite then
 if $DB_USER then db_user = $DB_USER
 if $DB_PASSWD then set db_passwd = $DB_PASSWD
 if $DB_IP then db_ip = $DB_IP
