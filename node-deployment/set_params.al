@@ -122,9 +122,9 @@ set memory = true
 if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
 
 if $DB_TYPE and $DB_TYPE != psql and $DB_TYPE != sqlite then goto invalid-sql-database
-else if $DB_TYPE then db_type = $DB_TYPE
+if $DB_TYPE then set db_type = $DB_TYPE
 
-if $DB_USER then db_user = $DB_USER
+if $DB_USER then set db_user = $DB_USER
 if $DB_PASSWD then set db_passwd = $DB_PASSWD
 if $DB_IP then db_ip = $DB_IP
 if $DB_PORT then db_port = $DB_PORT

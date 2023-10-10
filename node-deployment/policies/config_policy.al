@@ -45,7 +45,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 
 <if !node_type == master then set policy new_policy [config][script] = [
     "process !local_scripts/policies/master_policy.al",
-    "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
+    "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "process !local_scripts/policies/monitoring_policy.al",
@@ -54,7 +54,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 
 <if !node_type == query then set policy new_policy [config][script] = [
     "process !local_scripts/policies/query_policy.al",
-    "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
+    "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "process !local_scripts/policies/monitoring_policy.al",
@@ -63,8 +63,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 
 <if !node_type == publisher then set policy new_policy [config][script] = [
     "process !local_scripts/policies/publisher_policy.al",
-    "process !local_scripts/database/configure_dbms_almgm.al",
-    "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
+    "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
@@ -78,10 +77,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 <if !node_type == operator then set policy new_policy [config][script] = [
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/operator_policy.al",
-    "process !local_scripts/database/configure_dbms_operator.al",
-    "process !local_scripts/database/configure_dbms_nosql.al",
-    "process !local_scripts/database/configure_dbms_almgm.al",
-    "if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al",
+    "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
