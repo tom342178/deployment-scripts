@@ -207,7 +207,7 @@ mqtt_user = ibglowct
 mqtt_passwd = MSY4e009J7ts
 mqtt_topic = anylogedgex-demo
 set mqtt_log = false
-mqtt_dbms = !default_dbms
+set mqtt_dbms = !default_dbms
 mqtt_table = "bring [sourceName]"
 mqtt_timestamp_column = now
 mqtt_value_column_type = float
@@ -215,7 +215,7 @@ mqtt_value_column = "bring [readings][][value]"
 
 if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = true
 if !enable_mqtt == true then
-if $DEFAULT_DBMS then mqtt_dbms = $DEFAULT_DBMS
+if $DEFAULT_DBMS then set mqtt_dbms = $DEFAULT_DBMS
 if $MQTT_BROKER then mqtt_broker=$MQTT_BROKER
 if $MQTT_PORT then mqtt_port=$MQTT_PORT
 if $MQTT_USER then mqtt_user=$MQTT_USER

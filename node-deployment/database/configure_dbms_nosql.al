@@ -20,6 +20,7 @@ else connect dbms !default_dbms where type=!nosql_type and ip=!nosql_ip and port
 
 :blobs-archiver:
 on error call blobs-archiver-error
+if !blobs_dbms == false then set blobs_folder = true
 <run blobs archiver where
     dbms=!blobs_dbms and
     folder=!blobs_folder and
