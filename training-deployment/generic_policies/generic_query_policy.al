@@ -28,6 +28,7 @@ if !is_policy then goto end-script
             "if not !is_policy then process !local_scripts/generic_policies/publish_policy.al",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
             "connect dbms system_query where type=sqlite and memory=true",
+            "set monitored nodes where topic = operator and nodes = \"blockchain get (operator,query,master) bring.ip_port\"",
             "config from policy where id = generic-schedule-policy"
         ]
 }}>

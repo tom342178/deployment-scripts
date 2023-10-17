@@ -57,6 +57,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
+    "set monitored nodes where topic = operator and nodes = \"blockchain get (operator,query,master) bring.ip_port\"",
     "process !local_scripts/policies/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
