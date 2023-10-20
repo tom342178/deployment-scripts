@@ -50,7 +50,7 @@ do set policy new_policy [master][ip] = !external_ip
 do set policy new_policy [master][local_ip] = !overlay_ip
 if not !overlay_ip and !tcp_bind == false then
 do set policy new_policy [master][ip] = !external_ip
-do set policy new_policy [master][local_ip] =w !ip
+do set policy new_policy [master][local_ip] = !ip
 
 set policy new_policy [master][port] = !anylog_server_port.int
 set policy new_policy [master][rest_port] = !anylog_rest_port.int
