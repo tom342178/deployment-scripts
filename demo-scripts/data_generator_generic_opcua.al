@@ -91,3 +91,7 @@ goto end-script
 :declare-policy-error:
 echo "Failed to declare policy on blockchain"
 return
+
+:mqtt-client-error:
+echo "Failed to execute MQTT client request"
+goto end-script

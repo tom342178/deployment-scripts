@@ -27,6 +27,8 @@ if !is_policy then goto end-script
             "if not !is_policy then new_policy = create policy query with defaults where name=!node_name and port=!anylog_server_port.int and rest_port=!anylog_rest_port.int and company=!company_name",
             "if not !is_policy then process !local_scripts/generic_policies/publish_policy.al",
             "run blockchain sync where source=master and time=30 seconds and dest=file and connection=!ledger_conn",
+            "monitoring_nodes = blockchain get (operator,query,master) bring.ip_port",
+            "set monitored nodes where topic = operator and nodes = !monitoring_nodes",
             "connect dbms system_query where type=sqlite and memory=true",
             "config from policy where id = generic-schedule-policy"
         ]

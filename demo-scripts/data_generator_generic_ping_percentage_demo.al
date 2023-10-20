@@ -47,6 +47,10 @@ if !anylog_broker_port then
 :end-script:
 end script
 
+:mqtt-client-error:
+echo "Failed to execute MQTT client request"
+goto end-script
+
 :json-policy-error:
 echo "Invalid JSON format, cannot declare policy"
 goto end-script

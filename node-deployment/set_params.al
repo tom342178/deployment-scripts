@@ -122,10 +122,9 @@ set memory = true
 if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
 
 if $DB_TYPE and $DB_TYPE != psql and $DB_TYPE != sqlite then goto invalid-sql-database
-if $DB_TYPE == psql then db_type = $DB_TYPE
+if $DB_TYPE then set db_type = $DB_TYPE
 
-if !db_type != sqlite then
-if $DB_USER then db_user = $DB_USER
+if $DB_USER then set db_user = $DB_USER
 if $DB_PASSWD then set db_passwd = $DB_PASSWD
 if $DB_IP then db_ip = $DB_IP
 if $DB_PORT then db_port = $DB_PORT
@@ -151,8 +150,10 @@ do set blobs_dbms = true
 if $BLOBS_DBMS == true or $BLOBS_DBMS == True or $BLOBS_DBMS == TRUE  then set blobs_dbms = true
 if $BLOBS_REUSE == false or $BLOBS_REUSE == False or $BLOBS_REUSE == FALSE then set blobs_reuse = false
 
-if $NOSQL_TYPE != mongo then  goto invalid-nosql-database
-if $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
+# no need as there's only MongoDB at this time
+# if $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
+# if !nosql_type != mongo then  goto invalid-nosql-database
+
 if $NOSQL_IP then nosql_ip = $NOSQL_IP
 if $NOSQL_PORT then nosql_port = $NOSQL_PORT
 if $NOSQL_USER then nosql_user = $NOSQL_USER
@@ -206,7 +207,7 @@ mqtt_user = ibglowct
 mqtt_passwd = MSY4e009J7ts
 mqtt_topic = anylogedgex-demo
 set mqtt_log = false
-mqtt_dbms = !default_dbms
+set mqtt_dbms = !default_dbms
 mqtt_table = "bring [sourceName]"
 mqtt_timestamp_column = now
 mqtt_value_column_type = float
@@ -214,7 +215,7 @@ mqtt_value_column = "bring [readings][][value]"
 
 if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = true
 if !enable_mqtt == true then
-if $DEFAULT_DBMS then mqtt_dbms = $DEFAULT_DBMS
+if $DEFAULT_DBMS then set mqtt_dbms = $DEFAULT_DBMS
 if $MQTT_BROKER then mqtt_broker=$MQTT_BROKER
 if $MQTT_PORT then mqtt_port=$MQTT_PORT
 if $MQTT_USER then mqtt_user=$MQTT_USER
