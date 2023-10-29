@@ -30,7 +30,7 @@ schedule_time = 30 seconds
             "schedule name = errin and time = 30 seconds task errin = get node info net_io_counters errin",
             "schedule name = errout and time = 30 seconds task errout = get node info net_io_counters errout",
             "schedule name = error_count and time = 30 seconds task node_insight[Network Error] = python int(!errin) + int(!errout)",
-            "schedule name = monitor_node and time = 30 seconds task run client (blockchain get query where company=!company_name bring.ip_port) monitor operators where info = !node_insight"
+            "schedule name = monitor_node and time = 30 seconds task run client (blockchain get query bring.ip_port) monitor operators where info = !node_insight"
         ]
 }}>
 
