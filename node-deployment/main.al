@@ -32,10 +32,10 @@ process !local_scripts/run_tcp_server.al
 :create-database:
 if !node_type == master then process !local_scripts/database/configure_dbms_blockchain.al
 
-:blockchain-seed:
-on error call blockchain-seed-error
-if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
-wait 30
+#:blockchain-seed:
+#on error call blockchain-seed-error
+#if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
+#wait 30
 
 :blockchain-get:
 on error ignore
