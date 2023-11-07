@@ -18,6 +18,7 @@
 #       "city": "Mountain View"
 #   }}
 #----------------------------------------------------------------------------------------------------------------------#
+# process !local_scripts/policies/query_policy.al
 on error ignore
 set create_policy = false
 
