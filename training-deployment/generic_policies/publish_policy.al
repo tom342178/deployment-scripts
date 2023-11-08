@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # generic process to declare policy on blockchain (using node key)
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/publish_policy.al
+# process !local_scripts/generic_policies/publish_policy.al
 
 :set-params:
 error_code = 0
