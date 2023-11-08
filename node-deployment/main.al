@@ -47,13 +47,13 @@ if not !license_key then
 do goto missing-license
 do goto end-script
 
+:declare-policy:
+process !local_scripts/policies/config_policy.al
+
 :execute-license:
 if not !license_key then goto license-key-error
 on error goto license-key-error
 set license where activation_key = !license_key
-
-:declare-policy:
-process !local_scripts/policies/config_policy.al
 
 :end-script:
 get processes
