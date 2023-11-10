@@ -2,7 +2,7 @@ import argparse
 import json
 import requests
 
-def get_cmd()->list:
+def get_cmd(remove_policies:bool=False)->list:
     """
     Execute `blockchain get` to get operators, clusters and their tables
     :params:
@@ -16,6 +16,8 @@ def get_cmd()->list:
         "User-Agent": "AnyLog/1.23"
     }
 
+    if remove_policies is True:
+        headers['command'] = 'blockchain get (cluster, operator, table) bring [*][id] separator=,'
     try:
         r = requests.get(url='http://23.239.12.151:32349', headers=headers)
     except Exception as error:
@@ -27,10 +29,13 @@ def get_cmd()->list:
             try:
                 return r.json()
             except Exception as error:
+                if remove_policies is True:
+                    return r.text.split(",")
                 print(f"Failed to extract results in JSON format from 23.239.12.151:32349 (Error: {error})")
 
 
-def post_cmd(conn:str, ledger_conn:str, payload:dict)->bool:
+
+def post_cmd(conn:str, ledger_conn:str, payload:dict, remove_policies:bool=False)->bool:
     """
     Post policy to AnyLog node
     :args:
@@ -53,12 +58,15 @@ def post_cmd(conn:str, ledger_conn:str, payload:dict)->bool:
         'User-Agent': 'AnyLog/1.23',
         'destination': ledger_conn
     }
-
-    if isinstance(payload, dict):  # convert policy to str if dict
-        policy = json.dumps(payload)
-        raw_policy = "<new_policy=%s>" % policy
+    if remove_policies is True:
+        headers['command'] = f"blockchain drop policy where id={payload}"
+        raw_policy=None
     else:
-        raw_policy = "<new_policy=%s>" % payload
+        if isinstance(payload, dict):  # convert policy to str if dict
+            policy = json.dumps(payload)
+            raw_policy = "<new_policy=%s>" % policy
+        else:
+            raw_policy = "<new_policy=%s>" % payload
 
     try:
         r = requests.post(url='http://%s' % conn, headers=headers, data=raw_policy)
@@ -76,10 +84,12 @@ def post_cmd(conn:str, ledger_conn:str, payload:dict)->bool:
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument('conn', type=str, default='127.0.0.1:32049', help='REST connection information')
-    parse.add_argument('ledger_conn', type=str, default='127.0.0.1:32049', hel='ledger conn information (TCP connection)')
+    parse.add_argument('ledger_conn', type=str, default='127.0.0.1:32048', help='ledger conn information (TCP connection)')
+    parse.add_argument('--clean-master', type=bool, const=True, nargs='?', default=False, help='test remove network policies from blockchain')
     args = parse.parse_args()
 
-    payloads = get_cmd()
+    payloads = get_cmd(remove_policies=args.clean_master)
+
     for payload in payloads:
         post_cmd(conn=args.conn, ledger_conn=args.ledger_conn, payload=payload)
 
