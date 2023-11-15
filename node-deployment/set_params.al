@@ -16,6 +16,7 @@
 # process !local_scripts/deployment_scripts/set_params.al
 on error ignore
 
+
 :required-params:
 if $NODE_TYPE then set node_type = $NODE_TYPE
 else goto missing-node-type

@@ -16,26 +16,29 @@ set authentication off
 set echo queue on
 
 :directories:
-if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
-set anylog home !anylog_path
-if $ANYLOG_ID_DIR then set id_dir = $ANYLOG_ID_DIR
+anylog_path = /app
+local_scripts = /app/deployment-scripts/node-deployment
+test_dir = /app/deployment-scripts/test
 
+if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
 if $TEST_DIR then set test_dir = $TEST_DIR
 
+set anylog home !anylog_path
 create work directories
 
 :set-params:
 process !local_scripts/set_params.al
 process !local_scripts/run_tcp_server.al
 
-:create-database:
-if !node_type == master then process !local_scripts/database/configure_dbms_blockchain.al
+:create-master:
+if !node_type == master then
+do process !local_scripts/database/configure_dbms_blockchain.al
+do goto blockchain-get
 
-#:blockchain-seed:
-#on error call blockchain-seed-error
-#if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
-#wait 30
+:blockchain-seed:
+on error call blockchain-seed-error
+if !ledger_conn and !node_type != master then blockchain seed from !ledger_conn
 
 :blockchain-get:
 on error ignore
