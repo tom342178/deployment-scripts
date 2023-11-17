@@ -38,9 +38,9 @@ do goto blockchain-get
 
 :blockchain-seed:
 on error call blockchain-seed-error
-if !ledger_conn and !node_type != master then
-do blockchain seed from !ledger_conn
-do wait 30
+# if !ledger_conn and !node_type != master then
+blockchain seed from !ledger_conn
+wait 10
 
 :blockchain-get:
 on error ignore
