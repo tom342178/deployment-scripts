@@ -1,5 +1,5 @@
-{"M40010":31954,"M40009":31954,"M40008":31954,"M40007":31954,"M40006":31954,"M40005":31954,"M40004":31954,"M40003":31954,"M40002":31954,"M40001":31954}	Q0
-	{"Name":"fusion-1","Cpu":2,"MemoryTotal":4293861376,"MemoryAvailable":821567488}
+#{"M40010":31954,"M40009":31954,"M40008":31954,"M40007":31954,"M40006":31954,"M40005":31954,"M40004":31954,"M40003":31954,"M40002":31954,"M40001":31954}	Q0
+#	{"Name":"fusion-1","Cpu":2,"MemoryTotal":4293861376,"MemoryAvailable":821567488}
 
 <run mqtt client where broker=driver.cloudmqtt.com and port=18742 and user=hqpyyshb and password=bB38GEf93cPG and
     log=false and topic=(
