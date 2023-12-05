@@ -107,21 +107,18 @@ config from policy where id = !config_id
 :end-script:
 end script
 
-:terminate-scripts:
-exit scripts
-
 :sign-policy-error:
 print "Failed to sign config policy"
-goto terminate-scripts
+goto end-script
 
 :prepare-policy-error:
 print "Failed to prepare member config policy for publishing on blockchain"
-goto terminate-scripts
+goto end-script
 
 :declare-policy-error:
 print "Failed to declare config policy on blockchain"
-goto terminate-scripts
+goto end-script
 
 :config-policy-error: 
 print "Failed to execute config policy"
-goto terminate-scripts
+goto end-script

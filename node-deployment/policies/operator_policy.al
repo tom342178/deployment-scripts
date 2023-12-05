@@ -23,6 +23,8 @@
 #       ]
 #   }}
 #----------------------------------------------------------------------------------------------------------------------#
+# process !local_scripts/policies/operator_policy.al
+
 on error ignore
 set create_policy = false
 
