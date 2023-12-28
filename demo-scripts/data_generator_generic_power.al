@@ -23,7 +23,7 @@ topic_name = power-data
 :mqtt-client:
 on error goto mqtt-client-error
 if !anylog_broker_port then
-<do run mqtt client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
+<do run msg client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
     name=!topic_name and
     dbms="bring [dbms]" and
     table="bring [table]" and
@@ -35,7 +35,7 @@ if !anylog_broker_port then
     column.dfreq=(type=float and value="bring [dfreq]" and optional=true) and
     column.analog=(type=float and value="bring [analog]" and optional=true)
 )>
-<else run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
+<else run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
     name=!topic_name and
     dbms="bring [dbms]" and
     table="bring [table]" and

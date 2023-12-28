@@ -17,7 +17,7 @@ if not !default_dbms then default_dbms=test
 
 :mqtt-call:
 on error goto mqtt-error
-<run mqtt client where broker=rest and user-agent=anylog and log=!mqtt_log and topic=(
+<run msg client where broker=rest and user-agent=anylog and log=!mqtt_log and topic=(
     name=fledge-random and
     dbms=!default_dbms and
     table="bring [asset]" and

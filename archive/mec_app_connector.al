@@ -258,7 +258,7 @@ broker=driver.cloudmqtt.com
 port=18742
 user=hqpyyshb
 password=bB38GEf93cPG
-<run mqtt client where broker=!broker and port=!port and user=!user and password=!password and log=false and topic=(
+<run msg client where broker=!broker and port=!port and user=!user and password=!password and log=false and topic=(
     name=!alert_topic and policy=!alert_topic
 ) and topic=(
     name=!device_policy and policy=!device_policy

@@ -133,11 +133,11 @@ do blockchain prepare policy !mapping_policy
 do blockchain insert where policy=!mapping_policy and local=true and master=!ledger_conn
 
 if !anylog_broker_port then
-<do run mqtt client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
+<do run msg client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
     name=!topic_name and
     policy=!topic_name
 )>
-<else run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
+<else run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
     name=!topic_name and
 policy=!topic_name
 )>

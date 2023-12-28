@@ -7,7 +7,7 @@
 #   0. Connect to (NoSQL) logical database
 #   1. Set parameters
 #   2. declare mapping policy
-#   3. execute `run mqtt client`
+#   3. execute `run msg client`
 #   4. From the outside deploy data generator
 #       python3 $HOME/Sample-Data-Generator/data_generator_file_processing.py ~/Downloads/sample_data/videos/ ${REST_CONN_INFO} post \
 #           --topic video-mapping \
@@ -162,17 +162,17 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 :mqtt-call:
 on error goto mqtt-error
 if !anylog_broker_port then
-<do run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
+<do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
     name=!policy_id and
     policy=!policy_id
 )>
 else if not !anylog_broker_port and !user_name and !user_password then
-<do run mqtt client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
+<do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
     name=!policy_id and
     policy=!policy_id
 )>
 else if not !anylog_broker_port then
-<do run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
+<do run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
     name=!policy_id and
     policy=!policy_id
 )>

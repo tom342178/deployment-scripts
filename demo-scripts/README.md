@@ -1,7 +1,7 @@
 # Sample Code 
-The following provides different example of the `run mqtt client` command. 
+The following provides different example of the `run msg client` command. 
 
-The `run mqtt client` command can be used with either _REST-POST_ or an _MQTT broker_ interchangeably.
+The `run msg client` command can be used with either _REST-POST_ or an _MQTT broker_ interchangeably.
 
 ## Basic MQTT Client
 Connect to an MQTT broker, provided:
