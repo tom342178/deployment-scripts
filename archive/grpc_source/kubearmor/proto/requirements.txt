@@ -1,0 +1,13 @@
+# requirements.txt
+
+# Direct dependencies
+google-auth==1.35.0
+googleapis-common-protos==1.54.0
+grpcio==1.56.3
+protobuf==3.19.8
+
+# Indirect dependencies
+google-api-core==2.7.0
+google-auth-oauthlib==0.4.6
+google-auth-httplib2==0.1.0
+grpcio-tools==1.56.3
