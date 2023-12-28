@@ -23,7 +23,7 @@ do goto end-script
 
 
 <run grpc client where
-    ip = 127.0.0.1 and port = 32769 and
+    ip = !grpc_client_ip and port = !grpc_client_port and
     grpc_dir = !grpc_dir
     proto = !grpc_proto and
     function = !grpc_function and
@@ -31,7 +31,7 @@ do goto end-script
     response = !grpc_response and
     service = !grpc_service and
     value = !grpc_value and
-    policy = ! policy_id and
+    policy = !policy_id and
     dbms = !default_dbms and
     table = !table_name and
     debug = !grpc_debug and

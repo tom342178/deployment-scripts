@@ -14,16 +14,16 @@
 
 on error ignore
 :set-params:
-policy_name = kubearmor-system-policy
+policy_id = kubearmor-system-policy
 
 :check-policy:
-is_policy = blockchain get policy where id = !policy_name
+is_policy = blockchain get policy where id = !policy_id
 if !is_policy then goto end-script
 
 :prep-policy:
 <new_policy = {
     "mapping": {
-        "id": !policy_name,,
+        "id": !policy_id,,
         "dbms": !default_dbms,
         "table": !table_name,
         "readings": ""
