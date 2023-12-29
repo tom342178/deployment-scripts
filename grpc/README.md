@@ -31,7 +31,7 @@ process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor_system.a
 
 ## Dummy Server
 In the case where a user does not want to deploy a Kubearmor, they can simply deploy our [dummy_kube_server.py](dummy_kube_server.py), 
-which imitates an active Kuberamor instance. 
+which imitates an active Kuberamor instance. Please make sure to [compile kubearmor.proto](#L12) before starting the server. 
 
 
 ```shell
