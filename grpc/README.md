@@ -28,3 +28,13 @@ process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor_healthch
 ```anylog
 process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor_system.al
 ```
+
+## Dummy Server
+In the case where a user does not want to deploy a Kubearmor, they can simply deploy our [dummy_kube_server.py](dummy_kube_server.py), 
+which imitates an active Kuberamor instance. 
+
+
+```shell
+python3 dummy_kube_server.py [--port 50051] 
+```
+
