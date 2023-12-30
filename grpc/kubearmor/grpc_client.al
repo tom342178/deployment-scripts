@@ -9,6 +9,7 @@ on error call grpc-client-error
 if !grpc_function == HealthCheck then
 <do run grpc client where
     ip = !grpc_client_ip and port = !grpc_client_port and
+    name = !grpc_name and
     grpc_dir = !grpc_dir
     proto = !grpc_proto and
     function = !grpc_function and
@@ -24,6 +25,7 @@ do goto end-script
 
 <run grpc client where
     ip = !grpc_client_ip and port = !grpc_client_port and
+    name = !grpc_name and
     grpc_dir = !grpc_dir
     proto = !grpc_proto and
     function = !grpc_function and
