@@ -23,10 +23,10 @@ if !is_policy then goto end-script
 :prep-policy:
 <new_policy = {
     "mapping": {
-        "id": !policy_id,,
+        "id": !policy_id,
         "dbms": !default_dbms,
         "table": !table_name,
-        "readings": ""
+        "readings": "",
         "schema": {
             "timestamp": {
                 "type": "timestamp",
@@ -35,18 +35,18 @@ if !is_policy then goto end-script
             },
             "cluster_name": {
                 "type": "string",
-                "default": "default",
+                "default": "",
                 "bring": "[ClusterName]"
             },
-            "hostname_name": {
+            "hostname": {
                 "type": "string",
                 "default": "minikube",
                 "bring": "[HostName]"
             },
             "namespace": {
                 "type": "string",
-                "default": "default",
-                "bring": "[NamespaceName]",
+                "default": "",
+                "bring": "[NamespaceName]"
             },
             "pod_name": {
                 "type": "string",
@@ -65,17 +65,17 @@ if !is_policy then goto end-script
             },
             "host_pid": {
                 "type": "int",
-                "default": "",
+                "default": 0,
                 "bring": "[HostPID]"
             },
             "ppid": {
                 "type": "int",
-                "default": "",
+                "default": 0,
                 "bring": "[PPID]"
             },
             "pid": {
                 "type": "int",
-                "default": "",
+                "default": 0,
                 "bring": "[PID]"
             },
             "type": {
@@ -136,7 +136,7 @@ if !is_policy then goto end-script
             },
             "owner_namespace": {
                 "type": "string",
-                "default": "default",
+                "default": "",
                 "bring": "[Owner][Namespace]"
             },
             "source": {
@@ -153,7 +153,7 @@ if !is_policy then goto end-script
             },
             "uid": {
                 "type": "int",
-                "default": "",
+                "default": 0,
                 "bring": "[uid]",
                 "optional": true
             }
