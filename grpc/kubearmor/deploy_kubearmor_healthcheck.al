@@ -17,7 +17,7 @@ on error ignore
 :set-params:
 grpc_name = healthcheck1
 grpc_client_ip = 127.0.0.1
-grpc_client_port = 50051
+grpc_client_port = 32769
 grpc_dir = $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor/
 grpc_proto = kubearmor
 grpc_function = HealthCheck

@@ -10,7 +10,7 @@ if !grpc_function == HealthCheck then
 <do run grpc client where
     ip = !grpc_client_ip and port = !grpc_client_port and
     name = !grpc_name and
-    grpc_dir = !grpc_dir
+    grpc_dir = !grpc_dir and
     proto = !grpc_proto and
     function = !grpc_function and
     request = !grpc_request and
@@ -26,7 +26,7 @@ do goto end-script
 <run grpc client where
     ip = !grpc_client_ip and port = !grpc_client_port and
     name = !grpc_name and
-    grpc_dir = !grpc_dir
+    grpc_dir = !grpc_dir and
     proto = !grpc_proto and
     function = !grpc_function and
     request = !grpc_request and
@@ -41,7 +41,7 @@ do goto end-script
     limit = !grpc_limit >
 
 
-:end-script
+:end-script:
 end script
 
 :grpc-client-error:

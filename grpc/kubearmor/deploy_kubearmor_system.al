@@ -17,9 +17,9 @@ on error ignore
 # Set Params
 :set-params:
 grpc_name = system1
-grpc_client_ip = 127.0.0.1
-grpc_client_port = 50051
-grpc_dir = $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor/
+grpc_client_ip = 10.138.0.3
+grpc_client_port = 32768
+grpc_dir = $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/
 grpc_proto = kubearmor
 grpc_function = WatchLogs
 grpc_request = RequestMessage

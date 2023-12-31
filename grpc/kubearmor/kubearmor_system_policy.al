@@ -17,7 +17,7 @@ on error ignore
 policy_id = kubearmor-system-policy
 
 :check-policy:
-is_policy = blockchain get policy where id = !policy_id
+is_policy = blockchain get mapping where id = !policy_id
 if !is_policy then goto end-script
 
 :prep-policy:
