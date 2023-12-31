@@ -20,14 +20,21 @@ policy_id = kubearmor-system-policy
 is_policy = blockchain get mapping where id = !policy_id
 if !is_policy then goto end-script
 
+
 :prep-policy:
 <new_policy = {
     "mapping": {
         "id": !policy_id,
         "dbms": !default_dbms,
-        "table": !table_name,
+        "table": "bring [operation]',
         "readings": "",
         "schema": {
+            "timestamp": {
+                "type": "timestamp",
+                "default": "now(),
+                "apply" :  "epoch_to_datetime",
+                "bring": "[Timestamp]"
+            }
             "timestamp": {
                 "type": "timestamp",
                 "default": "now()",
