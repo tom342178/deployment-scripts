@@ -15,11 +15,12 @@
 on error ignore
 :set-params:
 policy_id = kubearmor-system-policy
+set read_flag = false
 
 :check-policy:
 is_policy = blockchain get mapping where id = !policy_id
 if !is_policy then goto end-script
-set read_flag = false
+
 
 :prep-policy:
 <new_policy = {
@@ -35,7 +36,7 @@ set read_flag = false
                 "apply" :  "epoch_to_datetime",
                 "bring": "[Timestamp]"
             },
-            "timestamp": {
+            "updated_timestamp": {
                 "type": "timestamp",
                 "default": "now()",
                 "bring": "[UpdatedTime]"
@@ -173,7 +174,7 @@ set read_flag = false
 process !local_scripts/policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
-if error_code == 3 then declare-policy-error
+if error_code == 3 then declare-    policy-error
 
 :end-script:
 end script
