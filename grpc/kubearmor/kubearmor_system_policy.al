@@ -15,7 +15,7 @@
 on error ignore
 :set-params:
 policy_id = kubearmor-system-policy
-set read_flag = false
+
 
 :check-policy:
 is_policy = blockchain get mapping where id = !policy_id
@@ -29,14 +29,20 @@ if !is_policy then goto end-script
         "name": !grpc_name,
         "company": !company_name,
         "dbms": !default_dbms,
-        "table": "bring [Operation]",
+        "table": !table_name,
         "readings": "",
         "schema": {
             "timestamp": {
                 "type": "timestamp",
                 "default": "now()",
                 "apply" :  "epoch_to_datetime",
-                "bring": "[Timestamp]"
+                "bring": "[Timestamp]",
+                "scripts": [
+                    "if !alert_flag_1 == true then ingestion_alerts[Alert_Flag_1]  = true",
+                    "if !alert_level.int > 0 then ingestion_alerts[Status_Level]  = !alert_level",
+                    "if !alert_flag_1 or !alert_level.int then run client (blockchain get !monitor_node bring.ip_port) monitor alerts where info = !ingestion_alerts",
+                    "ingestion_alerts = ''"
+                ]
             },
             "updated_timestamp": {
                 "type": "timestamp",

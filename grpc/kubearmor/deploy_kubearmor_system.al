@@ -6,7 +6,7 @@
 #   3. Declare Policy
 #   4. gRPC client
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor.al
+# process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor_system.al
 on error ignore
 
 # Compile proto file
@@ -30,7 +30,11 @@ grpc_limit = 0
 set grpc_ingest = true
 set grpc_debug = false
 
-table_name = system_insight
+set alert_flag_1 = false
+set alert_level = 0
+ingestion_alerts = ''
+
+table_name = bring [Operation]
 if not !default_dbms then set default_dbms = kubearmor
 
 :declare-policy:
