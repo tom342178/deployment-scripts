@@ -24,7 +24,7 @@ grpc_function = HealthCheck
 grpc_request = NonceMessage
 grpc_response = ReplyMessage
 grpc_service = LogService
-grpc_value = nonce.10.int
+grpc_value = (nonce = 10.int)
 set grpc_debug = true
 
 :run-grpc-client:
