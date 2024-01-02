@@ -26,6 +26,8 @@ if !is_policy then goto end-script
 <new_policy = {
     "mapping": {
         "id": !policy_id,
+        "name": !grpc_name,
+        "company": !company_name,
         "dbms": !default_dbms,
         "table": "bring [Operation]",
         "readings": "",
