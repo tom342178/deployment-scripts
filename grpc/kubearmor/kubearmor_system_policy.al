@@ -107,7 +107,8 @@ if !is_policy then goto end-script
             "resource": {
                 "type": "string",
                 "default": "",
-                "bring": "[Resource]"
+                "bring": "[Resource]",
+                "apply" : "json_dump"
             },
             "data": {
                 "type": "string",
