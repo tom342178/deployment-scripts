@@ -22,7 +22,6 @@ if !grpc_function == HealthCheck then
 >
 do goto end-script
 
-
 <run grpc client where
     ip = !grpc_client_ip and port = !grpc_client_port and
     name = !grpc_name and
@@ -38,7 +37,8 @@ do goto end-script
     table = !table_name and
     debug = !grpc_debug and
     ingest = !grpc_ingest and
-    limit = !grpc_limit >
+    limit = !grpc_limit
+>
 
 
 :end-script:
