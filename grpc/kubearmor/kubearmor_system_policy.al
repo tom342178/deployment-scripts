@@ -6,7 +6,8 @@
 #     "ContainerID": "cf3e3217059a56e21ca4cf676572ffb0aac66f0182fa107d239ce4636e53c396", "ContainerName": "nginx",
 #     "HostPID": 1059919, "PPID": 1014073, "PID": 1673, "Type": "ContainerLog", "Operation": "Process",
 #     "Resource": "/usr/bin/bash -c apt-get -y update && apt-get -y upgrade", "Data": "syscall=SYS_EXECVE",
-#     "Result": "Passed", "ContainerImage": "nginx:latest@sha256:2bdc49f2f8ae8d8dc50ed00f2ee56d00385c6f8bc8a8b320d0a294d9e3b49026",
+#     "Result": "Passed",
+#     "ContainerImage": "nginx:latest@sha256:2bdc49f2f8ae8d8dc50ed00f2ee56d00385c6f8bc8a8b320d0a294d9e3b49026",
 #     "ProcessName": "/usr/bin/bash", "HostPPID": 1059916, "Labels": "app=nginx",
 #     "Owner": {"Ref": "Deployment", "Name": "nginx", "Namespace": "default"}}
 #-----------------------------------------------------------------------------------------------------------------------
@@ -23,6 +24,16 @@ if !is_policy then goto end-script
 
 
 :prep-policy:
+policy_id = kubearmor-system-policy
+grpc_name = system1
+company_name = Kubearmor
+default_dbms = kubearmor
+table_name = bring [Operation]
+set alert_flag_1 = false
+alert_level = -1
+set ingestion_alerts = ""
+set monitor_node = query
+
 <new_policy = {
     "mapping": {
         "id": !policy_id,
@@ -36,18 +47,18 @@ if !is_policy then goto end-script
                 "type": "timestamp",
                 "default": "now()",
                 "apply" :  "epoch_to_datetime",
-                "bring": "[Timestamp]",
+                "bring": "[Timestamp]"
             },
             "updated_timestamp": {
                 "type": "timestamp",
                 "default": "now()",
                 "bring": "[UpdatedTime]",
-                "scripts": [
+                "script": [
                     "if !alert_flag_1 == true then ingestion_alerts[Alert_Flag_1]  = true",
                     "if !alert_level.int > 0 then ingestion_alerts[Status_Level]  = !alert_level",
                     "if !alert_flag_1 or !alert_level.int then run client (blockchain get !monitor_node bring.ip_port) monitor alerts where info = !ingestion_alerts",
-                    "if !alert_flag_1 or !alert_level.int then echo !ingestion_alerts"
-                    "ingestion_alerts = ''",
+                    "if !alert_flag_1 or !alert_level.int then echo !ingestion_alerts",
+                    "ingestion_alerts = ''"
                 ]
             },
             "cluster_name": {
@@ -99,11 +110,6 @@ if !is_policy then goto end-script
                 "type": "string",
                 "default": "",
                 "bring": "[Type]"
-            },
-            "operation": {
-                "type": "string",
-                "default": "",
-                "bring": "[Operation]"
             },
             "resource": {
                 "type": "string",
@@ -178,7 +184,6 @@ if !is_policy then goto end-script
         }
     }
 }>
-
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
