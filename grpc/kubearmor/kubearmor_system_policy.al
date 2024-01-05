@@ -37,17 +37,18 @@ if !is_policy then goto end-script
                 "default": "now()",
                 "apply" :  "epoch_to_datetime",
                 "bring": "[Timestamp]",
-                "scripts": [
-                    "if !alert_flag_1 == true then ingestion_alerts[Alert_Flag_1]  = true",
-                    "if !alert_level.int > 0 then ingestion_alerts[Status_Level]  = !alert_level",
-                    "if !alert_flag_1 or !alert_level.int then run client (blockchain get !monitor_node bring.ip_port) monitor alerts where info = !ingestion_alerts",
-                    "ingestion_alerts = ''"
-                ]
             },
             "updated_timestamp": {
                 "type": "timestamp",
                 "default": "now()",
-                "bring": "[UpdatedTime]"
+                "bring": "[UpdatedTime]",
+                "scripts": [
+                    "if !alert_flag_1 == true then ingestion_alerts[Alert_Flag_1]  = true",
+                    "if !alert_level.int > 0 then ingestion_alerts[Status_Level]  = !alert_level",
+                    "if !alert_flag_1 or !alert_level.int then run client (blockchain get !monitor_node bring.ip_port) monitor alerts where info = !ingestion_alerts",
+                    "if !alert_flag_1 or !alert_level.int then echo !ingestion_alerts"
+                    "ingestion_alerts = ''",
+                ]
             },
             "cluster_name": {
                 "type": "string",
