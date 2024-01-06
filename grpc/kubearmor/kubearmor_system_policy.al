@@ -15,6 +15,7 @@
 
 on error ignore
 :set-params:
+new_policy = ""
 policy_id = kubearmor-system-policy
 
 

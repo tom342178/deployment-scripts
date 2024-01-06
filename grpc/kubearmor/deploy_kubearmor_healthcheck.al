@@ -5,7 +5,7 @@
 #   2. Set params
 #   3. gRPC client
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor.al
+# process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor_healthcheck.al
 on error ignore
 
 # Compile proto file
@@ -18,13 +18,13 @@ on error ignore
 grpc_name = healthcheck1
 grpc_client_ip = 127.0.0.1
 grpc_client_port = 32769
-grpc_dir = $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor/
+grpc_dir = $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/
 grpc_proto = kubearmor
 grpc_function = HealthCheck
 grpc_request = NonceMessage
 grpc_response = ReplyMessage
 grpc_service = LogService
-grpc_value = (nonce = 10.int)
+grpc_value = (nonce = 11.int)
 set grpc_debug = true
 
 :run-grpc-client:
