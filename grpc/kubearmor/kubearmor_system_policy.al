@@ -55,11 +55,13 @@ set monitor_node = query
                 "default": "now()",
                 "bring": "[UpdatedTime]",
                 "script": [
+                    "if !copy_alert_flag_1 == !alert_flag_1 and !copy_alert_level == !alert_level then streaming data ignore script",
                     "if !alert_flag_1 == true then ingestion_alerts[Alert_Flag_1]  = true",
-                    "if !alert_level.int > 0 then ingestion_alerts[Alert_Level]  = !alert_level",
-                    "if !alert_flag_1 or !alert_level.int then run client (blockchain get !monitor_node bring.ip_port) monitor alerts where info = !ingestion_alerts",
-                    "if !alert_flag_1 or !alert_level.int then echo !ingestion_alerts",
-                    "ingestion_alerts = ''"
+                    "if !alert_level.int > 0 then ingestion_alerts[Status_Level]  = !alert_level",
+                    "if !alert_flag_1 or !alert_level.int then run client (!monitoring_ips) monitor alerts where info = !ingestion_alerts",
+                    "ingestion_alerts = ''",
+                    "copy_alert_flag_1 = !alert_flag_1",
+                    "copy_alert_level = !alert_level"
                 ]
             },
             "cluster_name": {

@@ -231,12 +231,14 @@ if $MQTT_VALUE_COLUMN then mqtt_value_column=$MQTT_VALUE_COLUMN
 :node-monitoring:
 set monitor_nodes = false
 set monitor_node = query
-monitor_node_company = !company_name
+# monitor_node_company = !company_name
 
 if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then set monitor_nodes = true
 if !monitor_nodes == true then
 if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
-if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
+# if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
+
+monitoring_ips = blockchain get !monitor_node bring.ip_port
 
 :other-settings:
 set deploy_local_script = false
