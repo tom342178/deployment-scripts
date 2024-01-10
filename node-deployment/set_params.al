@@ -251,6 +251,7 @@ set move_json = true
 set write_immediate = true
 operator_threads = 3
 query_pool = 6
+archive_delete=30
 
 dbms_file_location = file_name[0]
 table_file_location = file_name[1]
@@ -273,7 +274,7 @@ if !operator_threads.int < 1 then operator_threads=1
 if $QUERY_POOL and $QUERY_POOL.int then query_pool=$QUERY_POOL
 if !query_pool.int < 1 then query_pool = 1
 
-
+if $ARCHIVE_DELETE then archive_delete=$ARCHIVE_DELETE
 
 :end-script:
 end script
