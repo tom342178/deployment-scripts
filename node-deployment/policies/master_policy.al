@@ -49,17 +49,22 @@ set policy new_policy [master][company] = !company_name
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [master][ip] = !external_ip
 do set policy new_policy [master][local_ip] = !overlay_ip
-else if !overlay_ip and !tcp_bind == true then
+
+if !overlay_ip and !tcp_bind == true then
 do set policy new_policy [master][ip] = !overlay_ip
-else if not !overlay_ip and !proxy_ip and !tcp_bind == false then
+
+if not !overlay_ip and !proxy_ip and !tcp_bind == false then
 do set policy new_policy [master][ip] = !external_ip
 do set policy new_policy [master][local_ip] = !proxy_ip
-else if not !overlay_ip and !proxy_ip and !tcp_bind == true then
+
+if not !overlay_ip and !proxy_ip and !tcp_bind == true then
 do set policy new_policy [master][ip] = !proxy_ip
-else if tcp_bind == false then
+
+if tcp_bind == false and not !overlay_ip and not !proxy_ip then
 do set policy new_policy [master][ip] = !external_ip
 do set policy new_policy [master][local_ip] = !ip
-else if !tcp_bind == true
+
+if !tcp_bind == true and not !overlay_ip and not !proxy_ip then
 do set policy new_policy [master][ip] = !ip
 
 if !overlay_ip and !proxy_ip then set policy new_policy[master][proxy] = !proxy_ip
