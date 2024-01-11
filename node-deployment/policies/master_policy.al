@@ -44,7 +44,6 @@ set policy new_policy [master][name] = !node_name
 set policy new_policy [master][company] = !company_name
 
 :network-masters:
-
 # TCP bind is False
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [master][ip] = !external_ip
@@ -71,9 +70,10 @@ if !overlay_ip and !proxy_ip then set policy new_policy[master][proxy] = !proxy_
 
 set policy new_policy [master][port] = !anylog_server_port.int
 set policy new_policy [master][rest_port] = !anylog_rest_port.int
-if !anylog_broker_port then set policy new_policy [master][rest_port] = !anylog_broker_port.int
+if !anylog_broker_port then set policy new_policy [master][broker_port] = !anylog_broker_port.int
 
 
+:license:
 if !license_key then set policy new_policy [master][license] = !license_key
 
 :location:
