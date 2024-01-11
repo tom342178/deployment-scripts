@@ -42,19 +42,33 @@ set policy new_policy [publisher] = {}
 set policy new_policy [publisher][name] = !node_name
 set policy new_policy [publisher][company] = !company_name
 
-:network-publishers:
-if !overlay_ip and !tcp_bind == true then set policy new_policy [publisher][ip] = !overlay_ip
-if not !overlay_ip and !tcp_bind == true then set policy new_policy [publisher][ip] = !ip
+:network-query:
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [publisher][ip] = !external_ip
 do set policy new_policy [publisher][local_ip] = !overlay_ip
-if not !overlay_ip and !tcp_bind == false then
+
+if !overlay_ip and !tcp_bind == true then
+do set policy new_policy [publisher][ip] = !overlay_ip
+
+if not !overlay_ip and !proxy_ip and !tcp_bind == false then
+do set policy new_policy [publisher][ip] = !external_ip
+do set policy new_policy [publisher][local_ip] = !proxy_ip
+
+if not !overlay_ip and !proxy_ip and !tcp_bind == true then
+do set policy new_policy [publisher][ip] = !proxy_ip
+
+if tcp_bind == false and not !overlay_ip and not !proxy_ip then
 do set policy new_policy [publisher][ip] = !external_ip
 do set policy new_policy [publisher][local_ip] = !ip
 
+if !tcp_bind == true and not !overlay_ip and not !proxy_ip then
+do set policy new_policy [publisher][ip] = !ip
+
+if !overlay_ip and !proxy_ip then set policy new_policy[master][proxy] = !proxy_ip
+
 set policy new_policy [publisher][port] = !anylog_server_port.int
 set policy new_policy [publisher][rest_port] = !anylog_rest_port.int
-if !anylog_broker_port then set policy new_policy [publisher][broker    _port] = !anylog_broker_port.int
+if !anylog_broker_port then set policy new_policy [publisher][broker_port] = !anylog_broker_port.int
 
 :location:
 if !loc then set policy new_policy [publisher][loc] = !loc

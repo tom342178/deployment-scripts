@@ -43,7 +43,7 @@ set policy new_policy [master] = {}
 set policy new_policy [master][name] = !node_name
 set policy new_policy [master][company] = !company_name
 
-:network-masters:
+:network-master:
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [master][ip] = !external_ip
 do set policy new_policy [master][local_ip] = !overlay_ip
