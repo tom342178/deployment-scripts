@@ -44,7 +44,6 @@ set policy new_policy [master][name] = !node_name
 set policy new_policy [master][company] = !company_name
 
 :network-masters:
-# TCP bind is False
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [master][ip] = !external_ip
 do set policy new_policy [master][local_ip] = !overlay_ip
