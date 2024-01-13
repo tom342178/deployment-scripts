@@ -46,7 +46,6 @@ set policy new_policy [operator][name] = !node_name
 set policy new_policy [operator][company] = !company_name
 
 :network-operator:
-set debug on
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [operator][ip] = !external_ip
 do set policy new_policy [operator][local_ip] = !overlay_ip
@@ -61,7 +60,7 @@ do set policy new_policy [operator][local_ip] = !proxy_ip
 if not !overlay_ip and !proxy_ip and !tcp_bind == true then
 do set policy new_policy [operator][ip] = !proxy_ip
 
-if tcp_bind == false and not !overlay_ip and not !proxy_ip then
+if !tcp_bind == false and not !overlay_ip and not !proxy_ip then
 do set policy new_policy [operator][ip] = !external_ip
 do set policy new_policy [operator][local_ip] = !ip
 
@@ -78,16 +77,13 @@ if !anylog_broker_port then set policy new_policy [operator][broker_port] = !any
 if !cluster_id then set policy new_policy [operator][cluster] = !cluster_id
 
 :location:
-set debug off
 if !loc then set policy new_policy [operator][loc] = !loc
 if !country then set policy new_policy [operator][country] = !country
 if !state then set policy new_policy [operator][state] = !state
 if !city then set policy new_policy [operator][city] = !city
 
 :publish-policy:
-reset error log
 process !local_scripts/policies/publish_policy.al
-goto terminate-scripts
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
