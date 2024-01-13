@@ -85,8 +85,9 @@ if !state then set policy new_policy [operator][state] = !state
 if !city then set policy new_policy [operator][city] = !city
 
 :publish-policy:
+reset error log
 process !local_scripts/policies/publish_policy.al
-goto end-script
+goto terminate-scripts
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
 if error_code == 3 then declare-policy-error
