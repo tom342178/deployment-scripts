@@ -58,18 +58,19 @@ do set policy new_policy [query][local_ip] = !proxy_ip
 if not !overlay_ip and !proxy_ip and !tcp_bind == true then
 do set policy new_policy [query][ip] = !proxy_ip
 
-if tcp_bind == false and not !overlay_ip and not !proxy_ip then
+if !tcp_bind == false and not !overlay_ip and not !proxy_ip then
 do set policy new_policy [query][ip] = !external_ip
 do set policy new_policy [query][local_ip] = !ip
 
 if !tcp_bind == true and not !overlay_ip and not !proxy_ip then
 do set policy new_policy [query][ip] = !ip
 
-if !overlay_ip and !proxy_ip then set policy new_policy[master][proxy] = !proxy_ip
+if !overlay_ip and !proxy_ip then set policy new_policy[query][proxy] = !proxy_ip
 
 set policy new_policy [query][port] = !anylog_server_port.int
 set policy new_policy [query][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [query][broker_port] = !anylog_broker_port.int
+
 
 :location:
 if !loc then set policy new_policy [query][loc] = !loc

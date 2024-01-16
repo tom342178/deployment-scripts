@@ -58,7 +58,7 @@ do set policy new_policy [master][local_ip] = !proxy_ip
 if not !overlay_ip and !proxy_ip and !tcp_bind == true then
 do set policy new_policy [master][ip] = !proxy_ip
 
-if tcp_bind == false and not !overlay_ip and not !proxy_ip then
+if !tcp_bind == false and not !overlay_ip and not !proxy_ip then
 do set policy new_policy [master][ip] = !external_ip
 do set policy new_policy [master][local_ip] = !ip
 

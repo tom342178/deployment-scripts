@@ -42,7 +42,7 @@ set policy new_policy [publisher] = {}
 set policy new_policy [publisher][name] = !node_name
 set policy new_policy [publisher][company] = !company_name
 
-:network-query:
+:network-publisher:
 if !overlay_ip and !tcp_bind == false then
 do set policy new_policy [publisher][ip] = !external_ip
 do set policy new_policy [publisher][local_ip] = !overlay_ip
@@ -57,14 +57,14 @@ do set policy new_policy [publisher][local_ip] = !proxy_ip
 if not !overlay_ip and !proxy_ip and !tcp_bind == true then
 do set policy new_policy [publisher][ip] = !proxy_ip
 
-if tcp_bind == false and not !overlay_ip and not !proxy_ip then
+if !tcp_bind == false and not !overlay_ip and not !proxy_ip then
 do set policy new_policy [publisher][ip] = !external_ip
-do set policy new_policy [publisher][local_ip] = !ip
+do set policy new_policy [publisherpublisher][local_ip] = !ip
 
 if !tcp_bind == true and not !overlay_ip and not !proxy_ip then
 do set policy new_policy [publisher][ip] = !ip
 
-if !overlay_ip and !proxy_ip then set policy new_policy[master][proxy] = !proxy_ip
+if !overlay_ip and !proxy_ip then set policy new_policy[publisher][proxy] = !proxy_ip
 
 set policy new_policy [publisher][port] = !anylog_server_port.int
 set policy new_policy [publisher][rest_port] = !anylog_rest_port.int
