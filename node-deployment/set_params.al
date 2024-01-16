@@ -238,8 +238,6 @@ if !monitor_nodes == true then
 if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
 # if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
 
-monitoring_ips = blockchain get !monitor_node bring.ip_port
-
 :other-settings:
 set deploy_local_script = false
 set create_table = true
