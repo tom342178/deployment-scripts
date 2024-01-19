@@ -53,16 +53,7 @@ set monitor_node = query
             "updated_timestamp": {
                 "type": "timestamp",
                 "default": "now()",
-                "bring": "[UpdatedTime]",
-                "script": [
-                    "if !copy_alert_flag_1 == !alert_flag_1 and !copy_alert_level == !alert_level then streaming data ignore script",
-                    "ingestion_alerts[Alert_Flag_1]  = !alert_flag_1",
-                    "ingestion_alerts[Node_Name] = get node name",
-                    "ingestion_alerts[Alert_Level]  = !alert_level",
-                    "run client (!monitoring_ips) monitor alerts where info = !ingestion_alerts",
-                    "copy_alert_flag_1 = !alert_flag_1",
-                    "copy_alert_level = !alert_level"
-                ]
+                "bring": "[UpdatedTime]"
             },
             "cluster_name": {
                 "type": "string",
