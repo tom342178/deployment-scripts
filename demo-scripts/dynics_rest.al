@@ -59,13 +59,13 @@
 blockchain prepare policy !mapping_policy
 blockchain insert where policy=!mapping_policy and local=true and master=!ledger_conn
 
-<run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
+<run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
     name=fusion-1 and
     policy=fusion-1
 )>
 
 
-<run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
+<run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
     name=fusion-1 and
     dbms=!default_dbms and
     table=substation_events and

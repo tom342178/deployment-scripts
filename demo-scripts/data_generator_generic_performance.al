@@ -8,14 +8,14 @@ topic_name = performance-datas
 :mqtt-client:
 on error goto mqtt-client-error
 if !anylog_broker_port then
-<do run mqtt client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
+<do run msg client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
     name=!topic_name and
     dbms="bring [dbms]" and
     table="bring [table]" and
     column.timestamp.timestamp="bring [timestamp]" and
     column.value.float="bring [value]"
 )>
-<else run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
+<else run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
     name=!topic_name and
     dbms="bring [dbms]" and
     table="bring [table]" and

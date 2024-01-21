@@ -2,7 +2,7 @@
 # The following is a combination of getting data from both videos and images using base64 decoding
 #   -> add image policy
 #   -> add video policy
-#   -> run mqtt client with broker
+#   -> run msg client with broker
 # :process:
 #   1. Start video / image process on AnyLog
 #   2. Start Data generator
@@ -175,14 +175,14 @@ do blockchain insert where policy=!mapping_policy and local=true and master=!led
 :mqtt-client:
 on error goto mqtt-client-error
 if !anylog_broker_port then
-<do run mqtt client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
+<do run msg client where broker=local and port=!anylog_broker_port and log=!mqtt_log and topic=(
     name=!image_policy_id and
     policy=!image_policy_id
 ) and topic=(
     name=!video_policy_id and
     policy=!video_policy_id
 )>
-<else run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
+<else run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=!mqtt_log and topic=(
     name=!image_policy_id and
     policy=!image_policy_id
 ) and topic=(

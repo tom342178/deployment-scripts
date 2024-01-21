@@ -57,7 +57,7 @@ if !broker != rest then goto mqtt-regular
 :mqtt-rest:
 on error goto mqtt-error
 if !mqtt_user and !mqtt_passwd and !mqtt_dbms and !mqtt_table and !mqtt_timestamp_column and !mqtt_value_column then
-<do run mqtt client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and
+<do run msg client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and
     log=!mqtt_log and topic=(
         name=!mqtt_topic and
         dbms=!mqtt_dbms and
@@ -67,7 +67,7 @@ if !mqtt_user and !mqtt_passwd and !mqtt_dbms and !mqtt_table and !mqtt_timestam
     )>
 
 else if !mqtt_user and !mqtt_passwd and !mqtt_dbms and !mqtt_table then
-<do run mqtt client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and 
+<do run msg client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and 
     log=!mqtt_log and topic=(
         name=!mqtt_topic and
         dbms=!mqtt_dbms and
@@ -75,11 +75,11 @@ else if !mqtt_user and !mqtt_passwd and !mqtt_dbms and !mqtt_table then
 )>
 
 else if !mqtt_user and !mqtt_passwd then
-<do run mqtt client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd
+<do run msg client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd
     and log=!mqtt_log and topic=(name=!mqtt_topic)>
 
 else if !mqtt_dbms and !mqtt_table and !mqtt_timestamp_column and !mqtt_value_column then
-<do run mqtt client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(
+<do run msg client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(
         name=!mqtt_topic and
         dbms=!mqtt_dbms and
         table=!mqtt_table and
@@ -88,19 +88,19 @@ else if !mqtt_dbms and !mqtt_table and !mqtt_timestamp_column and !mqtt_value_co
 )>
 
 else if !mqtt_dbms and !mqtt_table then
-<do run mqtt client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(
+<do run msg client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(
         name=!mqtt_topic and
         dbms=!mqtt_dbms and
         table=!mqtt_table
 )>
-else run mqtt client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(name=!mqtt_topic)
+else run msg client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(name=!mqtt_topic)
 
 goto end-script
 
 :mqtt-regular:
 on error goto mqtt-error
 if !mqtt_user and !mqtt_passwd and !mqtt_dbms and !mqtt_table and !mqtt_timestamp_column and !mqtt_value_column then
-<do run mqtt client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and
+<do run msg client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and
     log=!mqtt_log and topic=(
         name=!mqtt_topic and
         dbms=!mqtt_dbms and
@@ -110,7 +110,7 @@ if !mqtt_user and !mqtt_passwd and !mqtt_dbms and !mqtt_table and !mqtt_timestam
     )>
 
 else if !mqtt_user and !mqtt_passwd and !mqtt_dbms and !mqtt_table then
-<do run mqtt client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and
+<do run msg client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and
     log=!mqtt_log and topic=(
         name=!mqtt_topic and
         dbms=!mqtt_dbms and
@@ -118,11 +118,11 @@ else if !mqtt_user and !mqtt_passwd and !mqtt_dbms and !mqtt_table then
 )>
 
 else if !mqtt_user and !mqtt_passwd then
-<do run mqtt client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd
+<do run msg client where broker=!broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd
     and log=!mqtt_log and topic=(name=!mqtt_topic)>
 
 else if !mqtt_dbms and !mqtt_table and !mqtt_timestamp_column and !mqtt_value_column then
-<do run mqtt client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(
+<do run msg client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(
         name=!mqtt_topic and
         dbms=!mqtt_dbms and
         table=!mqtt_table and
@@ -131,19 +131,19 @@ else if !mqtt_dbms and !mqtt_table and !mqtt_timestamp_column and !mqtt_value_co
     )>
 
 else if !mqtt_dbms and !mqtt_table then
-<do run mqtt client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(
+<do run msg client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(
         name=!mqtt_topic and
         dbms=!mqtt_dbms and
         table=!mqtt_table
 )>
-else run mqtt client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(name=!mqtt_topic)
+else run msg client where broker=!broker and port=!mqtt_port and log=!mqtt_log and topic=(name=!mqtt_topic)
 
 
 :end-script:
 end script
 
 :mqtt-error:
-echo "Error: Failed to execute `run mqtt client` command"
+echo "Error: Failed to execute `run msg client` command"
 goto end-script
 
 

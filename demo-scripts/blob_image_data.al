@@ -6,7 +6,7 @@
 # :process:
 #   1. Set parameters
 #   2. Add mapping policies to blockchain (if they don't already exist)
-#   3. `run mqtt client` command
+#   3. `run msg client` command
 #
 # :sample data coming in:
 #    {
@@ -141,17 +141,17 @@ blockchain insert where policy=!new_policy and local=true and master=!ledger_con
 :mqtt-call:
 on error goto mqtt-error
 if !anylog_broker_port then
-<do run mqtt client where broker=local and port=!anylog_broker_port and log=false and topic=(
+<do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
     name=!policy_id and
     policy=!policy_id
 )>
 else if not !anylog_broker_port and !user_name and !user_password then
-<do run mqtt client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
+<do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
     name=!policy_id and
     policy=!policy_id
 )>
 else if not !anylog_broker_port then
-<do run mqtt client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
+<do run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
     name=!policy_id and
     policy=!policy_id
 )>

@@ -231,12 +231,12 @@ if $MQTT_VALUE_COLUMN then mqtt_value_column=$MQTT_VALUE_COLUMN
 :node-monitoring:
 set monitor_nodes = false
 set monitor_node = query
-monitor_node_company = !company_name
+# monitor_node_company = !company_name
 
 if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then set monitor_nodes = true
 if !monitor_nodes == true then
 if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
-if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
+# if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
 
 :other-settings:
 set deploy_local_script = false
@@ -249,6 +249,7 @@ set move_json = true
 set write_immediate = true
 operator_threads = 3
 query_pool = 6
+archive_delete=30
 
 dbms_file_location = file_name[0]
 table_file_location = file_name[1]
@@ -271,7 +272,7 @@ if !operator_threads.int < 1 then operator_threads=1
 if $QUERY_POOL and $QUERY_POOL.int then query_pool=$QUERY_POOL
 if !query_pool.int < 1 then query_pool = 1
 
-
+if $ARCHIVE_DELETE then archive_delete=$ARCHIVE_DELETE
 
 :end-script:
 end script
