@@ -83,10 +83,11 @@ if !state then set policy new_policy [operator][state] = !state
 if !city then set policy new_policy [operator][city] = !city
 
 :publish-policy:
+set debug on
 process !local_scripts/policies/publish_policy.al
-if error_code == 1 then goto sign-policy-error
-if error_code == 2 then goto prepare-policy-error
-if error_code == 3 then declare-policy-error
+if !error_code == 1 then goto sign-policy-error
+if !error_code == 2 then goto prepare-policy-error
+if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 goto check-policy
 

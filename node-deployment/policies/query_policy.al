@@ -26,7 +26,9 @@ set create_policy = false
 is_policy = blockchain get query where company=!company_name and name=!node_name
 
 # just created the policy + exists
-if !is_policy and !create_policy == true then goto end-script
+if !is_policy then goto end-script
+
+
 
 # policy pre-exists - validate IP addresses
 if !is_policy and not !create_policy == false  then
@@ -80,9 +82,9 @@ if !city then set policy new_policy [query][city] = !city
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
-if error_code == 1 then goto sign-policy-error
-if error_code == 2 then goto prepare-policy-error
-if error_code == 3 then declare-policy-error
+if !error_code == 1 then goto sign-policy-error
+if !error_code == 2 then goto prepare-policy-error
+# if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 goto check-policy
 
@@ -106,4 +108,8 @@ goto terminate-scripts
 
 :declare-policy-error:
 print "Failed to declare query policy on blockchain"
+goto terminate-scripts
+
+:policy-error:
+print "Failed to publish policy for an unknown reason"
 goto terminate-scripts
