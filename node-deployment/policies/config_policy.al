@@ -11,25 +11,31 @@ set policy new_policy [config][company] = !company_name
 
 
 :network-configs:
-if !overlay_ip and !tcp_bind == true then set policy new_policy [config][ip] = '!overlay_ip'
-if not !overlay_ip and !tcp_bind == true then set policy new_policy [config][ip] = '!ip'
-if !overlay_ip and !tcp_bind == false then
+if !tcp_bind == false then
 do set policy new_policy [config][ip] = '!external_ip'
-do set policy new_policy [config][local_ip] = '!overlay_ip'
-if not !overlay_ip and !tcp_bind == false then
-do set policy new_policy [config][ip] = '!external_ip'
-do set policy new_policy [config][local_ip] = '!ip'
+do if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
+do if not !overlay_ip and !proxy_ip then set policy new_policy [config][local_ip] = '!proxy_ip'
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [config][local_ip] = '!ip'
 
-if !overlay_ip and !rest_bind == true then set policy new_policy [config][rest_ip] = '!overlay_ip'
-if not !overlay_ip and !rest_bind == true then set policy new_policy [config][rest_ip] = '!ip'
+if !tcp_bind == true then
+do if !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
+do if not !overlay_ip and !proxy_ip then set policy new_policy [config][ip] = '!proxy_ip'
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [config][ip] = '!ip'
 
-if !anylog_broker_port and (!node_type == operator or !node_type == publisher) then
-do if !overlay_ip and !bind_bind == true then set policy new_policy [config][bind_ip] = '!overlay_ip'
-do if not !overlay_ip and !bind_bind == true then set policy new_policy [config][bind_ip] = '!ip'
+if !rest_bind == true then
+do if !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
+do if not !overlay_ip and !proxy_ip then set policy new_policy [config][rest_ip] = '!proxy_ip'
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [config][rest_ip] = '!ip'
+
+if !broker_bind == true then
+do if !overlay_ip then set policy new_policy [config][broker_ip] = '!overlay_ip'
+do if not !overlay_ip and !proxy_ip then set policy new_policy [config][broker_ip] = '!proxy_ip'
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [config][broker_ip] = '!ip'
 
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
-if !anylog_broker_port and (!node_type == operator or !node_type == publisher) then set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
+if !anylog_broker_port then set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
+
 
 set policy new_policy [config][threads] = '!tcp_threads.int'
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
