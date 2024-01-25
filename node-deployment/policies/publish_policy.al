@@ -3,8 +3,6 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/policies/publish_policy.al
 
-set debug on
-
 :set-params:
 error_code = 0
 

@@ -23,7 +23,7 @@ on error ignore
 set create_policy = false
 
 :check-policy:
-is_policy = blockchain get master where company=!company_name and name=!node_name
+process !local_scripts/policies/validate_policy.al
 
 # just created the policy + exists
 if !is_policy then goto end-script
@@ -44,33 +44,33 @@ set policy new_policy [master][name] = !node_name
 set policy new_policy [master][company] = !company_name
 
 :network-master:
-if !overlay_ip and !tcp_bind == false then
+if !tcp_bind == false then
 do set policy new_policy [master][ip] = !external_ip
-do set policy new_policy [master][local_ip] = !overlay_ip
+do if !overlay_ip then set policy new_policy [master][local_ip] = !overlay_ip
+do if not !overlay_ip and !proxy_ip then set policy new_policy [master][local_ip] = !proxy_ip
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [master][local_ip] = !ip
 
-if !overlay_ip and !tcp_bind == true then
-do set policy new_policy [master][ip] = !overlay_ip
+if !tcp_bind == true then
+do if !overlay_ip then set policy new_policy [master][ip] = !overlay_ip
+do if not !overlay_ip and !proxy_ip then set policy new_policy [master][ip] = !proxy_ip
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [master][ip] = !ip
 
-if not !overlay_ip and !proxy_ip and !tcp_bind == false then
-do set policy new_policy [master][ip] = !external_ip
-do set policy new_policy [master][local_ip] = !proxy_ip
+if !rest_bind == true then
+do if !overlay_ip then set policy new_policy [master][rest_ip] = !overlay_ip
+do if not !overlay_ip and !proxy_ip then set policy new_policy [master][rest_ip] = !proxy_ip
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [master][rest_ip] = !ip
 
-if not !overlay_ip and !proxy_ip and !tcp_bind == true then
-do set policy new_policy [master][ip] = !proxy_ip
+if !broker_bind == true then
+do if !overlay_ip then set policy new_policy [master][broker_ip] = !overlay_ip
+do if not !overlay_ip and !proxy_ip then set policy new_policy [master][broker_ip] = !proxy_ip
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [master][broker_ip] = !ip
 
-if !tcp_bind == false and not !overlay_ip and not !proxy_ip then
-do set policy new_policy [master][ip] = !external_ip
-do set policy new_policy [master][local_ip] = !ip
-
-if !tcp_bind == true and not !overlay_ip and not !proxy_ip then
-do set policy new_policy [master][ip] = !ip
 
 if !overlay_ip and !proxy_ip then set policy new_policy[master][proxy] = !proxy_ip
 
 set policy new_policy [master][port] = !anylog_server_port.int
 set policy new_policy [master][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [master][broker_port] = !anylog_broker_port.int
-
 
 :license:
 if !license_key then set policy new_policy [master][license] = !license_key

@@ -22,7 +22,7 @@ on error ignore
 set create_policy = false
 
 :check-policy:
-is_policy = blockchain get publisher where company=!company_name and name=!node_name
+process !local_scripts/policies/validate_policy.al
 
 # just created the policy + exists
 if !is_policy and !create_policy == true then goto end-script
@@ -43,26 +43,27 @@ set policy new_policy [publisher][name] = !node_name
 set policy new_policy [publisher][company] = !company_name
 
 :network-publisher:
-if !overlay_ip and !tcp_bind == false then
+if !tcp_bind == false then
 do set policy new_policy [publisher][ip] = !external_ip
-do set policy new_policy [publisher][local_ip] = !overlay_ip
+do if !overlay_ip then set policy new_policy [publisher][local_ip] = !overlay_ip
+do if not !overlay_ip and !proxy_ip then set policy new_policy [publisher][local_ip] = !proxy_ip
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [publisher][local_ip] = !ip
 
-if !overlay_ip and !tcp_bind == true then
-do set policy new_policy [publisher][ip] = !overlay_ip
+if !tcp_bind == true then
+do if !overlay_ip then set policy new_policy [publisher][ip] = !overlay_ip
+do if not !overlay_ip and !proxy_ip then set policy new_policy [publisher][ip] = !proxy_ip
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [publisher][ip] = !ip
 
-if not !overlay_ip and !proxy_ip and !tcp_bind == false then
-do set policy new_policy [publisher][ip] = !external_ip
-do set policy new_policy [publisher][local_ip] = !proxy_ip
+if !rest_bind == true then
+do if !overlay_ip then set policy new_policy [publisher][rest_ip] = !overlay_ip
+do if not !overlay_ip and !proxy_ip then set policy new_policy [publisher][rest_ip] = !proxy_ip
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [publisher][rest_ip] = !ip
 
-if not !overlay_ip and !proxy_ip and !tcp_bind == true then
-do set policy new_policy [publisher][ip] = !proxy_ip
+if !broker_bind == true then
+do if !overlay_ip then set policy new_policy [publisher][broker_ip] = !overlay_ip
+do if not !overlay_ip and !proxy_ip then set policy new_policy [publisher][broker_ip] = !proxy_ip
+do if not !overlay_ip and not !proxy_ip then set policy new_policy [publisher][broker_ip] = !ip
 
-if !tcp_bind == false and not !overlay_ip and not !proxy_ip then
-do set policy new_policy [publisher][ip] = !external_ip
-do set policy new_policy [publisherpublisher][local_ip] = !ip
-
-if !tcp_bind == true and not !overlay_ip and not !proxy_ip then
-do set policy new_policy [publisher][ip] = !ip
 
 if !overlay_ip and !proxy_ip then set policy new_policy[publisher][proxy] = !proxy_ip
 
