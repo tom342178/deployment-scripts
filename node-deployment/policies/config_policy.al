@@ -11,31 +11,21 @@ set policy new_policy [config][company] = !company_name
 
 
 :network-configs:
-if !tcp_bind == false then
-do set policy new_policy [config][ip] = '!external_ip'
-do if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
-do if not !overlay_ip and !proxy_ip then set policy new_policy [config][local_ip] = '!proxy_ip'
-do if not !overlay_ip and not !proxy_ip then set policy new_policy [config][local_ip] = '!ip'
+set policy new_policy [config][ip] = '!external_ip'
+set policy new_policy [config][local_ip] = '!ip'
+if !tcp_bind == false and !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
+else if !tcp_bind == true and !overlay_ip then policy new_policy [config][ip] = '!overlay_ip'
+else if !tcp_bind == true and not !overlay_ip then policy new_policy [config][ip] = '!ip'
 
-if !tcp_bind == true then
-do if !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
-do if not !overlay_ip and !proxy_ip then set policy new_policy [config][ip] = '!proxy_ip'
-do if not !overlay_ip and not !proxy_ip then set policy new_policy [config][ip] = '!ip'
+if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
+else if !rest_bind and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
 
-if !rest_bind == true then
-do if !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
-do if not !overlay_ip and !proxy_ip then set policy new_policy [config][rest_ip] = '!proxy_ip'
-do if not !overlay_ip and not !proxy_ip then set policy new_policy [config][rest_ip] = '!ip'
-
-if !broker_bind == true then
-do if !overlay_ip then set policy new_policy [config][broker_ip] = '!overlay_ip'
-do if not !overlay_ip and !proxy_ip then set policy new_policy [config][broker_ip] = '!proxy_ip'
-do if not !overlay_ip and not !proxy_ip then set policy new_policy [config][broker_ip] = '!ip'
+if !broker_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
+else if !broker_bind == true and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
 
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
 if !anylog_broker_port then set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
-
 
 set policy new_policy [config][threads] = '!tcp_threads.int'
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
