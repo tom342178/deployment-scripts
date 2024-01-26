@@ -16,7 +16,7 @@
 on error ignore
 :set-params:
 new_policy = ""
-set policy_id = "kubearmor-" + !grpc_response + "-policy"
+policy_id = "kubearmor-" + !grpc_response + "-policy"
 
 
 :check-policy:
@@ -31,7 +31,7 @@ if !is_policy then goto end-script
         "name": !grpc_name,
         "company": !company_name,
         "dbms": !default_dbms,
-        "table": 'alert',
+        "table": !table_name,
         "readings": "",
         "schema": {
             "timestamp": {
