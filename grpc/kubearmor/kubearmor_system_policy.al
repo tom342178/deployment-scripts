@@ -16,7 +16,7 @@
 on error ignore
 :set-params:
 new_policy = ""
-policy_id = kubearmor-system-policy
+set policy_id = "kubearmor-" + !grpc_response + "-policy"
 
 
 :check-policy:
@@ -25,23 +25,13 @@ if !is_policy then goto end-script
 
 
 :prep-policy:
-policy_id = kubearmor-system-policy
-grpc_name = system1
-company_name = Kubearmor
-default_dbms = kubearmor
-table_name = bring [Operation]
-set alert_flag_1 = false
-alert_level = -1
-set ingestion_alerts = ""
-set monitor_node = query
-
 <new_policy = {
     "mapping": {
         "id": !policy_id,
         "name": !grpc_name,
         "company": !company_name,
         "dbms": !default_dbms,
-        "table": !table_name,
+        "table": 'alert',
         "readings": "",
         "schema": {
             "timestamp": {
@@ -55,11 +45,17 @@ set monitor_node = query
                 "default": "now()",
                 "bring": "[UpdatedTime]"
             },
+            "kubearmor_service": {
+                "type": "string",
+                "default": !grpc_response,
+                "bring": ""
+            },
             "cluster_name": {
                 "type": "string",
                 "default": "",
                 "bring": "[ClusterName]"
             },
+
             "hostname": {
                 "type": "string",
                 "default": "minikube",
