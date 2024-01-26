@@ -172,7 +172,37 @@ set monitor_node = query
             "uid": {
                 "type": "int",
                 "default": 0,
-                "bring": "[uid]",
+                "bring": "[UID]",
+                "optional": true
+            },
+            "policy_name": {
+                "type": "string",
+                "default": "",
+                "bring": "[PolicyName]",
+                "optional": true
+            },
+            "message": {
+                "type": "string",
+                "default": "",
+                "bring": "[Message]",
+                "optional": true
+            },
+            "severity": {
+                "type": "int",
+                "default": 0,
+                "bring": "[Severity]",
+                "optional": true
+            },
+            "enforcer": {
+                "type": "string",
+                "default": "",
+                "bring": "[Enforcer]",
+                "optional": true
+            },
+            "action": {
+                "type": "string",
+                "default": "",
+                "bring": "[Action]",
                 "optional": true
             }
         }
