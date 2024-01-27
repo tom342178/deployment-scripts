@@ -39,16 +39,30 @@ if not !default_dbms then set default_dbms = kubearmor
 
 
 :run-grpc-client:
-grpc_name = system1
+grpc_name = kubearmor-message
+grpc_function = WatchMessages
+grpc_response = Message
+
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_message.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
+
+grpc_name = kubearmor-alert
 grpc_function = WatchAlerts
 grpc_response = Alert
 
-process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_system_policy.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_alert.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
+
+grpc_name = kubearmor-alert
+grpc_function = WatchAlerts
+grpc_response = Alert
+
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_alert.al
 process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
 
 
-grpc_name = system2
+grpc_name = kubearmor-logs
 grpc_function = WatchLogs
 grpc_response = Logs
-process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_system_policy.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_log.al
 process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
