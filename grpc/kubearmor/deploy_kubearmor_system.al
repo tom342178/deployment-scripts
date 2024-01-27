@@ -17,7 +17,7 @@ on error ignore
 # Set Params
 :set-params:
 
-grpc_client_ip = 10.0.0.251
+grpc_client_ip = 10.128.0.8
 grpc_client_port = 32769
 grpc_dir = $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/
 grpc_proto = kubearmor
@@ -34,7 +34,8 @@ set alert_level = 0
 ingestion_alerts = ''
 table_name = bring [Operation]
 
-if not !default_dbms then set default_dbms = kubearmor
+set default_dbms = kubearmor
+set company_name = kubearmor
 
 
 

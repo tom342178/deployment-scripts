@@ -32,7 +32,7 @@ do goto end-script
     response = !grpc_response and
     service = !grpc_service and
     value = !grpc_value and
-    policy = !policy_id and
+    policy = !grpc_name and
     dbms = !default_dbms and
     table = !table_name and
     debug = !grpc_debug and

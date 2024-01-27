@@ -33,44 +33,44 @@ if !is_policy then goto end-script
         "table": !grpc_response,
         "readings": "",
         "schema": {
-            "timestamp": { # 1
+            "timestamp": {
                 "type": "timestamp",
                 "default": "now()",
                 "apply" :  "epoch_to_datetime",
                 "bring": "[Timestamp]"
             },
-            "updated_timestamp": { # 2
+            "updated_timestamp": { 
                 "type": "timestamp",
                 "default": "now()",
                 "bring": "[UpdatedTime]"
             },
-            "cluster_name": { # 3
+            "cluster_name": { 
                 "type": "string",
                 "default": "",
                 "bring": "[ClusterName]",
                 "optional": "true"
             },
-            "hostname": { $ 4
+            "hostname": { 
                 "type": "string",
                 "default": "minikube",
                 "bring": "[HostName]"
             },
-            "host_ip": { # 5
+            "host_ip": { 
                 "type": "string",
                 "default": "",
                 "bring": "[HostIP]"
             },
-            "type": { # 6
+            "type": {
                 "type": "string",
                 "default": "",
                 "bring": "[Type]"
             },
-            "level": { # 7
+            "level": { 
                 "type": "string",
                 "default": "",
                 "bring": "[level]"
             },
-            "message": { # 8
+            "message": {
                 "type": "string",
                 "default": "",
                 "bring": "[Message]"

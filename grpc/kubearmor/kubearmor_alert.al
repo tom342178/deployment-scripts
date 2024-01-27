@@ -32,114 +32,112 @@ if !is_policy then goto end-script
         "table": !grpc_response,
         "readings": "",
         "schema": {
-            "timestamp": { # 1
+            "timestamp": { 
                 "type": "timestamp",
                 "default": "now()",
                 "apply" :  "epoch_to_datetime",
                 "bring": "[Timestamp]"
             },
-            "updated_timestamp": { # 2
+            "updated_timestamp": { 
                 "type": "timestamp",
                 "default": "now()",
                 "bring": "[UpdatedTime]"
             },
 
-            "cluster_name": { # 3
+            "cluster_name": { 
                 "type": "string",
                 "default": "",
                 "bring": "[ClusterName]"
             },
-            "hostname": { # 4
+            "hostname": { 
                 "type": "string",
                 "default": "",
                 "bring": "[HostName]"
             },
 
-            "namespace": { # 5
+            "namespace": {
                 "type": "string",
                 "default": "",
                 "bring": "[NamespaceName]"
             },
-            "owner_ref": { # 31
+            "owner_ref": { 
                 "type": "string",
                 "default": "Deployment",
                 "bring": "[Owner][Ref]"
             },
-            "owner_name": { # 31
+            "owner_name": { 
                 "type": "string",
                 "default": "",
                 "bring": "[Owner][Name]"
             },
-            "owner_namespace": { # 31
+            "owner_namespace": {
                 "type": "string",
                 "default": "",
                 "bring": "[Owner][Namespace]"
             },
-            "pod_name": { # 6
+            "pod_name": { 
                 "type": "string",
                 "default": "",
                 "bring": "[PodName]"
             },
-            "labels": { #29
+            "labels": {
                 "type": "string",
                 "default": "",
                 "bring": "[Labels]"
             },
 
-            "container_id": { # 7
+            "container_id": { 
                 "type": "string",
                 "default": "",
                 "bring": "[ContainerID]"
             },
-            "container_name": { # 8
+            "container_name": {
                 "type": "string",
                 "default": "",
                 "bring": "[ContainerName]"
             },
-            "container_image": { # 24
+            "container_image": { 
                 "type": "string",
                 "default": "",
                 "bring": "[ContainerImage]"
             },
 
-            "host_ppid": { # 27
+            "host_ppid": { 
                 "type": "int",
                 "default": "",
                 "bring": "[HostPPID]"
             },
-            "host_pid": { # 9
+            "host_pid": {
                 "type": "int",
                 "default": 0,
                 "bring": "[HostPID]"
             },
-            "ppid": { # 10
+            "ppid": { 
                 "type": "int",
                 "default": 0,
                 "bring": "[PPID]"
             },
-            "pid": { # 11
+            "pid": {
                 "type": "int",
                 "default": 0,
                 "bring": "[PID]"
             },
-            "uid": { # 12
+            "uid": { 
                 "type": "int",
                 "default": 0,
                 "bring": "[UID]"
             },
 
-            "parent_process_name": {  # 25
+            "parent_process_name": {  
                 "type": "string",
                 "default": "",
                 "bring": "[ParentProcessName]"
             },
-            "process_name": { # 26
+            "process_name": { 
                 "type": "string",
                 "default": "",
-                "bring": "[ProcessName]",
-                "optional": true
+                "bring": "[ProcessName]"
             },
-
             "policy_name": {
                 "type": "string",
                 "default": "",
@@ -172,28 +170,28 @@ if !is_policy then goto end-script
                 "optional": "true"
             },
 
-            "type": { # 17
+            "type": {
                 "type": "string",
                 "default": "",
                 "bring": "[Type]"
             },
-            "source": { # 18
+            "source": 
                 "type": "string",
                 "default": "",
                 "bring": "[Source]"
             },
-            "operation": { # 19
+            "operation": {
                 "type": "string",
                 "default": "",
                 "bring": "[Operation]"
             },
-            "resource": { # 20
+            "resource": {
                 "type": "string",
                 "default": "",
                 "bring": "[Resource]",
                 "apply" : "json_dump"
             },
-            "data": { # 21
+            "data": {
                 "type": "string",
                 "default": "",
                 "bring": "[Data]"
@@ -210,12 +208,12 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[Action]"
             },
-            "result": { # 23
+            "result": {
                 "type": "string",
                 "default": "",
                 "bring": "[Result]"
             },
-            "cwd": { # 32
+            "cwd": { 
                 "type": "string",
                 "default": "",
                 "bring": "[CWD]"
