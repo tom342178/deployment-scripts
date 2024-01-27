@@ -31,8 +31,7 @@ if !is_policy then goto end-script
         "dbms": !default_dbms,
         "table": !grpc_response,
         "readings": "",
-        "schema": {
-            "timestamp": {
+        "schema": {"timestamp": {
                 "type": "timestamp",
                 "default": "now()",
                 "apply" :  "epoch_to_datetime",
@@ -153,20 +152,17 @@ if !is_policy then goto end-script
             "tag": {
                 "type": "string",
                 "default": "",
-                "bring": "[Tags]",
-                "optional": "true"
+                "bring": "[Tags]"
             },
             "atag": {
                 "type": "string",
                 "default": "",
-                "bring": "[ATags]",
-                "optional": "true"
+                "bring": "[ATags]"
             },
             "message": {
                 "type": "string",
                 "default": "",
-                "bring": "[Message]",
-                "optional": "true"
+                "bring": "[Message]"
             },
 
             "type": {
@@ -199,8 +195,7 @@ if !is_policy then goto end-script
             "enforcer": {
                 "type": "string",
                 "default": "",
-                "bring": "[Enforcer]",
-                "optional": "true"
+                "bring": "[Enforcer]"
             },
             "action": {
                 "type": "string",
@@ -217,6 +212,7 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[CWD]"
             }
+
         }
     }
 }>
