@@ -113,7 +113,7 @@ if !is_policy then goto end-script
 
             "host_ppid": {
                 "type": "int",
-                "default": "",
+                "default": 0,
                 "bring": "[HostPPID]"
             },
             "host_pid": {

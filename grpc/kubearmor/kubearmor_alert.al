@@ -24,34 +24,26 @@ if !is_policy then goto end-script
 
 :prep-policy:
 <new_policy = {
-    "mapping": {
-        "id": !grpc_name,
-        "name": !grpc_name,
-        "company": !company_name,
-        "dbms": !default_dbms,
-        "table": !grpc_response,
-        "readings": "",
-        "schema": {
-            "timestamp": { 
+            "timestamp": {
                 "type": "timestamp",
                 "default": "now()",
                 "apply" :  "epoch_to_datetime",
                 "bring": "[Timestamp]"
             },
-            "updated_timestamp": { 
+            "updated_timestamp": {
                 "type": "timestamp",
                 "default": "now()",
                 "bring": "[UpdatedTime]"
             },
 
-            "cluster_name": { 
+            "cluster_name": {
                 "type": "string",
                 "default": "",
                 "bring": "[ClusterName]"
             },
-            "hostname": { 
+            "hostname": {
                 "type": "string",
-                "default": "",
+                "default": "minikube",
                 "bring": "[HostName]"
             },
 
@@ -60,12 +52,12 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[NamespaceName]"
             },
-            "owner_ref": { 
+            "owner_ref": {
                 "type": "string",
                 "default": "Deployment",
                 "bring": "[Owner][Ref]"
             },
-            "owner_name": { 
+            "owner_name": {
                 "type": "string",
                 "default": "",
                 "bring": "[Owner][Name]"
@@ -75,7 +67,7 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[Owner][Namespace]"
             },
-            "pod_name": { 
+            "pod_name": {
                 "type": "string",
                 "default": "",
                 "bring": "[PodName]"
@@ -86,7 +78,7 @@ if !is_policy then goto end-script
                 "bring": "[Labels]"
             },
 
-            "container_id": { 
+            "container_id": {
                 "type": "string",
                 "default": "",
                 "bring": "[ContainerID]"
@@ -96,15 +88,15 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[ContainerName]"
             },
-            "container_image": { 
+            "container_image": {
                 "type": "string",
                 "default": "",
                 "bring": "[ContainerImage]"
             },
 
-            "host_ppid": { 
+            "host_ppid": {
                 "type": "int",
-                "default": "",
+                "default": 0,
                 "bring": "[HostPPID]"
             },
             "host_pid": {
@@ -112,7 +104,7 @@ if !is_policy then goto end-script
                 "default": 0,
                 "bring": "[HostPID]"
             },
-            "ppid": { 
+            "ppid": {
                 "type": "int",
                 "default": 0,
                 "bring": "[PPID]"
@@ -122,18 +114,18 @@ if !is_policy then goto end-script
                 "default": 0,
                 "bring": "[PID]"
             },
-            "uid": { 
+            "uid": {
                 "type": "int",
                 "default": 0,
                 "bring": "[UID]"
             },
 
-            "parent_process_name": {  
+            "parent_process_name": {
                 "type": "string",
                 "default": "",
                 "bring": "[ParentProcessName]"
             },
-            "process_name": { 
+            "process_name": {
                 "type": "string",
                 "default": "",
                 "bring": "[ProcessName]"
@@ -141,14 +133,13 @@ if !is_policy then goto end-script
             "policy_name": {
                 "type": "string",
                 "default": "",
-                "bring": "[PolicyName]",
-                "optional": "true"
+                "bring": "[PolicyName]"
             },
             "severity": {
-                "type": "string",
-                "default": "",
+                "type": "int",
+                "default": 0,
                 "bring": "[Severity]",
-                "optional": "true"
+                "optional": true
             },
 
             "tag": {
@@ -175,7 +166,7 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[Type]"
             },
-            "source": 
+            "source": {
                 "type": "string",
                 "default": "",
                 "bring": "[Source]"
@@ -213,14 +204,14 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[Result]"
             },
-            "cwd": { 
+            "cwd": {
                 "type": "string",
                 "default": "",
                 "bring": "[CWD]"
             }
         }
     }
-}>
+}
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
