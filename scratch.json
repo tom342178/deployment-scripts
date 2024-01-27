@@ -1,0 +1,185 @@
+"timestamp": {
+    "type": "timestamp",
+    "default": "now()",
+    "apply" :  "epoch_to_datetime",
+    "bring": "[Timestamp]"
+},
+"updated_timestamp": {
+    "type": "timestamp",
+    "default": "now()",
+    "bring": "[UpdatedTime]"
+},
+
+"cluster_name": {
+    "type": "string",
+    "default": "",
+    "bring": "[ClusterName]"
+},
+"hostname": {
+    "type": "string",
+    "default": "minikube",
+    "bring": "[HostName]"
+},
+
+"namespace": {
+    "type": "string",
+    "default": "",
+    "bring": "[NamespaceName]"
+},
+"owner_ref": {
+    "type": "string",
+    "default": "Deployment",
+    "bring": "[Owner][Ref]"
+},
+"owner_name": {
+    "type": "string",
+    "default": "",
+    "bring": "[Owner][Name]"
+},
+"owner_namespace": {
+    "type": "string",
+    "default": "",
+    "bring": "[Owner][Namespace]"
+},
+"pod_name": {
+    "type": "string",
+    "default": "",
+    "bring": "[PodName]"
+},
+"labels": {
+    "type": "string",
+    "default": "",
+    "bring": "[Labels]"
+},
+
+"container_id": {
+    "type": "string",
+    "default": "",
+    "bring": "[ContainerID]"
+},
+"container_name": {
+    "type": "string",
+    "default": "",
+    "bring": "[ContainerName]"
+},
+"container_image": {
+    "type": "string",
+    "default": "",
+    "bring": "[ContainerImage]"
+},
+
+"host_ppid": {
+    "type": "int",
+    "default": 0,
+    "bring": "[HostPPID]"
+},
+"host_pid": {
+    "type": "int",
+    "default": 0,
+    "bring": "[HostPID]"
+},
+"ppid": {
+    "type": "int",
+    "default": 0,
+    "bring": "[PPID]"
+},
+"pid": {
+    "type": "int",
+    "default": 0,
+    "bring": "[PID]"
+},
+"uid": {
+    "type": "int",
+    "default": 0,
+    "bring": "[UID]"
+},
+
+"parent_process_name": {
+    "type": "string",
+    "default": "",
+    "bring": "[ParentProcessName]"
+},
+"process_name": {
+    "type": "string",
+    "default": "",
+    "bring": "[ProcessName]"
+},
+"policy_name": {
+    "type": "string",
+    "default": "",
+    "bring": "[PolicyName]"
+},
+"severity": {
+    "type": "int",
+    "default": 0,
+    "bring": "[Severity]",
+    "optional": true
+},
+
+"tag": {
+    "type": "string",
+    "default": "",
+    "bring": "[Tags]",
+    "optional": "true"
+},
+"atag": {
+    "type": "string",
+    "default": "",
+    "bring": "[ATags]",
+    "optional": "true"
+},
+"message": {
+    "type": "string",
+    "default": "",
+    "bring": "[Message]",
+    "optional": "true"
+},
+
+"type": {
+    "type": "string",
+    "default": "",
+    "bring": "[Type]"
+},
+"source": {
+    "type": "string",
+    "default": "",
+    "bring": "[Source]"
+},
+"operation": {
+    "type": "string",
+    "default": "",
+    "bring": "[Operation]"
+},
+"resource": {
+    "type": "string",
+    "default": "",
+    "bring": "[Resource]",
+    "apply" : "json_dump"
+},
+"data": {
+    "type": "string",
+    "default": "",
+    "bring": "[Data]"
+},
+
+"enforcer": {
+    "type": "string",
+    "default": "",
+    "bring": "[Enforcer]",
+    "optional": "true"
+},
+"action": {
+    "type": "string",
+    "default": "",
+    "bring": "[Action]"
+},
+"result": {
+    "type": "string",
+    "default": "",
+    "bring": "[Result]"
+},
+"cwd": {
+    "type": "string",
+    "default": "",
+    "bring": "[CWD]"
+}
