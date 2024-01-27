@@ -211,7 +211,7 @@ if !is_policy then goto end-script
             }
         }
     }
-}
+}>
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
