@@ -31,10 +31,11 @@ if !is_policy then goto end-script
         "dbms": !default_dbms,
         "table": !grpc_response,
         "readings": "",
-        "schema": {"timestamp": {
+        "schema": {
+            "timestamp": {
                 "type": "timestamp",
                 "default": "now()",
-                "apply" :  "epoch_to_datetime",
+                "apply": "epoch_to_datetime",
                 "bring": "[Timestamp]"
             },
             "updated_timestamp": {
@@ -42,7 +43,6 @@ if !is_policy then goto end-script
                 "default": "now()",
                 "bring": "[UpdatedTime]"
             },
-
             "cluster_name": {
                 "type": "string",
                 "default": "",
@@ -53,7 +53,6 @@ if !is_policy then goto end-script
                 "default": "minikube",
                 "bring": "[HostName]"
             },
-
             "namespace": {
                 "type": "string",
                 "default": "",
@@ -84,7 +83,6 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[Labels]"
             },
-
             "container_id": {
                 "type": "string",
                 "default": "",
@@ -100,7 +98,6 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[ContainerImage]"
             },
-
             "host_ppid": {
                 "type": "int",
                 "default": 0,
@@ -126,7 +123,6 @@ if !is_policy then goto end-script
                 "default": 0,
                 "bring": "[UID]"
             },
-
             "parent_process_name": {
                 "type": "string",
                 "default": "",
@@ -148,7 +144,6 @@ if !is_policy then goto end-script
                 "bring": "[Severity]",
                 "optional": true
             },
-
             "tag": {
                 "type": "string",
                 "default": "",
@@ -164,7 +159,6 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[Message]"
             },
-
             "type": {
                 "type": "string",
                 "default": "",
@@ -183,15 +177,13 @@ if !is_policy then goto end-script
             "resource": {
                 "type": "string",
                 "default": "",
-                "bring": "[Resource]",
-                "apply" : "json_dump"
+                "bring": "[Resource]"
             },
             "data": {
                 "type": "string",
                 "default": "",
                 "bring": "[Data]"
             },
-
             "enforcer": {
                 "type": "string",
                 "default": "",
@@ -212,7 +204,6 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[CWD]"
             }
-
         }
     }
 }>
