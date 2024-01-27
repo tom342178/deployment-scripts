@@ -24,6 +24,14 @@ if !is_policy then goto end-script
 
 :prep-policy:
 <new_policy = {
+    "mapping": {
+        "id": !grpc_name,
+        "name": !grpc_name,
+        "company": !company_name,
+        "dbms": !default_dbms,
+        "table": !grpc_response,
+        "readings": "",
+        "schema": {
             "timestamp": {
                 "type": "timestamp",
                 "default": "now()",
