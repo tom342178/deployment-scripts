@@ -63,7 +63,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
-    "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
+    "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=false",
     "run streamer",
     "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
     "process !local_scripts/policies/monitoring_policy.al",
