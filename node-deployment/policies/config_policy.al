@@ -85,7 +85,7 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
     "process !local_scripts/policies/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al",
-    "if !anylog_broker_port then process /app/deployment-scripts/demo-scripts/syslog.al",
+    "if !deploy_syslog then process /app/deployment-scripts/demo-scripts/syslog.al",
     "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al"
 ]>
 

@@ -24,6 +24,9 @@ on error ignore
 
 if not !default_dbms then set default_dbms = system_logs
 
+partition !default_dbms syslog using !partition_column by !partition_interval
+schedule time=12 hours and name="Drop Partition Sync" task drop partition where dbms=!default_dbms and table=syslog and keep=3
+
 if !broker_bind == true and !overlay_ip then set msg rule syslog_rule if ip = !overlay_ip then dbms = !default_dbms and table = syslog and syslog = true
 else if !broker_bind == true and not !overlay_ip then set msg rule syslog_rule if ip = !ip then dbms = !default_dbms and table = syslog and syslog = true
 else if !broker_bind == false and !overlay_ip then set msg rule syslog_rule if ip = !overlay_ip then dbms = !default_dbms and table = syslog and syslog = true
