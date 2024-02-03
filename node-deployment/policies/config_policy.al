@@ -14,8 +14,8 @@ set policy new_policy [config][company] = !company_name
 set policy new_policy [config][ip] = '!external_ip'
 set policy new_policy [config][local_ip] = '!ip'
 if !tcp_bind == false and !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
-if !tcp_bind == true and !overlay_ip then policy new_policy [config][ip] = '!overlay_ip'
-if !tcp_bind == true and not !overlay_ip then policy new_policy [config][ip] = '!ip'
+if !tcp_bind == true and !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
+if !tcp_bind == true and not !overlay_ip then set policy new_policy [config][ip] = '!ip'
 
 if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
 if !rest_bind and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'

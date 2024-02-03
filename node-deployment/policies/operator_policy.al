@@ -50,8 +50,8 @@ set policy new_policy [operator][company] = !company_name
 set policy new_policy [operator][ip] = !external_ip
 set policy new_policy [operator][local_ip] = !ip
 if !tcp_bind == false and !overlay_ip then set policy new_policy [operator][local_ip] = !overlay_ip
-else if !tcp_bind == true and !overlay_ip then policy new_policy [operator][ip] = !overlay_ip
-else if !tcp_bind == true and not !overlay_ip then policy new_policy [operator][ip] = !ip
+else if !tcp_bind == true and !overlay_ip then set policy new_policy [operator][ip] = !overlay_ip
+else if !tcp_bind == true and not !overlay_ip then set policy new_policy [operator][ip] = !ip
 
 if !rest_bind == true and !overlay_ip then set policy new_policy [operator][rest_ip] = !overlay_ip
 else if !rest_bind and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
