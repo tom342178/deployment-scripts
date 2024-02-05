@@ -18,7 +18,7 @@ if !tcp_bind == true and !overlay_ip then set policy new_policy [config][ip] = '
 if !tcp_bind == true and not !overlay_ip then set policy new_policy [config][ip] = '!ip'
 
 if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
-if !rest_bind and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
+if !rest_bind == true and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
 
 if !broker_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
 if !broker_bind == true and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
