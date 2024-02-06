@@ -42,7 +42,7 @@
 #   - Generic MQTT script: !local_scripts/deployment_scripts/mqtt.al
 #   - Documentation: https://github.com/AnyLog-co/documentation/blob/master/image%20mapping.md
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/demo_scripts/edgex_video_demo_base64.al
+# process $ANYLOG_PATH/deployment-scripts/demo-scripts/edgex_video_demo_base64.al
 
 if not !mqtt_log then set mqtt_log = false
 if not !default_dbms then default_dbms=test

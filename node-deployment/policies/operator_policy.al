@@ -29,6 +29,7 @@ on error ignore
 set create_policy = false
 
 :check-policy:
+if !create_policy == true then set debug on
 process !local_scripts/policies/validate_policy.al
 
 if not !is_policy then goto create-policy
@@ -75,6 +76,7 @@ if !state then set policy new_policy [operator][state] = !state
 if !city then set policy new_policy [operator][city] = !city
 
 :publish-policy:
+set debug on
 process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
