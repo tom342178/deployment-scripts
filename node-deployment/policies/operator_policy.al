@@ -92,6 +92,10 @@ end script
 :terminate-scripts:
 exit scripts
 
+:config-policy-error:
+print "Failed to configure node based on Operator ID"
+goto terminate scripts
+
 :ip-error:
 print "An Operator node policy with the same company and node name already exists under a different IP address: " !ip_address
 goto terminate scripts
