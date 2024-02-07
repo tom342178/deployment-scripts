@@ -44,19 +44,19 @@ set policy new_policy [query][name] = !node_name
 set policy new_policy [query][company] = !company_name
 
 :network-query:
-set policy new_policy [operator][ip] = !external_ip
-set policy new_policy [operator][local_ip] = !ip
-if !tcp_bind == false and !overlay_ip then set policy new_policy [operator][local_ip] = !overlay_ip
-else if !tcp_bind == true and !overlay_ip then set policy new_policy [operator][ip] = !overlay_ip
-else if !tcp_bind == true and not !overlay_ip then set policy new_policy [operator][ip] = !ip
+set policy new_policy [query][ip] = !external_ip
+set policy new_policy [query][local_ip] = !ip
+if !tcp_bind == false and !overlay_ip then set policy new_policy [query][local_ip] = !overlay_ip
+else if !tcp_bind == true and !overlay_ip then set policy new_policy [query][ip] = !overlay_ip
+else if !tcp_bind == true and not !overlay_ip then set policy new_policy [query][ip] = !ip
 
-if !rest_bind == true and !overlay_ip then set policy new_policy [operator][rest_ip] = !overlay_ip
-else if !rest_bind and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
+if !rest_bind == true and !overlay_ip then set policy new_policy [query][rest_ip] = !overlay_ip
+else if !rest_bind and not !overlay_ip then set policy new_policy [query][rest_ip] = !ip
 
-if !broker_bind == true and !overlay_ip then set policy new_policy [operator][rest_ip] = !overlay_ip
-else if !broker_bind == true and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
+if !broker_bind == true and !overlay_ip then set policy new_policy [query][rest_ip] = !overlay_ip
+else if !broker_bind == true and not !overlay_ip then set policy new_policy [query][rest_ip] = !ip
 
-if !proxy_ip then set policy new_policy[operator][proxy] = !proxy_ip
+if !proxy_ip then set policy new_policy[query][proxy] = !proxy_ip
 
 set policy new_policy [query][port] = !anylog_server_port.int
 set policy new_policy [query][rest_port] = !anylog_rest_port.int
