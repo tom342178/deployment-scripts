@@ -32,13 +32,7 @@ set create_policy = false
 process !local_scripts/policies/validate_policy.al
 
 if not !is_policy then goto create-policy
-if !is_policy then
-do ip_address = from !is_policy bring [*][ip]
-do if !ip_address != !external_ip and !ip_address != !ip and !ip_address != !overlay_ip then goto ip-error
-do operator_id = from !is_policy bring [*][id]
-
-if !operator_id then goto config-policy
-if not !operator_id and !create_policy == true then goto declare-policy-error
+else goto get operator-info
 
 :create-policy:
 set new_policy = ""
@@ -81,6 +75,13 @@ if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 goto check-policy
+
+:operator-info:
+on error ignore
+process !local_scripts/policies/validate_policy.al
+operator_id = from !is_policy bring [*][id
+
+if not !operator_id then goto config-policy-error
 
 :config-policy:
 on error goto config-policy-error
