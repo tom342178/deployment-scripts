@@ -29,15 +29,14 @@ on error ignore
 set create_policy = false
 
 :check-policy:
-if !create_policy == true then set debug on
 process !local_scripts/policies/validate_policy.al
 
 if not !is_policy then goto create-policy
-if !is_policy and not !create_policy  then
+if !is_policy then
 do ip_address = from !is_policy bring [*][ip]
 do if !ip_address != !external_ip and !ip_address != !ip and !ip_address != !overlay_ip then goto ip-error
+do operator_id = from !is_policy bring [*][id]
 
-operator_id = from !is_policy bring [*][id]
 if !operator_id then goto config-policy
 if not !operator_id and !create_policy == true then goto declare-policy-error
 
@@ -76,7 +75,6 @@ if !state then set policy new_policy [operator][state] = !state
 if !city then set policy new_policy [operator][city] = !city
 
 :publish-policy:
-set debug on
 process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
