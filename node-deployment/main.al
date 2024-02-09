@@ -56,6 +56,7 @@ do goto end-script
 process !local_scripts/policies/config_policy.al
 
 :execute-license:
+reset error log
 if not !license_key then goto license-key-error
 on error goto license-key-error
 set license where activation_key = !license_key
