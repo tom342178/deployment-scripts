@@ -1,3 +1,30 @@
+#----------------------------------------------------------------------------------------------------------------------#
+# Create configuration policy based on variables
+# :sample-master-policy:
+# [{'config' : {'name' : 'master-anylog_co.-configs',
+#              'company' : 'AnyLog Co.',
+#              'ip' : '!external_ip',
+#              'local_ip' : '!ip',
+#              'port' : '!anylog_server_port.int',
+#              'rest_port' : '!anylog_rest_port.int',
+#              'threads' : '!tcp_threads.int',
+#              'rest_threads' : '!rest_threads.int',
+#              'rest_timeout' : '!rest_timeout.int',
+#              'script' : [
+#                   'process !local_scripts/policies/master_policy.al',
+#                   'process !local_scripts/database/deploy_database.al',
+#                   'run scheduler 1',
+#                   'run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn',
+#                   'process !local_scripts/policies/monitoring_policy.al',
+#                   'if !deploy_local_script == true then process !local_scripts/loca'l_script.al'
+#               ],
+#              'id' : 'fd547a557d63e18d10335d8df59c2cfb',
+#              'date' : '2024-02-05T01:14:22.204991Z',
+#              'ledger' : 'global'}}]
+#----------------------------------------------------------------------------------------------------------------------#
+# process !local_scripts/policies/config_policy.al
+
+on error ignore
 :check-policy:
 config_id = blockchain get config where company=!company_name and name=!config_name bring [*][id]
 if !config_id then goto config-policy
@@ -81,11 +108,11 @@ set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
     "run streamer",
     "if !enable_ha == true then run data distributor",
     "if !enable_ha == true then run data consumer where start_date=!start_data",
-    "run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive_json=!archive and archive_sql=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
+    "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive_json=!archive and archive_sql=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
     "process !local_scripts/policies/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al",
-    "if !deploy_syslog then process /app/deployment-scripts/demo-scripts/syslog.al",
+    "if !deploy_syslog then process $ANYLOG_PATH/deployment-scripts/demo-scripts/syslog.al",
     "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al"
 ]>
 

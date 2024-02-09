@@ -4,7 +4,7 @@
 #----------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/deploy_database.al
 
-set debug off
+
 on error ignore
 
 if !node_type == master then process !local_scripts/database/configure_dbms_blockchain.al

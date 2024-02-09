@@ -55,7 +55,7 @@ exit scripts
 
 :config-policy-error:
 print "Failed to configure node based on Schedule ID"
-goto terminate scripts
+goto terminate-scripts
 
 :sign-policy-error:
 print "Failed to sign schedule policy"

@@ -85,7 +85,7 @@ exit scripts
 
 :ip-error:
 print "A Query node policy with the same company and node name already exists under a different IP address: " !ip_address
-goto terminate scripts
+goto terminate-scripts
 
 :sign-policy-error:
 print "Failed to sign query policy"

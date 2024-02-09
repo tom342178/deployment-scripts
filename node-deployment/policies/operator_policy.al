@@ -32,7 +32,7 @@ set create_policy = false
 process !local_scripts/policies/validate_policy.al
 
 if not !is_policy then goto create-policy
-else goto get operator-info
+else goto operator-info
 
 :create-policy:
 set new_policy = ""
@@ -79,13 +79,13 @@ goto check-policy
 :operator-info:
 on error ignore
 process !local_scripts/policies/validate_policy.al
-operator_id = from !is_policy bring [*][id
+operator_id = from !is_policy bring [*][id]
 
 if not !operator_id then goto config-policy-error
 
-:config-policy:
-on error goto config-policy-error
-config from policy where id=!operator_id
+# :config-policy:
+# on error goto config-policy-error
+# config from policy where id=!operator_id
 
 :end-script:
 end script
@@ -93,13 +93,13 @@ end script
 :terminate-scripts:
 exit scripts
 
-:config-policy-error:
-print "Failed to configure node based on Operator ID"
-goto terminate scripts
+# :config-policy-error:
+# print "Failed to configure node based on Operator ID"
+# goto terminate-scripts
 
 :ip-error:
 print "An Operator node policy with the same company and node name already exists under a different IP address: " !ip_address
-goto terminate scripts
+goto terminate-scripts
 
 :sign-policy-error:
 print "Failed to sign operator policy"
