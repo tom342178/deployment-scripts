@@ -16,22 +16,21 @@
 on error ignore
 :set-params:
 new_policy = ""
-policy_id = "kubearmor-" + !grpc_response + "-policy"
 
 
 :check-policy:
-is_policy = blockchain get mapping where id = !policy_id
+is_policy = blockchain get mapping where id = !grpc_name
 if !is_policy then goto end-script
 
 
 :prep-policy:
 <new_policy = {
     "mapping": {
-        "id": !policy_id,
+        "id": !grpc_name,
         "name": !grpc_name,
         "company": !company_name,
         "dbms": !default_dbms,
-        "table": !table_name,
+        "table": !grpc_response,
         "readings": "",
         "schema": {
             "timestamp": {
@@ -45,32 +44,46 @@ if !is_policy then goto end-script
                 "default": "now()",
                 "bring": "[UpdatedTime]"
             },
-            "kubearmor_service": {
-                "type": "string",
-                "default": !grpc_response,
-                "bring": ""
-            },
+
             "cluster_name": {
                 "type": "string",
                 "default": "",
-                "bring": "[ClusterName]"
+                "bring": "[ClusterName]",
+                "optional": "true"
             },
-
             "hostname": {
                 "type": "string",
                 "default": "minikube",
-                "bring": "[HostName]"
+                "bring": "[HostName]",
+                "optional": "true"
             },
-            "namespace": {
+
+            "owner_ref": { 
+                "type": "string",
+                "default": "Deployment",
+                "bring": "[Owner][Ref]"
+            },
+            "owner_name": {
                 "type": "string",
                 "default": "",
-                "bring": "[NamespaceName]"
+                "bring": "[Owner][Name]"
             },
-            "pod_name": {
+            "owner_namespace": { 
+                "type": "string",
+                "default": "",
+                "bring": "[Owner][Namespace]"
+            },
+            "pod_name": { 
                 "type": "string",
                 "default": "",
                 "bring": "[PodName]"
             },
+            "labels": {
+                "type": "string",
+                "default": "",
+                "bring": "[Labels]"
+            },
+
             "container_id": {
                 "type": "string",
                 "default": "",
@@ -80,6 +93,28 @@ if !is_policy then goto end-script
                 "type": "string",
                 "default": "",
                 "bring": "[ContainerName]"
+            },
+            "container_image": {
+                "type": "string",
+                "default": "",
+                "bring": "[ContainerImage]"
+            },
+
+            "parent_process_name": { 
+                "type": "string",
+                "default": "",
+                "bring": "[ParentProcessName]"
+            },
+            "process_name": {
+                "type": "string",
+                "default": "",
+                "bring": "[ProcessName]"
+            },
+
+            "host_ppid": {
+                "type": "int",
+                "default": 0,
+                "bring": "[HostPPID]"
             },
             "host_pid": {
                 "type": "int",
@@ -96,12 +131,28 @@ if !is_policy then goto end-script
                 "default": 0,
                 "bring": "[PID]"
             },
+            "uid": {
+                "type": "int",
+                "default": 0,
+                "bring": "[UID]"
+            },
+
             "type": {
                 "type": "string",
                 "default": "",
                 "bring": "[Type]"
             },
-            "resource": {
+            "source": {
+                "type": "string",
+                "default": "",
+                "bring": "[Source]"
+            },
+            "operation": {
+                "type": "string",
+                "default": "",
+                "bring": "[Operation]"
+            },
+            "resource": { 
                 "type": "string",
                 "default": "",
                 "bring": "[Resource]",
@@ -112,94 +163,16 @@ if !is_policy then goto end-script
                 "default": "",
                 "bring": "[Data]"
             },
-            "result": {
+
+            "result": { 
                 "type": "string",
                 "default": "",
                 "bring": "[Result]"
             },
-            "container_image": {
+            "cwd": { 
                 "type": "string",
                 "default": "",
-                "bring": "[ContainerImage]"
-            },
-            "process_name": {
-                "type": "string",
-                "default": "",
-                "bring": "[ProcessName]",
-                "optional": true
-            },
-            "host_ppid": {
-                "type": "string",
-                "default": "",
-                "bring": "[HostPPID]"
-            },
-            "labels": {
-                "type": "string",
-                "default": "",
-                "bring": "[Labels]"
-            },
-            "owner_ref": {
-                "type": "string",
-                "default": "Deployment",
-                "bring": "[Owner][Ref]"
-            },
-            "owner_name": {
-                "type": "string",
-                "default": "",
-                "bring": "[Owner][Name]"
-            },
-            "owner_namespace": {
-                "type": "string",
-                "default": "",
-                "bring": "[Owner][Namespace]"
-            },
-            "source": {
-                "type": "string",
-                "default": "",
-                "bring": "[Source]",
-                "optional": true
-            },
-            "parent_process_name": {
-                "type": "string",
-                "default": "",
-                "bring": "[ParentProcessName]",
-                "optional": true
-            },
-            "uid": {
-                "type": "int",
-                "default": 0,
-                "bring": "[UID]",
-                "optional": true
-            },
-            "policy_name": {
-                "type": "string",
-                "default": "",
-                "bring": "[PolicyName]",
-                "optional": true
-            },
-            "message": {
-                "type": "string",
-                "default": "",
-                "bring": "[Message]",
-                "optional": true
-            },
-            "severity": {
-                "type": "int",
-                "default": 0,
-                "bring": "[Severity]",
-                "optional": true
-            },
-            "enforcer": {
-                "type": "string",
-                "default": "",
-                "bring": "[Enforcer]",
-                "optional": true
-            },
-            "action": {
-                "type": "string",
-                "default": "",
-                "bring": "[Action]",
-                "optional": true
+                "bring": "[CWD]"
             }
         }
     }
@@ -209,7 +182,7 @@ if !is_policy then goto end-script
 process !local_scripts/policies/publish_policy.al
 if error_code == 1 then goto sign-policy-error
 if error_code == 2 then goto prepare-policy-error
-if error_code == 3 then declare-policy-error
+if error_code == 3 then declare-    policy-error
 
 :end-script:
 end script

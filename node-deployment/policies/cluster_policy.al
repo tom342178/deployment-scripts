@@ -28,9 +28,9 @@ new_policy = create policy cluster with defaults where company=!company_name and
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
-if error_code == 1 then goto sign-policy-error
-if error_code == 2 then goto prepare-policy-error
-if error_code == 3 then declare-policy-error
+if !error_code == 1 then goto sign-policy-error
+if !error_code == 2 then goto prepare-policy-error
+if ⁄error_code == 3 then goto declare-policy-error
 set create_cluster = true
 
 goto check-policy
@@ -51,4 +51,8 @@ goto terminate-scripts
 
 :declare-policy-error:
 print "Failed to declare cluster policy on blockchain"
+goto terminate-scripts
+
+:policy-error:
+print "Failed to publish policy for an unknown reason"
 goto terminate-scripts

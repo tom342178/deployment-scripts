@@ -23,10 +23,10 @@ on error ignore
 set create_policy = false
 
 :check-policy:
-is_policy = blockchain get query where company=!company_name and name=!node_name
+process !local_scripts/policies/validate_policy.al
 
 # just created the policy + exists
-if !is_policy and !create_policy == true then goto end-script
+if !is_policy then goto end-script
 
 # policy pre-exists - validate IP addresses
 if !is_policy and not !create_policy == false  then
@@ -44,28 +44,19 @@ set policy new_policy [query][name] = !node_name
 set policy new_policy [query][company] = !company_name
 
 :network-query:
-if !overlay_ip and !tcp_bind == false then
-do set policy new_policy [query][ip] = !external_ip
-do set policy new_policy [query][local_ip] = !overlay_ip
+set policy new_policy [query][ip] = !external_ip
+set policy new_policy [query][local_ip] = !ip
+if !tcp_bind == false and !overlay_ip then set policy new_policy [query][local_ip] = !overlay_ip
+else if !tcp_bind == true and !overlay_ip then set policy new_policy [query][ip] = !overlay_ip
+else if !tcp_bind == true and not !overlay_ip then set policy new_policy [query][ip] = !ip
 
-if !overlay_ip and !tcp_bind == true then
-do set policy new_policy [query][ip] = !overlay_ip
+if !rest_bind == true and !overlay_ip then set policy new_policy [query][rest_ip] = !overlay_ip
+else if !rest_bind and not !overlay_ip then set policy new_policy [query][rest_ip] = !ip
 
-if not !overlay_ip and !proxy_ip and !tcp_bind == false then
-do set policy new_policy [query][ip] = !external_ip
-do set policy new_policy [query][local_ip] = !proxy_ip
+if !broker_bind == true and !overlay_ip then set policy new_policy [query][rest_ip] = !overlay_ip
+else if !broker_bind == true and not !overlay_ip then set policy new_policy [query][rest_ip] = !ip
 
-if not !overlay_ip and !proxy_ip and !tcp_bind == true then
-do set policy new_policy [query][ip] = !proxy_ip
-
-if !tcp_bind == false and not !overlay_ip and not !proxy_ip then
-do set policy new_policy [query][ip] = !external_ip
-do set policy new_policy [query][local_ip] = !ip
-
-if !tcp_bind == true and not !overlay_ip and not !proxy_ip then
-do set policy new_policy [query][ip] = !ip
-
-if !overlay_ip and !proxy_ip then set policy new_policy[query][proxy] = !proxy_ip
+if !proxy_ip then set policy new_policy[query][proxy] = !proxy_ip
 
 set policy new_policy [query][port] = !anylog_server_port.int
 set policy new_policy [query][rest_port] = !anylog_rest_port.int
@@ -80,9 +71,9 @@ if !city then set policy new_policy [query][city] = !city
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
-if error_code == 1 then goto sign-policy-error
-if error_code == 2 then goto prepare-policy-error
-if error_code == 3 then declare-policy-error
+if !error_code == 1 then goto sign-policy-error
+if !error_code == 2 then goto prepare-policy-error
+# if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 goto check-policy
 
@@ -94,7 +85,7 @@ exit scripts
 
 :ip-error:
 print "A Query node policy with the same company and node name already exists under a different IP address: " !ip_address
-goto terminate scripts
+goto terminate-scripts
 
 :sign-policy-error:
 print "Failed to sign query policy"
@@ -106,4 +97,8 @@ goto terminate-scripts
 
 :declare-policy-error:
 print "Failed to declare query policy on blockchain"
+goto terminate-scripts
+
+:policy-error:
+print "Failed to publish policy for an unknown reason"
 goto terminate-scripts

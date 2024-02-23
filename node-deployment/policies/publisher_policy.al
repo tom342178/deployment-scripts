@@ -22,7 +22,7 @@ on error ignore
 set create_policy = false
 
 :check-policy:
-is_policy = blockchain get publisher where company=!company_name and name=!node_name
+process !local_scripts/policies/validate_policy.al
 
 # just created the policy + exists
 if !is_policy and !create_policy == true then goto end-script
@@ -43,28 +43,19 @@ set policy new_policy [publisher][name] = !node_name
 set policy new_policy [publisher][company] = !company_name
 
 :network-publisher:
-if !overlay_ip and !tcp_bind == false then
-do set policy new_policy [publisher][ip] = !external_ip
-do set policy new_policy [publisher][local_ip] = !overlay_ip
+set policy new_policy [publisher][ip] = !external_ip
+set policy new_policy [publisher][local_ip] = !ip
+if !tcp_bind == false and !overlay_ip then set policy new_policy [publisher][local_ip] = !overlay_ip
+else if !tcp_bind == true and !overlay_ip then set policy new_policy [publisher][ip] = !overlay_ip
+else if !tcp_bind == true and not !overlay_ip then set policy new_policy [publisher][ip] = !ip
 
-if !overlay_ip and !tcp_bind == true then
-do set policy new_policy [publisher][ip] = !overlay_ip
+if !rest_bind == true and !overlay_ip then set policy new_policy [publisher][rest_ip] = !overlay_ip
+else if !rest_bind and not !overlay_ip then set policy new_policy [publisher][rest_ip] = !ip
 
-if not !overlay_ip and !proxy_ip and !tcp_bind == false then
-do set policy new_policy [publisher][ip] = !external_ip
-do set policy new_policy [publisher][local_ip] = !proxy_ip
+if !broker_bind == true and !overlay_ip then set policy new_policy [publisher][rest_ip] = !overlay_ip
+else if !broker_bind == true and not !overlay_ip then set policy new_policy [publisher][rest_ip] = !ip
 
-if not !overlay_ip and !proxy_ip and !tcp_bind == true then
-do set policy new_policy [publisher][ip] = !proxy_ip
-
-if !tcp_bind == false and not !overlay_ip and not !proxy_ip then
-do set policy new_policy [publisher][ip] = !external_ip
-do set policy new_policy [publisherpublisher][local_ip] = !ip
-
-if !tcp_bind == true and not !overlay_ip and not !proxy_ip then
-do set policy new_policy [publisher][ip] = !ip
-
-if !overlay_ip and !proxy_ip then set policy new_policy[publisher][proxy] = !proxy_ip
+if !proxy_ip then set policy new_policy[publisher][proxy] = !proxy_ip
 
 set policy new_policy [publisher][port] = !anylog_server_port.int
 set policy new_policy [publisher][rest_port] = !anylog_rest_port.int
@@ -78,9 +69,9 @@ if !city then set policy new_policy [publisher][city] = !city
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
-if error_code == 1 then goto sign-policy-error
-if error_code == 2 then goto prepare-policy-error
-if error_code == 3 then declare-policy-error
+if !error_code == 1 then goto sign-policy-error
+if !error_code == 2 then goto prepare-policy-error
+if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 goto check-policy
 
@@ -92,7 +83,7 @@ exit scripts
 
 :ip-error:
 print "A Publisher node policy with the same company and node name already exists under a different IP address: " !ip_address
-goto terminate scripts
+goto terminate-scripts
 
 
 :sign-policy-error:

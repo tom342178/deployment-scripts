@@ -2,6 +2,7 @@ syntax = "proto3";
  
 package feeder;
 
+// protocol file url: https://github.com/kubearmor/KubeArmor/blob/main/protobuf/kubearmor.proto
 option go_package="github.com/kubearmor/KubeArmor/protobuf";
 
 // Health check

@@ -21,7 +21,7 @@ new_policy=""
         "name": "Generic Monitoring Schedule",
         "script": [
 	        "operator_status = test process operator",
-            "schedule name=monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get !monitor_node bring.ip_port",
+            "schedule name=monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get query bring.ip_port",
             "schedule name=get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
             "schedule name=get_name and time=30 seconds and task node_insight[Node name] = get node name",
             "schedule name = disk_space and time = 30 seconds task node_insight[Free space %] = get disk percentage .",
@@ -37,9 +37,9 @@ new_policy=""
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
-if error_code == 1 then goto sign-policy-error
-if error_code == 2 then goto prepare-policy-error
-if error_code == 3 then declare-policy-error
+if !error_code == 1 then goto sign-policy-error
+if !error_code == 2 then goto prepare-policy-error
+if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 goto check-policy
 
@@ -52,6 +52,10 @@ end script
 
 :terminate-scripts:
 exit scripts
+
+:config-policy-error:
+print "Failed to configure node based on Schedule ID"
+goto terminate-scripts
 
 :sign-policy-error:
 print "Failed to sign schedule policy"
