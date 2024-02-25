@@ -191,15 +191,6 @@ if $PARTITION_INTERVAL then set partition_interval = $PARTITION_INTERVAL
 if $PARTITION_KEEP then set partition_keep = $PARTITION_KEEP
 if $PARTITION_SYNC then set partition_sync = $PARTITION_SYNC
 
-:operator-ha:
-set enable_ha = false
-start_data = -30d
-
-if $ENABLE_HA == true or $ENABLE_HA == True or $ENABLE_HA == TRUE then set enable_ha = true
-
-if $START_DATE then start_date = $START_DATE
-if !start_date.int then start_date = - + $START_DATE + d
-
 :mqtt:
 set enable_mqtt = false
 mqtt_broker = driver.cloudmqtt.com
@@ -236,7 +227,6 @@ set monitor_node = query
 if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then set monitor_nodes = true
 if !monitor_nodes == true then
 if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
-# if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
 
 :other-settings:
 set deploy_local_script = false
