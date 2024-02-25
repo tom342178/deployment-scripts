@@ -54,14 +54,6 @@ grpc_response = Alert
 process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_alert.al
 process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
 
-grpc_name = kubearmor-alert
-grpc_function = WatchAlerts
-grpc_response = Alert
-
-process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_alert.al
-process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
-
-
 grpc_name = kubearmor-logs
 grpc_function = WatchLogs
 grpc_response = Logs

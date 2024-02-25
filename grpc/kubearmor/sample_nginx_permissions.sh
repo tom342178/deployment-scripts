@@ -3,11 +3,11 @@ cat <<EOF | kubectl apply -f -
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: audit-apt-nginx-access3
+  name: audit-apt-nginx-access
 spec:
   selector:
     matchLabels:
-      app: nginx3
+      app: nginx
   process:
     matchPaths:
     - path: /usr/bin/apt
