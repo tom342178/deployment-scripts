@@ -32,7 +32,13 @@ process !local_scripts/set_params.al
 
 :connect-tcp:
 on error goto connect-tcp-error
-<run tcp server where
+if !tcp_bind == true then
+<do run tcp server where
+    external_ip=!ip and external_port=!anylog_server_port and
+    internal_ip=!ip and internal_port=!anylog_server_port and
+    bind=!tcp_bind and threads=!tcp_threads.int>
+else if !tcp_bind == false then
+<do run tcp server where
     external_ip=!external_ip and external_port=!anylog_server_port and
     internal_ip=!ip and internal_port=!anylog_server_port and
     bind=!tcp_bind and threads=!tcp_threads.int>
@@ -44,24 +50,21 @@ do goto blockchain-get
 
 :blockchain-seed:
 on error call blockchain-seed-error
-# if !ledger_conn and !node_type != master then
-blockchain seed from !ledger_conn
+if !node_type != master then blockchain seed from !ledger_conn
 wait 10
 
 :blockchain-get:
 on error ignore
-master_policy = blockchain get master
-if !master_policy then
-do if not !license_key then license_key = blockchain get master bring [*][license]
-do ledger_conn = blockchain get master bring.ip_port
-if not !license_key then
-do goto missing-license
-do goto end-script
+if not !license_key then license_policy = blockchain get master bring [*][license]
+do
 
 :declare-policy:
 process !local_scripts/policies/config_policy.al
 
 :execute-license:
+if !node_type != master and not !license_key then  license_policy = blockchain get master bring [*][license]
+if !node_type == master and not !license_key then goto license-key-error
+
 if not !license_key then goto license-key-error
 on error goto license-key-error
 set license where activation_key = !license_key

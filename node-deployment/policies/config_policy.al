@@ -59,7 +59,8 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
 :scripts:
 <if !node_type == master then set policy new_policy [config][script] = [
     "process !local_scripts/policies/master_policy.al",
-    "process !local_scripts/deploy_database.al",
+    "connect dbms blockchain where type=!db_type",
+    "create table ledger where dbms=blockchain",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
@@ -67,7 +68,7 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
 
 <if !node_type == query then set policy new_policy [config][script] = [
     "process !local_scripts/policies/query_policy.al",
-    "process !local_scripts/deploy_database.al",
+    "connect dbms system_query where type=!db_type and memory=!memory",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
@@ -76,7 +77,12 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
 <if !node_type == operator then set policy new_policy [config][script] = [
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/operator_policy.al",
-    "process !local_scripts/deploy_database.al",
+    "connect dbms !default_dbms where type=!db_type",
+    "connect dbms almgm where type=!db_type",
+    "create table tsd_info where dbms=almgm",
+    "partition !default_dbms !table_name using !partition_column by !partition_interval",
+    "schedule time=!partition_sync and name="Drop Partitions" task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep",
+    "run blobs archiver where dbms=!blobs_dbms and folder=!blobs_folder and compress=!blobs_compress and reuse_blobs=!blobs_reuse",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
