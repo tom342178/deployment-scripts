@@ -50,11 +50,11 @@ set policy new_policy [config][tcp_bind] = '!tcp_bind'
 
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
-set policy new_policy [config][rest_bind] = '!tcp_bind'
+set policy new_policy [config][rest_bind] = '!rest_bind'
 
 if !anylog_broker_port then
 do set policy new_policy [config][broker_threads] = '!broker_threads.int'
-do set policy new_policy [config][broker_bind] = '!tcp_bind'
+do set policy new_policy [config][broker_bind] = '!broker_bind'
 
 :scripts:
 <if !node_type == master then set policy new_policy [config][script] = [
