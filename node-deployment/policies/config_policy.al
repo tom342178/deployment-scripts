@@ -39,7 +39,8 @@ set policy new_policy [config][company] = !company_name
 
 :network-configs:
 set policy new_policy [config][ip] = '!external_ip'
-set policy new_policy [config][local_ip] = '!ip'
+if !tcp_bind == false then set policy new_policy [config][local_ip] = '!ip'
+else if !tcp_bind == true then set policy new_policy [config][ip] = '!ip'
 
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
