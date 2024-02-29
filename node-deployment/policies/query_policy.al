@@ -49,7 +49,6 @@ set policy new_policy [query][local_ip] = !ip
 
 if !tcp_bind == true then set policy new_policy [query][ip] = !ip
 if !rest_bind then set policy new_policy [query][rest_ip] = !ip
-if !broker_bind == true then set policy new_policy [query][rest_ip] = !ip
 
 set policy new_policy [query][port] = !anylog_server_port.int
 set policy new_policy [query][rest_port] = !anylog_rest_port.int

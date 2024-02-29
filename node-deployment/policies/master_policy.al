@@ -48,8 +48,7 @@ set policy new_policy [master][ip] = !external_ip
 set policy new_policy [master][local_ip] = !ip
 
 if !tcp_bind == true then set policy new_policy [master][ip] = !ip
-if !rest_bind then set policy new_policy [master][rest_ip] = !ip
-if !broker_bind == true then set policy new_policy [master][broker_ip] = !ip
+if !rest_bind == true then set policy new_policy [master][rest_ip] = !ip
 
 set policy new_policy [master][port] = !anylog_server_port.int
 set policy new_policy [master][rest_port] = !anylog_rest_port.int
