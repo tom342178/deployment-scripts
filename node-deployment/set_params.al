@@ -61,23 +61,23 @@ broker_threads=6
 
 if !node_type == master then
 do anylog_server_port = 32048
-do anylog_server_rest = 32048
+do anylog_rest_port = 32048
 
 if !node_type == operator then
 do anylog_server_port = 32148
-do anylog_server_rest = 32148
+do anylog_rest_port = 32148
 
 if !node_type == publisher then
 do anylog_server_port = 32248
-do anylog_server_rest = 32248
+do anylog_rest_port = 32248
 
 if !node_type == query then
 do anylog_server_port = 32348
-do anylog_server_rest = 32348
+do anylog_rest_port = 32348
 
 if !node_type == generic then
 do anylog_server_port = 32548
-do anylog_server_rest = 32548
+do anylog_rest_port = 32548
 
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
 if $TCP_BIND == true or $TCP_BIND == True or $TCP_BIND == TRUE then tcp_bind = true
@@ -91,7 +91,7 @@ if $BROKER_BIND == true or $BROKER_BIND == True or $BROKER_BIND == TRUE then bro
 :sql-database:
 default_dbms=!company_name.name
 db_type = sqlite
-deploy_system_query = false
+set memory = false
 
 if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
 if !node_type == query then set memory=true
@@ -133,10 +133,7 @@ mqtt_timestamp_column = now
 mqtt_value_column_type = float
 mqtt_value_column = "bring [readings][][value]"
 
-:node-monitoring:
-set monitor_nodes = false
-set monitor_node = query
-if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then set monitor_nodes = true
+if $ENABLE_MQTT == true or $ENABLE_MQTT == True or $ENABLE_MQTT == TRUE then set enable_mqtt = $ENABLE_MQTT
 
 :other-settings:
 set deploy_local_script = false

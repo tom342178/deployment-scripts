@@ -23,7 +23,6 @@ on error goto rest-networking-error
 
 if not !anylog_broker_port then goto end-script 
 
-if !overlay_ip then set enable_overlay = true
 :broker-networking:
 on error goto broker-networking-error
 <run message broker where

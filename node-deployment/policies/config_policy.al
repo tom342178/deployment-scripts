@@ -12,7 +12,7 @@
 #              'rest_timeout' : '!rest_timeout.int',
 #              'script' : [
 #                   'process !local_scripts/policies/master_policy.al',
-#                   'process !local_scripts/database/deploy_database.al',
+#                   'process !local_scripts/deploy_database.al',
 #                   'run scheduler 1',
 #                   'run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn',
 #                   'process !local_scripts/policies/monitoring_policy.al',
@@ -40,15 +40,10 @@ set policy new_policy [config][company] = !company_name
 :network-configs:
 set policy new_policy [config][ip] = '!external_ip'
 set policy new_policy [config][local_ip] = '!ip'
-if !tcp_bind == false and !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
-if !tcp_bind == true and !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
-if !tcp_bind == true and not !overlay_ip then set policy new_policy [config][ip] = '!ip'
 
-if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
-if !rest_bind == true and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
-
-if !broker_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
-if !broker_bind == true and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
+if !tcp_bind == true then set policy new_policy [config][ip] = '!ip'
+if !rest_bind == true then set policy new_policy [config][rest_ip] = '!ip'
+if !broker_bind == true then set policy new_policy [config][rest_ip] = '!ip'
 
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
@@ -56,50 +51,39 @@ if !anylog_broker_port then set policy new_policy [config][broker_port] = '!anyl
 
 set policy new_policy [config][threads] = '!tcp_threads.int'
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
-if !anylog_broker_port and (!node_type == operator or !node_type == publisher) then set policy new_policy [config][broker_threads] = '!broker_threads.int'
+if !anylog_broker_port then set policy new_policy [config][broker_threads] = '!broker_threads.int'
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 
 :scripts:
-<if !node_type == generic then set policy new_policy [config][script] = [
-    "run scheduler 1"
-
-]>
-
 <if !node_type == master then set policy new_policy [config][script] = [
     "process !local_scripts/policies/master_policy.al",
-    "process !local_scripts/database/deploy_database.al",
+    "process !local_scripts/deploy_database.al",
     "run scheduler 1",
-    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
+    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
+    "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
 <if !node_type == query then set policy new_policy [config][script] = [
     "process !local_scripts/policies/query_policy.al",
-    "process !local_scripts/database/deploy_database.al",
-    "run scheduler 1",
-    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn"
-]>
-
-<if !node_type == publisher then set policy new_policy [config][script] = [
-    "process !local_scripts/policies/publisher_policy.al",
-    "process !local_scripts/database/deploy_database.al",
+    "process !local_scripts/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
-    "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=false",
-    "run streamer",
-    "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
-    "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete"
+    "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
 <if !node_type == operator then set policy new_policy [config][script] = [
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/operator_policy.al",
-    "process !local_scripts/database/deploy_database.al",
+    "process !local_scripts/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
     "run streamer",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive_json=!archive and archive_sql=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
-    "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete"
+    "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
+    "process !local_scripts/policies/monitoring_policy.al",
+    "if !enable_mqtt == true then process $ANYLOG_PATH/demo-scripts/basic_mqtt.al",
+    "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
 :publish-policy:

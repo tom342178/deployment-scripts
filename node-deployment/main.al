@@ -29,7 +29,13 @@ if $TEST_DIR then set test_dir = $TEST_DIR
 
 :set-params:
 process !local_scripts/set_params.al
-process !local_scripts/run_tcp_server.al
+
+:connect-tcp:
+on error goto connect-tcp-error
+<run tcp server where
+    external_ip=!external_ip and external_port=!anylog_server_port and
+    internal_ip=!ip and internal_port=!anylog_server_port and
+    bind=!tcp_bind and threads=!tcp_threads.int>
 
 :create-master:
 if !node_type == master then
@@ -63,6 +69,10 @@ set license where activation_key = !license_key
 :end-script:
 get processes
 if !enable_mqtt == true then get msg client
+end script
+
+:connect-tcp-error:
+print "Failed set TCP connection"
 end script
 
 :blockchain-seed-error:

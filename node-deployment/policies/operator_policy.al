@@ -43,24 +43,19 @@ set policy new_policy [operator][company] = !company_name
 :network-operator:
 set policy new_policy [operator][ip] = !external_ip
 set policy new_policy [operator][local_ip] = !ip
-if !tcp_bind == false and !overlay_ip then set policy new_policy [operator][local_ip] = !overlay_ip
-else if !tcp_bind == true and !overlay_ip then set policy new_policy [operator][ip] = !overlay_ip
-else if !tcp_bind == true and not !overlay_ip then set policy new_policy [operator][ip] = !ip
 
-if !rest_bind == true and !overlay_ip then set policy new_policy [operator][rest_ip] = !overlay_ip
-else if !rest_bind and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
-
-if !broker_bind == true and !overlay_ip then set policy new_policy [operator][rest_ip] = !overlay_ip
-else if !broker_bind == true and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
-
-if !proxy_ip then set policy new_policy[operator][proxy] = !proxy_ip
+if !tcp_bind == true then set policy new_policy [operator][ip] = !ip
+if !rest_bind == true then set policy new_policy [operator][rest_ip] = !ip
+if !broker_bind == true then set policy new_policy [operator][broker_ip] = !ip
 
 set policy new_policy [operator][port] = !anylog_server_port.int
 set policy new_policy [operator][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [operator][broker_port] = !anylog_broker_port.int
 
 :cluster-info:
+if not !cluster_id then process !local_scripts/policies/cluster_policy.al
 if !cluster_id then set policy new_policy [operator][cluster] = !cluster_id
+else goto cluster-error
 
 :location:
 if !loc then set policy new_policy [operator][loc] = !loc
@@ -83,10 +78,6 @@ operator_id = from !is_policy bring [*][id]
 
 if not !operator_id then goto config-policy-error
 
-# :config-policy:
-# on error goto config-policy-error
-# config from policy where id=!operator_id
-
 :end-script:
 end script
 
@@ -99,6 +90,10 @@ exit scripts
 
 :ip-error:
 print "An Operator node policy with the same company and node name already exists under a different IP address: " !ip_address
+goto terminate-scripts
+
+:cluster-error:
+print "Missing Cluster to associate operator with"
 goto terminate-scripts
 
 :sign-policy-error:

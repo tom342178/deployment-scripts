@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------------------------------------#
 # (basic) MQTT process based on configuration
 #--------------------------------------------------------------------------------------------------------------#
-#  process !local_scripts/basic_mqtt.al
+# process $ANYLOG_PATH/demo-scripts/basic_mqtt.al
 
 if !mqtt_broker == rest then
 <do run msg client where broker=!mqtt_broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and
