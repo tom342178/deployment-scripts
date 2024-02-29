@@ -119,6 +119,8 @@ partition_interval = day
 partition_keep = 3
 partition_sync = 1 day
 
+if $CLUSTER_NAME then cluster_name = $CLUSTER_NAME
+
 :mqtt:
 set enable_mqtt = false
 mqtt_broker = driver.cloudmqtt.com
