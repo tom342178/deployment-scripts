@@ -65,23 +65,23 @@ broker_threads=6
 
 if !node_type == master then
 do anylog_server_port = 32048
-do anylog_server_rest = 32048
+do anylog_rest_port = 32049
 
 if !node_type == operator then
 do anylog_server_port = 32148
-do anylog_server_rest = 32148
+do anylog_rest_port = 32149
 
 if !node_type == publisher then
 do anylog_server_port = 32248
-do anylog_server_rest = 32248
+do anylog_rest_port = 32249
 
 if !node_type == query then
 do anylog_server_port = 32348
-do anylog_server_rest = 32348
+do anylog_rest_port = 32349
 
 if !node_type == generic then
 do anylog_server_port = 32548
-do anylog_server_rest = 32548
+do anylog_rest_port = 32549
 
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
 if $TCP_BIND == true or $TCP_BIND == True or $TCP_BIND == TRUE then tcp_bind = true

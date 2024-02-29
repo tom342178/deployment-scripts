@@ -40,24 +40,23 @@ set policy new_policy [config][company] = !company_name
 :network-configs:
 set policy new_policy [config][ip] = '!external_ip'
 set policy new_policy [config][local_ip] = '!ip'
-if !tcp_bind == false and !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
-if !tcp_bind == true and !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
-if !tcp_bind == true and not !overlay_ip then set policy new_policy [config][ip] = '!ip'
-
-if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
-if !rest_bind == true and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
-
-if !broker_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
-if !broker_bind == true and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
+if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
 
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
 if !anylog_broker_port then set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
 
 set policy new_policy [config][threads] = '!tcp_threads.int'
+set policy new_policy [config][tcp_bind] = '!tcp_bind'
+
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
-if !anylog_broker_port and (!node_type == operator or !node_type == publisher) then set policy new_policy [config][broker_threads] = '!broker_threads.int'
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
+set policy new_policy [config][rest_bind] = '!rest_bind'
+
+if !anylog_broker_port then
+do set policy new_policy [config][broker_threads] = '!broker_threads.int'
+do set policy new_policy [config][broker_bind] = '!broker_bind'
+
 
 :scripts:
 <if !node_type == generic then set policy new_policy [config][script] = [
