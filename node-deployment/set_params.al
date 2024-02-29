@@ -48,7 +48,6 @@ do country = from !loc_info bring [country]
 do state = from !loc_info bring [state]
 do city = from !loc_info bring [city]
 
-
 :networking:
 config_name = !node_type.name + - + !company_name.name + -configs
 tcp_bind = false

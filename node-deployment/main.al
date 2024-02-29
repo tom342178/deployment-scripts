@@ -39,7 +39,7 @@ on error goto connect-tcp-error
 
 :create-master:
 if !node_type == master then
-do process !local_scripts/database/configure_dbms_blockchain.al
+do process !local_scripts/deploy_database.al
 do goto blockchain-get
 
 :blockchain-seed:
