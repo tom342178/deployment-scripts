@@ -29,6 +29,8 @@ if !tcp_bind == true and !overlay_ip then
     internal_ip=!overlay_ip and internal_port=!anylog_server_port and
     bind=!tcp_bind and threads=!tcp_threads.int>
 
+goto terminate-scripts
+
 :end-script:
 end script
 
