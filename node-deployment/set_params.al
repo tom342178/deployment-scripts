@@ -107,7 +107,12 @@ blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
 
-if $LEDGER_CONN then ledger_conn = $LEDGER_CONN
+# if ledger_conn == 127.0.0.1 and TCP bind is true then update to use local IP
+if !tcp_bind == true then
+do ledger_ip = python !ledger_conn.split(':')[0]
+do ledger_port = python !ledger_conn.split(':')[1]
+if !tcp_bind == true and !ledger_ip == 127.0.0.1 then ledger_conn = !ip + : + !ledger_port
+
 
 :operator-settings:
 set enable_partitions = true
