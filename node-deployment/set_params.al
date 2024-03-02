@@ -32,7 +32,7 @@ if $COMPANY_NAME then company_name = $COMPANY_NAME
 else goto missing-company-name
 
 if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
-else goto missing-ledger-conn
+if not $LEDGER_CONN then goto missing-ledger-conn
 
 :general-params:
 hostname = get hostname
@@ -161,15 +161,20 @@ if $NOSQL_USER then nosql_user = $NOSQL_USER
 if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
 :blockchain:
-ledger_conn = !ip + ":32048"
 blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
 
-if $LEDGER_CONN then ledger_conn = $LEDGER_CONN
 if $SYNC_TIME then sync_time = $SYNC_TIME
 if $SOURCE then blockchain_source=$SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
+
+# if ledger_conn == 127.0.0.1 and TCP bind is true then update to use local IP
+if !tcp_bind == true then
+do ledger_ip = python !ledger_conn.split(':')[0]
+do ledger_port = python !ledger_conn.split(':')[1]
+if !tcp_bind == true and !ledger_ip == 127.0.0.1 and !overlay_ip then ledger_conn = !overlay_ip + : + !ledger_port
+if !tcp_bind == true and !ledger_ip == 127.0.0.1 and not !overlay_ip then ledger_conn = !ip + : + !ledger_port
 
 :operator-settings:
 set enable_partitions = true
