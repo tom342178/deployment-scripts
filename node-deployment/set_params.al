@@ -25,9 +25,6 @@ do set node_name = $NODE_NAME
 do set node name !node_name
 else goto missing-node-name
 
-if $LICENSE_KEY then license_key=$LICENSE_KEY
-else goto missing-license-key
-
 if $COMPANY_NAME then company_name = $COMPANY_NAME
 else goto missing-company-name
 

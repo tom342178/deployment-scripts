@@ -52,14 +52,6 @@ do wait 10
 :declare-policy:
 process !local_scripts/policies/config_policy.al
 
-:execute-license:
-if !node_type != master and not !license_key then  license_policy = blockchain get master bring [*][license]
-if !node_type == master and not !license_key then goto license-key-error
-
-if not !license_key then goto license-key-error
-on error goto license-key-error
-set license where activation_key = !license_key
-
 :end-script:
 get processes
 if !enable_mqtt == true then get msg client
@@ -72,11 +64,3 @@ end script
 :blockchain-seed-error:
 print "Failed to run blockchain seed"
 return
-
-:missing-license:
-print "Failed to get license from blockchain"
-goto end-script
-
-:license-key-error:
-print "Failed to enable license key"
-goto end-script

@@ -53,9 +53,6 @@ if !rest_bind == true then set policy new_policy [master][rest_ip] = !ip
 set policy new_policy [master][port] = !anylog_server_port.int
 set policy new_policy [master][rest_port] = !anylog_rest_port.int
 
-:license:
-if !license_key then set policy new_policy [master][license] = !license_key
-
 :location:
 if !loc then set policy new_policy [master][loc] = !loc
 if !country then set policy new_policy [master][country] = !country
