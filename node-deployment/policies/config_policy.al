@@ -60,6 +60,7 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
 <if !node_type == generic then set policy new_policy [config][script] = [
     "if !default_dbms then connect dbms !default_dbms where type=!db_type",
     "run scheduler 1",
+    "if !enable_mqtt == true then process $ANYLOG_PATH/demo-scripts/basic_mqtt.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
