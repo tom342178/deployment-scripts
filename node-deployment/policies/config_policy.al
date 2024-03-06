@@ -57,6 +57,12 @@ do set policy new_policy [config][broker_threads] = '!broker_threads.int'
 do set policy new_policy [config][broker_bind] = '!broker_bind'
 
 :scripts:
+<if !node_type == generic then set policy new_policy [config][script] = [
+    "if !default_dbms then connect dbms !default_dbms where type=!db_type",
+    "run scheduler 1",
+    "if !deploy_local_script == true then process !local_scripts/local_script.al"
+]>
+
 <if !node_type == master then set policy new_policy [config][script] = [
     "process !local_scripts/policies/master_policy.al",
     "connect dbms blockchain where type=!db_type",

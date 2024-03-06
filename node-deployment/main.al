@@ -45,7 +45,7 @@ else if !tcp_bind == false then
 
 :blockchain-seed:
 on error call blockchain-seed-error
-if !node_type != master then
+if !node_type != master and !node_type != generic then
 do blockchain seed from !ledger_conn
 do wait 10
 
