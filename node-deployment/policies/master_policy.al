@@ -31,7 +31,7 @@ if !is_policy then goto end-script
 # policy pre-exists - validate IP addresses
 if !is_policy and not !create_policy == false  then
 do ip_address = from !is_policy bring [*][ip]
-do if !ip_address != !external_ip and !ip_address != !ip then goto ip-error
+do if !ip_address != !external_ip and !ip_address != !ip and !ip_address != !overlay_ip then goto ip-error
 do goto end-script
 
 # failure show created policy
@@ -46,12 +46,25 @@ set policy new_policy [master][company] = !company_name
 :network-master:
 set policy new_policy [master][ip] = !external_ip
 set policy new_policy [master][local_ip] = !ip
+if !tcp_bind == false and !overlay_ip then set policy new_policy [master][local_ip] = !overlay_ip
+else if !tcp_bind == true and !overlay_ip then set policy new_policy [master][ip] = !overlay_ip
+else if !tcp_bind == true and not !overlay_ip then set policy new_policy [master][ip] = !ip
 
-if !tcp_bind == true then set policy new_policy [master][ip] = !ip
-if !rest_bind == true then set policy new_policy [master][rest_ip] = !ip
+if !rest_bind == true and !overlay_ip then set policy new_policy [master][rest_ip] = !overlay_ip
+else if !rest_bind and not !overlay_ip then set policy new_policy [master][rest_ip] = !ip
+
+if !broker_bind == true and !overlay_ip then set policy new_policy [master][rest_ip] = !overlay_ip
+else if !broker_bind == true and not !overlay_ip then set policy new_policy [master][rest_ip] = !ip
+
+
+if !proxy_ip then set policy new_policy[master][proxy] = !proxy_ip
 
 set policy new_policy [master][port] = !anylog_server_port.int
 set policy new_policy [master][rest_port] = !anylog_rest_port.int
+if !anylog_broker_port then set policy new_policy [master][broker_port] = !anylog_broker_port.int
+
+:license:
+if !license_key then set policy new_policy [master][license] = !license_key
 
 :location:
 if !loc then set policy new_policy [master][loc] = !loc

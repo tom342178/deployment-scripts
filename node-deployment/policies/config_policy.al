@@ -12,7 +12,7 @@
 #              'rest_timeout' : '!rest_timeout.int',
 #              'script' : [
 #                   'process !local_scripts/policies/master_policy.al',
-#                   'process !local_scripts/deploy_database.al',
+#                   'process !local_scripts/database/deploy_database.al',
 #                   'run scheduler 1',
 #                   'run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn',
 #                   'process !local_scripts/policies/monitoring_policy.al',
@@ -40,6 +40,7 @@ set policy new_policy [config][company] = !company_name
 :network-configs:
 set policy new_policy [config][ip] = '!external_ip'
 set policy new_policy [config][local_ip] = '!ip'
+if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
 
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
@@ -56,49 +57,62 @@ if !anylog_broker_port then
 do set policy new_policy [config][broker_threads] = '!broker_threads.int'
 do set policy new_policy [config][broker_bind] = '!broker_bind'
 
+
 :scripts:
 <if !node_type == generic then set policy new_policy [config][script] = [
-    "if !default_dbms then connect dbms !default_dbms where type=!db_type",
     "run scheduler 1",
-    "if !enable_mqtt == true then process $ANYLOG_PATH/demo-scripts/basic_mqtt.al",
+    "process !local_scripts/policies/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
 <if !node_type == master then set policy new_policy [config][script] = [
     "process !local_scripts/policies/master_policy.al",
-    "connect dbms blockchain where type=!db_type",
-    "create table ledger where dbms=blockchain",
+    "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
+    "process !local_scripts/policies/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
 <if !node_type == query then set policy new_policy [config][script] = [
     "process !local_scripts/policies/query_policy.al",
-    "connect dbms system_query where type=!db_type and memory=!memory",
+    "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
+    "set monitored nodes where topic = operator and nodes = \"blockchain get (operator,query,master) bring.ip_port\"",
+    "process !local_scripts/policies/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
+]>
+
+<if !node_type == publisher then set policy new_policy [config][script] = [
+    "process !local_scripts/policies/publisher_policy.al",
+    "process !local_scripts/database/deploy_database.al",
+    "run scheduler 1",
+    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
+    "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=false",
+    "run streamer",
+    "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
+    "process !local_scripts/policies/monitoring_policy.al",
+    "if !deploy_local_script == true then process !local_scripts/local_script.al",
+    "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al", "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al"
 ]>
 
 <if !node_type == operator then set policy new_policy [config][script] = [
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/operator_policy.al",
-    "connect dbms !default_dbms where type=!db_type",
-    "connect dbms almgm where type=!db_type",
-    "create table tsd_info where dbms=almgm",
-    "partition !default_dbms !table_name using !partition_column by !partition_interval",
-    "schedule time=!partition_sync and name="Drop Partitions" task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep",
-    "run blobs archiver where dbms=!blobs_dbms and folder=!blobs_folder and compress=!blobs_compress and reuse_blobs=!blobs_reuse",
+    "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
     "run streamer",
+    "if !enable_ha == true then run data distributor",
+    "if !enable_ha == true then run data consumer where start_date=!start_data",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive_json=!archive and archive_sql=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
     "process !local_scripts/policies/monitoring_policy.al",
-    "if !enable_mqtt == true then process $ANYLOG_PATH/demo-scripts/basic_mqtt.al",
-    "if !deploy_local_script == true then process !local_scripts/local_script.al"
+    "if !deploy_local_script == true then process !local_scripts/local_script.al",
+    "if !deploy_syslog then process $ANYLOG_PATH/deployment-scripts/demo-scripts/syslog.al",
+    "if !enable_mqtt == true then process !local_scripts/basic_mqtt.al"
 ]>
 
 :publish-policy:

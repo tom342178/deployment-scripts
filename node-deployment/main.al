@@ -29,38 +29,38 @@ if $TEST_DIR then set test_dir = $TEST_DIR
 
 :set-params:
 process !local_scripts/set_params.al
-
-:connect-tcp:
-on error goto connect-tcp-error
-if !tcp_bind == true then
-<do run tcp server where
-    external_ip=!ip and external_port=!anylog_server_port and
-    internal_ip=!ip and internal_port=!anylog_server_port and
-    bind=!tcp_bind and threads=!tcp_threads.int>
-else if !tcp_bind == false then
-<do run tcp server where
-    external_ip=!external_ip and external_port=!anylog_server_port and
-    internal_ip=!ip and internal_port=!anylog_server_port and
-    bind=!tcp_bind and threads=!tcp_threads.int>
+process !local_scripts/run_tcp_server.al
 
 :blockchain-seed:
 on error call blockchain-seed-error
-if !node_type != master and !node_type != generic then
+if !node_type != master then
 do blockchain seed from !ledger_conn
 do wait 10
 
 :declare-policy:
 process !local_scripts/policies/config_policy.al
 
+:execute-license:
+if !node_type != master and not !license_key then  license_policy = blockchain get master bring [*][license]
+if !node_type == master and not !license_key then goto license-key-error
+
+if not !license_key then goto license-key-error
+on error goto license-key-error
+set license where activation_key = !license_key
+
 :end-script:
 get processes
 if !enable_mqtt == true then get msg client
 end script
 
-:connect-tcp-error:
-print "Failed set TCP connection"
-end script
-
 :blockchain-seed-error:
 print "Failed to run blockchain seed"
 return
+
+:missing-license:
+print "Failed to get license from blockchain"
+goto end-script
+
+:license-key-error:
+print "Failed to enable license key"
+goto end-script
