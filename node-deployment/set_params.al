@@ -42,16 +42,14 @@ if $COUNTRY then country = $COUNTRY
 if $STATE then state = $STATE
 if $CITY then city = $CITY
 
-if !loc_info then
-do if not !loc then loc = from !loc_info bring [loc]
-do if not !country then country = from !loc_info bring [country]
-do if not !state then state = from !loc_info bring [state]
-do if not !city then city = from !loc_info bring [city]
-else
-do if not !loc then loc = 0.0, 0.0
-do if not !country then country = Unknown
-do if not !state then state = Unknown
-do if not !city then city = Unknown
+if !loc_info and not !loc then loc = from !loc_info bring [loc]
+if not !loc_info and not !loc then loc = 0.0, 0.0
+if !loc_info and not !country then country = from !loc_info bring [country]
+if not !loc_info and not !country then country = Unknown
+if !loc_info and not !state then state = from !loc_info bring [state]
+if not !loc_info and not !state then state = Unknown
+if !loc_info and not !city then city = from !loc_info bring [city]
+if not !loc_info and not !city then city = Unknown
 
 :networking:
 config_name = !node_type.name + - + !company_name.name + -configs

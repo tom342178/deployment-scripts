@@ -12,7 +12,6 @@
 :set-configs:
 on error ignore
 set debug off
-set authentication off
 set echo queue on
 
 :directories:
