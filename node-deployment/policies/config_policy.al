@@ -88,7 +88,6 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
-    "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
     "run streamer",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive_json=!archive and archive_sql=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
