@@ -151,7 +151,6 @@ do set blobs_dbms = true
 if $BLOBS_DBMS == true or $BLOBS_DBMS == True or $BLOBS_DBMS == TRUE  then set blobs_dbms = true
 if $BLOBS_REUSE == false or $BLOBS_REUSE == False or $BLOBS_REUSE == FALSE then set blobs_reuse = false
 
-# no need as there's only MongoDB at this time
 # if $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
 # if !nosql_type != mongo then  goto invalid-nosql-database
 
@@ -197,10 +196,7 @@ if $PARTITION_KEEP then set partition_keep = $PARTITION_KEEP
 if $PARTITION_SYNC then set partition_sync = $PARTITION_SYNC
 
 :operator-ha:
-set enable_ha = false
 start_data = -30d
-
-if $ENABLE_HA == true or $ENABLE_HA == True or $ENABLE_HA == TRUE then set enable_ha = true
 
 if $START_DATE then start_date = $START_DATE
 if !start_date.int then start_date = - + $START_DATE + d
