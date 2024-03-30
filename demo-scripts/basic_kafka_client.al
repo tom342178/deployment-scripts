@@ -3,7 +3,7 @@
 # By default, the Message client params (in set_params.al) are based rand data coming into AnyLog's
 # Kafka publisher
 #--------------------------------------------------------------------------------------------------------------#
-# process $EDGELAKE_PATH/deployment-scripts/demo-scripts/basic_kafka.al
+# process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_kafka.al
 
 on error ignore
 

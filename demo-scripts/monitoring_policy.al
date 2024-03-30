@@ -1,4 +1,4 @@
-# process $EDGELAKE_PATH/deployment-scripts/demo-scripts/monitoring_policy.al
+# process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al
 on error ignore
 schedule_id = generic-schedule-policy
 set create_policy = false

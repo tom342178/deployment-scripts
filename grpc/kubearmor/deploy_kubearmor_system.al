@@ -6,20 +6,20 @@
 #   3. Declare Policy
 #   4. gRPC client
 #-----------------------------------------------------------------------------------------------------------------------
-# process $EDGELAKE_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor_system.al
+# process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor_system.al
 on error ignore
 
 # Compile proto file
 #:compile-proto:
 # on error goto compile-error
-# compile proto where protocol_file=$EDGELAKE_PATH/deployment-scripts/grpc/kubearmor/kubearmor/kubearmor.proto
+# compile proto where protocol_file=$ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor/kubearmor.proto
 
 # Set Params
 :set-params:
 
 grpc_client_ip = kubearmor.kubearmor.svc.cluster.local
 grpc_client_port = 32767
-grpc_dir = $EDGELAKE_PATH/deployment-scripts/grpc/kubearmor/
+grpc_dir = $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/
 grpc_proto = kubearmor
 grpc_value = (Filter = all)
 grpc_limit = 0
@@ -44,18 +44,18 @@ grpc_name = kubearmor-message
 grpc_function = WatchMessages
 grpc_response = Message
 
-process $EDGELAKE_PATH/deployment-scripts/grpc/kubearmor/kubearmor_message.al
-process $EDGELAKE_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_message.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
 
 grpc_name = kubearmor-alert
 grpc_function = WatchAlerts
 grpc_response = Alert
 
-process $EDGELAKE_PATH/deployment-scripts/grpc/kubearmor/kubearmor_alert.al
-process $EDGELAKE_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_alert.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
 
 grpc_name = kubearmor-logs
 grpc_function = WatchLogs
 grpc_response = Logs
-process $EDGELAKE_PATH/deployment-scripts/grpc/kubearmor/kubearmor_log.al
-process $EDGELAKE_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/kubearmor_log.al
+process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/grpc_client.al
