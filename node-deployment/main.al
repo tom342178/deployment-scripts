@@ -13,6 +13,7 @@
 on error ignore
 set debug off
 set echo queue on
+set authentication off
 
 :directories:
 set anylog_path = /app
