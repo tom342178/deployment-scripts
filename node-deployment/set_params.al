@@ -102,14 +102,14 @@ if $PROXY_IP then proxy_ip = $PROXY_IP
 if $CONFIG_NAME then config_name = $CONFIG_NAME
 
 :authentication:
-enable_auth = false
-enable_rest_auth = false
-rest_ssl = false
+set enable_auth = false
+set enable_rest_auth = false
+set rest_ssl = false
 
 if $ENABLE_AUTH == true or $ENABLE_AUTH == True or $ENABLE_AUTH == TRUE then set enable_auth = true
 if $ENABLE_REST_AUTH == true or $ENABLE_REST_AUTH == True or $ENABLE_REST_AUTH == TRUE then
 do set enable_rest_auth = true
-do rest_ssl = true
+do set rest_ssl = true
 
 :sql-database:
 db_type = sqlite

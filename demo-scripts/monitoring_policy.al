@@ -46,7 +46,7 @@ goto check-policy
 
 :config-policy:
 on error goto config-policy-error
-if !monitor_nodes == true then config from policy where id=!schedule_id
+config from policy where id=!schedule_id
 
 :end-script:
 end script
