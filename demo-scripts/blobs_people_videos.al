@@ -103,6 +103,7 @@ if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
 
 :msg-call:
+if !is_demo == true then goto end-script
 on error goto msg-error
 if !anylog_broker_port then
 <do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(

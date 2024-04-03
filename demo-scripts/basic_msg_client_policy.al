@@ -12,7 +12,7 @@ set create_policy = true
 :preparre-policy:
 policy_id = basic-mqtt
 policy = blockchain get mapping where id = !policy_id
-if !policy then goto mqtt-call
+if !policy then goto msg-call
 if create_policy == true then goto declare-policy-error
 
 <new_polcy = {
@@ -42,8 +42,9 @@ if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 goto check-policy
 
-:mqtt-call:
-on error goto mqtt-error
+
+:msg-call:
+on error goto msg-error
 if not !anylog_broker_port and !user_name and !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
     name=!policy_id and
@@ -78,6 +79,6 @@ goto terminate-scripts
 print "Failed to declare master policy on blockchain"
 goto terminate-scripts
 
-:mqtt-error:
+:msg-error:
 echo "Failed to deploy MQTT process"
 goto end-script

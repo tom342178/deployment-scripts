@@ -16,6 +16,7 @@
 # process !local_scripts/deployment_scripts/set_params.al
 on error ignore
 
+set is_demo = false
 
 :required-params:
 if $NODE_TYPE then set node_type = $NODE_TYPE
