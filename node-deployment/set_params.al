@@ -18,7 +18,7 @@ on error ignore
 
 set is_demo = false
 
-if $DISABLE_CLI == true then set cli off
+if $DISABLE_CLI == true or  $DISABLE_CLI == True or $DISABLE_CLI == TRUE then set cli off
 
 :required-params:
 if $NODE_TYPE then set node_type = $NODE_TYPE
