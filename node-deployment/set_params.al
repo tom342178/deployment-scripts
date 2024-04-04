@@ -18,6 +18,8 @@ on error ignore
 
 set is_demo = false
 
+if $DISABLE_CLI == true then set cli off
+
 :required-params:
 if $NODE_TYPE then set node_type = $NODE_TYPE
 else goto missing-node-type
