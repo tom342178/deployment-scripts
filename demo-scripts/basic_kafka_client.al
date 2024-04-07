@@ -14,7 +14,7 @@ kafka_reset_value = latest
 
 :run-kafka:
 on error call kafka-error
-<run kafka consumer where ip=!kafka_broker and port=!kafka_port and reset_value=!kafka_reset_value and topic = (
+<run kafka consumer where ip=!kafka_broker and port=!kafka_port and topic = (
     name=!msg_topic and
     dbms=!msg_dbms and
     table=!msg_table and
