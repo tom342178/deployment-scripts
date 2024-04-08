@@ -30,9 +30,3 @@ process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor_system.a
     dest=172.105.60.50:32148>
 
 
-       python3 ~/Sample-Data-Generator/data_generator.py  ping 35.208.73.148:32250 mqtt \
-           --batch-size 10 \
-           --total-rows 10 \
-           --topic ping-percentage \
-           --db-name litsanleandro \
-           --sleep 0
