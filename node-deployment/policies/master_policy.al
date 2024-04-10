@@ -42,6 +42,7 @@ set new_policy = ""
 set policy new_policy [master] = {}
 set policy new_policy [master][name] = !node_name
 set policy new_policy [master][company] = !company_name
+set policy new_policy [master][hostname] = !hostname
 
 :network-master:
 set policy new_policy [master][ip] = !external_ip

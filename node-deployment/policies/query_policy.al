@@ -42,6 +42,7 @@ set new_policy = ""
 set policy new_policy [query] = {}
 set policy new_policy [query][name] = !node_name
 set policy new_policy [query][company] = !company_name
+set policy new_policy [query][hostname] = !hostname
 
 :network-query:
 set policy new_policy [query][ip] = !external_ip

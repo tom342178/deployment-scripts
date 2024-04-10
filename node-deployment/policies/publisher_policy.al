@@ -41,6 +41,7 @@ set new_policy = ""
 set policy new_policy [publisher] = {}
 set policy new_policy [publisher][name] = !node_name
 set policy new_policy [publisher][company] = !company_name
+set policy new_policy [publisher][hostname] = !hostname
 
 :network-publisher:
 set policy new_policy [publisher][ip] = !external_ip
