@@ -53,7 +53,7 @@ else if !rest_bind and not !overlay_ip then set policy new_policy [operator][res
 if !broker_bind == true and !overlay_ip then set policy new_policy [operator][rest_ip] = !overlay_ip
 else if !broker_bind == true and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
 
-if !proxy_ip then set policy new_policy[operator][proxy] = !proxy_ip
+# if !proxy_ip then set policy new_policy[operator][proxy] = !proxy_ip
 
 set policy new_policy [operator][port] = !anylog_server_port.int
 set policy new_policy [operator][rest_port] = !anylog_rest_port.int
