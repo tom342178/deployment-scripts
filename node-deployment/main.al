@@ -16,6 +16,7 @@ set echo queue on
 set authentication off
 
 :directories:
+get dictionary _dir
 set anylog_path = /app
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 
