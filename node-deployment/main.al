@@ -20,6 +20,8 @@ set anylog_path = /app
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 
 set anylog home !anylog_path
+wait 1
+get dictionary _dir
 create work directories
 
 set local_scripts = /app/deployment-scripts/node-deployment
