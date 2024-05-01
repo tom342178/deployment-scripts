@@ -1,37 +1,45 @@
-#-----------------------------------------------------------------------------------------------------------------------
-# Sample MQTT policy for REST / MQTT that's policy based - based on  basic_mqtt.al
-# By default, the Message client params (in set_params.al) are based rand data coming into AnyLog's
-# MQTT message broker
-#-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client_policy.al
+#----------------------------------------------------------------------------------------------------------------------#
+# Sample policy for Flexnode data demonstrating unknown schema information
+# :sample-data:
+# { "fields":{
+#    "temp_crit":102, "temp_crit_alarm":0, "temp_input":47, "temp_max":92
+#   },
+#   "name":"lm_sensors",
+#   "tags":{
+#       "chip":"coretemp-isa-0001","feature":"core_0","host":"node-1"
+#   },
+#   "timestamp": 1713978540
+# }
+#----------------------------------------------------------------------------------------------------------------------#
+# process $ANYLOG_PATH/deployment-scripts/demo-scripts/flexnode_data.al
 
 on error ignore
-
 set create_policy = true
 
 :preparre-policy:
-policy_id = basic-mqtt
+policy_id = telegraf-mapping
+topic_name=flexnode-data
 policy = blockchain get mapping where id = !policy_id
 if !policy then goto msg-call
 if create_policy == true then goto declare-policy-error
 
-<new_policy = {
-    "mapping"; {
-        "id": !policy_name,
-        "dbms": !msg_dbms,
-        "table': !msg_table,
-        "readings": "",
-        "schema": {
-            "timestamp": {
-                "type": "timestamp",
-                "default": !msg_timestamp_column
-            },
-            "value": {
-                "type": !msg_value_column_type,
-                "value": !msg_value_column
-            }
-        }
-    }
+<new_policy = {"mapping" : {
+        "id" : !policy_id,
+        "dbms" : !default_dbms,
+        "table" : "bring [name] _ [tags][name]:[tags][host]",
+        "schema" : {
+                "timestamp" : {
+                    "type" : "timestamp",
+                    "default": "now()",
+                    "bring" : "[timestamp]",
+                    "apply" :  "epoch_to_datetime"
+                },
+                "*" : {
+                    "type": "*",
+                    "bring": ["fields", "tags"]
+                }
+         }
+   }
 }>
 
 :publish-policy:
@@ -42,22 +50,21 @@ if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 goto check-policy
 
-
 :msg-call:
 on error goto msg-error
 if not !anylog_broker_port and !user_name and !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
-    name=!policy_id and
+    name=!topic_name and
     policy=!policy_id
 )>
 else if !anylog_broker_port then
 <do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
-    name=!policy_id and
+    name=!topic_name and
     policy=!policy_id
 )>
 else if not !anylog_broker_port then
 <do run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
-    name=!policy_id and
+    name=!topic_name and
     policy=!policy_id
 )>
 
@@ -82,3 +89,4 @@ goto terminate-scripts
 :msg-error:
 echo "Failed to deploy MQTT process"
 goto end-script
+
