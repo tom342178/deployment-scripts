@@ -14,7 +14,7 @@
 # process $ANYLOG_PATH/deployment-scripts/demo-scripts/flexnode_data.al
 
 on error ignore
-set create_policy = true
+set create_policy = false
 
 :preparre-policy:
 policy_id = telegraf-mapping
