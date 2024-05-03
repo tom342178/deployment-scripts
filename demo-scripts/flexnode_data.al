@@ -21,7 +21,7 @@ policy_id = telegraf-mapping
 topic_name=flexnode-data
 policy = blockchain get mapping where id = !policy_id
 if !policy then goto msg-call
-if create_policy == true then goto declare-policy-error
+if !create_policy == true  and not !policy then goto declare-policy-error
 
 <new_policy = {"mapping" : {
         "id" : !policy_id,
