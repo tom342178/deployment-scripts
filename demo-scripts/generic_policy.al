@@ -1,38 +1,69 @@
 #-----------------------------------------------------------------------------------------------------------------------
-# Sample MQTT policy for REST / MQTT that's policy based - based on  basic_mqtt.al
-# By default, the Message client params (in set_params.al) are based rand data coming into AnyLog's
-# MQTT message broker
+# Generic Policy
+# :requirements:
+#   -> table name
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client_policy.al
+# process $ANYLOG_PATH/deployment-scripts/demo-scripts/generic_policy.al
 
 on error ignore
 
+:set-params:
+policy_id = generic_policy
+# user should specify table name
+set table_name = ""
+set new_policy = ""
+set readings = ""
+set is_epoch = false
+if !is_policy then goto msg-call
+if not !table_name then goto table-name-error
 set create_policy = false
 
-:preparre-policy:
-policy_id = basic-mqtt
+:check-policy:
 policy = blockchain get mapping where id = !policy_id
 if !policy then goto msg-call
 if !create_policy == true then goto declare-policy-error
 
-<new_policy = {
-    "mapping"; {
-        "id": !policy_name,
-        "dbms": !msg_dbms,
-        "table': !msg_table,
-        "readings": "",
-        "schema": {
-            "timestamp": {
-                "type": "timestamp",
-                "default": !msg_timestamp_column
-            },
-            "value": {
-                "type": !msg_value_column_type,
-                "value": !msg_value_column
-            }
+:create-policy:
+if !is_epoch == true then
+<do new_policy={"mapping" : {
+    "id" : "bc-policy",
+    "company": !company_name
+    "dbms" : !default_dbms,
+    "table": !table_name,
+    "readings": !readings,
+    "schema" : {
+        "timestamp" : {
+            "type" : "timestamp",
+            "default": "now()",
+            "bring" : "[timestamp]",
+            "apply" :  "epoch_to_datetime"
+        },
+        "*": {
+            "type": "*",
+            "bring": ["*"]
         }
     }
-}>
+}}>
+if !is_epoch == false then
+<do new_policy={"mapping" : {
+    "id" : "bc-policy",
+    "company": !company_name
+    "dbms" : !default_dbms,
+    "table": !table_name,
+    "readings": !readings,
+    "schema" : {
+        "timestamp" : {
+            "type" : "timestamp",
+            "default": "now()",
+            "bring" : "[timestamp]"
+        },
+        "*": {
+            "type": "*",
+            "bring": ["*"]
+        }
+    }
+}}>
+
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
@@ -66,6 +97,10 @@ end script
 
 :terminate-scripts:
 exit scripts
+
+:table-name-error:
+print "Missing table name - cannot create policy"
+goto end-script
 
 :sign-policy-error:
 print "Failed to sign master policy"
