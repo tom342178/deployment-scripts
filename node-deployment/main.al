@@ -42,6 +42,8 @@ process !local_scripts/policies/config_policy.al
 
 :set-license:
 on error ignore
+if !is_edgelake == true then goto end-script
+
 master_license = blockchain get master bring [*][license]
 on error goto license-error
 if !license_key then set license where activation_key = !license_key
