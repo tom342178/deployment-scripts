@@ -25,9 +25,7 @@ version = get version
 deployment_type = python !version.split(" ")[0]
 if !deployment_type != AnyLog then set is_edgelake = true
 
-if !is_edgelake == true and $NODE_TYPE == publisher then
-do print "Node type publisher not supported with EdgeLake"
-do exit scripts
+if !is_edgelake == true and $NODE_TYPE == publisher then edgelake-error
 
 :required-params:
 if $NODE_TYPE then set node_type = $NODE_TYPE
@@ -300,6 +298,10 @@ end script
 
 :terminate-scripts:
 exit scripts
+
+:edgelake-error:
+print "Node type `publisher` not supported with EdgeLake deployment"
+goto terminate-scripts
 
 :missing-node-type:
 print "Missing node type, cannot continue..."
