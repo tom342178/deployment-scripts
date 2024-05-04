@@ -59,7 +59,7 @@ if not !anylog_broker_port and !user_name and !user_password then
     policy=!policy_id
 )>
 else if !anylog_broker_port then
-<do <run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
+<do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
     name=!topic_name and
     policy=!policy_id
 )>
