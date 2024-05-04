@@ -11,7 +11,7 @@
 #   "timestamp": 1713978540
 # }
 #----------------------------------------------------------------------------------------------------------------------#
-# process $ANYLOG_PATH/deployment-scripts/demo-scripts/flexnode_data.al
+# process $ANYLOG_PATH/deployment-scripts/demo-scripts/telegraf.al
 
 on error ignore
 set create_policy = false

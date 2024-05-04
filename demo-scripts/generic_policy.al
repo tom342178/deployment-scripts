@@ -2,6 +2,25 @@
 # Generic Policy
 # :requirements:
 #   -> table name
+#:sample policy:
+# {'mapping' : {
+#    'id' : 'generic_policy',
+#    'company' : 'New Company',
+#    'dbms' : 'new_company',
+#    'table' : 'opc_data'
+#    'schema' : {
+#        'timestamp' : {
+#            'type' : 'timestamp',
+#            'default' : 'now()',
+#            'apply' : 'epoch_to_datetime'
+#        },
+#        '*' : {
+#          'type' : '*',
+#           'bring' : '*'
+#       }
+#    },
+#    'date' : '2024-05-04T21:38:53.942580Z'
+# }}
 #-----------------------------------------------------------------------------------------------------------------------
 # process $ANYLOG_PATH/deployment-scripts/demo-scripts/generic_policy.al
 
@@ -13,56 +32,37 @@ policy_id = generic_policy
 set table_name = ""
 set new_policy = ""
 set readings = ""
+set timestamp_column = ""
 set is_epoch = false
-if !is_policy then goto msg-call
-if not !table_name then goto table-name-error
-set create_policy = false
 
+if not !table_name then goto table-name-error
+
+set create_policy = false
 :check-policy:
 policy = blockchain get mapping where id = !policy_id
 if !policy then goto msg-call
 if !create_policy == true then goto declare-policy-error
 
 :create-policy:
-if !is_epoch == true then
-<do new_policy={"mapping" : {
-    "id" : "bc-policy",
-    "company": !company_name
-    "dbms" : !default_dbms,
-    "table": !table_name,
-    "readings": !readings,
-    "schema" : {
-        "timestamp" : {
-            "type" : "timestamp",
-            "default": "now()",
-            "bring" : "[timestamp]",
-            "apply" :  "epoch_to_datetime"
-        },
-        "*": {
-            "type": "*",
-            "bring": ["*"]
-        }
-    }
-}}>
-if !is_epoch == false then
-<do new_policy={"mapping" : {
-    "id" : "bc-policy",
-    "company": !company_name
-    "dbms" : !default_dbms,
-    "table": !table_name,
-    "readings": !readings,
-    "schema" : {
-        "timestamp" : {
-            "type" : "timestamp",
-            "default": "now()",
-            "bring" : "[timestamp]"
-        },
-        "*": {
-            "type": "*",
-            "bring": ["*"]
-        }
-    }
-}}>
+
+set policy new_policy [mapping] = {}
+set policy new_policy [mapping][id] = !policy_id
+set policy new_policy [mapping][company] = !company_name
+set policy new_policy [mapping][dbms] = !default_dbms
+set policy new_policy [mapping][table] = !table_name
+if !readings then set policy new_policy [mapping][readings] = !readings
+
+set policy new_policy [mapping][schema] = {}
+
+set policy new_policy [mapping][schema][timestamp] = {}
+set policy new_policy [mapping][schema][timestamp][type] = timestamp
+set policy new_policy [mapping][schema][timestamp][default] = now()
+if !timestamp_column then set policy new_policy [mapping][schema][timestamp][bring] = !timestamp_column
+if !is_epoch == true then set policy new_policy [mapping][schema][timestamp][apply] = epoch_to_datetime
+
+set policy new_policy [mapping][schema][*] = {}
+set policy new_policy [mapping][schema][*][type] = *
+set policy new_policy [mapping][schema][*][bring] = *
 
 
 :publish-policy:
