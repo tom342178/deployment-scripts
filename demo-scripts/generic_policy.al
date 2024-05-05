@@ -62,7 +62,7 @@ if !is_epoch == true then set policy new_policy [mapping][schema][timestamp][app
 
 set policy new_policy [mapping][schema][*] = {}
 set policy new_policy [mapping][schema][*][type] = *
-set policy new_policy [mapping][schema][*][bring] = *
+set policy new_policy [mapping][schema][*][bring] = [*]
 
 
 :publish-policy:
