@@ -1,32 +1,44 @@
 #----------------------------------------------------------------------------------------------------------------------#
-# Sample policy for Flexnode data demonstrating unknown schema information
+# Mapping policy to accept data from Telegraf
 # :sample-data:
-# { "fields":{
-#    "temp_crit":102, "temp_crit_alarm":0, "temp_input":47, "temp_max":92
-#   },
-#   "name":"lm_sensors",
-#   "tags":{
-#       "chip":"coretemp-isa-0001","feature":"core_0","host":"node-1"
-#   },
-#   "timestamp": 1713978540
-# }
+# {"metrics":[
+#  {
+#    "fields":{"active":7080853504,"available":7166590976,"available_percent":41.715049743652344,"free":415137792,"inactive":6751453184,"total":17179869184,"used":10013278208,"used_percent":58.284950256347656,"wired":1292861440},#
+#    "name":"mem", "tags":{"host":"Oris-Mac-mini.local"}, "timestamp":1715018940
+#  },
+#  {
+#    "fields":{"usage_guest":0,"usage_guest_nice":0,"usage_idle":89.91935483869311,"usage_iowait":0,"usage_irq":0,"usage_nice":0,"usage_softirq":0,"usage_steal":0,"usage_system":2.7217741935480912,"usage_user":7.358870967749625},
+#    "name":"cpu", "tags":{"cpu":"cpu0","host":"Oris-Mac-mini.local"}, "timestamp":1715018940
+#  },
+#  {
+#    "fields":{"free":0,"total":0,"used":0,"used_percent":0},
+#    "name":"swap","tags":{"host":"Oris-Mac-mini.local"},"timestamp":1715018940
+#  },
+#  {
+#    "fields":{"bytes_recv":0,"bytes_sent":80,"drop_in":0,"drop_out":0,"err_in":0,"err_out":0,"packets_recv":0,"packets_sent":1,"speed":-1},
+#    "name":"net", "tags":{"host":"Oris-Mac-mini.local","interface":"utun3"}, "timestamp":1715018940
+#  }
+# ]}
 #----------------------------------------------------------------------------------------------------------------------#
 # process $ANYLOG_PATH/deployment-scripts/demo-scripts/telegraf.al
 
 on error ignore
-set create_policy = false
 
-:preparre-policy:
+:set-params:
 policy_id = telegraf-mapping
 topic_name=telegraf-data
-policy = blockchain get mapping where id = !policy_id
+set create_policy = false
+
+:check-policy:
 if !policy then goto msg-call
 if !create_policy == true  and not !policy then goto declare-policy-error
 
+:preparre-policy:
 <new_policy = {"mapping" : {
         "id" : !policy_id,
         "dbms" : !default_dbms,
-        "table" : "bring [name] _ [tags][name]:[tags][host]",
+        "table" : "bring [metrics][*][name] _ [metrics][*][tags][name]:[metrics][*][tags][host]",
+        "readings": "metrics",
         "schema" : {
                 "timestamp" : {
                     "type" : "timestamp",
@@ -42,24 +54,6 @@ if !create_policy == true  and not !policy then goto declare-policy-error
    }
 }>
 
-<new_policy = {"mapping"; {
-    "id": "telegraf-mapping",
-    "dbms": "new_company,
-    "table": "telegraf_data",
-    "readings": "metrics",
-    "schema": {
-        "timestamp" : {
-            "type" : "timestamp",
-            "default" : "now()",
-            "bring" : "[timestamp]",
-            "apply" : "epoch_to_datetime"
-        },
-        "*" : {
-            "type" : "*",
-            "bring" : ["fields", "tags"]
-        }
-    }
-}}>
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al

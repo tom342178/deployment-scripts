@@ -32,20 +32,21 @@
 
 on error ignore
 
-run client (!ledger_conn) blockchain drop policy where id = !policy_id
 :set-params:
 policy_id = generic_policy
 topic_name = new-topic
+
 # user should specify table name
-set table_name = timestamp_test
+set table_name = ""
 set new_policy = ""
 set readings = ""
 set timestamp_column = "[timestamp]"
-set is_epoch = true
+set is_epoch = false
 
 if not !table_name then goto table-name-error
 
 set create_policy = false
+
 :check-policy:
 policy = blockchain get mapping where id = !policy_id
 if !policy then goto msg-call
@@ -79,7 +80,6 @@ if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 goto check-policy
-
 
 :msg-call:
 on error goto msg-error
