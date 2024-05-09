@@ -1,7 +1,13 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Generic Policy
 # :requirements:
-#   -> table name
+#   -> table_name: table where data is stored
+# :other params;
+#   -> policy_id: name of the policy
+#   -> topic_name: message client policy
+#   -> readings: if JSON comes with readings value then set readings
+#   -> timestamp_column: timestamp column name (in brackets "[ ]")
+#   -> is_epoch
 #:sample policy:
 # {'mapping' : {
 #    'id' : 'generic_policy',
@@ -26,14 +32,16 @@
 
 on error ignore
 
+run client (!ledger_conn) blockchain drop policy where id = !policy_id
 :set-params:
 policy_id = generic_policy
+topic_name = new-topic
 # user should specify table name
-set table_name = ""
+set table_name = timestamp_test
 set new_policy = ""
 set readings = ""
-set timestamp_column = ""
-set is_epoch = false
+set timestamp_column = "[timestamp]"
+set is_epoch = true
 
 if not !table_name then goto table-name-error
 
@@ -44,12 +52,11 @@ if !policy then goto msg-call
 if !create_policy == true then goto declare-policy-error
 
 :create-policy:
-
 set policy new_policy [mapping] = {}
 set policy new_policy [mapping][id] = !policy_id
 set policy new_policy [mapping][company] = !company_name
 set policy new_policy [mapping][dbms] = !default_dbms
-set policy new_policy [mapping][table] = !table_name
+set policy new_policy [mapping][table] = opc_data
 if !readings then set policy new_policy [mapping][readings] = !readings
 
 set policy new_policy [mapping][schema] = {}
@@ -57,13 +64,13 @@ set policy new_policy [mapping][schema] = {}
 set policy new_policy [mapping][schema][timestamp] = {}
 set policy new_policy [mapping][schema][timestamp][type] = timestamp
 set policy new_policy [mapping][schema][timestamp][default] = now()
-if !timestamp_column then set policy new_policy [mapping][schema][timestamp][bring] = !timestamp_column
+if !timestamp_column then set policy new_policy [mapping][schema][timestamp][bring] = [Timestamp]
 if !is_epoch == true then set policy new_policy [mapping][schema][timestamp][apply] = epoch_to_datetime
 
-set policy new_policy [mapping][schema][*] = {}
-set policy new_policy [mapping][schema][*][type] = *
-set policy new_policy [mapping][schema][*][bring] = [*]
-
+<set policy new_policy [mapping][schema][*] = {
+    "type": "*",
+    "bring": ["*"]
+}>
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
@@ -76,19 +83,19 @@ goto check-policy
 
 :msg-call:
 on error goto msg-error
+if !anylog_broker_port then
+<do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
+    name=!policy_id and
+    policy=!policy_id
+)>
 if not !anylog_broker_port and !user_name and !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
     name=!policy_id and
     policy=!policy_id
 )>
-else if !anylog_broker_port then
-<do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
-    name=!policy_id and
-    policy=!policy_id
-)>
-else if not !anylog_broker_port then
+if not !anylog_broker_port and not !user_name and not !user_password then then
 <do run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
-    name=!policy_id and
+    name=opc_demo and
     policy=!policy_id
 )>
 

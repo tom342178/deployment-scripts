@@ -18,7 +18,7 @@ set create_policy = false
 
 :preparre-policy:
 policy_id = telegraf-mapping
-topic_name=flexnode-data
+topic_name=telegraf-data
 policy = blockchain get mapping where id = !policy_id
 if !policy then goto msg-call
 if !create_policy == true  and not !policy then goto declare-policy-error
@@ -26,8 +26,7 @@ if !create_policy == true  and not !policy then goto declare-policy-error
 <new_policy = {"mapping" : {
         "id" : !policy_id,
         "dbms" : !default_dbms,
-        "table" : "telegraf_data",
-        "readings": "metrics",
+        "table" : "bring [name] _ [tags][name]:[tags][host]",
         "schema" : {
                 "timestamp" : {
                     "type" : "timestamp",
@@ -42,6 +41,25 @@ if !create_policy == true  and not !policy then goto declare-policy-error
          }
    }
 }>
+
+<new_policy = {"mapping"; {
+    "id": "telegraf-mapping",
+    "dbms": "new_company,
+    "table": "telegraf_data",
+    "readings": "metrics",
+    "schema": {
+        "timestamp" : {
+            "type" : "timestamp",
+            "default" : "now()",
+            "bring" : "[timestamp]",
+            "apply" : "epoch_to_datetime"
+        },
+        "*" : {
+            "type" : "*",
+            "bring" : ["fields", "tags"]
+        }
+    }
+}}>
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
