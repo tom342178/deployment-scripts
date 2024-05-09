@@ -80,7 +80,7 @@ goto check-policy
 
 :operator-info:
 on error ignore
-operator_id = from !is_policy bring.first [*][id]
+operator_id = from !is_policy bring.last [*][id]
 if not !operator_id then goto config-policy-error
 
 :end-script:
