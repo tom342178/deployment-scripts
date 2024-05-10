@@ -96,7 +96,7 @@
 :prepare-policy:
 policy_id = car-videos # used also as the mqtt topic name
 policy = blockchain get mapping where id = !policy_id
-if !policy then goto mqtt-call
+if !policy then goto msg-call
 
 :create-policy:
 on error ignore

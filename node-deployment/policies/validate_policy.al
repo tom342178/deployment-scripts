@@ -4,6 +4,7 @@
 # process !local_scripts/policies/validate_policy.al
 
 
+set is_policy = ""
 if !node_type != operator then goto generic-node-validate
 :operator-node-validator:
 if !tcp_bind == false then

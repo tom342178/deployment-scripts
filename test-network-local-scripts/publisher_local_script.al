@@ -8,7 +8,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process $ANYLOG_PATH/deployment-scripts/test-network-local-scripts/publisher_local_script.al
 
-process $ANYLOG_PATH/deployment-scripts/demo-scripts/data_generator_ping_percentagecup_sensor.al
+process /app/deployment-scripts/demo-scripts/data_generator_generic_ping_percentage_demo.al
 <set data distribution where dbms=litsanleandro and table=ping_sensor and
    dest=139.162.164.95:32148 and
    dest=172.105.13.202:32148 and
@@ -28,5 +28,3 @@ process $ANYLOG_PATH/deployment-scripts/grpc/kubearmor/deploy_kubearmor_system.a
     dest=69.164.203.68:32148 and
     dest=172.105.6.90:32148 and
     dest=172.105.60.50:32148>
-
-

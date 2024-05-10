@@ -28,10 +28,11 @@
 on error ignore
 set create_policy = false
 
-:check-policy:
+:check-popolicylicy:
 process !local_scripts/policies/validate_policy.al
 
-if not !is_policy then goto create-policy
+if not !is_policy and !create_policy == false then goto create-policy
+if not !is_policy and !create_policy == true then goto config-policy-error
 else goto operator-info
 
 :create-policy:
@@ -39,7 +40,6 @@ set new_policy = ""
 set policy new_policy [operator] = {}
 set policy new_policy [operator][name] = !node_name
 set policy new_policy [operator][company] = !company_name
-set policy new_policy [operator][hostname] = !hostname
 
 :network-operator:
 set policy new_policy [operator][ip] = !external_ip
@@ -54,7 +54,7 @@ else if !rest_bind and not !overlay_ip then set policy new_policy [operator][res
 if !broker_bind == true and !overlay_ip then set policy new_policy [operator][rest_ip] = !overlay_ip
 else if !broker_bind == true and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
 
-if !proxy_ip then set policy new_policy[operator][proxy] = !proxy_ip
+# if !proxy_ip then set policy new_policy[operator][proxy] = !proxy_ip
 
 set policy new_policy [operator][port] = !anylog_server_port.int
 set policy new_policy [operator][rest_port] = !anylog_rest_port.int
@@ -69,6 +69,7 @@ if !country then set policy new_policy [operator][country] = !country
 if !state then set policy new_policy [operator][state] = !state
 if !city then set policy new_policy [operator][city] = !city
 
+
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
@@ -79,14 +80,8 @@ goto check-policy
 
 :operator-info:
 on error ignore
-process !local_scripts/policies/validate_policy.al
-operator_id = from !is_policy bring [*][id]
-
+operator_id = from !is_policy bring.last [*][id]
 if not !operator_id then goto config-policy-error
-
-# :config-policy:
-# on error goto config-policy-error
-# config from policy where id=!operator_id
 
 :end-script:
 end script
@@ -94,9 +89,9 @@ end script
 :terminate-scripts:
 exit scripts
 
-# :config-policy-error:
-# print "Failed to configure node based on Operator ID"
-# goto terminate-scripts
+:config-policy-error:
+print "Failed to configure node based on Operator ID"
+goto terminate-scripts
 
 :ip-error:
 print "An Operator node policy with the same company and node name already exists under a different IP address: " !ip_address

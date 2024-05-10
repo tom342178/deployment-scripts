@@ -7,15 +7,15 @@
 
 on error ignore
 
-set create_policy = true
+set create_policy = false
 
 :preparre-policy:
 policy_id = basic-mqtt
 policy = blockchain get mapping where id = !policy_id
 if !policy then goto msg-call
-if create_policy == true then goto declare-policy-error
+if !create_policy == true then goto declare-policy-error
 
-<new_polcy = {
+<new_policy = {
     "mapping"; {
         "id": !policy_name,
         "dbms": !msg_dbms,

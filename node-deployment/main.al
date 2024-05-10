@@ -7,7 +7,7 @@
 #   3. blockchain seed
 #   4. config policy
 #-----------------------------------------------------------------------------------------------------------------------
-# python3.10 AnyLog-Network/edge_lake/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
+# python3.10 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
 
 :set-configs:
 on error ignore
@@ -42,6 +42,8 @@ process !local_scripts/policies/config_policy.al
 
 :set-license:
 on error ignore
+if !is_edgelake == true then goto end-script
+
 master_license = blockchain get master bring [*][license]
 on error goto license-error
 if !license_key then set license where activation_key = !license_key

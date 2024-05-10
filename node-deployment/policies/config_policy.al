@@ -61,7 +61,6 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
 :scripts:
 <if !node_type == generic then set policy new_policy [config][script] = [
     "run scheduler 1",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
@@ -69,7 +68,6 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/master_policy.al",
     "run scheduler 1",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
@@ -77,7 +75,6 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/query_policy.al",
     "run scheduler 1",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
@@ -86,7 +83,7 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
-    "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=false",
+    "process !local_scripts/policies/config_threashold.al",
     "run streamer",
     "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
     "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
@@ -99,11 +96,14 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/operator_policy.al",
     "run scheduler 1",
+    "process !local_scripts/policies/config_threashold.al",
     "run streamer",
-    "if !enable_ha == true then run data distributor",
-    "if !enable_ha == true then run data consumer where start_date=!start_data",
+    "if !is_edgelake == false and !enable_ha == true then run data distributor",
+    "if !is_edgelake == false and !enable_ha == true then run data consumer where start_date=!start_data",
+    "if !is_edgelake == true and !enable_ha == true then echo HA not supported in EdgeLake",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive_json=!archive and archive_sql=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
+    "schedule name=remove_bkup and time=1 day and task delete bkup where days = !archive_delete",
     "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !enable_mqtt == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
