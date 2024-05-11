@@ -69,6 +69,7 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/master_policy.al",
     "run scheduler 1",
+    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
@@ -76,6 +77,7 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/query_policy.al",
     "run scheduler 1",
+    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
