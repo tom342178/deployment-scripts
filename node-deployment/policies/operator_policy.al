@@ -28,7 +28,7 @@
 on error ignore
 set create_policy = false
 
-:check-popolicylicy:
+:check-policy:
 process !local_scripts/policies/validate_policy.al
 
 if not !is_policy and !create_policy == false then goto create-policy
