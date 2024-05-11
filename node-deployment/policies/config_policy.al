@@ -25,6 +25,7 @@
 # process !local_scripts/policies/config_policy.al
 
 on error ignore
+set create_config = false
 :check-policy:
 config_id = blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring [*][id]
 if !config_id then goto config-policy
@@ -101,7 +102,7 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "if !is_edgelake == false and !enable_ha == true then run data distributor",
     "if !is_edgelake == false and !enable_ha == true then run data consumer where start_date=!start_data",
     "if !is_edgelake == true and !enable_ha == true then echo HA not supported in EdgeLake",
-    "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_file and archive_json=!archive and archive_sql=!archive and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
+    "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
     "schedule name=remove_bkup and time=1 day and task delete bkup where days = !archive_delete",
     "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
