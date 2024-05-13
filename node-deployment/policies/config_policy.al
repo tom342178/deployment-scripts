@@ -106,7 +106,6 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "if !is_edgelake == true and !enable_ha == true then echo HA not supported in EdgeLake",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
-    "schedule name=remove_bkup and time=1 day and task delete bkup where days = !archive_delete",
     "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !enable_mqtt == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
