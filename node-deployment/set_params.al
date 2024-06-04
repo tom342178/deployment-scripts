@@ -69,6 +69,7 @@ rest_threads=6
 rest_timeout=30
 broker_bind = false
 broker_threads=6
+set external_overlay=false
 
 if !node_type == master then
 do anylog_server_port = 32048
@@ -107,6 +108,8 @@ if $BROKER_BIND == true or $BROKER_BIND == True or $BROKER_BIND == TRUE then bro
 if !broker_threads.int < 1 then broker_threads = 1
 
 if $OVERLAY_IP then overlay_ip = $OVERLAY_IP
+if $EXTERNAL_OVERLAY == true or $EXTERNAL_OVERLAY == True or $EXTERNAL_OVERLAY == TRUE  then set external_overlay = true
+
 if $PROXY_IP then proxy_ip = $PROXY_IP
 if $CONFIG_NAME then config_name = $CONFIG_NAME
 
@@ -181,6 +184,8 @@ do ledger_ip = python !ledger_conn.split(':')[0]
 do ledger_port = python !ledger_conn.split(':')[1]
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and !overlay_ip then ledger_conn = !overlay_ip + : + !ledger_port
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and not !overlay_ip then ledger_conn = !ip + : + !ledger_port
+
+
 
 :operator-settings:
 set enable_partitions = true
