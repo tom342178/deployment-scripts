@@ -94,20 +94,36 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
-<if !node_type == operator then set policy new_policy [config][script] = [
+if !is_edgelake == false and !node_type == operator then
+<do set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/operator_policy.al",
     "run scheduler 1",
-    "if !is_edgelake == false then process !local_scripts/policies/config_threashold.al",
+    "process !local_scripts/policies/config_threashold.al",
     "run streamer",
-    "if !is_edgelake == false and !enable_ha == true then run data distributor",
-    "if !is_edgelake == false and !enable_ha == true then run data consumer where start_date=!start_data",
-    "if !is_edgelake == true and !enable_ha == true then echo HA not supported in EdgeLake",
+    "if !enable_ha == true then run data distributor",
+    "if !enable_ha == true then run data consumer where start_date=!start_data",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
     "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !enable_mqtt == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client.al",
+    "if !deploy_local_script == true then process !local_scripts/local_script.al"
+]>
+
+if !is_edgelake == true and !node_type == operator then
+<do set policy new_policy [config][script] = [
+    "process !local_scripts/database/deploy_database.al",
+    "process !local_scripts/policies/cluster_policy.al",
+    "process !local_scripts/policies/operator_policy.al",
+    "run scheduler 1",
+    "process !local_scripts/policies/config_threashold.al",
+    "run streamer",
+    "!enable_ha == true then echo HA not supported in EdgeLake",
+    "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
+    "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
+    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !enable_mqtt == true then process $EDGELAKE_PATH/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
