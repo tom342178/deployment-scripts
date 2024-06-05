@@ -119,7 +119,6 @@ if !is_edgelake == true and !node_type == operator then
     "run scheduler 1",
     "process !local_scripts/policies/config_threashold.al",
     "run streamer",
-    "!enable_ha == true then print HA not supported in EdgeLake",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
     "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
