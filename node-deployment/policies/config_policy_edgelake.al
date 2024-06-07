@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------------------------------------------------#
-# Create configuration policy based on variables
+# Create configuration policy based on variables - specifically for EdgeLake
 # :sample-master-policy:
 # [{'config' : {'name' : 'master-anylog_co.-configs',
 #              'company' : 'AnyLog Co.',
@@ -22,7 +22,7 @@
 #              'date' : '2024-02-05T01:14:22.204991Z',
 #              'ledger' : 'global'}}]
 #----------------------------------------------------------------------------------------------------------------------#
-# process !local_scripts/policies/config_policy.al
+# process !local_scripts/policies/config_policy_edgelake.al
 
 on error ignore
 set create_config = false
@@ -58,7 +58,6 @@ if !anylog_broker_port then
 do set policy new_policy [config][broker_threads] = '!broker_threads.int'
 do set policy new_policy [config][broker_bind] = '!broker_bind'
 
-
 :scripts:
 <if !node_type == generic then set policy new_policy [config][script] = [
     "run scheduler 1",
@@ -69,7 +68,7 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/master_policy.al",
     "run scheduler 1",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !monitor_nodes == true then process $EDGELAKE_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
@@ -77,20 +76,7 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/query_policy.al",
     "run scheduler 1",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !deploy_local_script == true then process !local_scripts/local_script.al"
-]>
-
-<if !node_type == publisher then set policy new_policy [config][script] = [
-    "process !local_scripts/policies/publisher_policy.al",
-    "process !local_scripts/database/deploy_database.al",
-    "run scheduler 1",
-    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
-    "process !local_scripts/policies/config_threashold.al",
-    "run streamer",
-    "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !enable_mqtt == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client.al",
+    "if !monitor_nodes == true then process $EDGELAKE_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
@@ -102,12 +88,10 @@ if !node_type == operator then
     "run scheduler 1",
     "process !local_scripts/policies/config_threashold.al",
     "run streamer",
-    "if !enable_ha == true then run data distributor",
-    "if !enable_ha == true then run data consumer where start_date=!start_data",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !enable_mqtt == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client.al",
+    "if !monitor_nodes == true then process $EDGELAKE_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !enable_mqtt == true then process $EDGELAKE_PATH/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 

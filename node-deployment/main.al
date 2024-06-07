@@ -40,7 +40,8 @@ do blockchain seed from !ledger_conn
 do wait 10
 
 :declare-policy:
-process !local_scripts/policies/config_policy.al
+if !is_edgelake == true then  process !local_scripts/policies/config_policy_edgelake.al
+if !is_edgelake == false then process !local_scripts/policies/config_policy.al
 
 :set-license:
 on error ignore
