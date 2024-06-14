@@ -6,6 +6,7 @@
 #        insert_timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
 #        tsd_name CHAR(3),
 #        tsd_id INT,
+#        timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
 #        device char(4),
 #        a_current int,
 #        a_n_voltage int,
@@ -24,6 +25,7 @@
 #    CREATE INDEX power_plant_insert_timestamp_index ON power_plant(insert_timestamp);',
 # :Data from Dynics:
 #   {
+#       "timestamp": DATETIME.FUNCTION(),
 #       "device": field.Name,
 #       "commsstatus": recordBatch.Column(commsstatus).GetValue(0),
 #       "a_current": recordBatch.Column(a_current).GetValue(0),
@@ -57,6 +59,11 @@ set new_policy = ""
     "dbms": !default_dbms,
     "table": !table_name,
     "schema": {
+        "timestamp": {
+            "type": "timestamp",
+            "default": "now(),
+            "bring": "[timestamp]",
+        },
         "device: {
             "type": "string",
             "bring": "device"

@@ -24,6 +24,11 @@ set new_policy = ""
     "dbms": !default_dbms,
     "table": "bring [table]",
     "schema": {
+        "timestamp": {
+            "type": "timestamp",
+            "default": "now(),
+            "bring": "[timestamp]",
+        },
         "device: {
             "type": "string",
             "bring": "[device]"
