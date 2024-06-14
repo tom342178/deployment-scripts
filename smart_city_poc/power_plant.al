@@ -1,5 +1,27 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # Create policy for power plant
+# :Expected Table:
+#    CREATE TABLE IF NOT EXISTS power_plant(
+#        row_id SERIAL PRIMARY KEY,
+#        insert_timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
+#        tsd_name CHAR(3),
+#        tsd_id INT,
+#        device char(4),
+#        a_current int,
+#        a_n_voltage int,
+#        b_current int,
+#        b_n_voltage int,
+#        c_current int,
+#        c_n_voltage int,
+#        energy_multiplier int,
+#        frequency int,
+#        power_factor int,
+#        reactive_power int,
+#        real_power int
+#    );
+#    CREATE INDEX power_plant_timestamp_index ON power_plant(timestamp);
+#    CREATE INDEX power_plant_tsd_index ON power_plant(tsd_name, tsd_id);
+#    CREATE INDEX power_plant_insert_timestamp_index ON power_plant(insert_timestamp);',
 # :Data from Dynics:
 #   {
 #       "device": field.Name,
@@ -17,7 +39,6 @@
 #       "realpower": recordBatch.Column(realpower).GetValue(0),
 #   }
 #----------------------------------------------------------------------------------------------------------------------#
-
 
 :set-params:
 policy_id = cos-power-plant
