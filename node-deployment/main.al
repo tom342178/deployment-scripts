@@ -34,10 +34,10 @@ process !local_scripts/set_params.al
 process !local_scripts/run_tcp_server.al
 
 :blockchain-seed:
-on error call blockchain-seed-error
-if !node_type != master then
-do blockchain seed from !ledger_conn
-do wait 10
+# on error call blockchain-seed-error
+# if !node_type != master then
+# do blockchain seed from !ledger_conn
+# do wait 10
 
 :declare-policy:
 if !is_edgelake == true then  process !local_scripts/policies/config_policy_edgelake.al
