@@ -8,7 +8,7 @@ policy_id = smart-city-pp
 if not !default_dbms then default_dbms = smart_city
 topic_name = power_plant
 
-:is-policy:
+:check-policy:
 is_policy = blockchain get transform where id = !policy_id
 if !is_policy then goto msg-call
 
