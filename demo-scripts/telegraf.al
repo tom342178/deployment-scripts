@@ -37,8 +37,7 @@ if !create_policy == true  and not !policy then goto declare-policy-error
 <new_policy = {"mapping" : {
         "id" : !policy_id,
         "dbms" : !default_dbms,
-        "table" : "bring [metrics][*][name] _ [metrics][*][tags][name]:[metrics][*][tags][host]",
-        "readings": "metrics",
+        "table" : "bring [name] _ [tags][name]:[tags][host]",
         "schema" : {
                 "timestamp" : {
                     "type" : "timestamp",
@@ -65,17 +64,19 @@ goto check-policy
 
 :msg-call:
 on error goto msg-error
+if !anylog_broker_port then
+<do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
+    name=!topic_name and
+    policy=!policy_id
+)>
+
 if not !anylog_broker_port and !user_name and !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
     name=!topic_name and
     policy=!policy_id
 )>
-else if !anylog_broker_port then
-<do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
-    name=!topic_name and
-    policy=!policy_id
-)>
-else if not !anylog_broker_port then
+
+if not !anylog_broker_port not !user_name and not !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
     name=!topic_name and
     policy=!policy_id
