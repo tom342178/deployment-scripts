@@ -27,7 +27,7 @@ if !is_policy then goto msg-call
                 "bring": "[timestamp]",
                 "default" : "now()"
             },
-            "device_id": {
+            "id": {
                 "value": "re.group(2)",
                 "type" : "string"
             }
