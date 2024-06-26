@@ -46,7 +46,7 @@ set policy new_policy [master][company] = !company_name
 :network-master:
 set policy new_policy [master][ip] = !external_ip
 else if !tcp_bind == true and !overlay_ip then set policy new_policy [master][ip] = !overlay_ip
-else if !tcp_bind == ture and not !overlay_ip and !external_overlay == false then set policy new_policy [master][ip] = !ip
+else if !tcp_bind == true and not !overlay_ip and !external_overlay == false then set policy new_policy [master][ip] = !ip
 else set policy new_policy [master][local_ip] = !ip
 
 # if !external_overlay == true and  !overlay_ip then set policy new_policy [master][ip] = !overlay_ip
