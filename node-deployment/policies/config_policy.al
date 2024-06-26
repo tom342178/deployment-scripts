@@ -54,10 +54,18 @@ set policy new_policy [config][tcp_bind] = '!tcp_bind'
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 set policy new_policy [config][rest_bind] = '!rest_bind'
+if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
+if !rest_bind == true and !external_overlay == true and not !overlay_ip  then set policy new_policy [config][rest_ip] = '!external_ip'
+if !rest_bind == true and !external_overlay == false and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
 
 if !anylog_broker_port then
 do set policy new_policy [config][broker_threads] = '!broker_threads.int'
 do set policy new_policy [config][broker_bind] = '!broker_bind'
+
+if !anylog_broker_port and !broker_bind == true and !overlay_ip then set policy new_policy [config][bind_ip] = '!overlay_ip'
+if !anylog_broker_port and !broker_bind == true and !external_overlay == true and not !overlay_ip  then set policy new_policy [config][bind_ip] = '!external_ip'
+if !anylog_broker_port and !broker_bind == true and !external_overlay == false and not !overlay_ip then set policy new_policy [config][bind_ip] = '!ip'
+
 
 
 :scripts:
