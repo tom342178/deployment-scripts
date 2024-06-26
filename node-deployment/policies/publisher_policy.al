@@ -45,17 +45,14 @@ set policy new_policy [publisher][company] = !company_name
 :network-publisher:
 set policy new_policy [publisher][ip] = !external_ip
 set policy new_policy [publisher][local_ip] = !ip
-if !tcp_bind == false and !overlay_ip then set policy new_policy [publisher][local_ip] = !overlay_ip
-else if !tcp_bind == true and !overlay_ip then set policy new_policy [publisher][ip] = !overlay_ip
-else if !tcp_bind == true and not !overlay_ip then set policy new_policy [publisher][ip] = !ip
+if !external_overlay == true and  !overlay_ip then set policy new_policy [publisher][ip] = !overlay_ip
+if !external_overlay == false and !overlay_ip then set policy new_policy [publisher][local_ip] = !overlay_ip
 
 if !rest_bind == true and !overlay_ip then set policy new_policy [publisher][rest_ip] = !overlay_ip
-else if !rest_bind and not !overlay_ip then set policy new_policy [publisher][rest_ip] = !ip
+if !rest_bind == true and not !overlay_ip then set policy new_policy [publisher][rest_ip] = !ip
 
-if !broker_bind == true and !overlay_ip then set policy new_policy [publisher][rest_ip] = !overlay_ip
-else if !broker_bind == true and not !overlay_ip then set policy new_policy [publisher][rest_ip] = !ip
-
-# if !proxy_ip then set policy new_policy[publisher][proxy] = !proxy_ip
+if !broker_bind == true and !overlay_ip then set policy new_policy [publisher][broker_ip] = !overlay_ip
+else if !broker_bind == true and not !overlay_ip then set policy new_policy [publisher][broker_ip] = !ip
 
 set policy new_policy [publisher][port] = !anylog_server_port.int
 set policy new_policy [publisher][rest_port] = !anylog_rest_port.int

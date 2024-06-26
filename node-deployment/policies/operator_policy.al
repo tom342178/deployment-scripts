@@ -44,17 +44,14 @@ set policy new_policy [operator][company] = !company_name
 :network-operator:
 set policy new_policy [operator][ip] = !external_ip
 set policy new_policy [operator][local_ip] = !ip
-if !tcp_bind == false and !overlay_ip then set policy new_policy [operator][local_ip] = !overlay_ip
-else if !tcp_bind == true and !overlay_ip then set policy new_policy [operator][ip] = !overlay_ip
-else if !tcp_bind == true and not !overlay_ip then set policy new_policy [operator][ip] = !ip
+if !external_overlay == true and  !overlay_ip then set policy new_policy [operator][ip] = !overlay_ip
+if !external_overlay == false and !overlay_ip then set policy new_policy [operator][local_ip] = !overlay_ip
 
 if !rest_bind == true and !overlay_ip then set policy new_policy [operator][rest_ip] = !overlay_ip
-else if !rest_bind and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
+if !rest_bind == true and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
 
-if !broker_bind == true and !overlay_ip then set policy new_policy [operator][rest_ip] = !overlay_ip
-else if !broker_bind == true and not !overlay_ip then set policy new_policy [operator][rest_ip] = !ip
-
-# if !proxy_ip then set policy new_policy[operator][proxy] = !proxy_ip
+if !broker_bind == true and !overlay_ip then set policy new_policy [operator][broker_ip] = !overlay_ip
+else if !broker_bind == true and not !overlay_ip then set policy new_policy [operator][broker_ip] = !ip
 
 set policy new_policy [operator][port] = !anylog_server_port.int
 set policy new_policy [operator][rest_port] = !anylog_rest_port.int
