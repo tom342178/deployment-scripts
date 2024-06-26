@@ -39,15 +39,15 @@ if not !is_policy and !create_policy == true then goto declare-policy-error
 
 :create-policy:
 set new_policy = ""
-set policy new_policy [query] = {}
+set policy new_policy [!node_type] = {}
 set policy new_policy [query][name] = !node_name
 set policy new_policy [query][company] = !company_name
 
 :network-query:
 set policy new_policy [query][ip] = !external_ip
-set policy new_policy [query][local_ip] = !ip
-if !external_overlay == true and  !overlay_ip then set policy new_policy [query][ip] = !overlay_ip
-if !external_overlay == false and !overlay_ip then set policy new_policy [query][local_ip] = !overlay_ip
+else if !tcp_bind == true  and !overlay_ip then set policy new_policy [query][ip] = !overlay_ip
+else if !tcp_bind == false and !overlay_ip then set policy new_policy [query][local_ip] = !overlay_ip
+else set policy new_policy [query][local_ip] = !ip
 
 if !rest_bind == true and !overlay_ip then set policy new_policy [query][rest_ip] = !overlay_ip
 if !rest_bind == true and not !overlay_ip then set policy new_policy [query][rest_ip] = !ip
