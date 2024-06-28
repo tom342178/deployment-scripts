@@ -30,9 +30,9 @@ if !tcp_bind == true and not !overlay_ip then
     bind=!tcp_bind and threads=!tcp_threads.int>
 
 if !tcp_bind == false and not !overlay_ip
-<do run tcp server where
-    external_ip=!external_ip and external_port=!anylog_server_port and
-    internal_ip=!ip and internal_port=!anylog_server_port and
+<do <run tcp server where
+    external_ip=73.202.142.172 and external_port=!anylog_server_port and
+    internal_ip=10.0.0.228 and internal_port=!anylog_server_port and
     bind=!tcp_bind and threads=!tcp_threads.int>
 
 :end-script:
