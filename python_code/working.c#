@@ -1,0 +1,31 @@
+using Dynics.Arrow;
+
+public class Script
+{
+    private static readonly string columnName = "WaterPlant";
+
+    public static async Task ExecuteAsync(IScriptContext context, RecordBatch recordBatch, CancellationToken cancellationToken)
+    {
+        // New record builder
+        var builder = new RecordBatch.Builder();
+
+        string json = "{";
+
+        foreach (KeyValuePair<string, Field> fieldKvPair in recordBatch.Schema.Fields)
+        {
+            var field = fieldKvPair.Value;
+
+            json += "\"" + field.Name.Replace(".", "_") + "\":" + recordBatch.Column(field.Name).GetValue(0);
+
+            if (!fieldKvPair.Equals(recordBatch.Schema.Fields.Last()))
+                json += ',';
+        }
+
+        json += '}';
+
+        builder.Append<StringArray>(columnName,false,x=> x.String(s=>s.Append(json)));
+
+        // Emit the result
+        await context.EmitAsync(builder.Build());
+    }
+}
