@@ -76,7 +76,7 @@ if !anylog_broker_port and !broker_bind == true and !external_overlay == false a
 
 <if !node_type == master then set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
-    "process !local_scripts/policies/create_node_policy.al",
+    "process !local_scripts/policies/master_policy.al",
     "run scheduler 1",
     "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
@@ -84,14 +84,14 @@ if !anylog_broker_port and !broker_bind == true and !external_overlay == false a
 
 <if !node_type == query then set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
-    "process !local_scripts/policies/create_node_policy.al",
+    "process !local_scripts/policies/query_policy.al",
     "run scheduler 1",
     "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
 <if !node_type == publisher then set policy new_policy [config][script] = [
-    "process !local_scripts/policies/create_node_policy.al",
+    "process !local_scripts/policies/publisher_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
@@ -107,7 +107,7 @@ if !node_type == operator then
 <do set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/cluster_policy.al",
-    "process !local_scripts/policies/create_node_policy.al",
+    "process !local_scripts/policies/operator_policy.al",
     "run scheduler 1",
     "process !local_scripts/policies/config_threashold.al",
     "run streamer",
