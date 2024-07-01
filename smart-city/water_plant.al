@@ -24,10 +24,8 @@
 # process $ANYLOG_PATH/deployment-scripts/demo-scripts/smart_city_power_plant.al
 
 :set-params:
-policy_id = smart-city-wps
-default_dbms = water_plant
-if not !default_dbms then default_dbms = smart_city
-topic_name = water_plant
+policy_id = smart-city-wp
+topic_name = wp-generic
 
 :check-policy:
 is_policy = blockchain get transform where id = !policy_id
@@ -66,6 +64,8 @@ set create_policy = true
 goto check-policy
 
 :msg-call:
+if !is_demo == true then goto end-script
+
 on error goto msg-error
 if not !anylog_broker_port and !user_name and !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
@@ -82,16 +82,6 @@ else if not !anylog_broker_port then
     policy=!policy_id
 )>
 
-<run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and  topic=(
-    name=power_plant and
-    policy=smart-city-pc
-) and topic = (
-    name=commsstatus and
-    policy=smart-city-pp-commsstatus
-) and topic = (
-    name=other and
-    policy=smart-city-pp-other
-)>
 :end-script:
 end script
 
