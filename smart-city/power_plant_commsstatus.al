@@ -34,7 +34,7 @@ set new_policy = ""
             }
         }
     }
-}>s
+}>
 
 :test-policy:
 test_policy = json !new_policy test

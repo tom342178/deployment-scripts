@@ -12,11 +12,13 @@ set is_demo = true
 
 default_dbms = power_plant
 process !local_scripts/database/configure_dbms_operator.al
+partition !default_dbms !table_name using timestamp by !partition_interval
 schedule time=!partition_sync and name="Drop Partitions - PP" task drop partition where dbms=!default_dbms and table=!table_name and keep=!partition_keep
 process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant.al
 
 default_dbms = water_plant
 process !local_scripts/database/configure_dbms_operator.al
+partition !default_dbms !table_name using timestamp by !partition_interval
 schedule time=!partition_sync and name="Drop Partitions - PP" task drop partition where dbms=!default_dbms and table=!table_name and keep=!partition_keep
 process $ANYLOG_PATH/deployment-scripts/smart-city/water_plant.al
 
