@@ -1,7 +1,17 @@
+#-----------------------------------------------------------------------------------------------------------------------
+# Main from smart city demo
+# :steps:
+#   1. create policies
+#   2. declare MQTT client
+#-----------------------------------------------------------------------------------------------------------------------
+# process $ANYLOG_PATH/deployment-scripts/smart-city/smart_city_demo.al
+
+on error ignore
+
 set is_demo = true
 
 process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant.al
-process $ANYLOG_PATH/deployment-scripts/demo-scripts/smart_city_power_plant.al
+process $ANYLOG_PATH/deployment-scripts/smart-city/water_plant.al
 
 if not !anylog_broker_port and !user_name and !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and

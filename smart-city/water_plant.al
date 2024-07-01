@@ -21,7 +21,10 @@
 #  "Timestamp": "2024-06-30T06:02:13.385+00:00"
 # }
 #----------------------------------------------------------------------------------------------------------------------#
-# process $ANYLOG_PATH/deployment-scripts/demo-scripts/smart_city_power_plant.al
+# process $ANYLOG_PATH/deployment-scripts/smart-city/water_plant.al
+
+
+on error ignore
 
 :set-params:
 policy_id = smart-city-wp
