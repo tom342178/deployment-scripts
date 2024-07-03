@@ -34,10 +34,11 @@ if !policy then goto msg-call
 if !create_policy == true  and not !policy then goto declare-policy-error
 
 :preparre-policy:
+# for table name - the following includes both sensor and hostname; "bring [name] _ [tags][name]:[tags][host]",
 <new_policy = {"mapping" : {
         "id" : !policy_id,
         "dbms" : !default_dbms,
-        "table" : "bring [name] _ [tags][name]:[tags][host]",
+        "table" : "bring [name]",
         "schema" : {
                 "timestamp" : {
                     "type" : "timestamp",
