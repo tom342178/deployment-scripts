@@ -30,6 +30,7 @@ topic_name=telegraf-data
 set create_policy = false
 
 :check-policy:
+policy = blockchain get policy where id = !policy_id
 if !policy then goto msg-call
 if !create_policy == true  and not !policy then goto declare-policy-error
 
@@ -38,7 +39,7 @@ if !create_policy == true  and not !policy then goto declare-policy-error
 <new_policy = {"mapping" : {
         "id" : !policy_id,
         "dbms" : !default_dbms,
-        "table" : "bring [name]",
+        "table" : "bring [name] _ [tags][name]:[tags][host]",
         "schema" : {
                 "timestamp" : {
                     "type" : "timestamp",
