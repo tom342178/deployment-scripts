@@ -10,7 +10,9 @@ on error goto almgm-dbms-error
     user = !db_user and
     password = !db_passwd and
     ip = !db_ip and
-    port = !db_port>
+    port = !db_port and
+    autocommit = !autocommit and
+    unlog = !unlog>
 else connect dbms almgm where type=!db_type
 
 on error goto almgm-table-error

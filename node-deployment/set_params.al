@@ -126,6 +126,7 @@ do set rest_ssl = true
 :sql-database:
 db_type = sqlite
 set autocommit = true
+set unlog = false
 default_dbms=!company_name.name
 set deploy_system_query = false
 set memory = true
@@ -141,6 +142,7 @@ if $DB_IP then db_ip = $DB_IP
 if $DB_PORT then db_port = $DB_PORT
 
 if $AUTOCOMMIT == false or $AUTOCOMMIT == False or $AUTOCOMMIT == FALSE then set autocommit = false
+if $UNLOG == true or $UNLOG == True or $UNLOG == TRUE then set unlog =  true
 if !node_type == query or $DEPLOY_SYSTEM_QUERY == true or $DEPLOY_SYSTEM_QUERY == True or $DEPLOY_SYSTEM_QUERY == TRUE  then
 do set deploy_system_query = true
 do if $MEMORY == false or $MEMORY == False or $MEMORY == FALSE then set memory=false
