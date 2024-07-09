@@ -30,7 +30,7 @@ topic_name=telegraf-data
 set create_policy = false
 
 :check-policy:
-policy = blockchain get policy where id = !policy_id
+policy = blockchain get mapping where id = !policy_id
 if !policy then goto msg-call
 if !create_policy == true  and not !policy then goto declare-policy-error
 
