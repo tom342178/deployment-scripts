@@ -72,13 +72,13 @@ if !anylog_broker_port then
     policy=!policy_id
 )>
 
-if not !anylog_broker_port and !user_name and !user_password then
+if not !anylog_broker_port and and !user_name and !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and topic=(
     name=!topic_name and
     policy=!policy_id
 )>
 
-if not !anylog_broker_port not !user_name and not !user_password then
+if not !anylog_broker_port and ot !user_name and not !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
     name=!topic_name and
     policy=!policy_id
