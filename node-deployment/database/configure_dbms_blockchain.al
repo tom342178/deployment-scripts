@@ -13,7 +13,9 @@ on error goto ledger-db-error
     user = !db_user and
     password = !db_passwd and
     ip = !db_ip and
-    port = !db_port>
+    port = !db_port and
+    autocommit = !autocommit and
+    unlog = !unlog>
 else if !db_type == sqlite then connect dbms blockchain where type=!db_type
 
 on error goto ledger-table-error

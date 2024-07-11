@@ -13,7 +13,9 @@ if !db_type != sqlite then
     user = !db_user and
     password = !db_passwd and
     ip = !db_ip and
-    port = !db_port>
+    port = !db_port and
+    autocommit = !autocommit and
+    unlog = !unlog>
 
 :end-script:
 end script
