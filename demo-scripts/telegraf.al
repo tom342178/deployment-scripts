@@ -30,7 +30,7 @@ topic_name=telegraf-data
 set create_policy = false
 
 :check-policy:
-policy = blockchain get policy where id = !policy_id
+policy = blockchain get mapping where id = !policy_id
 if !policy then goto msg-call
 if !create_policy == true  and not !policy then goto declare-policy-error
 
@@ -78,7 +78,7 @@ if not !anylog_broker_port and !user_name and !user_password then
     policy=!policy_id
 )>
 
-if not !anylog_broker_port not !user_name and not !user_password then
+if not !anylog_broker_port and not !user_name and not !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
     name=!topic_name and
     policy=!policy_id
