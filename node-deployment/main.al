@@ -7,7 +7,7 @@
 #   3. blockchain seed
 #   4. config policy
 #-----------------------------------------------------------------------------------------------------------------------
-# python3.10 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
+# python3.10 AnyLog-Network/anylog_enterprise/anylog.py process $EDGELAKE_PATH/deployment-scripts/node-deployment/main.al
 
 :set-configs:
 on error ignore
@@ -17,7 +17,7 @@ set authentication off
 
 :directories:
 set anylog_path = /app
-if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
+if $EDGELAKE_PATH then set anylog_path = $ANYLOG_PATH
 if $EDGELAKE_PATH then set anylog_path = $EDGELAKE_PATH
 
 set anylog home !anylog_path

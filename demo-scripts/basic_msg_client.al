@@ -3,7 +3,7 @@
 # By default, the Message client params (in set_params.al) are based rand data coming into AnyLog's
 # MQTT message broker
 #--------------------------------------------------------------------------------------------------------------#
-# process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client.al
+# process $EDGELAKE_PATH/deployment-scripts/demo-scripts/basic_msg_client.al
 
 if !mqtt_broker == rest then
 <do run msg client where broker=!mqtt_broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and
