@@ -18,8 +18,10 @@ set authentication off
 :directories:
 set anylog_path = /app
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
+if $EDGELAKE_PATH then set anylog_path = $EDGELAKE_PATH
 
 set anylog home !anylog_path
+
 create work directories
 
 set local_scripts = /app/deployment-scripts/node-deployment
