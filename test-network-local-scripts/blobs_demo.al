@@ -1,3 +1,4 @@
+# process $ANYLOG_PATH/deployment-scripts/test-network-local-scripts/blobs_demo.al
 on error ignore
 
 :declare-params:
