@@ -6,7 +6,7 @@
 #  "DG6.CommsStatus":true,"BCT.CommsStatus":true,"BF1.CommsStatus":true,"BF2.CommsStatus":true,"BF3.CommsStatus":true,
 #  "id":914,"Timestamp":"2024-06-30T03:27:32.1940000Z"}
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant_commsstatus.al
+# process !root_path/deployment-scripts/smart-city/power_plant_commsstatus.al
 
 on error ignore
 

@@ -21,7 +21,7 @@
 #  "Timestamp": "2024-06-30T06:02:13.385+00:00"
 # }
 #----------------------------------------------------------------------------------------------------------------------#
-# process $ANYLOG_PATH/deployment-scripts/smart-city/water_plant.al
+# process !root_path/deployment-scripts/smart-city/water_plant.al
 
 
 on error ignore

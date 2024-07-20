@@ -7,7 +7,7 @@
 #   "CBT.C_Current":85,"CBT.C_N_Voltage":735,"CBT.EnergyMultiplier":1,"CBT.Frequency":6000,"CBT.PowerFactor":96,
 #   ..., "Timestamp":"2024-06-30T05:35:58.5460000Z"}
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant_other.al
+# process !root_path/deployment-scripts/smart-city/power_plant_other.al
 
 on error ignore
 

@@ -4,7 +4,7 @@
 #   1. create policies
 #   2. declare MQTT client
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/smart-city/smart_city_demo.al
+# process !root_path/deployment-scripts/smart-city/smart_city_demo.al
 
 on error ignore
 
@@ -14,13 +14,13 @@ default_dbms = power_plant
 process !local_scripts/database/configure_dbms_operator.al
 partition !default_dbms !table_name using timestamp by !partition_interval
 schedule time=!partition_sync and name="Drop Partitions - PP" task drop partition where dbms=!default_dbms and table=!table_name and keep=!partition_keep
-process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant.al
+process !root_path/deployment-scripts/smart-city/power_plant.al
 
 default_dbms = water_plant
 process !local_scripts/database/configure_dbms_operator.al
 partition !default_dbms !table_name using timestamp by !partition_interval
 schedule time=!partition_sync and name="Drop Partitions - WP" task drop partition where dbms=!default_dbms and table=!table_name and keep=!partition_keep
-process $ANYLOG_PATH/deployment-scripts/smart-city/water_plant.al
+process !root_path/deployment-scripts/smart-city/water_plant.al
 
 if not !anylog_broker_port and !user_name and !user_password then
 <do run msg client where broker=rest and port=!anylog_rest_port and user=!user_name and password=!user_password and user-agent=anylog and log=false and

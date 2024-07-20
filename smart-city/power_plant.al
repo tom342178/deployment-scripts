@@ -4,13 +4,13 @@
 #   1. declare policies on blockchain
 #   2 if not demo - execute run mqtt
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant.al
+# process !root_path/deployment-scripts/smart-city/power_plant.al
 on error ignore
 
 :declare-policies:
-process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant_generic.al
-process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant_commsstatus.al
-process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant_other.al
+process !root_path/deployment-scripts/smart-city/power_plant_generic.al
+process !root_path/deployment-scripts/smart-city/power_plant_commsstatus.al
+process !root_path/deployment-scripts/smart-city/power_plant_other.al
 
 :msg-call:
 if !is_demo == true then goto end-script

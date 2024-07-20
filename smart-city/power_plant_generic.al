@@ -6,7 +6,7 @@
 #  "BG10.RealPower":0,"BG11.A_Current":0,"BG11.A_N_Voltage":0,"BG11.B_Current":0,"BG11.B_N_Voltage":0,"BG11.C_Current":0,
 #  ..., "Timestamp":"2024-06-30T03:27:55.8240000Z"}
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/smart-city/power_plant_generic.al
+# process !root_path/deployment-scripts/smart-city/power_plant_generic.al
 
 on error ignore
 
