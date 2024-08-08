@@ -39,7 +39,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<p class =\"panel-title-text\"\n  style=\"\n    font-size: xx-large;\n    text-align:center;\n    height:40%;\n    bottom:0;\n    margin:0;\">Water Plant</p>\n<hr\n  style=\"\n    width:40%;\n    margin-bottom: 8px;\">\n<p class =\"panel-subtitle-text\"\n  style=\"\n    font-size: large;\n    text-align:center;\n    height:60%;\n    bottom:0;\n    margin:0;\n    max-width: 100%;\">Overview</p>\n",
+        "content": "<p class =\"panel-title-text\"\n  style=\"\n    font-size: xx-large;\n    text-align:center;\n    height:40%;\n    bottom:0;\n    margin:0;\">Water Plant</p>\n<hr\n  style=\"\n    width:40%;\n    margin-bottom: 8px;\">\n<p class =\"panel-subtitle-text\"\n  style=\"\n    font-size: large;\n    text-align:center;\n    height:60%;\n    bottom:0;\n    margin:0;\n    max-width: 100%;\">Overview - PSQL</p>\n",
         "mode": "markdown"
       },
       "pluginVersion": "11.0.0",
