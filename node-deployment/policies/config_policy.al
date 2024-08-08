@@ -41,8 +41,11 @@ set policy new_policy [config][node_type] = !node_type
 :network-configs:
 set policy new_policy [config][ip] = '!external_ip'
 set policy new_policy [config][local_ip] = '!ip'
+if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
+
 if !external_overlay == true and  !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
-if !external_overlay == false and !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
+if !external_overlay == true and  not !overlay_ip then set policy new_policy [config][ip] = '!ip'
+
 
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
