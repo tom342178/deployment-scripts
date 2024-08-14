@@ -28,8 +28,11 @@ if !deployment_type != AnyLog then set is_edgelake = true
 if !is_edgelake == true and $NODE_TYPE == publisher then edgelake-error
 
 :required-params:
-if $NODE_TYPE then set node_type = $NODE_TYPE
+if $NODE_TYPE == master-operator then set node_type = operator
+els if $NODE_TYPE == master-publisher then set node_type = operator
+else if $NODE_TYPE then set node_type = $NODE_TYPE
 else goto missing-node-type
+
 if $NODE_NAME then
 do set node_name = $NODE_NAME
 do set node name !node_name
