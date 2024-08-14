@@ -24,13 +24,221 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
+        "uid": "adi6yg78xhgqof"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 3,
+        "x": 0,
+        "y": 0
+      },
+      "id": null,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 3,
+        "showHeader": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "adi6yg78xhgqof"
+          },
+          "editorMode": "code",
+          "payload": "{\n  \"type\": \"increments\",\n  \"sql\" : \"select increments(insert_timestamp), max(insert_timestamp) as insert_timestamp, avg(combinedturbidityai_pv) as combinedturbidityai_pv, avg(filter1turbidityai_pv) as filter1turbidityai_pv, avg(filter2turbidityai_pv) as filter2turbidityai_pv, avg(filter3turbidityai_pv) as filter3turbidityai_pv, max(phai_pv) as phai_pv, avg(combinedchlorinatorai_pv) as combinedchlorinatorai_pv, avg(freechlorinatorai_pv) as freechlorinatorai_pv, avg(rawwatermeterai_pv) as rawwatermeterai_pv, avg(carbonfeeder_speedai_pv) as carbonfeeder_speedai_pv, avg(watertowerlevelai_pv) as watertowerlevelai_pv, avg(rawwatermetertotalizer_curday) as rawwatermetertotalizer_curday, avg(rawwatermetertotalizer_yesday) as rawwatermetertotalizer_yesday FROM wp_analog\",\n  \"grafana\": {\n    \"format_as\": \"timeseries\",\n    \"data_points\" : \"fixed\"\n  },\n  \"interval\": \"dashboard\"\n}\n",
+          "refId": "A",
+          "target": "cos.wp_analog"
+        }
+      ],
+      "title": "wp_analog_aggregate",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "adi6yg78xhgqof"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 3,
+        "x": 3,
+        "y": 0
+      },
+      "id": null,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "adi6yg78xhgqof"
+          },
+          "editorMode": "code",
+          "payload": "{\n  \"sql\": \"SELECT insert_timestamp, chemicalscale1ai_pv, chemicalscale2ai_pv, chemicalscale3ai_pv, chemicalscale4ai_pv FROM wp_analog ORDER BY insert_timestamp DESC\"\n}",
+          "refId": "A",
+          "target": "cos.wp_analog"
+        }
+      ],
+      "title": "wp_analog_source",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "bdu1nltz2fgn4b"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 3,
+        "x": 6,
+        "y": 0
+      },
+      "id": null,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "bdu1nltz2fgn4b"
+          },
+          "editorMode": "code",
+          "payload": "{\n  \"sql\" : \"SELECT insert_timestamp, atsnormalrdydi, atsonstandbydi, atsstandybyrdydi, clearwellhighleveldi, clearwelllowleveldi, generatoralarmdi, generatorstatusdi, oxygenmonitordi, plantrunningdi, plantstartdi, servicepump1running_di, servicepump2running_di, plantshutdowndo, watertowerlevelcommsdi, plantenablechemicalsdo, combinedchlorinatorvacdi, freechlorinatorvacdi, carbonfeeder_runningfwd FROM wp_digital\"\n}\n",
+          "refId": "A",
+          "target": "cos.wp_digital"
+        }
+      ],
+      "title": "wp_digital",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
         "uid": "bdr5p5qemo5j4c"
       },
       "gridPos": {
         "h": 3,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 1
       },
       "id": null,
       "options": {
@@ -58,7 +266,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "bdu1nltz2fgn4b"
       },
       "description": "",
       "fieldConfig": {
@@ -150,7 +358,7 @@
         "h": 9,
         "w": 11,
         "x": 0,
-        "y": 3
+        "y": 4
       },
       "id": null,
       "options": {
@@ -989,12 +1197,10 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "bdr5p5qemo5j4c"
+            "uid": "bdu1nltz2fgn4b"
           },
           "editorMode": "code",
-          "payload": "{\r\n  \"sql\": \"SELECT * FROM wp_digital ORDER BY insert_timestamp DESC limit 1\",\r\n  \"time_range\": false,\r\n  \"timezone\": \"local\"\r\n}",
-          "refId": "A",
-          "target": "cos.wp_digital"
+          "refId": "A"
         }
       ],
       "title": "Power Status",
@@ -1159,8 +1365,8 @@
     },
     {
       "datasource": {
-        "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "type": "datasource",
+        "uid": "-- Dashboard --"
       },
       "description": "",
       "fieldConfig": {
@@ -1251,7 +1457,7 @@
         "h": 5,
         "w": 3,
         "x": 11,
-        "y": 3
+        "y": 4
       },
       "id": null,
       "options": {
@@ -1405,16 +1611,25 @@
       "targets": [
         {
           "datasource": {
-            "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "type": "datasource",
+            "uid": "-- Dashboard --"
           },
-          "editorMode": "code",
-          "payload": "{\r\n  \"sql\": \"SELECT insert_timestamp, servicepump1running_di FROM wp_digital ORDER BY insert_timestamp DESC limit 1\",\r\n  \"time_range\": false,\r\n  \"timezone\": \"local\"\r\n}",
-          "refId": "A",
-          "target": "cos.wp_digital"
+          "panelId": 28,
+          "refId": "A"
         }
       ],
       "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "servicepump1running_di",
+                "insert_timestamp"
+              ]
+            }
+          }
+        },
         {
           "id": "organize",
           "options": {
@@ -1431,6 +1646,13 @@
           "options": {
             "conversions": [
               {
+                "destinationType": "boolean",
+                "enumConfig": {
+                  "text": []
+                },
+                "targetField": "ServicePump1Running"
+              },
+              {
                 "destinationType": "number",
                 "targetField": "ServicePump1Running"
               }
@@ -1441,7 +1663,7 @@
         {
           "id": "calculateField",
           "options": {
-            "alias": "ServicePump1RunningFix",
+            "alias": "ServicePump1Running",
             "binary": {
               "left": "ServicePump1Running",
               "right": "4"
@@ -1458,8 +1680,8 @@
     },
     {
       "datasource": {
-        "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "type": "datasource",
+        "uid": "-- Dashboard --"
       },
       "description": "",
       "fieldConfig": {
@@ -1550,7 +1772,7 @@
         "h": 5,
         "w": 3,
         "x": 14,
-        "y": 3
+        "y": 4
       },
       "id": null,
       "options": {
@@ -1704,16 +1926,25 @@
       "targets": [
         {
           "datasource": {
-            "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "type": "datasource",
+            "uid": "-- Dashboard --"
           },
-          "editorMode": "code",
-          "payload": "{\r\n  \"sql\": \"SELECT insert_timestamp, servicepump2running_di FROM wp_digital ORDER BY insert_timestamp DESC limit 1\",\r\n  \"time_range\": false,\r\n  \"timezone\": \"local\"\r\n}",
-          "refId": "A",
-          "target": "cos.wp_digital"
+          "panelId": 28,
+          "refId": "A"
         }
       ],
       "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "servicepump2running_di",
+                "insert_timestamp"
+              ]
+            }
+          }
+        },
         {
           "id": "organize",
           "options": {
@@ -1721,7 +1952,6 @@
             "includeByName": {},
             "indexByName": {},
             "renameByName": {
-              "servicepump1running_di": "ServicePump1Running",
               "servicepump2running_di": "ServicePump2Running"
             }
           }
@@ -1730,6 +1960,13 @@
           "id": "convertFieldType",
           "options": {
             "conversions": [
+              {
+                "destinationType": "boolean",
+                "enumConfig": {
+                  "text": []
+                },
+                "targetField": "ServicePump1Running"
+              },
               {
                 "destinationType": "number",
                 "targetField": "ServicePump2Running"
@@ -1741,10 +1978,9 @@
         {
           "id": "calculateField",
           "options": {
-            "alias": "ServicePump2RunningFix",
+            "alias": "ServicePump2Running",
             "binary": {
-              "left": "ServicePump2Running",
-              "right": "4"
+              "left": "ServicePump2Running"
             },
             "mode": "binary",
             "reduce": {
@@ -1758,8 +1994,8 @@
     },
     {
       "datasource": {
-        "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "type": "datasource",
+        "uid": "-- Dashboard --"
       },
       "description": "",
       "fieldConfig": {
@@ -1850,7 +2086,7 @@
         "h": 5,
         "w": 3,
         "x": 17,
-        "y": 3
+        "y": 4
       },
       "id": null,
       "options": {
@@ -2004,26 +2240,22 @@
       "targets": [
         {
           "datasource": {
-            "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "type": "datasource",
+            "uid": "-- Dashboard --"
           },
-          "editorMode": "code",
-          "payload": "{\r\n  \"sql\": \"SELECT insert_timestamp, carbonfeeder_runningfwd FROM wp_digital ORDER BY insert_timestamp DESC limit 1\",\r\n  \"time_range\": false,\r\n  \"timezone\": \"local\"\r\n}",
-          "refId": "A",
-          "target": "cos.wwp_digital"
+          "panelId": 28,
+          "refId": "A"
         }
       ],
       "transformations": [
         {
-          "id": "organize",
+          "id": "filterFieldsByName",
           "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "carbonfeeder_runningfwd": "CarbonFeederRunning",
-              "servicepump1running_di": "ServicePump1Running",
-              "servicepump2running_di": "ServicePump2Running"
+            "include": {
+              "names": [
+                "insert_timestamp",
+                "carbonfeeder_runningfwd"
+              ]
             }
           }
         },
@@ -2032,8 +2264,15 @@
           "options": {
             "conversions": [
               {
+                "destinationType": "boolean",
+                "enumConfig": {
+                  "text": []
+                },
+                "targetField": "carbonfeeder_runningfwd"
+              },
+              {
                 "destinationType": "number",
-                "targetField": "CarbonFeederRunning"
+                "targetField": "carbonfeeder_runningfwd"
               }
             ],
             "fields": {}
@@ -2042,9 +2281,9 @@
         {
           "id": "calculateField",
           "options": {
-            "alias": "CarbonFeederRunningFix",
+            "alias": "CarbonFeederRunning",
             "binary": {
-              "left": "CarbonFeederRunning",
+              "left": "carbonfeeder_runningfwd",
               "right": "4"
             },
             "mode": "binary",
@@ -2059,8 +2298,8 @@
     },
     {
       "datasource": {
-        "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "type": "datasource",
+        "uid": "-- Dashboard --"
       },
       "description": "",
       "fieldConfig": {
@@ -2136,7 +2375,7 @@
         "h": 9,
         "w": 2,
         "x": 20,
-        "y": 3
+        "y": 4
       },
       "id": null,
       "options": {
@@ -2156,28 +2395,23 @@
       "targets": [
         {
           "datasource": {
-            "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "type": "datasource",
+            "uid": "-- Dashboard --"
           },
-          "editorMode": "code",
-          "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"carbonfeeder_speedai_pv\",\r\n  \"functions\": [\"avg\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"interval\" : \"dashboard\",\r\n  \"timezone\": \"local\"\r\n}",
-          "refId": "A",
-          "target": "cos.wp_analog"
+          "panelId": 27,
+          "refId": "A"
         }
       ],
       "title": "Carbon Feeder",
       "transformations": [
         {
-          "id": "organize",
+          "id": "filterFieldsByName",
           "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "Time": "",
-              "cos.cos_wp": "Speed",
-              "cos_wp_analog<avg>": "Speed",
-              "wp_analog<avg>": "Speed"
+            "include": {
+              "names": [
+                "Time",
+                "carbonfeeder_speedai_pv"
+              ]
             }
           }
         }
@@ -2187,8 +2421,8 @@
     },
     {
       "datasource": {
-        "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "type": "datasource",
+        "uid": "-- Dashboard --"
       },
       "description": "",
       "fieldConfig": {
@@ -2264,7 +2498,7 @@
         "h": 9,
         "w": 2,
         "x": 22,
-        "y": 3
+        "y": 4
       },
       "id": null,
       "options": {
@@ -2288,14 +2522,11 @@
       "targets": [
         {
           "datasource": {
-            "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "type": "datasource",
+            "uid": "-- Dashboard --"
           },
-          "editorMode": "code",
-          "payload": "{\r\n  \"sql\": \"SELECT insert_timestamp, chemicalscale1ai_pv, chemicalscale2ai_pv, chemicalscale3ai_pv, chemicalscale4ai_pv FROM wp_analog ORDER BY insert_timestamp DESC limit 1\",\r\n  \"timezone\": \"local\"\r\n}",
-          "query": "from(bucket: \"csobsidian's Bucket\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chemicalScale\")\r\n    |> filter(fn: (r) => r._field == \"Weight\")\r\n    |> last()\r\n\r\n    |> map(fn: (r) => ({r with _value: r._value * 0.1}))\r\n",
-          "refId": "A",
-          "target": "cos.wp_analog"
+          "panelId": 29,
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2395,14 +2626,13 @@
     },
     {
       "datasource": {
-        "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "type": "datasource",
+        "uid": "-- Dashboard --"
       },
       "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "red",
             "mode": "palette-classic"
           },
           "custom": {
@@ -2462,9 +2692,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
+        "w": 9,
         "x": 11,
-        "y": 8
+        "y": 9
       },
       "id": null,
       "maxDataPoints": 100,
@@ -2481,258 +2711,82 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.2.0-73179",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "type": "datasource",
+            "uid": "-- Dashboard --"
           },
-          "editorMode": "code",
-          "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"servicepump1running_di\",\r\n  \"functions\": [\"avg\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"timezone\": \"local\"\r\n}",
-          "refId": "A",
-          "target": "cos.wp_digital"
+          "panelId": 28,
+          "refId": "A"
         }
       ],
       "transformations": [
         {
-          "id": "organize",
+          "id": "filterFieldsByName",
           "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "cos_wp<avg>": "Service Pump 1 Running",
-              "wp_digital<avg>": "Service Pump 1"
+            "include": {
+              "names": [
+                "servicepump1running_di",
+                "servicepump2running_di",
+                "carbonfeeder_runningfwd",
+                "insert_timestamp"
+              ]
             }
           }
-        }
-      ],
-      "transparent": true,
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "red",
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisGridShow": true,
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "stepAfter",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": 60000,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "max": 1,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
               {
-                "color": "green",
-                "value": null
+                "destinationType": "time",
+                "targetField": "insert_timestamp"
               },
               {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 14,
-        "y": 8
-      },
-      "id": null,
-      "maxDataPoints": 100,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "maxHeight": 600,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.2.0-73179",
-      "targets": [
-        {
-          "datasource": {
-            "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
-          },
-          "editorMode": "code",
-          "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"servicepump2running_di\",\r\n  \"functions\": [\"max\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"timezone\": \"local\"\r\n}",
-          "refId": "A",
-          "target": "cos.wp_digital"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "cos_wp<avg>": "Service Pump 2 Running"
-            }
-          }
-        }
-      ],
-      "transparent": true,
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "red",
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisGridShow": true,
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "stepAfter",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": 60000,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "max": 1,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
+                "destinationType": "enum",
+                "enumConfig": {
+                  "text": [
+                    "True",
+                    "False"
+                  ]
+                },
+                "targetField": "servicepump1running_di"
               },
               {
-                "color": "red",
-                "value": 80
+                "destinationType": "number",
+                "targetField": "servicepump1running_di"
+              },
+              {
+                "destinationType": "enum",
+                "enumConfig": {
+                  "text": [
+                    "False"
+                  ]
+                },
+                "targetField": "servicepump2running_di"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "servicepump2running_di"
+              },
+              {
+                "destinationType": "enum",
+                "enumConfig": {
+                  "text": [
+                    "False",
+                    "True"
+                  ]
+                },
+                "targetField": "carbonfeeder_runningfwd"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "carbonfeeder_runningfwd"
               }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 17,
-        "y": 8
-      },
-      "id": null,
-      "maxDataPoints": 100,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "maxHeight": 600,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.2.0-73179",
-      "targets": [
-        {
-          "datasource": {
-            "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
-          },
-          "editorMode": "code",
-          "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"carbonfeeder_runningfwd\",\r\n  \"functions\": [\"max\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"timezone\": \"local\"\r\n}",
-          "refId": "A",
-          "target": "cos.wp_digital"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "cos_wp<avg>": "Carbon Feeder Running"
-            }
+            ],
+            "fields": {}
           }
         }
       ],
@@ -2748,7 +2802,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 12
+        "y": 13
       },
       "id": null,
       "options": {
@@ -2782,7 +2836,7 @@
         "h": 2,
         "w": 2,
         "x": 2,
-        "y": 12
+        "y": 13
       },
       "id": null,
       "options": {
@@ -2816,7 +2870,7 @@
         "h": 2,
         "w": 8,
         "x": 4,
-        "y": 12
+        "y": 13
       },
       "id": null,
       "options": {
@@ -2850,7 +2904,7 @@
         "h": 2,
         "w": 12,
         "x": 12,
-        "y": 12
+        "y": 13
       },
       "id": null,
       "options": {
@@ -2878,7 +2932,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -2929,7 +2983,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 14
+        "y": 15
       },
       "id": null,
       "options": {
@@ -2952,7 +3006,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "adi6yg78xhgqof"
           },
           "editorMode": "code",
           "payload": "{\r\n  \"sql\": \"SELECT insert_timestamp, clearwellhighleveldi, clearwelllowleveldi FROM wp_digital ORDER BY insert_timestamp DSC limit 1\",\r\n  \"time_range\": false,\r\n  \"timezone\": \"local\"\r\n}",
@@ -2995,7 +3049,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -3041,7 +3095,7 @@
         "h": 6,
         "w": 1,
         "x": 2,
-        "y": 14
+        "y": 15
       },
       "id": null,
       "options": {
@@ -3068,7 +3122,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "adi6yg78xhgqof"
           },
           "editorMode": "code",
           "payload": "{\r\n  \"sql\": \"SELECT insert_timestamp, watertowerlevelai_pv, FROM wp_analog ORDER BY insert_timestamp DESC limit 1\",\r\n  \"time_range\": false,\r\n  \"timezone\": \"local\"\r\n}",
@@ -3083,7 +3137,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -3129,7 +3183,7 @@
         "h": 6,
         "w": 1,
         "x": 3,
-        "y": 14
+        "y": 15
       },
       "id": null,
       "options": {
@@ -3156,7 +3210,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "adi6yg78xhgqof"
           },
           "editorMode": "code",
           "payload": "{\r\n  \"sql\": \"SELECT insert_timestamp, watertowerlevelai_pv::function(([scaled] - 110.0) / (135.0 - 110.0) * (100.0 - 0.0) + 0.0) as scaled, FROM wp_analog ORDER BY insert_timestamp DESC limit 1\",\r\n  \"time_range\": false,\r\n  \"timezone\": \"local\"\r\n}",
@@ -3171,7 +3225,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -3236,7 +3290,7 @@
         "h": 12,
         "w": 5,
         "x": 4,
-        "y": 14
+        "y": 15
       },
       "id": null,
       "options": {
@@ -3257,7 +3311,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "adi6yg78xhgqof"
           },
           "editorMode": "code",
           "hide": false,
@@ -3288,7 +3342,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "edm4v9bhlxedcf"
       },
       "description": "",
       "fieldConfig": {
@@ -3314,7 +3368,7 @@
         "h": 3,
         "w": 3,
         "x": 9,
-        "y": 14
+        "y": 15
       },
       "id": null,
       "options": {
@@ -3339,7 +3393,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "edm4v9bhlxedcf"
           },
           "editorMode": "code",
           "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"rawwatermeterai_pv\",\r\n  \"functions\": [\"avg\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"timezone\": \"local\"\r\n}",
@@ -3355,7 +3409,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -3421,7 +3475,7 @@
         "h": 12,
         "w": 4,
         "x": 12,
-        "y": 14
+        "y": 15
       },
       "id": null,
       "options": {
@@ -3442,7 +3496,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "adi6yg78xhgqof"
           },
           "editorMode": "code",
           "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"phai_pv\",\r\n  \"functions\": [\"avg\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"interval\": \"dashboard\",\r\n  \"timezone\": \"local\"\r\n}",
@@ -3471,7 +3525,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "edm4v9bhlxedcf"
       },
       "description": "",
       "fieldConfig": {
@@ -3534,7 +3588,7 @@
         "h": 12,
         "w": 4,
         "x": 16,
-        "y": 14
+        "y": 15
       },
       "id": null,
       "options": {
@@ -3555,7 +3609,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "edm4v9bhlxedcf"
           },
           "editorMode": "code",
           "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"combinedturbidityai_pv\",\r\n  \"functions\": [\"avg\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"interval\": \"dashboard\",\r\n  \"timezone\": \"local\"\r\n}",
@@ -3566,7 +3620,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "edm4v9bhlxedcf"
           },
           "editorMode": "code",
           "hide": false,
@@ -3577,7 +3631,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "edm4v9bhlxedcf"
           },
           "editorMode": "code",
           "hide": false,
@@ -3588,7 +3642,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "edm4v9bhlxedcf"
           },
           "editorMode": "code",
           "hide": false,
@@ -3632,7 +3686,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "edm4v9bhlxedcf"
       },
       "description": "",
       "fieldConfig": {
@@ -3695,7 +3749,7 @@
         "h": 12,
         "w": 4,
         "x": 20,
-        "y": 14
+        "y": 15
       },
       "id": null,
       "options": {
@@ -3716,23 +3770,12 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "edm4v9bhlxedcf"
           },
           "editorMode": "code",
-          "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"combinedchlorinatorai_pv\",\r\n  \"functions\": [\"avg\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"interval\": \"dashboard\",\r\n  \"timezone\": \"local\"\r\n}",
+          "payload": "{\r\n  \"type\": \"increments\",\r\n  \"sql\" : \"SELECT increments(insert_timestamp), max(insert_timestamp) as timestamp, avg(combinedchlorinatorai_pv), avg(freechlorinatorai_pv) from wp_analog\",\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"interval\": \"dashboard\",\r\n  \"trace_level\" : 1\r\n}",
           "query": "from(bucket: \"csobsidian's Bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"turbidity\")\r\n  |> drop(columns: [\"location\"])\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)",
           "refId": "A",
-          "target": "cos.wp_analog"
-        },
-        {
-          "datasource": {
-            "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
-          },
-          "editorMode": "code",
-          "hide": false,
-          "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"freechlorinatorai_pv\",\r\n  \"functions\": [\"avg\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"timezone\": \"local\"\r\n}",
-          "refId": "B",
           "target": "cos.wp_analog"
         }
       ],
@@ -3768,7 +3811,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -3795,7 +3838,7 @@
         "h": 3,
         "w": 3,
         "x": 9,
-        "y": 17
+        "y": 18
       },
       "id": null,
       "options": {
@@ -3820,7 +3863,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "adi6yg78xhgqof"
           },
           "editorMode": "code",
           "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"rawwatermetertotalizer_curday\",\r\n  \"functions\": [\"avg\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"timezone\": \"local\"\r\n}",
@@ -3866,7 +3909,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -3931,7 +3974,7 @@
         "h": 5,
         "w": 2,
         "x": 2,
-        "y": 20
+        "y": 21
       },
       "id": null,
       "options": {
@@ -3952,7 +3995,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "adi6yg78xhgqof"
           },
           "editorMode": "code",
           "hide": false,
@@ -3981,7 +4024,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "edm4v9bhlxedcf"
       },
       "description": "",
       "fieldConfig": {
@@ -4008,7 +4051,7 @@
         "h": 3,
         "w": 3,
         "x": 9,
-        "y": 20
+        "y": 21
       },
       "id": null,
       "options": {
@@ -4033,7 +4076,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "edm4v9bhlxedcf"
           },
           "editorMode": "code",
           "payload": "{\r\n  \"type\": \"increments\",\r\n  \"time_column\": \"insert_timestamp\",\r\n  \"value_column\": \"rawwatermetertotalizer_yesday\",\r\n  \"functions\": [\"avg\"],\r\n  \"grafana\": {\r\n    \"format_as\": \"timeseries\"\r\n  },\r\n  \"timezone\": \"local\"\r\n}",
@@ -4079,7 +4122,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yezvufx8gd"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -4106,7 +4149,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -4121,7 +4165,7 @@
         "h": 2,
         "w": 2,
         "x": 2,
-        "y": 25
+        "y": 26
       },
       "id": null,
       "options": {
@@ -4144,7 +4188,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "adi6yezvufx8gd"
+            "uid": "adi6yg78xhgqof"
           },
           "editorMode": "code",
           "payload": "{\r\n  \"sql\": \"SELECT insert_timestamp, watertowerlevelcommsdi FROM wp_digital ORDER BY insert_timestamp DSC limit 1\",\r\n  \"time_range\": false,\r\n  \"timezone\": \"local\"\r\n}",
@@ -4200,6 +4244,6 @@
   "timezone": "utc",
   "title": "Overview",
   "uid": "cdrxk5e3j7474f",
-  "version": 3,
+  "version": 13,
   "weekStart": ""
 }

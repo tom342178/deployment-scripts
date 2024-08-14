@@ -58,7 +58,7 @@
         "content": "<p class =\"panel-title-text\"\n  style=\"\n    font-size: xx-large;\n    text-align:center;\n    height:40%;\n    bottom:0;\n    margin:0;\">${monitor}</p>\n<hr\n  style=\"\n    width:40%;\n    margin-bottom: 8px;\">\n<p class =\"panel-subtitle-text\"\n  style=\"\n    font-size: large;\n    text-align:center;\n    height:60%;\n    bottom:0;\n    margin:0;\n    max-width: 100%;\">Detail</p>\n",
         "mode": "html"
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -74,7 +74,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "edm4v9bhlxedcf"
       },
       "description": "",
       "fieldConfig": {
@@ -159,7 +159,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "bdr5p5qemo5j4c"
+            "uid": "edm4v9bhlxedcf"
           },
           "editorMode": "code",
           "payload": "{\n  \"type\": \"increments\",\n  \"time_column\": \"insert_timestamp\",\n  \"value_column\": \"realpower\",\n  \"functions\": [\"avg\"],\n  \"where\": \"monitor_id='$monitor'\",\n  \"grafana\": {\n    \"format_as\": \"timeseries\"\n  }\n}",
@@ -188,7 +188,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -306,7 +306,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -372,7 +372,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -410,7 +410,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -456,7 +456,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -490,7 +490,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -536,7 +536,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -592,7 +592,7 @@
         "content": "<p class =\"panel-title-text\"\n  style=\"\n    font-size: large;\n    text-align:center;\n    height:60%;\n    bottom:0;\n    margin:0;\n    max-width: 100%;\">Per Phase</P>\n<p class = \"panel-subtitle-text\"\n  style=\"\n    text-align:center;\n    height:40%;\n    bottom:0;\n    margin:0;\n    max-width: 100%;\">Amperage, Voltage</P>\n",
         "mode": "markdown"
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -608,7 +608,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -739,7 +739,7 @@
             "uid": "bdr5p5qemo5j4c"
           },
           "editorMode": "code",
-          "payload": "{\n  \"type\": \"increments\",\n  \"time_column\": \"insert_timestamp\",\n  \"value_column\": \"a_current\",\n  \"functions\": [\"avg\"],\n  \"where\": \"monitor_id='$monitor'\",\n  \"grafana\": {\n    \"format_as\": \"timeseries\"\n  }\n}",
+          "payload": "{\n  \"type\": \"increments\",\n  \"time_column\": \"insert_timestamp\",\n  \"value_column\": \"a_current\",\n  \"functions\": [\"avg\"],\n  \"where\": \"monitor_id='$monitor'\",\n  \"grafana\": {\n    \"format_as\": \"timeseries\"\n  },\n  \"interval\": \"dashboard\"\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         },
@@ -801,7 +801,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1036,7 +1036,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1081,7 +1081,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1114,7 +1114,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1159,7 +1159,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1192,7 +1192,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1238,7 +1238,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1272,7 +1272,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1317,7 +1317,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1355,7 +1355,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1400,7 +1400,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1438,7 +1438,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1484,7 +1484,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1520,7 +1520,6 @@
       "type": "stat"
     }
   ],
-  "refresh": "1m",
   "schemaVersion": 39,
   "tags": [
     "Power Plant"
@@ -1698,13 +1697,14 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
+  "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {},
-  "timezone": "browser",
+  "timezone": "utc",
   "title": "Power Monitor Detail",
   "uid": "adr6o6aadpipsd",
-  "version": 36,
+  "version": 7,
   "weekStart": ""
 }

@@ -58,7 +58,7 @@
         "content": "<p class =\"panel-title-text\"\n  style=\"\n    font-size: xx-large;\n    text-align:center;\n    height:40%;\n    bottom:0;\n    margin:0;\">Power Plant</p>\n",
         "mode": "html"
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -74,7 +74,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -354,7 +354,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -363,7 +363,7 @@
           },
           "editorMode": "code",
           "hide": false,
-          "payload": "{\r\n  \"sql\": \"select max(timestamp),monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where monitor_id='KPL' group by monitor_id\"\r\n}",
+          "payload": "{\r\n  \"sql\": \"select timestamp,monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where monitor_id='KPL' ORDER BY timestamp DESC limit 1\"\r\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         }
@@ -438,7 +438,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -678,7 +678,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -687,7 +687,7 @@
           },
           "editorMode": "code",
           "hide": false,
-          "payload": "{\r\n  \"sql\": \"select max(timestamp),monitor_id,a_n_voltage,b_n_voltage,c_n_voltage,frequency from pp_pm where monitor_id='KPL' group by monitor_id\"\r\n}",
+          "payload": "{\r\n  \"sql\": \"select timestamp,monitor_id,a_n_voltage,b_n_voltage,c_n_voltage,frequency from pp_pm where monitor_id='KPL' ORDER BY timestamp DESC limit 1\"\r\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         }
@@ -800,7 +800,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1079,7 +1079,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1088,7 +1088,7 @@
           },
           "editorMode": "code",
           "hide": false,
-          "payload": "{\r\n  \"sql\": \"select max(timestamp),monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='BF1' or monitor_id='BF2' or monitor_id='BF3' or monitor_id='BF4' or monitor_id='BSP') group by monitor_id\"\r\n}",
+          "payload": "{\r\n  \"sql\": \"select timestamp,monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='BF1' or monitor_id='BF2' or monitor_id='BF3' or monitor_id='BF4' or monitor_id='BSP') ORDER BY timestamp DESC limit 5\"\r\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         }
@@ -1182,7 +1182,7 @@
         "content": "",
         "mode": "markdown"
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1199,7 +1199,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1478,7 +1478,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1487,7 +1487,7 @@
           },
           "editorMode": "code",
           "hide": false,
-          "payload": "{\r\n  \"sql\": \"select max(timestamp),monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='BCT' or monitor_id='CBT') group by monitor_id\"\r\n}",
+          "payload": "{\r\n  \"sql\": \"select timestamp,monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='BCT' or monitor_id='CBT') ORDER BY timestamp DESC limit 2\"\r\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         }
@@ -1562,7 +1562,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -1802,7 +1802,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -1811,7 +1811,7 @@
           },
           "editorMode": "code",
           "hide": false,
-          "payload": "{\r\n  \"sql\": \"select max(timestamp),monitor_id,a_n_voltage,b_n_voltage,c_n_voltage,frequency from pp_pm where (monitor_id='BCT' or monitor_id='CBT') group by monitor_id\"\r\n}",
+          "payload": "{\r\n  \"sql\": \"select timestamp,monitor_id,a_n_voltage,b_n_voltage,c_n_voltage,frequency from pp_pm where (monitor_id='BCT' or monitor_id='CBT') ORDER BY timestamp DESC limit 1\"\r\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         }
@@ -1924,7 +1924,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -2203,7 +2203,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -2212,7 +2212,7 @@
           },
           "editorMode": "code",
           "hide": false,
-          "payload": "{\r\n  \"sql\": \"select max(timestamp),monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='CF1' or monitor_id='CF2' or monitor_id='CF3' or monitor_id='CSP') group by monitor_id\"\r\n}",
+          "payload": "{\r\n  \"sql\": \"select timestamp,monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='CF1' or monitor_id='CF2' or monitor_id='CF3' or monitor_id='CSP') ORDER BY timestamp DESC limit 4\"\r\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         }
@@ -2306,7 +2306,7 @@
         "content": "",
         "mode": "markdown"
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -2323,7 +2323,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -2602,7 +2602,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -2611,7 +2611,7 @@
           },
           "editorMode": "code",
           "hide": false,
-          "payload": "{\r\n  \"sql\": \"select max(timestamp),monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='CDT' or monitor_id='DCT') group by monitor_id\"\r\n}",
+          "payload": "{\r\n  \"sql\": \"select timestamp,monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='CDT' or monitor_id='DCT') ORDER BY timestamp limit 2\"\r\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         }
@@ -2686,7 +2686,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -2926,7 +2926,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -2935,7 +2935,7 @@
           },
           "editorMode": "code",
           "hide": false,
-          "payload": "{\r\n  \"sql\": \"select max(timestamp),monitor_id,a_n_voltage,b_n_voltage,c_n_voltage,frequency from pp_pm where (monitor_id='CDT' or monitor_id='DCT') group by monitor_id\"\r\n}",
+          "payload": "{\r\n  \"sql\": \"select timestamp,monitor_id,a_n_voltage,b_n_voltage,c_n_voltage,frequency from pp_pm where (monitor_id='CDT' or monitor_id='DCT') ORDER BY timestamp DESC limit 1\"\r\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         }
@@ -3048,7 +3048,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "bdr5p5qemo5j4c"
+        "uid": "adi6yg78xhgqof"
       },
       "description": "",
       "fieldConfig": {
@@ -3326,7 +3326,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -3335,7 +3335,7 @@
           },
           "editorMode": "code",
           "hide": false,
-          "payload": "{\r\n  \"sql\": \"select max(timestamp),monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='DF1' or monitor_id='DF2' or monitor_id='DF3' or monitor_id='DF4' or monitor_id='DSP') group by monitor_id\"\r\n}",
+          "payload": "{\r\n  \"sql\": \"select timestamp,monitor_id,realpower,reactivepower,powerfactor,a_current,b_current,c_current from pp_pm where (monitor_id='DF1' or monitor_id='DF2' or monitor_id='DF3' or monitor_id='DF4' or monitor_id='DSP') ORDER BY timestamp DESC limit 5\"\r\n}",
           "refId": "A",
           "target": "cos.pp_pm"
         }
@@ -3417,13 +3417,14 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-6h",
     "to": "now"
   },
+  "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {},
-  "timezone": "browser",
+  "timezone": "utc",
   "title": "- Overview -",
   "uid": "bdr5ti5cfz18gb",
-  "version": 25,
+  "version": 4,
   "weekStart": ""
 }
