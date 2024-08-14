@@ -4,7 +4,7 @@
 # process !local_scripts/database/configure_dbms_blockchain.al
 
 on error ignore
-if !node_type != master then goto blockchain-sync
+if !node_type != master and !node_type != master-operator and !node_type != master-publisher then goto blockchain-sync
 
 :ledger-dbms:
 on error goto ledger-db-error
