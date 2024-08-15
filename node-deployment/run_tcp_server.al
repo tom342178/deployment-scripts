@@ -8,7 +8,7 @@ on error goto tcp-networking-error
 if !tcp_bind == false and !external_overlay == true and !overlay_ip then
 <do run tcp server where
     external_ip=!overlay_ip and external_port=!anylog_server_port and
-    internal_ip=!ip and internal_port=!anylog_server_port and
+    internal_ip=!overlay_ip and internal_port=!anylog_server_port and
     bind=!tcp_bind and threads=!tcp_threads.int>
 
 if !tcp_bind == false and !external_overlay == false and !overlay_ip then
