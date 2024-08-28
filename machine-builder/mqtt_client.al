@@ -28,5 +28,6 @@
    column.film_supply_i.float="bring [d][FilmSupplyI][0]" and
    column.film_adv_rdy=(type=bool and value="bring [d][FilmAdvRDY][0]") and
    column.film_adv_run=(type=bool and value="bring [d][FilmAdvRun][0]") and
-   column.film_adv_i.float="bring [d][FilmAdvI][0]"
+   column.film_adv_i.float="bring [d][FilmAdvI][0]"  and
+   column.airpressureok=(type=bool and value="bring [d][AirPressureOk][0]")
 )>
