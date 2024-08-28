@@ -58,7 +58,7 @@
         "content": "<p class =\"panel-title-text\"\n  style=\"\n    font-size: xx-large;\n    text-align:center;\n    height:40%;\n    bottom:0;\n    margin:0;\">Power Plant</p>\n",
         "mode": "html"
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -74,7 +74,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "cdu9ph99hjjswc"
       },
       "description": "",
       "fieldConfig": {
@@ -122,7 +122,7 @@
                   {
                     "targetBlank": false,
                     "title": "${__value.raw} Detail",
-                    "url": "http://10.10.1.15:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
+                    "url": "http://104.200.19.61:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
                   }
                 ]
               },
@@ -354,7 +354,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -406,7 +406,8 @@
             "excludeByName": {
               "max(timestamp)": true,
               "powerfactor": true,
-              "reactivepower": true
+              "reactivepower": true,
+              "timestamp": true
             },
             "includeByName": {},
             "indexByName": {
@@ -438,7 +439,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "cdu9ph99hjjswc"
       },
       "description": "",
       "fieldConfig": {
@@ -678,7 +679,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -765,7 +766,8 @@
               "max(timestamp)": true,
               "monitor_id": true,
               "powerfactor": true,
-              "reactivepower": true
+              "reactivepower": true,
+              "timestamp": true
             },
             "includeByName": {},
             "indexByName": {
@@ -800,7 +802,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "cdu9ph99hjjswc"
       },
       "description": "",
       "fieldConfig": {
@@ -847,7 +849,7 @@
                   {
                     "targetBlank": false,
                     "title": "${__value.raw} Detail",
-                    "url": "http://10.10.1.15:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
+                    "url": "http://104.200.19.61:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
                   }
                 ]
               },
@@ -1079,7 +1081,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -1131,7 +1133,8 @@
             "excludeByName": {
               "max(timestamp)": true,
               "powerfactor": true,
-              "reactivepower": true
+              "reactivepower": true,
+              "timestamp": true
             },
             "includeByName": {},
             "indexByName": {
@@ -1154,6 +1157,17 @@
               "powerfactor": "",
               "realpower": "Real Power"
             }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Monitor"
+              }
+            ]
           }
         }
       ],
@@ -1182,7 +1196,7 @@
         "content": "",
         "mode": "markdown"
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -1199,7 +1213,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "cdu9ph99hjjswc"
       },
       "description": "",
       "fieldConfig": {
@@ -1246,7 +1260,7 @@
                   {
                     "targetBlank": false,
                     "title": "${__value.raw} Detail",
-                    "url": "http://10.10.1.15:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
+                    "url": "http://104.200.19.61:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
                   }
                 ]
               },
@@ -1478,7 +1492,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -1530,7 +1544,8 @@
             "excludeByName": {
               "max(timestamp)": true,
               "powerfactor": true,
-              "reactivepower": true
+              "reactivepower": true,
+              "timestamp": true
             },
             "includeByName": {},
             "indexByName": {
@@ -1554,6 +1569,17 @@
               "realpower": "Real Power"
             }
           }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Monitor"
+              }
+            ]
+          }
         }
       ],
       "transparent": true,
@@ -1562,7 +1588,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "cdu9ph99hjjswc"
       },
       "description": "",
       "fieldConfig": {
@@ -1802,7 +1828,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -1889,7 +1915,8 @@
               "max(timestamp)": true,
               "monitor_id": true,
               "powerfactor": true,
-              "reactivepower": true
+              "reactivepower": true,
+              "timestamp": true
             },
             "includeByName": {},
             "indexByName": {
@@ -1924,7 +1951,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "cdu9ph99hjjswc"
       },
       "description": "",
       "fieldConfig": {
@@ -1971,7 +1998,7 @@
                   {
                     "targetBlank": false,
                     "title": "${__value.raw} Detail",
-                    "url": "http://10.10.1.15:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
+                    "url": "http://104.200.19.61:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
                   }
                 ]
               },
@@ -2203,7 +2230,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -2255,7 +2282,8 @@
             "excludeByName": {
               "max(timestamp)": true,
               "powerfactor": true,
-              "reactivepower": true
+              "reactivepower": true,
+              "timestamp": true
             },
             "includeByName": {},
             "indexByName": {
@@ -2278,6 +2306,17 @@
               "powerfactor": "",
               "realpower": "Real Power"
             }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Monitor"
+              }
+            ]
           }
         }
       ],
@@ -2306,7 +2345,7 @@
         "content": "",
         "mode": "markdown"
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -2323,7 +2362,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "cdu9ph99hjjswc"
       },
       "description": "",
       "fieldConfig": {
@@ -2370,7 +2409,7 @@
                   {
                     "targetBlank": false,
                     "title": "${__value.raw} Detail",
-                    "url": "http://10.10.1.15:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
+                    "url": "http://104.200.19.61:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
                   }
                 ]
               },
@@ -2602,7 +2641,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -2654,7 +2693,8 @@
             "excludeByName": {
               "max(timestamp)": true,
               "powerfactor": true,
-              "reactivepower": true
+              "reactivepower": true,
+              "timestamp": true
             },
             "includeByName": {},
             "indexByName": {
@@ -2678,6 +2718,17 @@
               "realpower": "Real Power"
             }
           }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Monitor"
+              }
+            ]
+          }
         }
       ],
       "transparent": true,
@@ -2686,7 +2737,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "cdu9ph99hjjswc"
       },
       "description": "",
       "fieldConfig": {
@@ -2926,7 +2977,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -3013,7 +3064,8 @@
               "max(timestamp)": true,
               "monitor_id": true,
               "powerfactor": true,
-              "reactivepower": true
+              "reactivepower": true,
+              "timestamp": true
             },
             "includeByName": {},
             "indexByName": {
@@ -3048,7 +3100,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "adi6yg78xhgqof"
+        "uid": "cdu9ph99hjjswc"
       },
       "description": "",
       "fieldConfig": {
@@ -3068,7 +3120,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3094,7 +3147,7 @@
                   {
                     "targetBlank": false,
                     "title": "${__value.raw} Detail",
-                    "url": "http://10.10.1.15:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
+                    "url": "http://104.200.19.61:3000/d/adr6o6aadpipsd/power-monitor-detail?orgId=1&var-monitor=${__value.raw}"
                   }
                 ]
               },
@@ -3326,7 +3379,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.1.3",
       "targets": [
         {
           "datasource": {
@@ -3378,7 +3431,8 @@
             "excludeByName": {
               "max(timestamp)": true,
               "powerfactor": true,
-              "reactivepower": true
+              "reactivepower": true,
+              "timestamp": true
             },
             "includeByName": {},
             "indexByName": {
@@ -3402,6 +3456,17 @@
               "realpower": "Real Power"
             }
           }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Monitor"
+              }
+            ]
+          }
         }
       ],
       "transparent": true,
@@ -3420,11 +3485,10 @@
     "from": "now-6h",
     "to": "now"
   },
-  "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {},
   "timezone": "utc",
   "title": "- Overview -",
   "uid": "bdr5ti5cfz18gb",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
