@@ -55,5 +55,5 @@ the panels referencing a single panel / widget.
        └── overview.json
 ```
 
-### Sample Dashboards
+### Sample Dashboard
 ![Water Plant](imgs/water_plant.png)
