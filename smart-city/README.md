@@ -32,8 +32,8 @@ Steps to Reproduce setup. This can be done with either Linux or Windows
 4. Import [flows](dynics/) into Dynis - [documentation](https://docs.dynics.com/fusion/#/manual/flows)
    * Update the [resources](https://docs.dynics.com/fusion/#/manual/resources-overview/resource-types) with appropriate URLs
    * Update the REST header flow(s) with appropriate Database and table name 
-4. [Install Grafana]()
-  * 
+5. [Install Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/)
+6. Import [Grafana Dashboards](grafana/) into your Grafana instance
 
 ## Grafana
 The data coming into AnyLog / EdgeLake can be viewed via Grafana. Each Dashboard consists of no more than 4 queries, with 
@@ -53,9 +53,7 @@ the panels referencing a single panel / widget.
    │   └── plant_status.json
    └── water_plant
        ├── overview.json
-       └── overview_psql.json
 ```
-
 
 ### Sample Dashboards 
 ![Water Plant](imgs/water_plant.png)
