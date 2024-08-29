@@ -18,15 +18,6 @@ on error ignore
 
 if $DISABLE_CLI == true or  $DISABLE_CLI == True or $DISABLE_CLI == TRUE then set cli off
 
-:is-edgelake:
-# check whether we're running EdgeLake or AnyLog
-set is_edgelake = false
-version = get version
-deployment_type = python !version.split(" ")[0]
-if !deployment_type != AnyLog then set is_edgelake = true
-
-if !is_edgelake == true and $NODE_TYPE == publisher then edgelake-error
-
 :required-params:
 if $NODE_TYPE == master-operator then set node_type = operator
 els if $NODE_TYPE == master-publisher then set node_type = publisher
@@ -310,10 +301,6 @@ end script
 
 :terminate-scripts:
 exit scripts
-
-:edgelake-error:
-print "Node type `publisher` not supported with EdgeLake deployment"
-goto terminate-scripts
 
 :missing-node-type:
 print "Missing node type, cannot continue..."
