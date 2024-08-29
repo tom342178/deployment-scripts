@@ -11,10 +11,10 @@ The project was done by [AnyLog](https://anylog.co), [Bachelor Controls](https:/
 Farther details can be found [here](https://lfedge.org/wp-content/uploads/sites/24/2024/08/LFEdge_-Sabetha_Case-Study.pdf?utm_content=304190290&utm_medium=social&utm_source=twitter&hss_channel=tw-1085641282175741952). 
 
 ## Setup
-* An AnyLog master and query docker containers that seat on the cloud - the node also contains a Grafana instance
+* An AnyLog / EdgeLake master and query docker containers that seat on the cloud - the node also contains a Grafana instance
 * 3 physical machines that seat at the Edge receiving data. The machine contain the following services
-  * An AnyLog operator that acts as a database layer  
-  * Dynics Fusion to receive data from devices and send into AnyLog
+  * An AnyLog / EdgeLake operator that acts as a database layer  
+  * Dynics Fusion to receive data from devices and send into AnyLog / EdgeLake
 
 Due to security reasons, the network has a VPN between the edge nodes and query node, as such TCP communication is 
 configured to be binding. 
@@ -25,8 +25,8 @@ configured to be binding.
 Steps to Reproduce setup. This can be done with either Linux or Windows
 
 1. [Install Docker](https://docs.docker.com/engine/install/) on each of the nodes being used - used by AnyLog / EdgeLake and Grafana  
-2. Using [docker-compose](https://github.com/AnyLog-co/docker-compose), deploy AnyLog for each node type
-   * Make sure to update `LEDGER_CONN` value appropriately for each AnyLog node type
+2. Using [docker-compose](https://github.com/AnyLog-co/docker-compose), deploy AnyLog / EdgeLake for each node type
+   * Make sure to update `LEDGER_CONN` value appropriately for each AnyLog / EdgeLake node type
    * If VPN is used, update the `OVERLAY_IP` as needed
 3. [Install fusion](https://docs.dynics.com/fusion/#/manual/getting-started/installation) By Dynics 
 4. Import [flows](Dynics%20Backups%202024-08-21.zip) into Dynics - [documentation](https://docs.dynics.com/fusion/#/manual/flows)
