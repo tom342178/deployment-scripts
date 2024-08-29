@@ -66,7 +66,17 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "1562": {
+                  "index": 0,
+                  "text": "Heater Disconnected"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -122,6 +132,17 @@
         {
           "id": "joinByField",
           "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "row_id": ""
+            }
+          }
         }
       ],
       "transparent": true,
@@ -2335,6 +2356,6 @@
   "timezone": "browser",
   "title": "System Detail",
   "uid": "bdvpfhctm3da8e",
-  "version": 18,
+  "version": 19,
   "weekStart": ""
 }
