@@ -26,12 +26,13 @@
 
 on error ignore
 set create_config = false
+
 :check-policy:
-config_id = blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring [*][id]
+config_id = blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring.first [*][id]
 if !config_id then goto config-policy
 if not !config_id and !create_config == true then goto declare-policy-error
 
-:preapare-new-policy:
+:prepare-new-policy:
 new_policy = ""
 set policy new_policy [config] = {}
 set policy new_policy [config][name] = !config_name
@@ -70,13 +71,7 @@ if !anylog_broker_port and !broker_bind == true and !external_overlay == true an
 if !anylog_broker_port and !broker_bind == true and !external_overlay == false and not !overlay_ip then set policy new_policy [config][bind_ip] = '!ip'
 
 
-
 :scripts:
-<if !node_type == generic then set policy new_policy [config][script] = [
-    "run scheduler 1",
-    "if !deploy_local_script == true then process !local_scripts/local_script.al"
-]>
-
 <if !node_type == master then set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/master_policy.al",
