@@ -52,8 +52,8 @@ the panels referencing a single panel / widget.
    │   ├── overview.json
    │   └── plant_status.json
    └── water_plant
-       ├── overview.json
+       └── overview.json
 ```
 
-### Sample Dashboards 
+### Sample Dashboards
 ![Water Plant](imgs/water_plant.png)
