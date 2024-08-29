@@ -16,10 +16,10 @@ Farther details can be found [here](https://lfedge.org/wp-content/uploads/sites/
   * An AnyLog operator that acts as a database layer  
   * Dynics Fusion to receive data from devices and send into AnyLog
 
-Due to security reasons, the network has a VPN address which is used for communicating between the cloud instances and 
-the edge.
+Due to security reasons, the network has a VPN between the edge nodes and query node, as such TCP communication is 
+configured to be binding. 
 
-![network architecture](imgs/network_diagram.jpg)
+![network architecture](imgs/network_diagram.png)
 
 ## Replications
 Steps to Reproduce setup. This can be done with either Linux or Windows
