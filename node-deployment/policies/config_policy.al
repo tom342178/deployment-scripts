@@ -44,10 +44,6 @@ set policy new_policy [config][ip] = '!external_ip'
 set policy new_policy [config][local_ip] = '!ip'
 if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
 
-if !external_overlay == true and  !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
-if !external_overlay == true and  not !overlay_ip then set policy new_policy [config][ip] = '!ip'
-
-
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
 if !anylog_broker_port then set policy new_policy [config][broker_port] = '!anylog_broker_port.int'
@@ -58,38 +54,29 @@ set policy new_policy [config][tcp_bind] = '!tcp_bind'
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 set policy new_policy [config][rest_bind] = '!rest_bind'
-if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
-if !rest_bind == true and !external_overlay == true and not !overlay_ip  then set policy new_policy [config][rest_ip] = '!external_ip'
-if !rest_bind == true and !external_overlay == false and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
+if !rest_bind == true and  not !overlay_ip then set new_policy [config][rest_ip] == 'ip'
+if !rest_bind == true and !overlay_ip      then set policy new_policy [config][rest_ip] = '!overlay_ip'
 
 if !anylog_broker_port then
 do set policy new_policy [config][broker_threads] = '!broker_threads.int'
 do set policy new_policy [config][broker_bind] = '!broker_bind'
 
-if !anylog_broker_port and !broker_bind == true and !overlay_ip then set policy new_policy [config][bind_ip] = '!overlay_ip'
-if !anylog_broker_port and !broker_bind == true and !external_overlay == true and not !overlay_ip  then set policy new_policy [config][bind_ip] = '!external_ip'
-if !anylog_broker_port and !broker_bind == true and !external_overlay == false and not !overlay_ip then set policy new_policy [config][bind_ip] = '!ip'
-
+if !rest_bind == true and  not !overlay_ip then set new_policy [config][broker_ip] == 'ip'
+if !rest_bind == true and !overlay_ip      then set policy new_policy [config][broker_ip] = '!overlay_ip'
 
 :scripts:
-<if !node_type == master then set policy new_policy [config][script] = [
+if !node_type == master or !node_type == query then
+<do set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
-    "process !local_scripts/policies/master_policy.al",
+    "process !local_scripts/policies/node_policy.al",
     "run scheduler 1",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
-<if !node_type == query then set policy new_policy [config][script] = [
-    "process !local_scripts/database/deploy_database.al",
-    "process !local_scripts/policies/query_policy.al",
-    "run scheduler 1",
-    "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !deploy_local_script == true then process !local_scripts/local_script.al"
-]>
-
-<if !node_type == publisher then set policy new_policy [config][script] = [
-    "process !local_scripts/policies/publisher_policy.al",
+if !node_type == publisher then
+<do set policy new_policy [config][script] = [
+    "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
@@ -103,9 +90,9 @@ if !anylog_broker_port and !broker_bind == true and !external_overlay == false a
 
 if !node_type == operator then
 <do set policy new_policy [config][script] = [
-    "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/cluster_policy.al",
-    "process !local_scripts/policies/operator_policy.al",
+    "process !local_scripts/policies/node_policy.al",
+    "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "process !local_scripts/policies/config_threashold.al",
     "run streamer",
