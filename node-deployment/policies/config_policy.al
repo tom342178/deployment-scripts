@@ -76,7 +76,7 @@ if !anylog_broker_port and !broker_bind == true and !external_overlay == false a
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/master_policy.al",
     "run scheduler 1",
-    "if !monitor_nodes == true then process !root_path/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
@@ -84,7 +84,7 @@ if !anylog_broker_port and !broker_bind == true and !external_overlay == false a
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/query_policy.al",
     "run scheduler 1",
-    "if !monitor_nodes == true then process !root_path/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
@@ -96,8 +96,8 @@ if !anylog_broker_port and !broker_bind == true and !external_overlay == false a
     "process !local_scripts/policies/config_threashold.al",
     "run streamer",
     "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
-    "if !monitor_nodes == true then process !root_path/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !enable_mqtt == true then process !root_path/deployment-scripts/demo-scripts/basic_msg_client.al",
+    "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
@@ -113,8 +113,8 @@ if !node_type == operator then
     "if !enable_ha == true then run data consumer where start_date=!start_data",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
-    "if !monitor_nodes == true then process !root_path/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !enable_mqtt == true then process !root_path/deployment-scripts/demo-scripts/basic_msg_client.al",
+    "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 

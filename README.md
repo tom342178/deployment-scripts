@@ -1,11 +1,31 @@
 # Deployment Scripts 
 
-The following demonstrates the default deployment scripts provided as part AnyLog. 
+The following provides the default deployment process and sample scripts for AnyLog & EdgeLake.
 
-* [node-deployment](node-deployment) - deployment process for _Master_, _Operator_ and _Query_
+## Node Deployment
 
-* [grpc](grpc) - connecting and running gRPC client against KubeArmor and accept data associated with _alerts_, _logs_ and _messages_ 
+By default, a pre-built AnyLog/EdgeLake deployment utilizes the [node-deployment](node-deployment) script to associate 
+the node with a network and specify the node type.
 
+
+### Process 
+1. **Create Work Directories**: Set up directories for AnyLog/EdgeLake usage.
+2. **Load Configuration**: Import environment configurations into the new node.
+3. **Set Default Connections**: Establish default TCP, REST, and broker connections if specified.
+4. **Blockchain Sync**: For non-master nodes, sync with the blockchain.
+
+Once step 5 is executed, the generated policy triggers steps 6-11:
+
+5. **Create Configuration Policy**: Generate a [configuration policy](node-deployment/policies/config_policy.al).
+6. **Create Node Policy**: Generate a [node policy](node-deployment/policies/create_node_policy.al).
+7. **Deploy Databases**: Initialize and deploy the necessary databases.
+8. **Start Scheduling Processes**: Activate any scheduling processes.
+9. **Enable Node Processes**: For publisher and operator nodes, enable the relevant processes.
+10. **Run Additional Services**: Start services such as MQTT, node monitoring, and custom scripts.
+11. **Enable License Key**: For AnyLog, enable the [license key](https://anylog.co/download-anylog/).
+
+
+## Other Deployments
 * [demo-scripts](demo-scripts) - sample commands that can be used by users
   * manual connection of network configurations
   * Examples for receiving data into AnyLog via a message client (_MQTT_ & _REST-POST_) or via _Kafka_   
@@ -13,3 +33,7 @@ The following demonstrates the default deployment scripts provided as part AnyLo
   * basic monitoring commends
   * how to deploy syslog
   * Setting a message client to accept data from [_FLEDGE_](https://lfedge.org/projects/fledge/)
+* [grpc](grpc) - connecting and running gRPC client against KubeArmor and accept data associated with _alerts_, _logs_ and _messages_
+* [Smart City](smart-city) - provides a sample deployment of AnyLog / EdgeLake as a data manager for a smart city using 
+_Dynics Fusion_. 
+* [Machine Builder](machine-builder) - provides a sample deployment for a machine builder 
