@@ -20,7 +20,7 @@ if $DISABLE_CLI == true or  $DISABLE_CLI == True or $DISABLE_CLI == TRUE then se
 
 :required-params:
 if $NODE_TYPE == master-operator then set node_type = operator
-els if $NODE_TYPE == master-publisher then set node_type = publisher
+else if $NODE_TYPE == master-publisher then set node_type = publisher
 else if $NODE_TYPE then set node_type = $NODE_TYPE
 else goto missing-node-type
 
