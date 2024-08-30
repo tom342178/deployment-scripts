@@ -68,7 +68,7 @@ goto check-policy
 :node-info:
 on error ignore
 if !node_type != operator then goto end-script
-!operator_id = from !is_policy bring.last [*][id]
+operator_id = from !is_policy bring.last [*][id]
 if not !operator_id then goto config-policy-error
 
 :end-script:
