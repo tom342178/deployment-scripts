@@ -25,7 +25,7 @@ on error ignore
 set create_policy = false
 
 :check-policy:
-process !local_scripts/policies/validate_policy.al
+process !local_scripts/policies/validate_node_policy.al
 if not !is_policy and !create_policy == false then goto create-policy
 if not !is_policy and !create_policy == true then goto config-policy-error
 else goto node-info

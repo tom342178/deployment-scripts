@@ -56,6 +56,7 @@ if not !loc_info and not !city then city = Unknown
 
 :networking:
 config_name = !node_type.name + - + !company_name.name + -configs
+if $ANYLOG_BROKER_PORT then config_name = !node_type.name + - + !company_name.name + -configs-broker
 tcp_bind = false
 tcp_threads=6
 rest_bind = false
