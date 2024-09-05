@@ -26,12 +26,13 @@
 
 on error ignore
 set create_config = false
+
 :check-policy:
-config_id = blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring [*][id]
+config_id = blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring.first [*][id]
 if !config_id then goto config-policy
 if not !config_id and !create_config == true then goto declare-policy-error
 
-:preapare-new-policy:
+:prepare-new-policy:
 new_policy = ""
 set policy new_policy [config] = {}
 set policy new_policy [config][name] = !config_name
@@ -41,8 +42,7 @@ set policy new_policy [config][node_type] = !node_type
 :network-configs:
 set policy new_policy [config][ip] = '!external_ip'
 set policy new_policy [config][local_ip] = '!ip'
-if !external_overlay == true and  !overlay_ip then set policy new_policy [config][ip] = '!overlay_ip'
-if !external_overlay == false and !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
+if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
 
 set policy new_policy [config][port] = '!anylog_server_port.int'
 set policy new_policy [config][rest_port] = '!anylog_rest_port.int'
@@ -54,60 +54,45 @@ set policy new_policy [config][tcp_bind] = '!tcp_bind'
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 set policy new_policy [config][rest_bind] = '!rest_bind'
-if !rest_bind == true and !overlay_ip then set policy new_policy [config][rest_ip] = '!overlay_ip'
-if !rest_bind == true and !external_overlay == true and not !overlay_ip  then set policy new_policy [config][rest_ip] = '!external_ip'
-if !rest_bind == true and !external_overlay == false and not !overlay_ip then set policy new_policy [config][rest_ip] = '!ip'
+if !rest_bind == true and  not !overlay_ip then set new_policy [config][rest_ip] == 'ip'
+if !rest_bind == true and !overlay_ip      then set policy new_policy [config][rest_ip] = '!overlay_ip'
 
 if !anylog_broker_port then
 do set policy new_policy [config][broker_threads] = '!broker_threads.int'
 do set policy new_policy [config][broker_bind] = '!broker_bind'
 
-if !anylog_broker_port and !broker_bind == true and !overlay_ip then set policy new_policy [config][bind_ip] = '!overlay_ip'
-if !anylog_broker_port and !broker_bind == true and !external_overlay == true and not !overlay_ip  then set policy new_policy [config][bind_ip] = '!external_ip'
-if !anylog_broker_port and !broker_bind == true and !external_overlay == false and not !overlay_ip then set policy new_policy [config][bind_ip] = '!ip'
-
-
+if !rest_bind == true and  not !overlay_ip then set new_policy [config][broker_ip] == 'ip'
+if !rest_bind == true and !overlay_ip      then set policy new_policy [config][broker_ip] = '!overlay_ip'
 
 :scripts:
-<if !node_type == generic then set policy new_policy [config][script] = [
-    "run scheduler 1",
-    "if !deploy_local_script == true then process !local_scripts/local_script.al"
-]>
-
-<if !node_type == master then set policy new_policy [config][script] = [
+if !node_type == master or !node_type == query then
+<do set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
-    "process !local_scripts/policies/master_policy.al",
+    "process !local_scripts/policies/node_policy.al",
     "run scheduler 1",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
-<if !node_type == query then set policy new_policy [config][script] = [
-    "process !local_scripts/database/deploy_database.al",
-    "process !local_scripts/policies/query_policy.al",
-    "run scheduler 1",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !deploy_local_script == true then process !local_scripts/local_script.al"
-]>
-
-<if !node_type == publisher then set policy new_policy [config][script] = [
-    "process !local_scripts/policies/publisher_policy.al",
+if !node_type == publisher then
+<do set policy new_policy [config][script] = [
+    "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
     "process !local_scripts/policies/config_threashold.al",
     "run streamer",
     "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !enable_mqtt == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client.al",
+    "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
 if !node_type == operator then
 <do set policy new_policy [config][script] = [
-    "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/cluster_policy.al",
-    "process !local_scripts/policies/operator_policy.al",
+    "process !local_scripts/policies/node_policy.al",
+    "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "process !local_scripts/policies/config_threashold.al",
     "run streamer",
@@ -115,8 +100,8 @@ if !node_type == operator then
     "if !enable_ha == true then run data consumer where start_date=!start_data",
     "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
-    "if !monitor_nodes == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !enable_mqtt == true then process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client.al",
+    "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
+    "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 

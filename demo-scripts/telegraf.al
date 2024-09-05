@@ -20,7 +20,7 @@
 #  }
 # ]}
 #----------------------------------------------------------------------------------------------------------------------#
-# process $ANYLOG_PATH/deployment-scripts/demo-scripts/telegraf.al
+# process !root_path/deployment-scripts/demo-scripts/telegraf.al
 
 on error ignore
 

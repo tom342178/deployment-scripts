@@ -1,4 +1,4 @@
-# process $ANYLOG_PATH/deployment-scripts/test-network-local-scripts/blobs_demo.al
+# process !root_path/deployment-scripts/test-network-local-scripts/blobs_demo.al
 on error ignore
 
 :declare-params:
@@ -8,9 +8,9 @@ factory_policy = factory-imgs
 people_policy = people-videos
 
 :declare-policies:
-process $ANYLOG_PATH/deployment-scripts/demo-scripts/blobs_car_videos.al
-process $ANYLOG_PATH/deployment-scripts/demo-scripts/blobs_factory_images.al
-process $ANYLOG_PATH/deployment-scripts/demo-scripts/blobs_people_videos.al
+process !root_path/deployment-scripts/demo-scripts/blobs_car_videos.al
+process !root_path/deployment-scripts/demo-scripts/blobs_factory_images.al
+process !root_path/deployment-scripts/demo-scripts/blobs_people_videos.al
 
 :msg-clien:
 if !anylog_broker_port then

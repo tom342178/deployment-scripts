@@ -18,18 +18,12 @@ on error ignore
 
 if $DISABLE_CLI == true or  $DISABLE_CLI == True or $DISABLE_CLI == TRUE then set cli off
 
-:is-edgelake:
-# check whether we're running EdgeLake or AnyLog
-set is_edgelake = false
-version = get version
-deployment_type = python !version.split(" ")[0]
-if !deployment_type != AnyLog then set is_edgelake = true
-
-if !is_edgelake == true and $NODE_TYPE == publisher then edgelake-error
-
 :required-params:
-if $NODE_TYPE then set node_type = $NODE_TYPE
+if $NODE_TYPE == master-operator then set node_type = operator
+else if $NODE_TYPE == master-publisher then set node_type = publisher
+else if $NODE_TYPE then set node_type = $NODE_TYPE
 else goto missing-node-type
+
 if $NODE_NAME then
 do set node_name = $NODE_NAME
 do set node name !node_name
@@ -62,6 +56,7 @@ if not !loc_info and not !city then city = Unknown
 
 :networking:
 config_name = !node_type.name + - + !company_name.name + -configs
+if $ANYLOG_BROKER_PORT then config_name = !node_type.name + - + !company_name.name + -configs-broker
 tcp_bind = false
 tcp_threads=6
 rest_bind = false
@@ -69,7 +64,6 @@ rest_threads=6
 rest_timeout=30
 broker_bind = false
 broker_threads=6
-set external_overlay=false
 
 if !node_type == master then
 do anylog_server_port = 32048
@@ -108,8 +102,6 @@ if $BROKER_BIND == true or $BROKER_BIND == True or $BROKER_BIND == TRUE then bro
 if !broker_threads.int < 1 then broker_threads = 1
 
 if $OVERLAY_IP then overlay_ip = $OVERLAY_IP
-if $EXTERNAL_OVERLAY == true or $EXTERNAL_OVERLAY == True or $EXTERNAL_OVERLAY == TRUE  then set external_overlay = true
-
 if $PROXY_IP then proxy_ip = $PROXY_IP
 if $CONFIG_NAME then config_name = $CONFIG_NAME
 
@@ -307,10 +299,6 @@ end script
 
 :terminate-scripts:
 exit scripts
-
-:edgelake-error:
-print "Node type `publisher` not supported with EdgeLake deployment"
-goto terminate-scripts
 
 :missing-node-type:
 print "Missing node type, cannot continue..."

@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Validate if policy exists
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/policies/validate_policy.al
+# process !local_scripts/policies/validate_node_policy.al
 
 if !tcp_bind == false then
 <do is_policy = blockchain get !node_type where
