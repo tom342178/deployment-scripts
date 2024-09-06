@@ -8,9 +8,9 @@ factory_policy = factory-imgs
 people_policy = people-videos
 
 :declare-policies:
-process !root_path/deployment-scripts/demo-scripts/blobs_car_videos.al
-process !root_path/deployment-scripts/demo-scripts/blobs_factory_images.al
-process !root_path/deployment-scripts/demo-scripts/blobs_people_videos.al
+process /app/deployment-scripts/demo-scripts/blobs_car_videos.al
+process /app/deployment-scripts/demo-scripts/blobs_factory_images.al
+process /app/deployment-scripts/demo-scripts/blobs_people_videos.al
 
 :msg-clien:
 if !anylog_broker_port then
