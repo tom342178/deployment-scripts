@@ -1,4 +1,4 @@
-# process !root_path/deployment-scripts/demo-scripts/monitoring_policy.al
+# process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
 on error ignore
 schedule_id = generic-schedule-policy
 set create_policy = false
@@ -24,7 +24,7 @@ new_policy=""
 	        "operator_status = test process operator",
             "schedule name=monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get query bring.ip_port",
             "schedule name=get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
-            "schedule name=get_name and time=30 seconds and task node_insight[Node name] = get node name",
+            "schedule name=timestamp and time=30 seconds and task  node_insight[timestamp] = system date '+%Y-%m-%dT%H:%M:%SZ'",
             "schedule name = disk_space and time = 30 seconds task node_insight[Free space %] = get disk percentage .",
             "schedule name = cpu_percent and time = 30 seconds task node_insight[CPU %] = get node info cpu_percent",
             "schedule name = packets_recv and time = 30 seconds task node_insight[Packets Recv] = get node info net_io_counters packets_recv",
@@ -36,6 +36,8 @@ new_policy=""
             "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then  run client (!monitoring_ips) monitor operators where info = !node_insight"
         ]
 }}>
+
+# "schedule name = publish and time = 30 seconds task stream !json_data where dbms = monitor and table = streams"
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al

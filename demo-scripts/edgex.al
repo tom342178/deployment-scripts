@@ -25,7 +25,7 @@
 # :documentation:
 #   - https://github.com/AnyLog-co/documentation/blob/master/using%20edgex.md
 #--------------------------------------------------------------------------------------------------------------------
-# process !root_path/deployment-scripts/demo-scripts/edgex.al
+# process !anylog_path/deployment-scripts/demo-scripts/edgex.al
 
 on error ignore
 

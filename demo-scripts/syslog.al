@@ -19,7 +19,7 @@
 #   2. message broker
 #   3. connected database
 #----------------------------------------------------------------------------------------------------------------------#
-# process !root_path/deployment-scripts/demo-scripts/syslog.al
+# process !anylog_path/deployment-scripts/demo-scripts/syslog.al
 on error ignore
 
 if not !default_dbms then set default_dbms = system_logs
