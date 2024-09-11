@@ -48,7 +48,10 @@ set policy new_policy [!node_type][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [!node_type][broker_port] = !anylog_broker_port.int
 
 :cluster-info:
+if !node_type == operator the set policy new_policy [!node_type][main] = !operator_main
 if !node_type == operator and !cluster_id then set policy new_policy [!node_type][cluster] = !cluster_id
+if !node_type == operator and not !cluster then goto operator-cluster-error
+
 
 :location:
 if !loc then set policy new_policy [!node_type][loc] = !loc
@@ -83,6 +86,10 @@ goto terminate-scripts
 
 :ip-error:
 print "An !node_type node policy with the same company and node name already exists under a different IP address: " !ip_address
+goto terminate-scripts
+
+:operator-cluster-error:
+print "Missing cluster policy ID for operator node, cannot continue..."
 goto terminate-scripts
 
 :sign-policy-error:
