@@ -59,6 +59,7 @@ if !anylog_broker_port then set policy new_policy [operator][broker_port] = !any
 
 :cluster-info:
 if !cluster_id then set policy new_policy [operator][cluster] = !cluster_id
+set policy new_policy [operator][main] = !operator_main
 
 :location:
 if !loc then set policy new_policy [operator][loc] = !loc
