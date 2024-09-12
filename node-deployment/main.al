@@ -64,6 +64,7 @@ if not !license_key and not !master_license then goto license-error
 :end-script:
 get processes
 if !enable_mqtt == true then get msg client
+reset error log
 end script
 
 :edgelake-error:
