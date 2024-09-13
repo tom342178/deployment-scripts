@@ -36,7 +36,6 @@ set node name !node_name
 
 if $LICENSE_KEY then license_key=$LICENSE_KEY
 
-
 if not $COMPANY_NAME and node_type != generic then goto missing-company-name
 else if $COMPANY_NAME then company_name = $COMPANY_NAME
 
