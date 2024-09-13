@@ -19,23 +19,29 @@ on error ignore
 if $DISABLE_CLI == true or  $DISABLE_CLI == True or $DISABLE_CLI == TRUE then set cli off
 
 :required-params:
+node_name = anylog-node
+company_name = "New Company"
+ledger_conn = 127.0.0.1:32048
+
 if $NODE_TYPE == master-operator then set node_type = operator
 else if $NODE_TYPE == master-publisher then set node_type = publisher
 else if $NODE_TYPE then set node_type = $NODE_TYPE
 else goto missing-node-type
 
-if $NODE_NAME then
-do set node_name = $NODE_NAME
-do set node name !node_name
-else goto missing-node-name
+if not $NODE_NAME and !node_type == generic and !is_edgelake == true then node_name = edgelake-node
+else if not $NODE_NAME and !node_type != generic then goto missing-node-name
+else if $NODE_NAME then set node_name = $NODE_NAME
+
+set node name !node_name
 
 if $LICENSE_KEY then license_key=$LICENSE_KEY
 
-if $COMPANY_NAME then company_name = $COMPANY_NAME
-else goto missing-company-name
 
-if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
-if not $LEDGER_CONN then goto missing-ledger-conn
+if not $COMPANY_NAME and node_type != generic then goto missing-company-name
+else if $COMPANY_NAME then company_name = $COMPANY_NAME
+
+if not $LEDGER_CONN and !node_type != generic then goto missing-ledger-conn
+else if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 
 :general-params:
 hostname = get hostname
