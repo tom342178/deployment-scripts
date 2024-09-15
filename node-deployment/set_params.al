@@ -248,13 +248,12 @@ if $MSG_VALUE_COLUMN then msg_value_column=$MSG_VALUE_COLUMN
 
 :node-monitoring:
 set monitor_nodes = false
-set monitor_node = query
-# monitor_node_company = !company_name
+set store_monitoring = false
 
 if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then set monitor_nodes = true
-if !monitor_nodes == true then
-if $MONITOR_NODE then set monitor_node = $MONITOR_NODE
-# if $MONITOR_NODE_COMPANY then set monitor_node_company = $MONITOR_NODE_COMPANY
+if $STORE_MONITORING == true or $STORE_MONITORING == True or $STORE_MONITORING == TRUE then set store_monitoring = true
+
+
 
 :other-settings:
 set deploy_local_script = false
