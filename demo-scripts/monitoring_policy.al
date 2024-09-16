@@ -45,13 +45,12 @@ new_policy=""
         "id": !schedule_id,
         "name": "Generic Monitoring Schedule",
         "script": [
-	        "operator_status = test process operator",
-            "schedule name = monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get query bring.ip_port"
+            "schedule name = monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get query bring.ip_port",
             "if !store_monitoring == true and !node_type != operator then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]",
 
             "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
             "schedule name = get_timestamp and time=30 seconds and task node_insight[timestamp] = get datetime local now()",
-            "schedule name = get_disk_space and time=30 seconds and task value = get disk percentage ."
+            "schedule name = get_disk_space and time=30 seconds and task value = get disk percentage .",
             "schedule name = disk_space and time = 30 seconds task node_insight[Free space %] = get disk percentage .",
             "schedule name = cpu_percent and time = 30 seconds task node_insight[CPU %] = get node info cpu_percent",
             "schedule name = packets_recv and time = 30 seconds task node_insight[Packets Recv] = get node info net_io_counters packets_recv",
@@ -61,8 +60,8 @@ new_policy=""
             "schedule name = error_count and time = 30 seconds task node_insight[Network Error] = python int(!errin) + int(!errout)",
             "schedule name = local_monitor_node and time = 30 seconds task monitor operators where info = !node_insight",
 
-            "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then if !monitoring_ips then run client (!monitoring_ips) monitor operators where info = !node_insight"
-            "if !store_monitoring == true and !node_type == operator then schedule name = monitor_node and time = 30 seconds task if !operator_monitoring_ip then stream !node_insight  where dbms=monitoring and table=node_insight",
+            "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then run client (!monitoring_ips) monitor operators where info = !node_insight",
+            "if !store_monitoring == true and !node_type == operator then schedule name = monitor_node and time = 30 seconds task stream !node_insight where dbms=monitoring and table=node_insight",
             "if !store_monitoring == true and !node_type != operator then schedule name = monitor_node and time = 30 seconds task if !operator_monitoring_ip then run client (!operator_monitoring_ip) stream !node_insight  where dbms=monitoring and table=node_insight"
         ]
 }}>
