@@ -254,7 +254,6 @@ if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE th
 if $STORE_MONITORING == true or $STORE_MONITORING == True or $STORE_MONITORING == TRUE then set store_monitoring = true
 
 
-
 :other-settings:
 set deploy_local_script = false
 set deploy_syslog = false

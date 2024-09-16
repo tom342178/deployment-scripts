@@ -3,6 +3,31 @@ on error ignore
 schedule_id = generic-schedule-policy
 set create_policy = false
 
+:store-monitoring:
+if !default_dbms == monitoring or !store_monitoring == false then goto check-policy
+
+on error goto store-monitoring-error
+if !store_monitoring == true and !db_type == psql then
+<do connect dbms monitoring where
+    type=!db_type and
+    user = !db_user and
+    password = !db_passwd and
+    ip = !db_ip and
+    port = !db_port and
+    autocommit = !autocommit and
+    unlog = !unlog>
+else if !store_monitoring == true then create database monitoring where type=sqlite
+
+if !store_monitoring == true then
+do partition monitoring * using timestamp by 12 hours
+do schedule time=1 day and name="Drop Monitoring" task drop partition where dbms=monitoring and table =* and keep=3
+
+:get-operator-ip:
+on error ignore
+operator_monitoring_ip = blockchain get operator where name = syslog-operator1 bring.ip_port
+if !node_type == operator than  operator_monitoring_ip = blockchain get operator where name = !node_name bring.ip_port
+if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]
+
 :check-policy:
 is_policy = blockchain get schedule where id=!schedule_id
 
@@ -14,17 +39,16 @@ if not !is_policy and !create_policy == true then goto declare-policy-error
 
 :schedule-policy:
 new_policy=""
-# "if !operator_status == true then schedule name = get_operator_stat and time = 30 seconds task node_insight = get operator stat format = json",
-# "if !operator_status == false then schedule name=get_node_name and time = 30 seconds task node_insight[Node name] = get node name",
 <new_policy = {
     "schedule": {
         "id": !schedule_id,
         "name": "Generic Monitoring Schedule",
         "script": [
 	        "operator_status = test process operator",
-            "schedule name = monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get query bring.ip_port",
-            "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
-            "schedule name = timestamp and time=30 seconds and task node_insight[timestamp] = system date -u '+%Y-%m-%d %H:%M:%S'",
+            "schedule name = monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get query bring.ip_port"
+            "if !store_monitoring == true then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]"
+            "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json","
+            "schedule name = timestamp and time=30 seconds and task node_insight[timestamp] = get datetime local now()",
             "schedule name = get_disk_space and time=30 seconds and task value = get disk percentage ."
             "schedule name = disk_space and time = 30 seconds task node_insight[Free space %] = get disk percentage .",
             "schedule name = cpu_percent and time = 30 seconds task node_insight[CPU %] = get node info cpu_percent",
@@ -34,11 +58,10 @@ new_policy=""
             "schedule name = errout and time = 30 seconds task errout = get node info net_io_counters errout",
             "schedule name = error_count and time = 30 seconds task node_insight[Network Error] = python int(!errin) + int(!errout)",
             "schedule name = local_monitor_node and time = 30 seconds task monitor operators where info = !node_insight",
-            "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then  run client (!monitoring_ips) monitor operators where info = !node_insight"
+            "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then if !monitoring_ips then run client (!monitoring_ips) monitor operators where info = !node_insight"
+            "if !store_monitoring == true then schedule name = monitor_node and time = 30 seconds task if !operator_monitoring_ip then run client (!operator_monitoring_ip) stream !node_insight  where dbms=monitoring and table=node_insight",
         ]
 }}>
-
-# "schedule name = publish and time = 30 seconds task stream !json_data where dbms = monitor and table = streams"
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
@@ -58,6 +81,8 @@ end script
 :terminate-scripts:
 exit scripts
 
+:store-monitoring-error:
+print "Faileed to store "
 :config-policy-error:
 print "Failed to configure node based on Schedule ID"
 goto terminate-scripts
