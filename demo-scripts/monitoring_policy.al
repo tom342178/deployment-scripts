@@ -4,7 +4,7 @@ schedule_id = generic-schedule-policy
 set create_policy = false
 
 :store-monitoring:
-if !default_dbms == monitoring or !store_monitoring == false then goto check-policy
+if !default_dbms == monitoring or !store_monitoring == false then goto set-partitons
 
 on error goto store-monitoring-error
 if !store_monitoring == true and !db_type == psql then
@@ -18,6 +18,7 @@ if !store_monitoring == true and !db_type == psql then
     unlog = !unlog>
 else if !store_monitoring == true then create database monitoring where type=sqlite
 
+:set-partitons:
 if !store_monitoring == true then
 do partition monitoring * using timestamp by 12 hours
 do schedule time=1 day and name="Drop Monitoring" task drop partition where dbms=monitoring and table =* and keep=3
@@ -46,9 +47,10 @@ new_policy=""
         "script": [
 	        "operator_status = test process operator",
             "schedule name = monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get query bring.ip_port"
-            "if !store_monitoring == true then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]"
-            "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json","
-            "schedule name = timestamp and time=30 seconds and task node_insight[timestamp] = get datetime local now()",
+            "if !store_monitoring == true and !node_type != operator then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]",
+
+            "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
+            "schedule name = get_timestamp and time=30 seconds and task node_insight[timestamp] = get datetime local now()",
             "schedule name = get_disk_space and time=30 seconds and task value = get disk percentage ."
             "schedule name = disk_space and time = 30 seconds task node_insight[Free space %] = get disk percentage .",
             "schedule name = cpu_percent and time = 30 seconds task node_insight[CPU %] = get node info cpu_percent",
@@ -58,8 +60,10 @@ new_policy=""
             "schedule name = errout and time = 30 seconds task errout = get node info net_io_counters errout",
             "schedule name = error_count and time = 30 seconds task node_insight[Network Error] = python int(!errin) + int(!errout)",
             "schedule name = local_monitor_node and time = 30 seconds task monitor operators where info = !node_insight",
+
             "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then if !monitoring_ips then run client (!monitoring_ips) monitor operators where info = !node_insight"
-            "if !store_monitoring == true then schedule name = monitor_node and time = 30 seconds task if !operator_monitoring_ip then run client (!operator_monitoring_ip) stream !node_insight  where dbms=monitoring and table=node_insight",
+            "if !store_monitoring == true and !node_type == operator then schedule name = monitor_node and time = 30 seconds task if !operator_monitoring_ip then stream !node_insight  where dbms=monitoring and table=node_insight",
+            "if !store_monitoring == true and !node_type != operator then schedule name = monitor_node and time = 30 seconds task if !operator_monitoring_ip then run client (!operator_monitoring_ip) stream !node_insight  where dbms=monitoring and table=node_insight"
         ]
 }}>
 
