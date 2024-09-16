@@ -13,7 +13,7 @@ set msg rule !rule_name if ip=23.92.28.183 then dbms=!default_dbms and table=sys
 rule_name = blockchain get (master, query, publisher,  operator) where ip = 139.162.56.87 bring [*][name]
 set msg rule !rule_name if ip=139.162.56.87 then dbms=!default_dbms and table=syslog and syslog=true
 
-rule_name = blockchain get (master, query, publisher,  operator) where ip = 35.208.73.148 bring [*][name]
+rule_name = blockchain get (master, query, publisher,  operator) where ip = 35.208.73.148 bring.first [*][name]
 set msg rule !rule_name if ip=35.208.73.148 then dbms=!default_dbms and table=syslog and syslog=true
 
 rule_name = blockchain get (master, query, publisher,  operator) where ip = 178.79.154.209 bring [*][name]
