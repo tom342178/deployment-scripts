@@ -50,14 +50,19 @@ new_policy=""
 
             "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
             "schedule name = get_timestamp and time=30 seconds and task node_insight[timestamp] = get datetime local now()",
-            "schedule name = get_disk_space and time=30 seconds and task value = get disk percentage .",
-            "schedule name = disk_space and time = 30 seconds task node_insight[Free space %] = get disk percentage .",
-            "schedule name = cpu_percent and time = 30 seconds task node_insight[CPU %] = get node info cpu_percent",
+
+            "schedule name = get_disk_space and time=30 seconds and task disk_space = get disk percentage .",
+            "schedule name = get_cpu_percent and time = 30 seconds task cpu_percent = get node info cpu_percent",
+            "schedule name = disk_space and time = 30 seconds if !disk_space then task node_insight[Free space %] = !disk_space.float",
+            "schedule name = cpu_percent and time = 30 seconds if !cpu_percent then task node_insight[CPU %] = !cpu_percent.float",
+
             "schedule name = packets_recv and time = 30 seconds task node_insight[Packets Recv] = get node info net_io_counters packets_recv",
             "schedule name = packets_sent and time = 30 seconds task node_insight[Packets Sent] = get node info net_io_counters packets_sent",
+
             "schedule name = errin and time = 30 seconds task errin = get node info net_io_counters errin",
             "schedule name = errout and time = 30 seconds task errout = get node info net_io_counters errout",
-            "schedule name = error_count and time = 30 seconds task node_insight[Network Error] = python int(!errin) + int(!errout)",
+            "schedule name = get_error_count and time = 30 seconds task error_count = python int(!errin) + int(!errout)",
+            "schedule name = error_count and time = 30 seconds task node_insight[Network Error] = !error_count.int",
             "schedule name = local_monitor_node and time = 30 seconds task monitor operators where info = !node_insight",
 
             "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then run client (!monitoring_ips) monitor operators where info = !node_insight",
