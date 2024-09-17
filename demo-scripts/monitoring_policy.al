@@ -4,7 +4,8 @@ schedule_id = generic-schedule-policy
 set create_policy = false
 
 :store-monitoring:
-if !default_dbms == monitoring or !store_monitoring == false then goto set-partitons
+if !store_monitoring == false or !node_type != operator then goto check-policy
+else if !default_dbms == monitoring then goto set-partitions
 
 on error goto store-monitoring-error
 if !store_monitoring == true and !db_type == psql then
@@ -18,16 +19,9 @@ if !store_monitoring == true and !db_type == psql then
     unlog = !unlog>
 else if !store_monitoring == true then create database monitoring where type=sqlite
 
-:set-partitons:
-if !store_monitoring == true then
-do partition monitoring * using timestamp by 12 hours
-do schedule time=1 day and name="Drop Monitoring" task drop partition where dbms=monitoring and table =* and keep=3
-
-:get-operator-ip:
-on error ignore
-operator_monitoring_ip = blockchain get operator where name = syslog-operator1 bring.ip_port
-if !node_type == operator than  operator_monitoring_ip = blockchain get operator where name = !node_name bring.ip_port
-if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]
+:set-partitions:
+partition monitoring * using timestamp by 12 hours
+schedule time=1 day and name="Drop Monitoring" task drop partition where dbms=monitoring and table =* and keep=3
 
 :check-policy:
 is_policy = blockchain get schedule where id=!schedule_id
