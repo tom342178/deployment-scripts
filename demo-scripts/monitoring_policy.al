@@ -53,11 +53,13 @@ new_policy=""
 
             "schedule name = get_disk_space and time=30 seconds and task disk_space = get disk percentage .",
             "schedule name = get_cpu_percent and time = 30 seconds task cpu_percent = get node info cpu_percent",
-            "schedule name = disk_space and time = 30 seconds  task if !disk_space then node_insight[Free space %] = !disk_space.float",
-            "schedule name = cpu_percent and time = 30 seconds task if !cpu_percent then node_insight[CPU %] = !cpu_percent.float",
+            "schedule name = get_packets_recv and time = 30 seconds task packets_recv = get node info net_io_counters packets_recv",
+            "schedule name = get_packets_sent and time = 30 seconds task packets_sent = get node info net_io_counters packets_sent",
 
-            "schedule name = packets_recv and time = 30 seconds task node_insight[Packets Recv] = get node info net_io_counters packets_recv",
-            "schedule name = packets_sent and time = 30 seconds task node_insight[Packets Sent] = get node info net_io_counters packets_sent",
+            "schedule name = disk_space   and time = 30 seconds task if !disk_space   then node_insight[Free space %] = !disk_space.float",
+            "schedule name = cpu_percent  and time = 30 seconds task if !cpu_percent  then node_insight[CPU %] = !cpu_percent.float",
+            "schedule name = packets_recv and time = 30 seconds task if !packets_recv then node_insight[Packets Recv] = !packets_recv.int",
+            "schedule name = packets_sent and time = 30 seconds task it !packets_sent then node_insight[Packets Sent] = !packets_sent.int",
 
             "schedule name = errin and time = 30 seconds task errin = get node info net_io_counters errin",
             "schedule name = errout and time = 30 seconds task errout = get node info net_io_counters errout",
