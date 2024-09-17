@@ -63,8 +63,8 @@ new_policy=""
             "schedule name = errout and time = 30 seconds task errout = get node info net_io_counters errout",
             "schedule name = get_error_count and time = 30 seconds task if !errin and !errout then error_count = python int(!errin) + int(!errout)",
             "schedule name = error_count and time = 30 seconds task if !error_count then node_insight[Network Error] = !error_count.int",
-            "schedule name = local_monitor_node and time = 30 seconds task monitor operators where info = !node_insight",
 
+            "schedule name = local_monitor_node and time = 30 seconds task monitor operators where info = !node_insight",
             "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then run client (!monitoring_ips) monitor operators where info = !node_insight",
             "if !store_monitoring == true and !node_type == operator then schedule name = operator_monitor_node and time = 30 seconds task stream !node_insight where dbms=monitoring and table=node_insight",
             "if !store_monitoring == true and !node_type != operator then schedule name = operator_monitor_node and time = 30 seconds task if !operator_monitoring_ip then run client (!operator_monitoring_ip) stream !node_insight  where dbms=monitoring and table=node_insight"
