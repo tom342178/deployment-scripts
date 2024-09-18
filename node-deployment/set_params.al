@@ -240,18 +240,21 @@ if $MQTT_PORT then mqtt_port=$MQTT_PORT
 if $MQTT_USER then mqtt_user=$MQTT_USER
 if $MQTT_PASSWD then mqtt_passwd=$MQTT_PASSWD
 if $MSG_TOPIC then msg_topic=$MSG_TOPIC
-if $MSG_DBMS then msg_dbms=$MSG_DBMS
+
+if $DEFAULT_DBMS then msg_dbms=$DEFAULT_DBMS
+else if $MSG_DBMS then msg_dbms=$MSG_DBMS
+
 if $MSG_TABLE then msg_table=$MSG_TABLE
 if $MSG_TIMESTAMP_COLUMN then msg_timestamp_column=$MSG_TIMESTAMP_COLUMN
 if $MSG_VALUE_COLUMN_TYPE then msg_value_column_type=$MSG_VALUE_COLUMN_TYPE
 if $MSG_VALUE_COLUMN then msg_value_column=$MSG_VALUE_COLUMN
 
 :node-monitoring:
-set monitor_nodes = false
-set store_monitoring = false
+set monitor_nodes = true
+set store_monitoring = true
 
-if $MONITOR_NODES == true or $MONITOR_NODES == True or $MONITOR_NODES == TRUE then set monitor_nodes = true
-if $STORE_MONITORING == true or $STORE_MONITORING == True or $STORE_MONITORING == TRUE then set store_monitoring = true
+if $MONITOR_NODES == false or $MONITOR_NODES == False or $MONITOR_NODES == FALSE then set monitor_nodes = false
+if $STORE_MONITORING == false or $STORE_MONITORING == False or $STORE_MONITORING == FALSE then set store_monitoring = false
 
 
 :other-settings:
