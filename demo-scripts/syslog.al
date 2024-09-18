@@ -59,7 +59,7 @@ on error goto set-syslog-error
 <set msg rule syslog_rule if
    ip = !ip
 then
-   dbms = !default_dbms  and
+   dbms = monitoring  and
    table = syslog and
    syslog = true>
 
