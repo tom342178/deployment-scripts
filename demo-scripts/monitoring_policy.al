@@ -54,7 +54,7 @@ new_policy=""
             "schedule name = disk_space   and time = 30 seconds task if !disk_space   then node_insight[Free space %] = !disk_space.float",
             "schedule name = cpu_percent  and time = 30 seconds task if !cpu_percent  then node_insight[CPU %] = !cpu_percent.float",
             "schedule name = packets_recv and time = 30 seconds task if !packets_recv then node_insight[Packets Recv] = !packets_recv.int",
-            "schedule name = packets_sent and time = 30 seconds task it !packets_sent then node_insight[Packets Sent] = !packets_sent.int",
+            "schedule name = packets_sent and time = 30 seconds task if !packets_sent then node_insight[Packets Sent] = !packets_sent.int",
 
             "schedule name = errin and time = 30 seconds task errin = get node info net_io_counters errin",
             "schedule name = errout and time = 30 seconds task errout = get node info net_io_counters errout",
