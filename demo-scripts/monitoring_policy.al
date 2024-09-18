@@ -20,8 +20,8 @@ if !store_monitoring == true and !db_type == psql then
 else if !store_monitoring == true then create database monitoring where type=sqlite
 
 :set-partitions:
-partition monitoring * using timestamp by 12 hours
-schedule time=1 day and name="Drop Monitoring" task drop partition where dbms=monitoring and table =* and keep=3
+partition monitoring node_insight using timestamp by 12 hours
+schedule time=1 day and name="Drop node_insight monitoring" task drop partition where dbms=monitoring and table =* and keep=3
 
 :check-policy:
 is_policy = blockchain get schedule where id=!schedule_id
@@ -88,7 +88,7 @@ end script
 exit scripts
 
 :store-monitoring-error:
-print "Faileed to store "
+print "Failed to store "
 :config-policy-error:
 print "Failed to configure node based on Schedule ID"
 goto terminate-scripts

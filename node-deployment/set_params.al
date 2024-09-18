@@ -254,7 +254,7 @@ set monitor_nodes = true
 set store_monitoring = true
 
 if $MONITOR_NODES == false or $MONITOR_NODES == False or $MONITOR_NODES == FALSE then set monitor_nodes = false
-if $STORE_MONITORING == false or $STORE_MONITORING == False or $STORE_MONITORING == FALSE then set store_monitoring = false
+if $STORE_MONITORING == false or $STORE_MONITORING == False or $STORE_MONITORING == FALSE then set store_monitoring = falsew
 
 
 :other-settings:
