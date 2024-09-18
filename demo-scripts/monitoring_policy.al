@@ -43,6 +43,7 @@ new_policy=""
             "if !store_monitoring == true and !node_type != operator then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]",
 
             "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
+            "if !node_type != operator then schedule name = set_status and time=30 seconds and task node_insight[status]=''",
             "schedule name = get_timestamp and time=30 seconds and task node_insight[timestamp] = get datetime local now()",
 
             "schedule name = get_disk_space and time=30 seconds and task disk_space = get disk percentage .",
@@ -62,6 +63,7 @@ new_policy=""
 
             "schedule name = local_monitor_node and time = 30 seconds task monitor operators where info = !node_insight",
             "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then run client (!monitoring_ips) monitor operators where info = !node_insight",
+            "schedule name = clean_status and time = 30 seconds task node_insight[status]='Active'",
             "if !store_monitoring == true and !node_type == operator then schedule name = operator_monitor_node and time = 30 seconds task stream !node_insight where dbms=monitoring and table=node_insight",
             "if !store_monitoring == true and !node_type != operator then schedule name = operator_monitor_node and time = 30 seconds task if !operator_monitoring_ip then run client (!operator_monitoring_ip) stream !node_insight  where dbms=monitoring and table=node_insight"
         ]
