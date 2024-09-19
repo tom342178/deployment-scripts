@@ -251,10 +251,11 @@ if $MSG_VALUE_COLUMN then msg_value_column=$MSG_VALUE_COLUMN
 
 :node-monitoring:
 set monitor_nodes = true
-set store_monitoring = true
+set store_monitoring = false
 
 if $MONITOR_NODES == false or $MONITOR_NODES == False or $MONITOR_NODES == FALSE then set monitor_nodes = false
-if $STORE_MONITORING == false or $STORE_MONITORING == False or $STORE_MONITORING == FALSE then set store_monitoring = falsew
+if $STORE_MONITORING == true or $STORE_MONITORING == True or $STORE_MONITORING == TRUE then set store_monitoring = true
+if $MONITORING_OPERATOR then monitoring_operator = $MONITORING_OPERATOR
 
 
 :other-settings:

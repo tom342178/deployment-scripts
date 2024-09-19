@@ -1,4 +1,63 @@
+#-----------------------------------------------------------------------------------------------------------------------
+# Script for deploying node monitoring process
+# :process:
+#   1. if node_type is operator & store_monitoring then create monitoring database & partitioning
+#   2. declare schedule policy
+#   3. execute policy
+# :Generated policy:
+# {'schedule' : {
+#   'id' : 'generic-schedule-policy',
+#   'name' : 'Generic Monitoring Schedule',
+#   'script' : [
+#       "schedule name = monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get query bring.ip_port",
+#       "if !store_monitoring == true and !node_type != operator and not !monitoring_operator then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]",
+#       "if !store_monitoring == true and !node_type != operator and !monitoring_operator then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator where name=!monitoring_operator bring.first [*][ip] : [*][port]",
+#       "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
+#       "schedule name = get_timestamp and time=30 seconds and task node_insight[timestamp] = get datetime local now()",
+#       "schedule name = set_node_type and time=30 seconds and task node_insight[node type]=!node_type",
+#       "schedule name = get_disk_space and time=30 seconds and task disk_space = get disk percentage .",
+#       "schedule name = get_cpu_percent and time = 30 seconds task cpu_percent = get node info cpu_percent",
+#       "schedule name = get_packets_recv and time = 30 seconds task packets_recv = get node info net_io_counters packets_recv",
+#       "schedule name = get_packets_sent and time = 30 seconds task packets_sent = get node info net_io_counters packets_sent",
+#       "schedule name = disk_space   and time = 30 seconds task if !disk_space   then node_insight[Free space %] = !disk_space.float",
+#       "schedule name = cpu_percent  and time = 30 seconds task if !cpu_percent  then node_insight[CPU %] = !cpu_percent.float",
+#       "schedule name = packets_recv and time = 30 seconds task if !packets_recv then node_insight[Packets Recv] = !packets_recv.int",
+#       "schedule name = packets_sent and time = 30 seconds task if !packets_sent then node_insight[Packets Sent] = !packets_sent.int",
+#       "schedule name = errin and time = 30 seconds task errin = get node info net_io_counters errin",
+#       "schedule name = errout and time = 30 seconds task errout = get node info net_io_counters errout",
+#       "schedule name = get_error_count and time = 30 seconds task if !errin and !errout then error_count = python int(!errin) + int(!errout)",
+#       "schedule name = error_count and time = 30 seconds task if !error_count then node_insight[Network Error] = !error_count.int",
+#       "schedule name = local_monitor_node and time = 30 seconds task monitor operators where info = !node_insight",
+#       "schedule name = monitor_node and time = 30 seconds task if !monitoring_ips then run client (!monitoring_ips) monitor operators where info = !node_insight",
+#       "schedule name = clean_status and time = 30 seconds task node_insight[status]='Active'",
+#       "if !store_monitoring == true and !node_type == operator then schedule name = operator_monitor_node and time = 30 seconds task stream !node_insight where dbms=monitoring and table=node_insight",
+#       "if !store_monitoring == true and !node_type != operator then schedule name = operator_monitor_node and time = 30 seconds task if !operator_monitoring_ip then run client (!operator_monitoring_ip) stream !node_insight  where dbms=monitoring and table=node_insight"
+#   ],
+#   'date' : '2024-09-18T23:55:40.154342Z',
+#   'ledger' : 'global'
+# }}
+# :Sample Data:
+# {
+#    'node name' : 'anylog-query@172.232.20.156:32348',
+#    'status' : 'Active',
+#    'operational time' : '00:00:00',
+#    'processing time' : '00:00:00',
+#    'elapsed time' : '00:00:30',
+#    'new rows' : 0,
+#    'total rows' : 0,
+#    'new errors' : 0,
+#    'total errors' : 0,
+#    'avg. rows/sec' : 0.0,
+#    'timestamp' : '2024-09-19 15:34:50.112695',
+#    'Free space %' : 65.43,
+#    'CPU %' : 1.1,
+#    'Packets Recv' : 205093,
+#    'Packets Sent' : 201552,
+#    'Network Error' : 0
+# }
+#-----------------------------------------------------------------------------------------------------------------------
 # process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
+
 on error ignore
 schedule_id = generic-schedule-policy
 set create_policy = false
@@ -40,11 +99,11 @@ new_policy=""
         "name": "Generic Monitoring Schedule",
         "script": [
             "schedule name = monitoring_ips and time=300 seconds and task monitoring_ips = blockchain get query bring.ip_port",
-            "if !store_monitoring == true and !node_type != operator then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]",
-
+            "if !store_monitoring == true and !node_type != operator and not !monitoring_operator then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator bring.first [*][ip] : [*][port]",
+            "if !store_monitoring == true and !node_type != operator and !monitoring_operator then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator where name=!monitoring_operator bring.first [*][ip] : [*][port]",
             "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
-            "if !node_type != operator then schedule name = set_status and time=30 seconds and task node_insight[status]=''",
             "schedule name = get_timestamp and time=30 seconds and task node_insight[timestamp] = get datetime local now()",
+            "schedule name = set_node_type and time=30 seconds and task node_insight[node type]=!node_type",
 
             "schedule name = get_disk_space and time=30 seconds and task disk_space = get disk percentage .",
             "schedule name = get_cpu_percent and time = 30 seconds task cpu_percent = get node info cpu_percent",
