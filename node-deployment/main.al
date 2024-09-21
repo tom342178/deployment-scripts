@@ -12,7 +12,8 @@
 :set-configs:
 on error ignore
 set debug off
-if $DEMO_CMDS == true then set debug interactive
+if $DEBUG_MODE == 1 then set debug on
+else if $DEBUG_MODE == 2 then set debug interactive
 set echo queue on
 
 :is-edgelake:
