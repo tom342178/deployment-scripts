@@ -4,9 +4,17 @@
 # process !local_scripts/connect_networking.al
 
 on error ignore
+set debug off
+if $DEBUG_MODE.int != 0  then set debug on
+
 if !overlay_ip then goto overlay-tcp-networking
 
 :tcp-networking:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Start TCP communication service"
+do set debug on
+
 on error goto tcp-networking-error
 <run tcp server where
     external_ip=!external_ip and external_port=!anylog_server_port and
@@ -14,6 +22,11 @@ on error goto tcp-networking-error
     bind=!tcp_bind and threads=!tcp_threads>
 
 :rest-networking:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Start REST communication service"
+do set debug on
+
 on error goto rest-networking-error
 <run rest server where
     external_ip=!external_ip and external_port=!anylog_rest_port and
@@ -23,6 +36,11 @@ on error goto rest-networking-error
 if not !anylog_broker_port then goto end-script
 
 :broker-networking:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Start Message Broker service"
+do set debug on
+
 on error goto broker-networking-error
 <run message broker where
     external_ip=!external_ip and external_port=!anylog_broker_port and
@@ -32,6 +50,11 @@ on error goto broker-networking-error
 
 
 :overlay-tcp-networking:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Start TCP communication service"
+do set debug on
+
 on error goto tcp-networking-error
 <run tcp server where
     external_ip=!external_ip and external_port=!anylog_server_port and
@@ -39,6 +62,11 @@ on error goto tcp-networking-error
     bind=!tcp_bind and threads=!tcp_threads>
 
 :overlay-rest-networking:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Start REST communication service"
+do set debug on
+
 on error goto rest-networking-error
 <run rest server where
     external_ip=!external_ip and external_port=!anylog_rest_port and
@@ -48,6 +76,11 @@ on error goto rest-networking-error
 if not !anylog_broker_port then goto end-script
 
 :overlay-broker-networking:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Start Message Broker service"
+do set debug on
+
 on error goto broker-networking-error
 <run message broker where
     external_ip=!external_ip and external_port=!anylog_broker_port and

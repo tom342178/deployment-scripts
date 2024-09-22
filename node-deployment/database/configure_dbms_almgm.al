@@ -3,6 +3,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_almgm.al
 
+
 :almgm-dbms:
 on error goto almgm-dbms-error
 <if !db_type == psql then connect dbms almgm where

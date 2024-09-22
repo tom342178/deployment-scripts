@@ -26,13 +26,22 @@
 
 on error ignore
 set create_config = false
+if $DEBUG_MODE.int != 0 then set debug on
 
 :check-policy:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Check whether config policy exists - if exists then goes to declare policy"
+
 config_id = blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring.first [*][id]
 if !config_id then goto config-policy
 if not !config_id and !create_config == true then goto declare-policy-error
 
 :prepare-new-policy:
+if $DEBUG_MODE.int == 2 then
+do print "Create base for new config policy"
+do set debug on
+
 new_policy = ""
 set policy new_policy [config] = {}
 set policy new_policy [config][name] = !config_name
@@ -40,6 +49,11 @@ set policy new_policy [config][company] = !company_name
 set policy new_policy [config][node_type] = !node_type
 
 :network-configs:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Add networking configurations for policy"
+do set debug on
+
 set policy new_policy [config][ip] = '!external_ip'
 set policy new_policy [config][local_ip] = '!ip'
 if !overlay_ip then set policy new_policy [config][local_ip] = '!overlay_ip'
@@ -65,6 +79,11 @@ if !rest_bind == true and  not !overlay_ip then set new_policy [config][broker_i
 if !rest_bind == true and !overlay_ip      then set policy new_policy [config][broker_ip] = '!overlay_ip'
 
 :scripts:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Add script for deploying policy - each node type has a unique policy"
+do set debug on
+
 if !node_type == master or !node_type == query then
 <do set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
@@ -105,9 +124,14 @@ if !node_type == operator then
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
-
 :publish-policy:
-process !local_scripts/policies/publish_policy.al
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Declare policy on blockchain"
+do set debug on
+
+if $DEBUG_MODE.int == 2 then thread !local_scripts/policies/publish_policy.al
+else  process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
@@ -115,8 +139,14 @@ set create_config = true
 goto check-policy
 
 :config-policy:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Deploy Policy"
+do set debug on
+
 on error goto config-policy-error
-config from policy where id = !config_id
+if !node_type == operator and $DEBUG_MODE.int == 2 then goto thread !local_scripts/policies/config_operator.al
+else config from policy where id = !config_id
 
 :end-script:
 end script

@@ -3,6 +3,13 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_operator.al
 
+if $DEBUG_MODE.int != 0 then set debug on
+
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Deploy local database !default_dbms"
+do set debug on
+
 :operator-dbms:
 on error goto operator-db-error
 if !db_type == psql then
@@ -27,10 +34,3 @@ exit scripts
 echo "Error: Unable to connect to almgm database with db type: " !db_type ". Cannot continue"
 goto terminate-scripts
 
-#if !db_type != sqlite then
-#do echo "Error: Failed to declare " !default_dbms" database with database type " !db_type " will reattempt with SQLite"
-#do set db_type = sqlite
-#do goto operator-dbms
-#else !db_type == sqlite
-#do echo "Error: Unable to connect to " !default_dbms " database with db type: SQLite. Cannot continue"
-#do goto terminate-scripts

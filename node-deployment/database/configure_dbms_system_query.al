@@ -3,6 +3,12 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_system_query.al
 
+if $DEBUG_MODE.int != 0 then set debug on
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "deploy system_query logical databasae"
+do set debug on
+
 :system-query-dbms:
 on error goto system-query-db-error
 if !db_type == sqlite and !memory == true then connect dbms system_query where type=sqlite and memory=!memory

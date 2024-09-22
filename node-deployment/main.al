@@ -14,10 +14,10 @@ on error ignore
 set debug off
 set echo queue on
 
-if $DEBUG_MODE == 1 then set debug on
+if $DEBUG_MODE.int != 0 then set debug on
 
 :is-edgelake:
-if $DEBUG_MODE == 2 then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Check whether if an EdgeLake or AnyLog Deployment"
 do set debug on
@@ -30,7 +30,7 @@ if !deployment_type != AnyLog then set is_edgelake = true
 if !is_edgelake == true and $NODE_TYPE == publisher then edgelake-error
 
 :directories:
-if $DEBUG_MODE == 2 then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Set directory paths"
 do set debug on
@@ -43,31 +43,32 @@ set anylog home !anylog_path
 set local_scripts = !anylog_path/deployment-scripts/node-deployment
 set test_dir = !anylog_pathdeployment-scripts/test
 
-if $DEBUG_MODE == 2 then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Create work directories"
 do set debug on
 create work directories
 
 :set-params:
-if $DEBUG_MODE == 2 then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Set environment params"
 do set debug on
 process !local_scripts/set_params.al
 
 :configure-networking:
-if $DEBUG_MODE == 2 then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Configure networking"
 do set debug on
-process !local_scripts/connect_networking.al
+if $DEBUG_MODE.int == 2 then thread !local_scripts/connect_networking.al
+else process !local_scripts/connect_networking.al
 
 :is-generic:
 if !node_type == generic then goto set-license
 
 :blockchain-seed:
-if $DEBUG_MODE == 2 and !node_type != master then
+if $DEBUG_MODE.int == 2 and !node_type != master then
 do set debug interactive
 do print "Copy blockchain to local node"
 do set debug on
@@ -76,16 +77,17 @@ on error call blockchain-seed-error
 if !node_type != master then blockchain seed from !ledger_conn
 
 :declare-policy:
-if $DEBUG_MODE == 2 then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Declare policies"
 do set debug on
 
 on error ignore
-process !local_scripts/policies/config_policy.al
+if $DEBUG_MODE.int == 2 then thread !local_scripts/policies/config_policy.al
+else process !local_scripts/policies/config_policy.al
 
 :set-license:
-if $DEBUG_MODE == 2 and !is_edgelake == false then
+if $DEBUG_MODE.int == 2 and !is_edgelake == false then
 do set debug interactive
 do print "Validate license key exists (if AnyLog) and set license key"
 

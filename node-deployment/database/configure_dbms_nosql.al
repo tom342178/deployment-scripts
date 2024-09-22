@@ -4,9 +4,16 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_nosql.al
 
+if $DEBUG_MODE.int != 0 then set debug on
+
 if !enable_nosql == false then goto blobs-archiver
 
 :connect-dbms:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print "Deploy blobs database !default_dbms"
+do set debug on
+
 on error goto connect-dbms-error
 if !nosql_user and !nosql_passwd then
 <do connect dbms !default_dbms where
@@ -19,6 +26,11 @@ if !nosql_user and !nosql_passwd then
 else connect dbms !default_dbms where type=!nosql_type and ip=!nosql_ip and port=!nosql_port
 
 :blobs-archiver:
+if $DEBUG_MODE.int == 2 then
+do set debug interactive
+do print Enable blobs archiver"
+do set debug on
+
 on error call blobs-archiver-error
 if !blobs_dbms == false then set blobs_folder = true
 <run blobs archiver where
