@@ -12,11 +12,16 @@
 :set-configs:
 on error ignore
 set debug off
-if $DEBUG_MODE == 1 then set debug on
-else if $DEBUG_MODE == 2 then set debug interactive
 set echo queue on
 
+if $DEBUG_MODE == 1 then set debug on
+
 :is-edgelake:
+if $DEBUG_MODE == 2 then
+do set debug interactive
+do print "Check whether if an EdgeLake or AnyLog Deployment"
+do set debug on
+
 # check whether we're running EdgeLake or AnyLog
 set is_edgelake = false
 version = get version
@@ -24,49 +29,77 @@ deployment_type = python !version.split(" ")[0]
 if !deployment_type != AnyLog then set is_edgelake = true
 if !is_edgelake == true and $NODE_TYPE == publisher then edgelake-error
 
-if !is_edgelake == false then set authentication off
-
 :directories:
+if $DEBUG_MODE == 2 then
+do set debug interactive
+do print "Set directory paths"
+do set debug on
+
 # directory where deployment-scripts is stored
 set anylog_path = /app
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 else if $EDGELAKE_PATH then set anylog_path = $EDGELAKE_PATH
 set anylog home !anylog_path
+set local_scripts = !anylog_path/deployment-scripts/node-deployment
+set test_dir = !anylog_pathdeployment-scripts/test
 
+if $DEBUG_MODE == 2 then
+do set debug interactive
+do print "Create work directories"
+do set debug on
 create work directories
 
-set local_scripts = !anylog_path/deployment-scripts/node-deployment
-set test_dir = /app/deployment-scripts/test
-
 :set-params:
+if $DEBUG_MODE == 2 then
+do set debug interactive
+do print "Set environment params"
+do set debug on
 process !local_scripts/set_params.al
+
+:configure-networking:
+if $DEBUG_MODE == 2 then
+do set debug interactive
+do print "Configure networking"
+do set debug on
 process !local_scripts/connect_networking.al
 
 :is-generic:
 if !node_type == generic then goto set-license
 
 :blockchain-seed:
+if $DEBUG_MODE == 2 and !node_type != master then
+do set debug interactive
+do print "Copy blockchain to local node"
+do set debug on
+
 on error call blockchain-seed-error
 if !node_type != master then blockchain seed from !ledger_conn
 
 :declare-policy:
+if $DEBUG_MODE == 2 then
+do set debug interactive
+do print "Declare policies"
+do set debug on
+
+on error ignore
 process !local_scripts/policies/config_policy.al
 
 :set-license:
+if $DEBUG_MODE == 2 and !is_edgelake == false then
+do set debug interactive
+do print "Validate license key exists (if AnyLog) and set license key"
+
 on error ignore
 if !is_edgelake == true then goto end-script
-if not !license_key and noddee
+else if not !license_key then license_key = blockchain get master bring [*][license]
 
-master_license = blockchain get master bring [*][license]
-on error goto license-error
-if !license_key then set license where activation_key = !license_key
-if not !license_key and !master_license then set license where activation_key = !master_license
-if not !license_key and not !master_license then goto license-error
+if not !license_key then goto license-error
+set license where activation_key = !license_key
 
 :end-script:
+print "Validate everything is running as expected"
 get processes
 if !enable_mqtt == true then get msg client
-reset error log
 end script
 
 :edgelake-error:
