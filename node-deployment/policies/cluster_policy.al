@@ -31,7 +31,7 @@ if not !cluster_id and !create_cluster == true then goto declare-policy-error
 :prep-policy:
 if $DEBUG_MODE.int == 2 then
 do set debug interactive
-do print "Create "
+do print "Create cluster policy"
 
 on error ignore
 new_policy = create policy cluster with defaults where company=!company_name and name=!cluster_name
