@@ -150,8 +150,8 @@ do print "Deploy Policy"
 do set debug on
 
 on error goto config-policy-error
-# if $DEBUG_MODE.int == 2 then process !local_scripts/policies/config_operator.al
-config from policy where id = !config_id
+if $DEBUG_MODE.int == 2 then process !local_scripts/policies/config_operator.al
+else config from policy where id = !config_id
 
 :end-script:
 end script

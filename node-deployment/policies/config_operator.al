@@ -20,19 +20,19 @@ if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Declare cluster policy"
 do set debug on
-thread !local_scripts/policies/cluster_policy.al
+process !local_scripts/policies/cluster_policy.al
 
 if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Declare node policy"
 do set debug on
-thread !local_scripts/policies/node_policy.al
+process !local_scripts/policies/node_policy.al
 
 if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Deploy Database(s)"
 do set debug on
-thread !local_scripts/database/deploy_database.al
+process !local_scripts/database/deploy_database.al
 
 if $DEBUG_MODE.int == 2 then
 do set debug interactive
