@@ -42,7 +42,7 @@ if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 else if $EDGELAKE_PATH then set anylog_path = $EDGELAKE_PATH
 set anylog home !anylog_path
 set local_scripts = !anylog_path/deployment-scripts/node-deployment
-set test_dir = !anylog_pathdeployment-scripts/test
+set test_dir = !anylog_path/deployment-scripts/test
 
 if $DEBUG_MODE.int == 2 then
 do set debug interactive
