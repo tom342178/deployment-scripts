@@ -13,6 +13,7 @@
 on error ignore
 set debug off
 set echo queue on
+set authentication off
 
 if $DEBUG_MODE.int != 0 then set debug on
 
