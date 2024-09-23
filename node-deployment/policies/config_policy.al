@@ -84,17 +84,22 @@ do set debug interactive
 do print "Add script for deploying policy - each node type has a unique policy"
 do set debug on
 
+if !node_type == publisher then goto publisher-scripts
+if !node_type == operator then goto operator-scripts
+
+:master-query:
 if !node_type == master or !node_type == query then
-<do set policy new_policy [config][script] = [
+<set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/policies/node_policy.al",
     "run scheduler 1",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
+goto publish-policy
 
-if !node_type == publisher then
-<do set policy new_policy [config][script] = [
+:publisher-scripts:
+<set policy new_policy [config][script] = [
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
@@ -106,9 +111,10 @@ if !node_type == publisher then
     "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
+goto publish-policy
 
-if !node_type == operator then
-<do set policy new_policy [config][script] = [
+:operator-scripts:
+<set policy new_policy [config][script] = [
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
@@ -130,8 +136,7 @@ do set debug interactive
 do print "Declare policy on blockchain"
 do set debug on
 
-if $DEBUG_MODE.int == 2 then thread !local_scripts/policies/publish_policy.al
-else  process !local_scripts/policies/publish_policy.al
+process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
@@ -145,8 +150,8 @@ do print "Deploy Policy"
 do set debug on
 
 on error goto config-policy-error
-if !node_type == operator and $DEBUG_MODE.int == 2 then goto thread !local_scripts/policies/config_operator.al
-else config from policy where id = !config_id
+# if $DEBUG_MODE.int == 2 then process !local_scripts/policies/config_operator.al
+config from policy where id = !config_id
 
 :end-script:
 end script

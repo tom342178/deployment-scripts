@@ -62,8 +62,7 @@ if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Configure networking"
 do set debug on
-if $DEBUG_MODE.int == 2 then thread !local_scripts/connect_networking.al
-else process !local_scripts/connect_networking.al
+process !local_scripts/connect_networking.al
 
 :is-generic:
 if !node_type == generic then goto set-license
@@ -84,8 +83,7 @@ do print "Declare policies"
 do set debug on
 
 on error ignore
-if $DEBUG_MODE.int == 2 then thread !local_scripts/policies/config_policy.al
-else process !local_scripts/policies/config_policy.al
+process !local_scripts/policies/config_policy.al
 
 :set-license:
 if $DEBUG_MODE.int == 2 and !is_edgelake == false then

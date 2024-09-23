@@ -39,7 +39,7 @@ if not !is_policy and !create_policy == true then goto config-policy-error
 else goto node-info
 
 :create-policy:
-if $DEBUG_MODE.int == 2 and !is_threading == true then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Declare new policy variables"
 
@@ -49,7 +49,7 @@ set policy new_policy [!node_type][name] = !node_name
 set policy new_policy [!node_type][company] = !company_name
 
 :network-!node_type:
-if $DEBUG_MODE.int == 2 and !is_threading == true then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Declare network configuration in new policy variables"
 
@@ -64,7 +64,7 @@ set policy new_policy [!node_type][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [!node_type][broker_port] = !anylog_broker_port.int
 
 :cluster-info:
-if $DEBUG_MODE.int == 2 and !is_threading == true then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "For an operator node add cluster ID new policy variables"
 if !node_type == operator then set policy new_policy [!node_type][main] = !operator_main.bool
@@ -73,7 +73,7 @@ if !node_type == operator and not !cluster_id then goto operator-cluster-error
 
 
 :location:
-if $DEBUG_MODE.int == 2 and !is_threading == true then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Declare location of node"
 
@@ -83,7 +83,7 @@ if !state then set policy new_policy [!node_type][state] = !state
 if !city then set policy new_policy [!node_type][city] = !city
 
 :publish-policy:
-if $DEBUG_MODE.int == 2 and !is_threading == true then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Publish policy"
 do thread !local_scripts/policies/publish_policy.al
@@ -96,7 +96,7 @@ goto check-policy
 
 :node-info:
 on error ignore
-if $DEBUG_MODE.int == 2 and !is_threading == true then
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "For operator node  get policy ID for `run operator`"
 if !node_type != operator then goto end-script
