@@ -3,7 +3,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_blockchain.al
 
-$DEBUG_MODE.int != 0 then set debug on
+if $DEBUG_MODE.int != 0 then set debug on
 
 on error ignore
 if !node_type != master and $NODE_TYPE != master-operator and $NODE_TYPE != master-publisher then goto blockchain-sync
