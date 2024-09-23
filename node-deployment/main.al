@@ -9,13 +9,13 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # python3.10 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
 
+if $DEBUG_MODE.int != 0 then set debug on
+
 :set-configs:
 on error ignore
 set debug off
 set echo queue on
 set authentication off
-
-if $DEBUG_MODE.int != 0 then set debug on
 
 :is-edgelake:
 if $DEBUG_MODE.int == 2 then
