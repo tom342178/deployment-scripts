@@ -28,7 +28,7 @@ set create_policy = false
 if $DEBUG_MODE.int != 0 then set debug on
 
 :check-policy:
-if $DEBUG_MODE.int == 2 hen
+if $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Check whether policy already exists based on params "
 do set debug on
