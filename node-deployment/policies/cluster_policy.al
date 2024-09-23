@@ -19,7 +19,7 @@ set create_policy = false
 if $DEBUG_MODE.int != 0 then set debug on
 
 :check-policy:
-if $DEBUG_MODE.int == 2 then
+if $DEBUG_MODE.int == 2 and !is_threading == true then
 do set debug interactive
 do print "Check whether cluster policy exists"
 
@@ -29,15 +29,15 @@ if !cluster_id then goto end-script
 if not !cluster_id and !create_cluster == true then goto declare-policy-error
 
 :prep-policy:
-if $DEBUG_MODE.int == 2 then
-do set debug interactive
+if $DEBUG_MODE.int == 2 and !is_threading == true then
 do print "Create cluster policy"
 
 on error ignore
 new_policy = create policy cluster with defaults where company=!company_name and name=!cluster_name
 
 :publish-policy:
-process !local_scripts/policies/publish_policy.al
+if $DEBUG_MODE.int == 2 and !is_threading == true then  thread !local_scripts/policies/publish_policy.al
+else process  !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error

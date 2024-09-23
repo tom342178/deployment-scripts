@@ -3,22 +3,37 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/policies/publish_policy.al
 
+if $DEBUG_MODE.int != 0 then set debug on
+
 :set-params:
 error_code = 0
 
 :private-key:
+if $DEBUG_MODE.int == 2 and !is_threading == true then
+do set debug interactive
+do print "Check whether authentication is enabled and that private key exists"
+do set debug on
+
 if !enable_auth == true and not !node_private_key then
 do on error ignore
 do node_private_key = get private key where keys_file = !key_name
 do if not !node_private_key then goto private-key-error
 
 :prepare-policy:
+if $DEBUG_MODE.int == 2 and !is_threading == true then
+do set debug interactive
+do print "Prepare new policy with signature if authentication is enabled"
+do set debug on
 on error goto sign-policy-error
 if !enable_auth == true then new_policy = id sign !new_policy where key = !node_private_key and password = !node_password
 validate_policy = json !new_policy
 if not !validate_policy then goto prepare-policy-error
 
 :declare-policy:
+if $DEBUG_MODE.int == 2 and !is_threading == true then
+do set debug interactive
+do print "Declare policy on blockchain"
+
 on error call declare-policy-error
 blockchain prepare policy !new_policy
 blockchain insert where policy=!new_policy and local=true and master=!ledger_conn

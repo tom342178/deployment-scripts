@@ -1,6 +1,20 @@
+#-----------------------------------------------------------------------------------------------------------------------
+# Alternative process for configurating operator - to be used when demonstrating how a node gets deployed.
+# :steps:
+#   1. declare cluster policy
+#   2. declare operator policy
+#   3. connect to database(s)
+#   4. run scheduler, threashold and streamer
+#   5. HA related processes
+#   6. start operator
+#   7. Enable monitoring andd MQTT
+#-----------------------------------------------------------------------------------------------------------------------
+# process !local_scripts/node-deployment/policies/config_operator.al
 
-set debug off
 if $DEBUG_MODE.int != 0 then set debug on
+if $DEBUG_MODE.int == 2 then set is_threading = true
+set debug off
+
 
 if $DEBUG_MODE.int == 2 then
 do set debug interactive
@@ -80,19 +94,22 @@ if !monitor_nodes == true and $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Start start monitoring policy"
 do set debug on
-if !monitor_nodes == true then thread !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
+do thread !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
+else if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
 
 if !enable_mqtt == true and $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Start MQTT client process"
 do set debug on
-if !enable_mqtt == true then thread !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al
+do thread !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al
+else if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al
 
 if !deploy_local_script == true and $DEBUG_MODE.int == 2 then
 do set debug interactive
 do print "Start local / personal script"
 do set debug on
-if !deploy_local_script == true then thread !local_scripts/local_script.al
+do thread !local_scripts/local_script.al
+else if !deploy_local_script == true then process !local_scripts/local_script.al
 
 :end-script:
 end script

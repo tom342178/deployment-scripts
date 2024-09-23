@@ -9,7 +9,7 @@ on error ignore
 $DEBUG_MODE.int != 0 then set debug on
 
 # Code configures blockchain database + ledger table if node_type == master and also blockchain sync (for all)
-if $DEBUG_MODE.int == 2 then
+if $DEBUG_MODE.int == 2 and !is_threading == true then
 do set debug interactive
 do print "Blockchain related database processes"
 do set debug on
