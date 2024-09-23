@@ -3,8 +3,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_system_query.al
 
-if $DEBUG_MODE.int != 0 then set debug on
-if $DEBUG_MODE.int == 2 then
+if !debug_mode.int > 0 then set debug on
+if !debug_mode.int == 2 then
 do set debug interactive
 do print "deploy system_query logical databasae"
 do set debug on

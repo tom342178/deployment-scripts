@@ -3,7 +3,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_blockchain.al
 
-if $DEBUG_MODE.int != 0 then set debug on
+if !debug_mode.int > 0 then set debug on
 
 on error ignore
 if !node_type != master and $NODE_TYPE != master-operator and $NODE_TYPE != master-publisher then goto blockchain-sync
@@ -25,7 +25,7 @@ is_table = info table blockchain ledger exists
 if !is_table == false then create table ledger where dbms=blockchain
 
 :blockchain-sync:
-if $DEBUG_MODE.int == 2 then
+if !debug_mode.int == 2 then
 do set debug interactive
 do print "set blockchain sync"
 do set debug on

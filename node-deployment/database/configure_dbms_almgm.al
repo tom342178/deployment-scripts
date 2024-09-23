@@ -3,10 +3,10 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_almgm.al
 
-if $DEBUG_MODE.int != 0 then set debug on
+if !debug_mode.int > 0 then set debug on
 
 :almgm-dbms:
-if $DEBUG_MODE.int == 2 then
+if !debug_mode.int == 2 then
 do set debug interactive
 do print "deploy `almgm` logical database - used for HA"
 do set debug on
@@ -21,7 +21,7 @@ on error goto almgm-dbms-error
     unlog = !unlog>
 else connect dbms almgm where type=!db_type
 
-if $DEBUG_MODE.int == 2 then
+if !debug_mode.int == 2 then
 do set debug interactive
 do print "create tsd_info table in almgm"
 do set debug on

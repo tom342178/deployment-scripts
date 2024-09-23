@@ -16,7 +16,7 @@
 # process !local_scripts/deployment_scripts/set_params.al
 on error ignore
 set debug off
-if $DEBUG_MODE.int != 0 then set debug on
+if !debug_mode.int > 0 then set debug on
 
 
 if $DISABLE_CLI == true or  $DISABLE_CLI == True or $DISABLE_CLI == TRUE then set cli off

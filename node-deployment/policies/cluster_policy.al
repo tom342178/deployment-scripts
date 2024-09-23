@@ -16,10 +16,10 @@
 on error ignore
 set create_policy = false
 
-if $DEBUG_MODE.int != 0 then set debug on
+if !debug_mode.int > 0 then set debug on
 
 :check-policy:
-if $DEBUG_MODE.int == 2 then
+if !debug_mode.int == 2 then
 do set debug interactive
 do print "Check whether cluster policy exists"
 
@@ -29,7 +29,7 @@ if !cluster_id then goto end-script
 if not !cluster_id and !create_cluster == true then goto declare-policy-error
 
 :prep-policy:
-if $DEBUG_MODE.int == 2 then
+if !debug_mode.int == 2 then
 do print "Create cluster policy"
 
 on error ignore
