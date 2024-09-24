@@ -36,6 +36,7 @@ process !anylog_path/deployment-scripts/demo-scripts/syslog_table_policy.al
 :store-monitoring:
 on error goto store-monitoring-error
 create database monitoring where type=sqlite
+create table syslog where dbms=monitoring
 
 on error goto partition-data-err
 partition monitoring syslog using timestamp by 12 hours
