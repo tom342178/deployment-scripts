@@ -35,18 +35,18 @@ process !anylog_path/deployment-scripts/demo-scripts/syslog_table_policy.al
 
 :store-monitoring:
 on error goto store-monitoring-error
-create database monitoring where type=sqlite
+connect dbms monitoring where type=sqlite
 create table syslog where dbms=monitoring
 
 on error goto partition-data-err
-partition monitoring syslog using timestamp by 12 hours
-schedule time=12 hours and name="drop syslog partitions" task drop partition where dbms=monitoring and table=syslog and keep=3
+    partition monitoring syslog using timestamp by 12 hours
+    schedule time=12 hours and name="drop syslog partitions" task drop partition where dbms=monitoring and table=syslog and keep=3
 
 :connect-network:
 on error ignore
 conn_info = get connections where format=json
 is_msg_broker  = from !conn_info bring [Messaging][external]
-if nnot !anylog_broker_port then anylog_broker_port = 32150
+if not !anylog_broker_port then anylog_broker_port = 32150
 if !is_msg_broker  == 'Not declared' then
 do on error goto broker-networking-error
 <do run message broker where
