@@ -61,6 +61,7 @@ on error goto set-syslog-error
 then
    dbms = monitoring  and
    table = syslog and
+   extend = ip and
    syslog = true>
 
 :end-script:
