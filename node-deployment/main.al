@@ -11,8 +11,8 @@
 
 :debug-mode:
 set debug_mode = 0
-if !debug_mode and !debug_mode == 1 then set debug_mode = 1
-if !debug_mode and !debug_mode == 2 then set debug_mode = 2
+if $DEBUG_MODE and $DEBUG_MODE == 1 then set debug_mode = 1
+if $DEBUG_MODE and $DEBUG_MODE == 2 then set debug_mode = 2
 
 if !debug_mode.int > 0 then set debug on
 
