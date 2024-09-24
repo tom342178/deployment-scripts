@@ -7,52 +7,51 @@
 #       sudo service rsyslog start
 #
 #   2. Update /etc/rsyslog.conf with the following lines:
-# $template remote-incoming-logs, "/var/log/remote/%HOSTNAME%.log"
+#
+# template(name="MyCustomTemplate" type="string" string="<%PRI%>%TIMESTAMP% %HOSTNAME% %syslogtag% %msg%\n")
+# $IncludeConfig /etc/rsyslog.d/*.conf
 # *.* ?remote-incoming-logs
-# *.* action(type="omfwd" target="{{DESTINATION_IP}}" port="{DESTINATION_PORT}" protocol="tcp")
+# *.* action(type="omfwd" target="[OPERATOR_IP]" port="[OPERATOR_BROKER_PORT]" protocol="tcp" template="MyCustomTemplate")
 #
 #   3. Restart rsyslog (service)
-#       sudo service rsyslog restart
+#       `sudo service rsyslog restart`
 #
-#:requirements:
-#   1. running rsyslog
-#   2. message broker
-#   3. connected database
+#   4. On operator `run msg rule`
+#       * this command should be run for each machine sending data
+#       * each rule should have a unique name `set msg rule [RULE_NAME] if ...`
+#
+# :processs:
+#   1. create table policy if DNE
+#   2. connect monitoring database inn SQLite
+#   3. set partitions
+#   4. run message broker (if not set)
+#   5. run message rule
 #----------------------------------------------------------------------------------------------------------------------#
 # process !anylog_path/deployment-scripts/demo-scripts/syslog.al
 on error ignore
 
+:dbms-configs:
+process !anylog_path/deployment-scripts/demo-scripts/syslog_table_policy.al
+
 :store-monitoring:
-if !default_dbms == monitoring then goto set-partitions
-
 on error goto store-monitoring-error
-if !db_type == psql then
-<do connect dbms monitoring where
-    type=!db_type and
-    user = !db_user and
-    password = !db_passwd and
-    ip = !db_ip and
-    port = !db_port and
-    autocommit = !autocommit and
-    unlog = !unlog>
-else if !store_monitoring == true then create database monitoring where type=sqlite
+create database monitoring where type=sqlite
 
-:partition-data:
 on error goto partition-data-err
 partition monitoring syslog using timestamp by 12 hours
-schedule time=12 hours and name="drop syslog partitions" task drop partition where dbms=!default_dbms and table=syslog and keep=3
+schedule time=12 hours and name="drop syslog partitions" task drop partition where dbms=monitoring and table=syslog and keep=3
 
 :connect-network:
 on error ignore
 conn_info = get connections where format=json
 is_msg_broker  = from !conn_info bring [Messaging][external]
+if nnot !anylog_broker_port then anylog_broker_port = 32150
 if !is_msg_broker  == 'Not declared' then
 do on error goto broker-networking-error
 <do run message broker where
     external_ip=!external_ip and external_port=!anylog_broker_port and
     internal_ip=!!overlay_ip and internal_port=!anylog_broker_port and
     bind=!broker_bind and threads=!broker_threads>
-
 
 :set-syslog:
 on error goto set-syslog-error
