@@ -57,30 +57,23 @@
 # }
 #-----------------------------------------------------------------------------------------------------------------------
 # process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
-
 on error ignore
-schedule_id = generic-schedule-policy
-set create_policy = false
+
+:declare-policy:
+if !store_monitoring == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_table_policy.al
 
 :store-monitoring:
-if !store_monitoring == false or !node_type != operator then goto check-policy
-else if !default_dbms == monitoring then goto set-partitions
+if !store_monitoring == true and !node_type == operator then
+do on error goto store-monitoring-error
+do connect dbms monitoring where type=sqlite
+do create table node_insight where dbms=monitoring
+do on error goto partition-data-err
+do partition monitoring node_insight using timestamp by 12 hours
+do schedule time=12 hours and name="drop node_insight partitions" task drop partition where dbms=monitoring and table=node_insight and keep=3
 
-on error goto store-monitoring-error
-if !store_monitoring == true and !db_type == psql then
-<do connect dbms monitoring where
-    type=!db_type and
-    user = !db_user and
-    password = !db_passwd and
-    ip = !db_ip and
-    port = !db_port and
-    autocommit = !autocommit and
-    unlog = !unlog>
-else if !store_monitoring == true then create database monitoring where type=sqlite
-
-:set-partitions:
-partition monitoring node_insight using timestamp by 12 hours
-schedule time=1 day and name="Drop node_insight monitoring" task drop partition where dbms=monitoring and table =* and keep=3
+:set-params:
+schedule_id = generic-schedule-policy
+set create_policy = false
 
 :check-policy:
 is_policy = blockchain get schedule where id=!schedule_id

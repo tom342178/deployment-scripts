@@ -39,8 +39,8 @@ connect dbms monitoring where type=sqlite
 create table syslog where dbms=monitoring
 
 on error goto partition-data-err
-    partition monitoring syslog using timestamp by 12 hours
-    schedule time=12 hours and name="drop syslog partitions" task drop partition where dbms=monitoring and table=syslog and keep=3
+partition monitoring syslog using timestamp by 12 hours
+schedule time=12 hours and name="drop syslog partitions" task drop partition where dbms=monitoring and table=syslog and keep=3
 
 :connect-network:
 on error ignore

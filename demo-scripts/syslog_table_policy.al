@@ -18,8 +18,9 @@
 # CREATE INDEX syslog_timestamp_index ON syslog(timestamp);
 # CREATE INDEX syslog_tsd_index ON syslog(tsd_name, tsd_id);
 # CREATE INDEX syslog_insert_timestamp_index ON syslog(insert_timestamp);
-# CREATE INDEX syslog_source_ip ON syslog(source_ip);
+# CREATE INDEX syslog_source_ip_index ON syslog(source_ip);
 #-----------------------------------------------------------------------------------------------------------------------
+# process !anylog_path/deployment-scripts/demo-scripts/syslog_table_policy.al
 on error ignore
 
 set create_table = false
@@ -33,7 +34,7 @@ else if not !is_table and !create_table == true then goto declare-policy-error
     "table": {
         "dbms": "monitoring",
         "name": "syslog",
-        "create": "CREATE TABLE IF NOT EXISTS syslog(row_id SERIAL PRIMARY KEY,insert_timestamp TIMESTAMP NOT NULL DEFAULT NOW(),tsd_name CHAR(3),tsd_id INT,source_ip cidr,priority int,timestamp timestamp not null default now(),hostname varchar,tag varchar,message varchar);CREATE INDEX syslog_timestamp_index ON syslog(timestamp);CREATE INDEX syslog_tsd_index ON syslog(tsd_name, tsd_id);CREATE INDEX syslog_insert_timestamp_index ON syslog(insert_timestamp);CREATE INDEX syslog_source_ip ON syslog(source_ip);"
+        "create": "CREATE TABLE IF NOT EXISTS syslog(row_id SERIAL PRIMARY KEY,insert_timestamp TIMESTAMP NOT NULL DEFAULT NOW(),tsd_name CHAR(3),tsd_id INT,source_ip cidr,priority int,timestamp timestamp not null default now(),hostname varchar,tag varchar,message varchar);CREATE INDEX syslog_timestamp_index ON syslog(timestamp);CREATE INDEX syslog_tsd_index ON syslog(tsd_name, tsd_id);CREATE INDEX syslog_insert_timestamp_index ON syslog(insert_timestamp);CREATE INDEX syslog_source_ip_index ON syslog(source_ip);"
     }
 }>
 
