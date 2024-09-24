@@ -43,7 +43,7 @@ if !error_code == 1 then goto sign-policy-error
 else if !error_code == 2 then goto prepare-policy-error
 else if !error_code == 3 then goto declare-policy-error
 set create_table = true
-goto check-table-policy`
+goto check-table-policy
 
 :end-script:
 end script
