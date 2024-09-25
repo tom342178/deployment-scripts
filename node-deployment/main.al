@@ -103,7 +103,7 @@ if not !license_key then goto license-error
 set license where activation_key = !license_key
 
 :end-script:
-print "Validate everything is running as expected"
+if !debug_mode == 2 then print "Validate everything is running as expected"
 get processes
 if !enable_mqtt == true then get msg client
 end script
