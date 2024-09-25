@@ -3,25 +3,28 @@
 #   -> create table policy
 #   -> if operator then: connect dbms (monitoring), create table, set partitioning
 # :sample table:
+
 # CREATE TABLE IF NOT EXISTS node_insight(
-#   row_id SERIAL PRIMARY KEY,
-#   insert_timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
+#   row_id INTEGER PRIMARY KEY AUTOINCREMENT,
+#   insert_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 #   tsd_name CHAR(3),
 #   tsd_id INT,
 #   node_name varchar,
 #   status varchar,
-#   operational_time time not null default now(),
-#   processing_time time not null default now(),
-#   elapsed_time time not null default now(),
-#   new_rows int, total_rows int, new_errors int,
-#   total_errors int,
-#   avg_rows_sec float,
-#   timestamp timestamp not null default now(),
-#   free_space_precent decimal,
-#   cpu_precent float,
-#   packets_recv int,
-#   packets_sent int,
-#   network_error int
+#   operational_time TIME NOT NULL DEFAULT '00:00:00',
+#   processing_time TIME NOT NULL DEFAULT '00:00:00',
+#   elapsed_time TIME NOT NULL DEFAULT '00:00:00',
+#   new_rows INT,
+#   total_rows INT,
+#   new_errors INT,
+#   total_errors INT,
+#   avg_rows_sec FLOAT,
+#   timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+#   free_space_percent FLOAT,
+#   cpu_percent FLOAT,
+#   packets_recv INT,
+#   packets_sent INT,
+#   network_error INT
 # );
 # CREATE INDEX node_insight_timestamp_index ON node_insight(timestamp);
 # CREATE INDEX node_insight_tsd_index ON node_insight(tsd_name, tsd_id);
@@ -42,7 +45,7 @@ else if not !is_table and !create_table == true then goto declare-policy-error
     "table": {
         "dbms": "monitoring",
         "name": "node_insight",
-        "create": "CREATE TABLE IF NOT EXISTS node_insight(row_id SERIAL PRIMARY KEY,insert_timestamp TIMESTAMP NOT NULL DEFAULT NOW(),tsd_name CHAR(3),tsd_id INT,node_name varchar,status varchar,operational_time time not null default now(),processing_time time not null default now(),elapsed_time time not null default now(),new_rows int, total_rows int, new_errors int,total_errors int,avg_rows_sec float,timestamp timestamp not null default now(),free_space_precent decimal,cpu_precent float,packets_recv int,packets_sent int,network_error int);CREATE INDEX node_insight_timestamp_index ON node_insight(timestamp);CREATE INDEX node_insight_tsd_index ON node_insight(tsd_name, tsd_id);CREATE INDEX node_insight_insert_timestamp_index ON node_insight(insert_timestamp);CREATE INDEX node_insight_node_name_index ON node_insight(node_name);"
+        "create": "CREATE TABLE IF NOT EXISTS node_insight( row_id INTEGER PRIMARY KEY AUTOINCREMENT, insert_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, tsd_name CHAR(3), tsd_id INT, node_name varchar, status varchar, operational_time TIME NOT NULL DEFAULT '00:00:00', processing_time TIME NOT NULL DEFAULT '00:00:00', elapsed_time TIME NOT NULL DEFAULT '00:00:00', new_rows INT, total_rows INT, new_errors INT, total_errors INT, avg_rows_sec FLOAT, timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, free_space_percent FLOAT, cpu_percent FLOAT, packets_recv INT, packets_sent INT, network_error INT ); CREATE INDEX node_insight_timestamp_index ON node_insight(timestamp); CREATE INDEX node_insight_tsd_index ON node_insight(tsd_name, tsd_id); CREATE INDEX node_insight_insert_timestamp_index ON node_insight(insert_timestamp); CREATE INDEX node_insight_node_name_index ON node_insight(node_name);"
     }
 }>
 
