@@ -34,7 +34,7 @@ on error ignore
 set create_table = false
 :check-table-policy:
 is_table = blockchain get table where dbms=monitoring and name=node_insight
-if !is_table then goto dbms-commands
+if !is_table then goto end-script
 else if not !is_table and !create_table == true then goto declare-policy-error
 
 :declare-policy:
