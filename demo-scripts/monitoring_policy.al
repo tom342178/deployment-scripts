@@ -96,15 +96,15 @@ new_policy=""
             "if !store_monitoring == true and !node_type != operator and !monitoring_operator then schedule name = operator_monitoring_ips and time=300 seconds and task if not !operator_monitoring_ip then operator_monitoring_ip = blockchain get operator where name=!monitoring_operator bring.first [*][ip] : [*][port]",
             "schedule name = get_stats and time=30 seconds and task node_insight = get stats where service = operator and topic = summary  and format = json",
             "schedule name = get_timestamp and time=30 seconds and task node_insight[timestamp] = get datetime local now()",
-            "schedule name = set_node_type and time=30 seconds and task node_insight[node type]=!node_type",
+            "schedule name = set_node_type and time=30 seconds and task set node_insight[node type] = !node_type",
 
             "schedule name = get_disk_space and time=30 seconds and task disk_space = get disk percentage .",
             "schedule name = get_cpu_percent and time = 30 seconds task cpu_percent = get node info cpu_percent",
             "schedule name = get_packets_recv and time = 30 seconds task packets_recv = get node info net_io_counters packets_recv",
             "schedule name = get_packets_sent and time = 30 seconds task packets_sent = get node info net_io_counters packets_sent",
 
-            "schedule name = disk_space   and time = 30 seconds task if !disk_space   then node_insight[Free space %] = !disk_space.float",
-            "schedule name = cpu_percent  and time = 30 seconds task if !cpu_percent  then node_insight[CPU %] = !cpu_percent.float",
+            "schedule name = disk_space   and time = 30 seconds task if !disk_space   then node_insight[Free Space Percent] = !disk_space.float",
+            "schedule name = cpu_percent  and time = 30 seconds task if !cpu_percent  then node_insight[CPU Percent] = !cpu_percent.float",
             "schedule name = packets_recv and time = 30 seconds task if !packets_recv then node_insight[Packets Recv] = !packets_recv.int",
             "schedule name = packets_sent and time = 30 seconds task if !packets_sent then node_insight[Packets Sent] = !packets_sent.int",
 
