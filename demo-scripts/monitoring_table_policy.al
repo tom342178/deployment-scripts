@@ -3,7 +3,6 @@
 #   -> create table policy
 #   -> if operator then: connect dbms (monitoring), create table, set partitioning
 # :sample table:
-
 # CREATE TABLE IF NOT EXISTS node_insight(
 #   row_id INTEGER PRIMARY KEY AUTOINCREMENT,
 #   insert_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

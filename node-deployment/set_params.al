@@ -263,7 +263,7 @@ if $MONITORING_OPERATOR then monitoring_operator = $MONITORING_OPERATOR
 
 :other-settings:
 set deploy_local_script = false
-set deploy_syslog = false
+set syslog_monitoring = false
 set create_table = true
 set update_tsd_info = true
 set archive = true
@@ -283,11 +283,11 @@ threshold_time = 60 seconds
 threshold_volume = 10KB
 
 if $DEPLOY_LOCAL_SCRIPT == true or $DEPLOY_LOCAL_SCRIPT == True or $DEPLOY_LOCAL_SCRIPT == TRUE then set deploy_local_script=true
-if $DEPLOY_SYSLOG == true or $DEPLOY_SYSLOG == True or $DEPLOY_SYSLOG == TRUE then set deploy_syslog = true
+if $SYSLOG_MONITORING == true or $SYSLOG_MONITORING == True or $SYSLOG_MONITORING == TRUE then set syslog_monitoring = true
 
-if !deploy_syslog == true and not !anylog_broker_port then
+if !SYSLOG_MONITORING == true and not !anylog_broker_port then
 do echo "Unable to deploy syslog support - broker port is required"
-do set deploy_syslog = false
+do set SYSLOG_MONITORING = false
 
 if $COMPRESS_FILE == false or $COMPRESS_FILE == False or $COMPRESS_FILE == FALSE then set compress_file=false
 if $WRITE_IMMEDIATE == false or $WRITE_IMMEDIATE == False or $WRITE_IMMEDIATE == FALSE then set write_immediate=false

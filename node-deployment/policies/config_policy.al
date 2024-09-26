@@ -109,6 +109,7 @@ goto publish-policy
     "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
+    "if !syslog_monitoring == true then process !anylog_path/deployment-scripts/demo-scripts/syslog.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 goto publish-policy
@@ -127,6 +128,7 @@ goto publish-policy
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
+    "if !syslog_monitoring == true then process !anylog_path/deployment-scripts/demo-scripts/syslog.al",s
     "if !deploy_local_script == true then process !local_scripts/local_script.al"
 ]>
 
