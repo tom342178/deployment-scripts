@@ -120,7 +120,7 @@ goto publish-policy
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
-    "process !local_scripts/policies/config_threashold.al",
+    "process !local_scripts/policies/config_threshold.al",
     "run streamer",
     "if !enable_ha == true then run data distributor",
     "if !enable_ha == true then run data consumer where start_date=!start_data",
