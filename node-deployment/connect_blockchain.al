@@ -1,6 +1,13 @@
 #----------------------------------------------------------------------------------------------------------------------#
-#
+# Connect to an actual blockchain as opposed to connecting to an AnyLog master
+#   --> validate keys and credentials exists are set
+#   --> declare / connect to blockhcain account
+#   --> set contract
+#   --> set account
+#   --> sync from contract
 #----------------------------------------------------------------------------------------------------------------------#
+# process !local_scripts/connect_blockchain.al
+
 on error ignore
 
 :validate-params:
