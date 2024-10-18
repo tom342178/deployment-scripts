@@ -78,8 +78,13 @@ do set debug interactive
 do print "Copy blockchain to local node"
 do set debug on
 
+if !local_blockchain == false then goto remote-blockchain
+
 on error call blockchain-seed-error
 if !node_type != master then blockchain seed from !ledger_conn
+
+:remote-blockchain:
+process !local_scripts/connect_blockchain.al
 
 :declare-policy:
 if !debug_mode.int == 2 then

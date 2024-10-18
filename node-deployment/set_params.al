@@ -47,6 +47,7 @@ else if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 
 :general-params:
 hostname = get hostname
+set local_blockchain = true
 loc_info = rest get where url = https://ipinfo.io/json
 if $LOCATION then loc = $LOCATION
 if $COUNTRY then country = $COUNTRY
@@ -61,6 +62,8 @@ if !loc_info and not !state then state = from !loc_info bring [state]
 if not !loc_info and not !state then state = Unknown
 if !loc_info and not !city then city = from !loc_info bring [city]
 if not !loc_info and not !city then city = Unknown
+
+if $LOCAL_BLOCKCHAIN == false or $LOCAL_BLOCKCHAIN == False or $LOCAL_BLOCKCHAIN == FALSE  then set local_blockchain = false
 
 :networking:
 config_name = !node_type.name + - + !company_name.name + -configs
@@ -171,7 +174,8 @@ if $NOSQL_PORT then nosql_port = $NOSQL_PORT
 if $NOSQL_USER then nosql_user = $NOSQL_USER
 if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
-:blockchain:
+:local-blockchain:
+if !local_blockchain == false then goto remote-blockchain
 blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
@@ -187,6 +191,25 @@ do ledger_port = python !ledger_conn.split(':')[1]
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and !overlay_ip then ledger_conn = !overlay_ip + : + !ledger_port
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and not !overlay_ip then ledger_conn = !ip + : + !ledger_port
 
+goto operator-settings
+
+:remote-blockchain:
+set provider = infura
+set platform = optimism
+
+blockchain_sync = 30 seconds
+set blockchain_source = blockchain
+set blockchain_destination = file
+
+if $SYNC_TIME then sync_time = $SYNC_TIME
+if $SOURCE then blockchain_source=$SOURCE
+if $DESTINATION then set blockchain_destination=$DESTINATION
+
+if $PROVIDER then set provider = $PROVIDER
+if $PLATFORM then set platform = $PLATFORM
+if $PUBLIC_KEY then set public_key = $PUBLIC_KEY
+if $PRIVATE_KEY then set private_key = $PRIVATE_KEY
+if $CHAIN_ID then set chain_id = $CHAIN_ID
 
 
 :operator-settings:
