@@ -104,8 +104,9 @@ goto publish-policy
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
     "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
-    "process !local_scripts/policies/config_threashold.al",
+    "process !local_scripts/policies/config_threshold.al",
     "run streamer",
+    "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
     "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
@@ -152,7 +153,7 @@ do print "Deploy Policy"
 do set debug on
 
 on error goto config-policy-error
-if !debug_mode.int == 2 then process !local_scripts/policies/config_operator.al
+if !debug_mode.int == 2 then process !anylog_path/deployment-scripts/demo-scripts/manual_config.al
 else config from policy where id = !config_id
 
 :end-script:
