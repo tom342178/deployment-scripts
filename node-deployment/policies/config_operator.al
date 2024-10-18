@@ -1,10 +1,10 @@
 #-----------------------------------------------------------------------------------------------------------------------
-# Alternative process for configurating operator - to be used when demonstrating how a node gets deployed.
+# Alternative process for configuring an operator - to be used when demonstrating how a node gets deployed.
 # :steps:
 #   1. declare cluster policy
 #   2. declare operator policy
 #   3. connect to database(s)
-#   4. run scheduler, threashold and streamer
+#   4. run scheduler, threshold and streamer
 #   5. HA related processes
 #   6. start operator
 #   7. Enable monitoring andd MQTT
