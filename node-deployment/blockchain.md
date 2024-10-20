@@ -12,8 +12,8 @@ In the environment parameter files for each node, the following blockchain optio
 actual blockchain
 * `LEDGER_CONN` (default: 127.0.0.1:32048) - TCP conenction information for master node
 * `PROVIDER` (default: infura) - SubQuery network participant who is responsible for serving RPC queries for blockchain 
-data to their customers. We're using <a href="https://www.infura.io/" target="_blank>infura</a>
-* `PLATFORM` (default: optimism) - Blockchain to use. We're using an off-chain extension (<a href="https://iq.wiki/wiki/layer-2/" target="_blank">layer-2</a>) 
+data to their customers. We're using <a herf="https://www.infura.io/" target="_blank>infura</a>
+* `PLATFORM` (default: optimism) - Blockchain to use. We're using an off-chain extension (<a herf="https://iq.wiki/wiki/layer-2/" target="_blank">layer-2</a>) 
 blockchain named <a herf="https://www.optimism.io/" target="_blank">Optimism</a>
 
 **Advance Configs**
