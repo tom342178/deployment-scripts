@@ -61,7 +61,7 @@ do set debug interactive
 do print "Copy blockchain to local node"
 
 on error call blockchain-seed-error
-blockchain seed from !contract
+blockchain checkout from !platformm
 
 :blockchain-sync:
 if !debug_mode.int == 2 then
