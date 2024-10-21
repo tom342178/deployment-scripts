@@ -50,6 +50,7 @@ on error goto declare-blockchain-account-error
     chain_id = !chain_id>
 
 :create-contract:
+if !contract then goto blockchain-account
 if !debug_mode.int == 2 then
 do set debug interactive
 do print "Get blockchain contract ID - if a contract does not exist, code will automatically create one"
@@ -84,6 +85,11 @@ on error call blockchain-sync-error
     time = !sync_time and
     dest = !blockchain_destination and
     platform = !platform>
+
+:print-summary:
+sed debug off
+print "Contract: " !contract
+print "Public Key: " !public_key " | Private Key: " !private_key
 
 :end-script:
 end script

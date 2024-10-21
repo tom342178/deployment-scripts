@@ -47,7 +47,6 @@ else if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 
 :general-params:
 hostname = get hostname
-set local_blockchain = true
 loc_info = rest get where url = https://ipinfo.io/json
 if $LOCATION then loc = $LOCATION
 if $COUNTRY then country = $COUNTRY
@@ -62,8 +61,6 @@ if !loc_info and not !state then state = from !loc_info bring [state]
 if not !loc_info and not !state then state = Unknown
 if !loc_info and not !city then city = from !loc_info bring [city]
 if not !loc_info and not !city then city = Unknown
-
-if $LOCAL_BLOCKCHAIN == false or $LOCAL_BLOCKCHAIN == False or $LOCAL_BLOCKCHAIN == FALSE  then set local_blockchain = false
 
 :networking:
 config_name = !node_type.name + - + !company_name.name + -configs
@@ -174,9 +171,8 @@ if $NOSQL_PORT then nosql_port = $NOSQL_PORT
 if $NOSQL_USER then nosql_user = $NOSQL_USER
 if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
-:local-blockchain:
-if !local_blockchain == false then goto remote-blockchain
-blockchain_sync = 30 seconds
+:blockchain-cmds:
+set blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
 
@@ -184,6 +180,9 @@ if $SYNC_TIME then sync_time = $SYNC_TIME
 if $SOURCE then blockchain_source=$SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
+if !blockchain_destination != master then goto  remote-blockchain
+
+:local-blockchain:
 # if ledger_conn == 127.0.0.1 and TCP bind is true then update to use local IP
 if !tcp_bind == true then
 do ledger_ip = python !ledger_conn.split(':')[0]
@@ -196,20 +195,14 @@ goto operator-settings
 :remote-blockchain:
 set provider = infura
 set platform = optimism
-
-blockchain_sync = 30 seconds
-set blockchain_source = blockchain
-set blockchain_destination = file
-
-if $SYNC_TIME then sync_time = $SYNC_TIME
-if $SOURCE then blockchain_source=$SOURCE
-if $DESTINATION then set blockchain_destination=$DESTINATION
+# contract = 0x8fD816a62e8E7985154248019520915778eB4013
 
 if $PROVIDER then set provider = $PROVIDER
 if $PLATFORM then set platform = $PLATFORM
 if $BLOCKCHAIN_PUBLIC_KEY then set public_key = $BLOCKCHAIN_PUBLIC_KEY
 if $BLOCKCHAIN_PRIVATE_KEY then set private_key = $BLOCKCHAIN_PRIVATE_KEY
 if $CHAIN_ID then set chain_id = $CHAIN_ID
+if $CONTRACT then contract =  $CONTRACT
 
 :operator-settings:
 set enable_partitions = true
