@@ -50,7 +50,7 @@ on error goto declare-blockchain-account-error
     chain_id = !chain_id>
 
 :create-contract:
-if !contract then goto blockchain-account
+if !contract and !contract != generate then goto blockchain-account
 if !debug_mode.int == 2 then
 do set debug interactive
 do print "Get blockchain contract ID - if a contract does not exist, code will automatically create one"

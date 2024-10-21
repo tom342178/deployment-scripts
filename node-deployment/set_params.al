@@ -195,14 +195,14 @@ goto operator-settings
 :remote-blockchain:
 set provider = infura
 set platform = optimism
-# contract = 0x8fD816a62e8E7985154248019520915778eB4013
+contract = 0x8fD816a62e8E7985154248019520915778eB4013
 
 if $PROVIDER then set provider = $PROVIDER
 if $PLATFORM then set platform = $PLATFORM
 if $BLOCKCHAIN_PUBLIC_KEY then set public_key = $BLOCKCHAIN_PUBLIC_KEY
 if $BLOCKCHAIN_PRIVATE_KEY then set private_key = $BLOCKCHAIN_PRIVATE_KEY
 if $CHAIN_ID then set chain_id = $CHAIN_ID
-if $CONTRACT then contract =  $CONTRACT
+if $CONTRACT == generate then set contract = ""
 
 :operator-settings:
 set enable_partitions = true
