@@ -15,8 +15,8 @@ if !debug_mode.int == 2 then
 do set debug interactive
 do print "Validate keys and credentials params are declared"
 
-if not !private_key or not !public_key or not !private_key and not chain_id then
-do print "Missing private / public keys and/or chain id. Cannot setup a blockchain connectivity..."
+if not chain_id then
+do print "Missing chain id. Cannot setup a blockchain connectivity..."
 do goto  terminate-scripts
 
 if !debug_mode.int == 2 then
@@ -26,6 +26,16 @@ do print "Double check source is blockchain"
 if !blockchain_source != blockchain then
 do echo "Setting source to `blockchain`"
 do set blockchain_source = blockchain
+
+:gen-keys:
+if !private_key and !public_key then goto declare-blockchain-account
+if !debug_mode.int == 2 then
+do set debug mode interactive
+do print "Create private and public keys for the blockchain"
+
+on error goto gen-keys-error
+blockchain create account !platform
+if not !private_key or !public_key then goto gen-keys-error
 
 :declare-blockchain-account:
 if !debug_mode.int == 2 then
@@ -80,6 +90,10 @@ end script
 
 :terminate-scripts:
 exit scripts
+
+:gen-keys-error:
+print "Failed to create private / public keys for the blockchain, cannot continue..."
+goto terminate-scripts
 
 :declare-blockchain-account-error:
 print "Failed to declare account information, cannot continue..."

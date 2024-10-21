@@ -207,10 +207,9 @@ if $DESTINATION then set blockchain_destination=$DESTINATION
 
 if $PROVIDER then set provider = $PROVIDER
 if $PLATFORM then set platform = $PLATFORM
-if $PUBLIC_KEY then set public_key = $PUBLIC_KEY
-if $PRIVATE_KEY then set private_key = $PRIVATE_KEY
+if $BLOCKCHAIN_PUBLIC_KEY then set public_key = $BLOCKCHAIN_PUBLIC_KEY
+if $BLOCKCHAIN_PRIVATE_KEY then set private_key = $BLOCKCHAIN_PRIVATE_KEY
 if $CHAIN_ID then set chain_id = $CHAIN_ID
-
 
 :operator-settings:
 set enable_partitions = true

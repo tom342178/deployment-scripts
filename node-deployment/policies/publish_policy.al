@@ -37,9 +37,7 @@ do print "Declare policy on blockchain"
 on error call declare-policy-error
 blockchain prepare policy !new_policy
 if !local_blockchain == true then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
-else
-do blockchain insert where policy=!new_policy and local=true
-do blockchain commit to !platform !new_policy
+else blockchain insert where policy=!new_policy and local=true and blockchain=!platform
 
 :end-script:
 end script
