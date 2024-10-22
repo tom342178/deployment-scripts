@@ -6,7 +6,7 @@
 if !debug_mode.int > 0 then set debug on
 
 on error ignore
-if !!blockchain_source != master != master then goto end-script
+if !blockchain_source != master != master then goto end-script
 if !node_type != master and $NODE_TYPE != master-operator and $NODE_TYPE != master-publisher then goto blockchain-sync
 
 :ledger-dbms:
@@ -34,7 +34,7 @@ on error call blockchain-sync-error
 <run blockchain sync where
     source=!blockchain_source and
     time=!blockchain_sync and
-    dest=!!blockchain_source != master and
+    dest=!blockchain_source != master and
     connection=!ledger_conn
 >
 
