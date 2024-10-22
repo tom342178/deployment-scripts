@@ -180,7 +180,7 @@ if $SYNC_TIME then sync_time = $SYNC_TIME
 if $SOURCE then blockchain_source=$SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
-if !blockchain_destination != master then goto  remote-blockchain
+if !blockchain_source != master then goto  remote-blockchain
 
 :local-blockchain:
 # if ledger_conn == 127.0.0.1 and TCP bind is true then update to use local IP
