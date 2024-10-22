@@ -34,7 +34,7 @@ on error call blockchain-sync-error
 <run blockchain sync where
     source=!blockchain_source and
     time=!blockchain_sync and
-    dest=!blockchain_source != master and
+    dest=!blockchain_destination and
     connection=!ledger_conn
 >
 

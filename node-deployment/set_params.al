@@ -172,7 +172,7 @@ if $NOSQL_USER then nosql_user = $NOSQL_USER
 if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
 :blockchain-params:
-set blockchain_sync = 30 seconds
+blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
 
@@ -181,7 +181,7 @@ set provider = infura
 set platform = optimism
 contract = 0x8fD816a62e8E7985154248019520915778eB4013
 
-if $SYNC_TIME then sync_time = $SYNC_TIME
+if $SYNC_TIME then blockchain_sync = $SYNC_TIME
 if $SOURCE then blockchain_source=$SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
