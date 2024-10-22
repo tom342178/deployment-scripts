@@ -34,12 +34,12 @@ blockchain create account !blockchain_source
 if not !private_key or !public_key then goto gen-keys-error
 
 :blockchain-connect:
-:declare-blockchain-account:
+:connect-blockchain-account:
 if !debug_mode.int == 2 then
 do set debug interactive
 do print "Connect to optimism"
-if
-blockchain connect to !blockchain_source where provider = !provider
+on error goto connect-blockchain-account-error
+blockchain connect to optimism where provider = !provider
 
 :declare-blockchain-account:
 if !debug_mode.int == 2 then
@@ -103,6 +103,10 @@ exit scripts
 
 :gen-keys-error:
 print "Failed to create private / public keys for the blockchain, cannot continue..."
+goto terminate-scripts
+
+:connect-blockchain-account-error:
+print "Failed to connect to Optimism"
 goto terminate-scripts
 
 :declare-blockchain-account-error:
