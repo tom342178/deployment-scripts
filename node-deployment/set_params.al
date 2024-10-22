@@ -199,10 +199,10 @@ goto operator-settings
 
 :remote-blockchain:
 if $PROVIDER then set provider = $PROVIDER
-if $BLOCKCHAIN_PUBLIC_KEY then set public_key = $BLOCKCHAIN_PUBLIC_KEY
-if $BLOCKCHAIN_PRIVATE_KEY then set private_key = $BLOCKCHAIN_PRIVATE_KEY
-if $CHAIN_ID then set chain_id = $CHAIN_ID
-if $CONTRACT == generate then set contract = ""
+if $BLOCKCHAIN_PUBLIC_KEY then public_key = $BLOCKCHAIN_PUBLIC_KEY
+if $BLOCKCHAIN_PRIVATE_KEY then private_key = $BLOCKCHAIN_PRIVATE_KEY
+if $CHAIN_ID then chain_id = $CHAIN_ID
+if $CONTRACT then contract = $CONTRACT
 
 :operator-settings:
 set enable_partitions = true

@@ -33,6 +33,14 @@ on error goto gen-keys-error
 blockchain create account !blockchain_source
 if not !private_key or !public_key then goto gen-keys-error
 
+:blockchain-connect:
+:declare-blockchain-account:
+if !debug_mode.int == 2 then
+do set debug interactive
+do print "Connect to optimism"
+if
+blockchain connect to !blockchain_source where provider = !provider
+
 :declare-blockchain-account:
 if !debug_mode.int == 2 then
 do set debug interactive
