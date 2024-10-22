@@ -176,12 +176,8 @@ blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
 
-# configs for optimism network
-set provider = infura
-set platform = optimism
-contract = 0x8fD816a62e8E7985154248019520915778eB4013
-
 if $SYNC_TIME then blockchain_sync = $SYNC_TIME
+# blockchain source - master, optimism, etherium, etc.
 if $SOURCE then blockchain_source=$SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
@@ -198,8 +194,10 @@ if !tcp_bind == true and !ledger_ip == 127.0.0.1 and not !overlay_ip then ledger
 goto operator-settings
 
 :remote-blockchain:
+# configs for optimism network
+provider = infura
+contract = 0x8fD816a62e8E7985154248019520915778eB4013
 if $PROVIDER then set provider = $PROVIDER
-if $PLATFORM then set platform = $PLATFORM
 if $BLOCKCHAIN_PUBLIC_KEY then set public_key = $BLOCKCHAIN_PUBLIC_KEY
 if $BLOCKCHAIN_PRIVATE_KEY then set private_key = $BLOCKCHAIN_PRIVATE_KEY
 if $CHAIN_ID then set chain_id = $CHAIN_ID
