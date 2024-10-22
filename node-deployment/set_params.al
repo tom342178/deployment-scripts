@@ -171,10 +171,15 @@ if $NOSQL_PORT then nosql_port = $NOSQL_PORT
 if $NOSQL_USER then nosql_user = $NOSQL_USER
 if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
-:blockchain-cmds:
+:blockchain-params:
 set blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
+
+# configs for optimism network
+set provider = infura
+set platform = optimism
+contract = 0x8fD816a62e8E7985154248019520915778eB4013
 
 if $SYNC_TIME then sync_time = $SYNC_TIME
 if $SOURCE then blockchain_source=$SOURCE
@@ -193,10 +198,6 @@ if !tcp_bind == true and !ledger_ip == 127.0.0.1 and not !overlay_ip then ledger
 goto operator-settings
 
 :remote-blockchain:
-set provider = infura
-set platform = optimism
-contract = 0x8fD816a62e8E7985154248019520915778eB4013
-
 if $PROVIDER then set provider = $PROVIDER
 if $PLATFORM then set platform = $PLATFORM
 if $BLOCKCHAIN_PUBLIC_KEY then set public_key = $BLOCKCHAIN_PUBLIC_KEY
