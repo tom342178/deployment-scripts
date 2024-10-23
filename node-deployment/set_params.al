@@ -182,7 +182,7 @@ private_key = 712be5b5827d8c111b3e57a6e529eaa9769dcde550895659e008bdcf4f893c1c
 contract = 0x8fD816a62e8E7985154248019520915778eB4013
 
 if $SYNC_TIME then sync_time = $SYNC_TIME
-if $SOURCE then blockchain_source=$SOURCE
+if $BLOCKCHAIN_SOURCE then blockchain_source=$SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
 # if ledger_conn == 127.0.0.1 and TCP bind is true then update to use local IP
