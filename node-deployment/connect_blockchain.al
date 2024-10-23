@@ -39,7 +39,7 @@ if !debug_mode.int == 2 then
 do set debug interactive
 do print "Connect to optimism"
 on error goto connect-blockchain-account-error
-blockchain connect to optimism where provider = !provider
+blockchain connect to !blockchain_source where provider = !provider
 
 :declare-blockchain-account:
 if !debug_mode.int == 2 then
