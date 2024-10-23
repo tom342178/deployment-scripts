@@ -87,7 +87,6 @@ goto declare-policy
 :remote-blockchain:
 process !local_scripts/connect_blockchain.al
 
-goto set-license
 
 :declare-policy:
 if !debug_mode.int == 2 then
