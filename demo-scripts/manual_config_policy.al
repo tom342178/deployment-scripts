@@ -1,26 +1,25 @@
 #-----------------------------------------------------------------------------------------------------------------------
-# Alternative process for configurating operator - to be used when demonstrating how a node gets deployed.
+# Alternative process for configuring an operator - to be used when demonstrating how a node gets deployed.
 # :steps:
 #   1. declare cluster policy
 #   2. declare operator policy
 #   3. connect to database(s)
-#   4. run scheduler, threashold and streamer
+#   4. run scheduler, threshold and streamer
 #   5. HA related processes
 #   6. start operator
 #   7. Enable monitoring andd MQTT
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/node-deployment/policies/config_operator.al
+# process !anylog_path/deployment-scripts/demo-scripts/manual_config.al
 
 if !debug_mode.int > 0 then set debug on
 if !debug_mode.int == 2 then set is_threading = true
-set debug off
 
 
-if !debug_mode.int == 2 then
+if !debug_mode.int == 2 and (!node_type == operator or $NODE_TYPE == master-operator) then
 do set debug interactive
 do print "Declare cluster policy"
 do set debug on
-process !local_scripts/policies/cluster_policy.al
+if process !node_type == operator or $NODE_TYPE == master-operator then  !local_scripts/policies/cluster_policy.al
 
 if !debug_mode.int == 2 then
 do set debug interactive
@@ -40,20 +39,22 @@ do print "Enable scheduler 1"
 do set debug on
 run scheduler 1
 
-if !debug_mode.int == 2 then
+if !debug_mode.int == 2 (!node_type == operator or $NODE_TYPE == master-operator or !node_type == publisher or $NODE_TYPE == master-publisher ) then
 do set debug interactive
 do print "Set threshold"
 do set debug on
-<set buffer threshold where
+if !node_type == operator or $NODE_TYPE == master-operator or !node_type == publisher or $NODE_TYPE == master-publisher then
+<do set buffer threshold where
     time=!threshold_time and
     volume=!threshold_volume and
     write_immediate=!write_immediate>
 
-if !debug_mode.int == 2 then
+if !debug_mode.int == 2 and (!node_type == operator or $NODE_TYPE == master-operator or !node_type == publisher or $NODE_TYPE == master-publisher) then
 do set debug interactive
 do print "Enable streamer"
 do set debug on
-run streamer
+if !node_type == operator or $NODE_TYPE == master-operator or !node_type == publisher or $NODE_TYPE == master-publisher then
+do run streamer
 
 if !enable_ha == true and !debug_mode.int == 2 then
 do set debug interactive
@@ -83,12 +84,20 @@ if not !operator_id then goto missing-operator-id error
     policy=!operator_id and
     threads=!operator_threads>
 
+if !node_type == publisher or $NODE_TYPE == master-publisher then
+<do run publisher where
+    compress_json=!compress_file and
+    compress_sql=!compress_file and
+    master_node=!ledger_conn and
+    dbms_name=!dbms_file_location and
+    table_name=!table_file_location>
 
-if !debug_mode.int == 2 then
+if !debug_mode.int == 2 and (!node_type == operator or $NODE_TYPE == master-operator) then
 do set debug interactive
 do print "Enable Remove archived files scheduler"
 do set debug on
-schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete
+if !node_type == operator or $NODE_TYPE == master-operator then
+do schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete
 
 if !monitor_nodes == true and !debug_mode.int == 2 then
 do set debug interactive
