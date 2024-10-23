@@ -171,24 +171,20 @@ if $NOSQL_PORT then nosql_port = $NOSQL_PORT
 if $NOSQL_USER then nosql_user = $NOSQL_USER
 if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
-set debug on
-:blockchain-params:
+:blockchain:
 blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
-
-# configs for optimism network
 provider = https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
+chain_id = 11155420
+public_key = 0xdf29075946610ABD4FA2761100850869dcd07Aa7
+private_key = 712be5b5827d8c111b3e57a6e529eaa9769dcde550895659e008bdcf4f893c1c
 contract = 0x8fD816a62e8E7985154248019520915778eB4013
 
-if $SYNC_TIME then blockchain_sync = $SYNC_TIME
-# blockchain source - master, optimism, etherium, etc.
-if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
+if $SYNC_TIME then sync_time = $SYNC_TIME
+if $SOURCE then blockchain_source=$SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
-        if !blockchain_source != master then goto  remote-blockchain
-
-:local-blockchain:
 # if ledger_conn == 127.0.0.1 and TCP bind is true then update to use local IP
 if !tcp_bind == true then
 do ledger_ip = python !ledger_conn.split(':')[0]
@@ -196,14 +192,6 @@ do ledger_port = python !ledger_conn.split(':')[1]
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and !overlay_ip then ledger_conn = !overlay_ip + : + !ledger_port
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and not !overlay_ip then ledger_conn = !ip + : + !ledger_port
 
-goto operator-settings
-
-:remote-blockchain:
-if $PROVIDER then set provider = $PROVIDER
-if $BLOCKCHAIN_PUBLIC_KEY then public_key = $BLOCKCHAIN_PUBLIC_KEY
-if $BLOCKCHAIN_PRIVATE_KEY then private_key = $BLOCKCHAIN_PRIVATE_KEY
-if $CHAIN_ID then chain_id = $CHAIN_ID
-if $CONTRACT then contract = $CONTRACT
 
 :operator-settings:
 set enable_partitions = true

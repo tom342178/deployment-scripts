@@ -31,12 +31,17 @@ do set debug interactive
 do print "set blockchain sync"
 do set debug on
 on error call blockchain-sync-error
-<run blockchain sync where
+<if !blockchain_source == master then run blockchain sync where
     source=!blockchain_source and
     time=!blockchain_sync and
     dest=!blockchain_destination and
     connection=!ledger_conn
 >
+<else run blockchain sync where
+    source = blockchain and
+    time = !blockchain_sync and
+    dest=!blockchain_destination and
+    platform = optimism>
 
 :end-script:
 end script
