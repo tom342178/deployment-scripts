@@ -11,117 +11,25 @@
 reset error log
 on error ignore
 
-:validate-params:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Validate keys and credentials params are declared"
+:set-params:
+public_key = 0xdf29075946610ABD4FA2761100850869dcd07Aa7
+private_key = 712be5b5827d8c111b3e57a6e529eaa9769dcde550895659e008bdcf4f893c1c
+contract = 0x8fD816a62e8E7985154248019520915778eB4013
+chain_id = 11155420
+provider = https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
 
-if not chain_id then
-do print "Missing chain id. Cannot setup a blockchain connectivity..."
-do goto  terminate-scripts
+blockchain connect to optimism where provider=!provider
 
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Double check source is blockchain"
+# blockchain create account optimism
 
-:gen-keys:
-if !private_key and !public_key then goto declare-blockchain-account
-if !debug_mode.int == 2 then
-do set debug mode interactive
-do print "Create private and public keys for the blockchain"
+blockchain set account info where platform = optimism and private_key = !private_key and public_key = !public_key and chain_id = !chain_id
 
-on error goto gen-keys-error
-blockchain create account !blockchain_source
-if not !private_key or !public_key then goto gen-keys-error
+get platforms
 
-:blockchain-connect:
-:connect-blockchain-account:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Connect to optimism"
-on error goto connect-blockchain-account-error
-blockchain connect to optimism where provider = !provider
+# contract = blockchain deploy contract where  platform = optimism and public_key = !public_key
 
-:declare-blockchain-account:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Declare blockchain account"
+blockchain set account info where platform = optimism and contract = !contract
 
-on error goto declare-blockchain-account-error
-<blockchain set account info where
-    platform = !blockchain_source and
-    private_key = !private_key and
-    public_key = !public_key and
-    chain_id = !chain_id>
+run blockchain sync where source = blockchain and time = !blockchain_sync and dest = file and platform = optimism
 
-:create-contract:
-if !contract and !contract != generate then goto blockchain-account
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Get blockchain contract ID - if a contract does not exist, code will automatically create one"
 
-on error goto create-contract-error
-contract = blockchain deploy contract where  platform = !blockchain_source and public_key = !public_key
-
-:blockchain-account:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Set blockchain account information"
-
-on error goto blockchain-account-error
-blockchain set account info where platform = !blockchain_source and contract = !contract
-
-:blockchain-seed:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Copy blockchain to local node"
-
-on error call blockchain-seed-error
-blockchain checkout from !blockchain_source
-
-:blockchain-sync:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "set blockchain sync"
-
-on error call blockchain-sync-error
-<run blockchain sync where
-    source = blockchain and
-    time = !blockchain_sync and
-    dest = !blockchain_destination and
-    platform = !blockchain_source>
-
-:print-summary:
-sed debug off
-print "Contract: " !contract
-print "Public Key: " !public_key " | Private Key: " !private_key
-
-:end-script:
-end script
-
-:terminate-scripts:
-exit scripts
-
-:gen-keys-error:
-print "Failed to create private / public keys for the blockchain, cannot continue..."
-goto terminate-scripts
-
-:connect-blockchain-account-error:
-print "Failed to connect to Optimism"
-goto terminate-scripts
-
-:declare-blockchain-account-error:
-print "Failed to declare account information, cannot continue..."
-goto  terminate-scripts
-
-:create-contract-error:
-print "Failed to generate contract for the blockchain, cannot continue..."
-goto  terminate-scripts
-
-:blockchain-account-error:
-print "Failed to set account information, cannot continue..."
-goto  terminate-scripts
-
-:blockchain-seed-error:
-echo "Failed to seed from blockchain"
-return
