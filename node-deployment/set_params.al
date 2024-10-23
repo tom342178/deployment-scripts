@@ -171,13 +171,14 @@ if $NOSQL_PORT then nosql_port = $NOSQL_PORT
 if $NOSQL_USER then nosql_user = $NOSQL_USER
 if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
+set debug on
 :blockchain-params:
 blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
 
 # configs for optimism network
-provider = infura
+provider = https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
 contract = 0x8fD816a62e8E7985154248019520915778eB4013
 
 if $SYNC_TIME then blockchain_sync = $SYNC_TIME

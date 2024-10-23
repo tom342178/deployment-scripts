@@ -8,6 +8,7 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/connect_blockchain.al
 
+reset error log
 on error ignore
 
 :validate-params:
@@ -39,7 +40,7 @@ if !debug_mode.int == 2 then
 do set debug interactive
 do print "Connect to optimism"
 on error goto connect-blockchain-account-error
-blockchain connect to !blockchain_source where provider = !provider
+blockchain connect to optimism where provider = !provider
 
 :declare-blockchain-account:
 if !debug_mode.int == 2 then
@@ -86,7 +87,7 @@ do print "set blockchain sync"
 on error call blockchain-sync-error
 <run blockchain sync where
     source = blockchain and
-    time = !sync_time and
+    time = !blockchain_sync and
     dest = !blockchain_destination and
     platform = !blockchain_source>
 
