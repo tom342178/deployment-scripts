@@ -16,11 +16,11 @@ else if !debug_mode.int == 2 then set debug interactive
 if !debug_mode.int > 0 then print "Validate params needed for authentication"
 
 if not !username then
-do echo "Missing user to be used for REST authentication, cannot setup authentication"
+do print "Missing user to be used for REST authentication, cannot setup authentication"
 do goto disable-authentication
 
 if not !user_password then
-do echo "Missing password associated with user to be used for REST authentication, cannot setup authentication"
+do print "Missing password associated with user to be used for REST authentication, cannot setup authentication"
 do goto disable-authentication
 
 :enable-authentication:
