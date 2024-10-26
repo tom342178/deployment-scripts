@@ -23,15 +23,15 @@ if not !user_password then
 do echo "Missing password associated with user to be used for REST authentication, cannot setup authentication"
 do goto disable-authentication
 
-:create-user:
-if !debug_mode.int > 0 then print "Create a new user for the node"
-on error goto create-user-error
-id add user where name = !username and password = !user_password
-
 :enable-authentication:
 if !debug_mode.int > 0 then print "Enable authentication"
 on error goto enable-authentication-error
 set user authentication on
+
+:create-user:
+if !debug_mode.int > 0 then print "Create a new user for the node"
+on error goto create-user-error
+id add user where name = !username and password = !user_password
 
 :end-script:
 end script

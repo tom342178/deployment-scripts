@@ -19,11 +19,11 @@ if !debug_mode.int > 0 then print "Set password for node"
 on error goto set-password-error
 set local password = !node_error
 
-:enable-authentication:
-if !debug_mode.int > 0 then print "Enable authentication"
+# :enable-authentication:
+# if !debug_mode.int > 0 then print "Enable authentication"
 
-on error goto enable-authentication-error
-set authentication on
+# on error goto enable-authentication-error
+# set authentication on
 
 :end-script:
 end script

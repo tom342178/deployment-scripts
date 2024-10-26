@@ -1,5 +1,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Using !node_password - create CA authentication certificates
+# :File location:
+#   -> AnyLog-Network/data/ca-new-company-private-key.key
+#   -> AnyLog-Network/data/ca-new-company-private-key.crt
 #-----------------------------------------------------------------------------------------------------------------------
 # process !anylog_path/deployment-scripts/authentication/ca_key_authentication.al
 on error ignore
