@@ -62,15 +62,14 @@ do print "Set environment params"
 do set debug on
 process !local_scripts/set_params.al
 
-:authentication:
-if !enable_auth == false then goto configure-networking
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Setup authentication"
-else if !debug_mode.int == 1 then set debug on
+# :authentication:
+# if !enable_auth == false then goto configure-networking
+# if !debug_mode.int == 2 then
+# do set debug interactive
+# do print "Setup authentication"
 
-process !anylog_path/deployment-scripts/authentication/enable_authentication.al
-if !enable_auth == true then process !anylog_path/deployment-scripts/authentication/basic_authentication.al
+# process !anylog_path/deployment-scripts/authentication/enable_authentication.al
+# if !enable_auth == true then process !anylog_path/deployment-scripts/authentication/basic_authentication.al
 
 :configure-networking:
 if !debug_mode.int == 2 then

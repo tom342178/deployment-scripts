@@ -9,10 +9,10 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !anylog_path/deployment-scripts/authentication/basic_authentication.al
 on error ignore
-
-:validate-params:
 if !debug_mode.int == 1 then set debug on
 else if !debug_mode.int == 2 then set debug interactive
+
+:validate-params:
 if !debug_mode.int > 0 then print "Validate params needed for authentication"
 
 if not !username then

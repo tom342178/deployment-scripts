@@ -113,14 +113,14 @@ if $OVERLAY_IP then overlay_ip = $OVERLAY_IP
 if $PROXY_IP then proxy_ip = $PROXY_IP
 if $CONFIG_NAME then config_name = $CONFIG_NAME
 
-:authentication:
-set enable_auth = false
-if $ENABLE_AUTH == true or $ENABLE_AUTH == True or $ENABLE_AUTH == TRUE then set enable_auth = true
-else goto sql-database
+# :authentication:
+# set enable_auth = false
+# if $ENABLE_AUTH == true or $ENABLE_AUTH == True or $ENABLE_AUTH == TRUE then set enable_auth = true
+# else goto sql-database
 
-if $NODE_PASSWORD then node_password = $NODE_PASSWORD
-if $USERNAME then username = $USERNAME
-if $USER_PASSWORD then user_passsword = $USER_PASSWORD
+# if $NODE_PASSWORD then node_password = $NODE_PASSWORD
+# if $USERNAME then username = $USERNAME
+# if $USER_PASSWORD then user_passsword = $USER_PASSWORD
 
 :sql-database:
 db_type = sqlite
