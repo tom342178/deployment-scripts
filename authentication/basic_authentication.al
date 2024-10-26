@@ -26,7 +26,7 @@ do goto disable-authentication
 :create-user:
 if !debug_mode.int > 0 then print "Create a new user for the node"
 on error goto create-user-error
-id add user where name = !username and password = !user_passsword
+id add user where name = !username and password = !user_password
 
 :enable-authentication:
 if !debug_mode.int > 0 then print "Enable authentication"
@@ -45,6 +45,6 @@ goto end-script
 print "Failed to create user, cannot enable authentication"
 goto disable-authentication
 
-:enable-authentication:
+:enable-authentication-error:
 print "Failed to enable user authentication, cannot enable authentication"
 goto disable-authentication

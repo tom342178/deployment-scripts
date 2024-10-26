@@ -3,35 +3,29 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !anylog_path/deployment-scripts/authentication/enable_authentication.al
 on error ignore
-
-:validate-params:
 if !debug_mode.int == 1 then set debug on
 else if !debug_mode.int == 2 then set debug interactive
+
+:validate-params:
 if !debug_mode.int > 0 then print "Validate params needed for authentication"
 
 if not !node_password then
 do print "Missing node specific password, cannot set authentication"
 do goto disable-authentication
 
-
 :set-password:
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int == 2 then set debug interactive
 if !debug_mode.int > 0 then print "Set password for node"
 
 on error goto set-password-error
 set local password = !node_error
 
-# :enable-authentication:
-# if !debug_mode.int == 1 then set debug on
-# else if !debug_mode.int == 2 then set debug interactive
-# if !debug_mode.int > 0 then print "Enable authentication"
+:enable-authentication:
+if !debug_mode.int > 0 then print "Enable authentication"
 
-# on error goto enable-authentication-error
-# set authentication on
+on error goto enable-authentication-error
+set authentication on
 
 :end-script:
-set debug off
 end script
 
 :disable-authentication:
