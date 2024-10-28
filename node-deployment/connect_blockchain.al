@@ -8,13 +8,13 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/connect_blockchain.al
 
+if !dbug_mode.int == 1 then set debug on
+else if dbug_mode.int == 2 then set debug interactive
 reset error log
 on error ignore
 
 :blockchain-connect:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Connect to optimism"
+if !debug_mode.int > 0 then print "Connect to optimism"
 on error goto connect-blockchain-account-error
 blockchain connect to optimism where provider=!provider
 
@@ -22,9 +22,7 @@ blockchain connect to optimism where provider=!provider
 # blockchain create account optimism
 
 :declare-blockchain-account:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Declare blockchain account"
+ if !debug_mode.int > 0 then print "Declare blockchain account"
 
 on error goto declare-blockchain-account-error
 <blockchain set account info where
@@ -33,21 +31,22 @@ on error goto declare-blockchain-account-error
     public_key = !public_key and
     chain_id = !chain_id>
 
-# create a new smart contract
-# contract = blockchain deploy contract where  platform = optimism and public_key = !public_key
+
+:create-contract:
+if !debug_mode.int > 0 then print "Create a new smart contract"
+if not !contract then
+do on error goto create-contract-error
+do contract = blockchain deploy contract where  platform = optimism and public_key = !public_key
+do print "New Contract created: " !contract " - make sure to save contract / update config file accordingly"
 
 :blockchain-account:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Set blockchain account information"
+ if !debug_mode.int > 0 then print "Set blockchain account information"
 
 on error goto blockchain-account-error
 blockchain set account info where platform = optimism and contract = !contract
 
 :blockchain-seed:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Copy blockchain to local node"
+ if !debug_mode.int > 0 then print "Copy blockchain to local node"
 
 on error call blockchain-seed-error
 blockchain checkout from optimism
@@ -61,6 +60,10 @@ exit scripts
 
 :connect-blockchain-account-error:
 print "Failed to connect to Optimism"
+goto terminate-scripts
+
+:create-contract-error
+print "Failed to create new contract"
 goto terminate-scripts
 
 :declare-blockchain-account-error:
