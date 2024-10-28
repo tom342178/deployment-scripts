@@ -176,7 +176,7 @@ set blockchain_source = master
 set blockchain_destination = file
 
 if $SYNC_TIME then sync_time = $SYNC_TIME
-if $SOURCE then blockchain_source=$SOURCE
+if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
 # if ledger_conn == 127.0.0.1 and TCP bind is true then update to use local IP
