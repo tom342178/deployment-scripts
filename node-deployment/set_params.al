@@ -179,7 +179,7 @@ provider = https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb7
 chain_id = 11155420
 public_key = 0xdf29075946610ABD4FA2761100850869dcd07Aa7
 private_key = 712be5b5827d8c111b3e57a6e529eaa9769dcde550895659e008bdcf4f893c1c
-# contract = 0x8fD816a62e8E7985154248019520915778eB4013
+contract = 0x8fD816a62e8E7985154248019520915778eB4013
 
 if $SYNC_TIME then sync_time = $SYNC_TIME
 if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
@@ -192,6 +192,8 @@ do ledger_port = python !ledger_conn.split(':')[1]
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and !overlay_ip then ledger_conn = !overlay_ip + : + !ledger_port
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and not !overlay_ip then ledger_conn = !ip + : + !ledger_port
 
+if $CHAIN_ID then chain_id=$CHAIN_ID
+if $CONTRACT then contract=$CONTRACT
 
 :operator-settings:
 set enable_partitions = true
