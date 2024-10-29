@@ -14,7 +14,7 @@
 #                   'process !local_scripts/policies/master_policy.al',
 #                   'process !local_scripts/database/deploy_database.al',
 #                   'run scheduler 1',
-#                   'run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn',
+#                   'run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_source != master and connection=!ledger_conn',
 #                   'process !local_scripts/policies/monitoring_policy.al',
 #                   'if !deploy_local_script == true then process !local_scripts/loca'l_script.al'
 #               ],
@@ -103,11 +103,10 @@ goto publish-policy
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
-    "run blockchain sync where source=!blockchain_source and time=!blockchain_sync and dest=!blockchain_destination and connection=!ledger_conn",
-    "process !local_scripts/policies/config_threshold.al",
+    "process !local_scripts/policies/config_threashold.al",
     "run streamer",
-    "set buffer threshold where time=!threshold_time and volume=!threshold_volume and write_immediate=!write_immediate",
-    "run publisher where compress_json=!compress_file and compress_sql=!compress_file and master_node=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
+    "if !blockchain_source != master then run publisher where compress_json=!compress_file and compress_sql=!compress_file and blockchain=!blockchain_source and dbms_name=!dbms_file_location and table_name=!table_file_location",
+    "if !blockchain_source == master then run publisher where compress_json=!compress_file and compress_sql=!compress_file and master=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !syslog_monitoring == true then process !anylog_path/deployment-scripts/demo-scripts/syslog.al",
@@ -125,7 +124,8 @@ goto publish-policy
     "run streamer",
     "if !enable_ha == true then run data distributor",
     "if !enable_ha == true then run data consumer where start_date=!start_data",
-    "if !operator_id then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
+    "if !operator_id and !blockchain_source != master then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and blockchain=!blockchain_source and policy=!operator_id and threads=!operator_threads",
+    "if !operator_id and !blockchain_source == master then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
     "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
@@ -153,7 +153,7 @@ do print "Deploy Policy"
 do set debug on
 
 on error goto config-policy-error
-if !debug_mode.int == 2 then process !anylog_path/deployment-scripts/demo-scripts/manual_config.al
+if !debug_mode.int == 2 then process !local_scripts/policies/config_operator.al
 else config from policy where id = !config_id
 
 :end-script:
