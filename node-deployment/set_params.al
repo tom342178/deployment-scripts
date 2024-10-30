@@ -115,13 +115,12 @@ if $CONFIG_NAME then config_name = $CONFIG_NAME
 
 :authentication:
 set enable_auth = false
-set enable_rest_auth = false
-set rest_ssl = false
+if !is_edgelake == false and ($ENABLE_AUTH == true or $ENABLE_AUTH == True or $ENABLE_AUTH == TRUE) then set enable_auth = true
+if !is_edgelake == true or enable_auth == false thebn goto sql-database
 
-if $ENABLE_AUTH == true or $ENABLE_AUTH == True or $ENABLE_AUTH == TRUE then set enable_auth = true
-if $ENABLE_REST_AUTH == true or $ENABLE_REST_AUTH == True or $ENABLE_REST_AUTH == TRUE then
-do set enable_rest_auth = true
-do set rest_ssl = true
+if $NODE_PASSWORD then node_password = $NODE_PASSWORD
+if $USERNAME then username = $USERNAME
+if $USER_PASSWORD then user_passsword = $USER_PASSWORD
 
 :sql-database:
 db_type = sqlite
