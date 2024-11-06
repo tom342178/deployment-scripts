@@ -10,11 +10,11 @@
 # python3.10 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
 
 :debug-mode:
+if $DEBUG_MODE.int > 0 and $DEBUG_MODE < 3 then print "Set Script defined configs "
 set debug_mode = 0
-if $DEBUG_MODE and $DEBUG_MODE == 1 then set debug_mode = 1
-if $DEBUG_MODE and $DEBUG_MODE == 2 then set debug_mode = 2
-
-if !debug_mode.int > 0 then set debug on
+if $DEBUG_MODE then set debug_mode=$DEBUG_MODE
+if !debug_mode.int == 1 then set debug on
+else if !debug_mode.int = 2 debug interactive
 
 :set-configs:
 on error ignore
@@ -23,10 +23,7 @@ set echo queue on
 set authentication off
 
 :is-edgelake:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Check whether if an EdgeLake or AnyLog Deployment"
-do set debug on
+if !debug_mode.int > 0 and !debug_mode.int < 3 then print "Check whether if an EdgeLake or AnyLog Deployment"
 
 # check whether we're running EdgeLake or AnyLog
 set is_edgelake = false
@@ -36,10 +33,7 @@ if !deployment_type != AnyLog then set is_edgelake = true
 if !is_edgelake == true and $NODE_TYPE == publisher then edgelake-error
 
 :directories:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Set directory paths"
-do set debug on
+if !debug_mode.int > 0 and !debug_mode.int < 3 then print "Set directory paths"
 
 # directory where deployment-scripts is stored
 set anylog_path = /app
@@ -49,79 +43,44 @@ set anylog home !anylog_path
 set local_scripts = !anylog_path/deployment-scripts/node-deployment
 set test_dir = !anylog_path/deployment-scripts/test
 
-if !debug_mode.int == 2 then
+if !debug_mode.int > 0 and !debug_mode.int < 3 then
 do set debug interactive
 do print "Create work directories"
 do set debug on
 create work directories
 
 :set-params:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Set environment params"
-do set debug on
+if !debug_mode.int > 0 and !debug_mode.int < 3 then print "Set environment params"
 process !local_scripts/set_params.al
 
-:authentication:
-if !is_edgelake == true or !enable_auth == false then goto configure-networking
-
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Setup authentication"
-
-process !anylog_path/deployment-scripts/authentication/enable_authentication.al
-if !enable_auth == true then process !anylog_path/deployment-scripts/authentication/basic_authentication.al
-if !enable_auth == true then process !anylog_path/deployment-scripts/authentication/ca_key_authentication.al
-
 :configure-networking:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Configure networking"
-do set debug on
+if !debug_mode.int > 0 and !debug_mode.int < 3 then print "Configure networking"
 process !local_scripts/connect_networking.al
 
-:is-generic:
-if !node_type == generic then goto set-license
-
 :blockchain-seed:
-if !debug_mode.int == 2 and !node_type != master then
-do set debug interactive
-do print "Copy blockchain to local node"
-do set debug on
-
-if !blockchain_source != master then goto remote-blockchain
-
-on error call blockchain-seed-error
-if !node_type != master then blockchain seed from !ledger_conn
-goto declare-policy
-
-:remote-blockchain:
-process !local_scripts/connect_blockchain.al
-
+if !debug_mode.int > 0 and !debug_mode.int < 3 then print "Blockchain Seed"
+if !node_type == generic then goto set-license
+else if !node_type != master and !blockchain_source != master then process !local_scripts/connect_blockchain.al
+else if !node_type != master then
+do on error call blockchain-seed-error
+do blockchain seed from !ledger_conn
+do on error ignore
 
 :declare-policy:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Declare policies"
-do set debug on
-
-on error ignore
+if !debug_mode.int > 0 and !debug_mode.int < 3 then print "Declare policies"
 process !local_scripts/policies/config_policy.al
 
 :set-license:
-if !debug_mode.int == 2 and !is_edgelake == false then
-do set debug interactive
-do print "Validate license key exists (if AnyLog) and set license key"
+if !debug_mode.int > 0 and !debug_mode.int < 3  then print "Set license key"
 
-on error ignore
 if !is_edgelake == true then goto end-script
-else if not !license_key then license_key = blockchain get master bring [*][license]
 
+if not !license_key then license_key = blockchain get master bring [*][license]
 if not !license_key then goto license-error
 set license where activation_key = !license_key
 
 :end-script:
-if !debug_mode == 2 then print "Validate everything is running as expected"
+if !debug_mode.int > 0 and !debug_mode.int < 3 then print "Validate everything is running as expected"
 get processes
 if !enable_mqtt == true then get msg client
 end script
