@@ -8,9 +8,9 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/connect_blockchain.al
 
-if !dbug_mode.int == 1 then set debug on
-else if dbug_mode.int == 2 then set debug interactive
-reset error log
+if !debug_mode.int == 1 then set debug on
+else if !debug_mode.int = 2 debug interactive
+
 on error ignore
 
 :blockchain-connect:
@@ -22,7 +22,7 @@ blockchain connect to optimism where provider=!provider
 # blockchain create account optimism
 
 :declare-blockchain-account:
- if !debug_mode.int > 0 then print "Declare blockchain account"
+if !debug_mode.int > 0 then print "Declare blockchain account"
 
 on error goto declare-blockchain-account-error
 <blockchain set account info where
@@ -34,6 +34,7 @@ on error goto declare-blockchain-account-error
 
 :create-contract:
 if !debug_mode.int > 0 then print "Create a new smart contract"
+
 if not !contract then
 do on error goto create-contract-error
 do contract = blockchain deploy contract where  platform = optimism and public_key = !public_key

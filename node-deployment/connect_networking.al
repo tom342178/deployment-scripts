@@ -5,15 +5,13 @@
 
 on error ignore
 set debug off
-if !debug_mode.int > 0  then set debug on
+if !debug_mode.int == 1 then set debug on
+else if !debug_mode.int = 2 debug interactive
 
 if !overlay_ip then goto overlay-tcp-networking
 
 :tcp-networking:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Start TCP communication service"
-do set debug on
+if !debug_mode.int > 0 then print"Start TCP communication service"
 
 on error goto tcp-networking-error
 <run tcp server where
@@ -22,10 +20,7 @@ on error goto tcp-networking-error
     bind=!tcp_bind and threads=!tcp_threads>
 
 :rest-networking:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Start REST communication service"
-do set debug on
+if !debug_mode.int > 0 then print"Start REST communication service"
 
 on error goto rest-networking-error
 <run rest server where
@@ -36,10 +31,7 @@ on error goto rest-networking-error
 if not !anylog_broker_port then goto end-script
 
 :broker-networking:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Start Message Broker service"
-do set debug on
+if !debug_mode.int > 0 then print"Start Message Broker service"
 
 on error goto broker-networking-error
 <run message broker where
@@ -50,10 +42,7 @@ on error goto broker-networking-error
 
 
 :overlay-tcp-networking:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Start TCP communication service"
-do set debug on
+if !debug_mode.int > 0 then print"Start TCP communication service"
 
 on error goto tcp-networking-error
 <run tcp server where
@@ -62,10 +51,7 @@ on error goto tcp-networking-error
     bind=!tcp_bind and threads=!tcp_threads>
 
 :overlay-rest-networking:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Start REST communication service"
-do set debug on
+if !debug_mode.int > 0 then print"Start REST communication service"
 
 on error goto rest-networking-error
 <run rest server where
@@ -76,10 +62,7 @@ on error goto rest-networking-error
 if not !anylog_broker_port then goto end-script
 
 :overlay-broker-networking:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Start Message Broker service"
-do set debug on
+if !debug_mode.int > 0 then print"Start Message Broker service"
 
 on error goto broker-networking-error
 <run message broker where
