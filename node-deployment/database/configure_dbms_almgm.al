@@ -24,6 +24,7 @@ on error goto almgm-table-error
 is_table = info table almgm tsd_info exists
 if !is_table == false then create table tsd_info where dbms=almgm
 
+
 :end-script:
 end script
 

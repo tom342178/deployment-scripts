@@ -10,15 +10,15 @@
 # python3.10 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
 
 :debug-mode:
-if $DEBUG_MODE.int > 0 and $DEBUG_MODE < 3 then print "Set Script defined configs "
+on error ignore
+if $DEBUG_MODE.int > 0 and $DEBUG_MODE < 3 then print "Set Script defined configs"
 set debug_mode = 0
 if $DEBUG_MODE then set debug_mode=$DEBUG_MODE
 if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int == 2 debug interactive
-else if not !debug_mode.int == 0 then set debug_mode_init=0
+else if !debug_mode.int == 2 then set debug interactive
+else if !debug_mode.int > 2 then debug_mode=0
 
 :set-configs:
-on error ignore
 set debug off
 set echo queue on
 set authentication off
@@ -38,16 +38,16 @@ if !debug_mode.int > 0 then print "Set directory paths"
 
 # directory where deployment-scripts is stored
 set anylog_path = /app
+local_scripts = !anylog_path/deployment-scripts/node-deployment
+test_dir = !anylog_path/deployment-scripts/test
+
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 else if $EDGELAKE_PATH then set anylog_path = $EDGELAKE_PATH
-set anylog home !anylog_path
-set local_scripts = !anylog_path/deployment-scripts/node-deployment
-set test_dir = !anylog_path/deployment-scripts/test
+if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
+if $TEST_DIR then set test_dir = $TEST_DIR
 
-if !debug_mode.int > 0 then
-do set debug interactive
-do print "Create work directories"
-do set debug on
+
+if !debug_mode.int > 0 then print "Create work directories"
 create work directories
 
 :set-params:
@@ -56,7 +56,8 @@ process !local_scripts/set_params.al
 
 :configure-networking:
 if !debug_mode.int > 0 then print "Configure networking"
-process !local_scripts/connect_networking.al
+if !debug_mode.int == 2 then thread !local_scripts/connect_networking.al
+else process !local_scripts/connect_networking.al
 
 :blockchain-seed:
 if !debug_mode.int > 0 then print "Blockchain Seed"
@@ -69,7 +70,8 @@ do on error ignore
 
 :declare-policy:
 if !debug_mode.int > 0 then print "Declare policies"
-process !local_scripts/policies/config_policy.al
+if !debug_mode.int == 2 then thread !local_scripts/policies/config_policy.al
+else process !local_scripts/policies/config_policy.al
 
 :set-license:
 if !debug_mode.int > 0  then print "Set license key"
