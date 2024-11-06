@@ -1,5 +1,7 @@
 :debug-mode:
 on error ignore
+set authentication off
+
 if $DEBUG_MODE.int > 0 and $DEBUG_MODE < 3 then print "Set Script defined configs"
 set debug_mode = 0
 if $DEBUG_MODE then set debug_mode=$DEBUG_MODE
@@ -13,8 +15,12 @@ test_dir = !anylog_path/deployment-scripts/test
 
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
 else if $EDGELAKE_PATH then set anylog_path = $EDGELAKE_PATH
+set anylog home !anylog_path
+
 if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
 if $TEST_DIR then set test_dir = $TEST_DIR
+
+create work directories
 
 :set-params:
 if !debug_mode.int > 0 then print "Set params"
@@ -31,12 +37,15 @@ on error call blockchain-seed-error
 blockchain seed from !ledger_conn
 
 :declare-cluster:
+set debug on
 if !debug_mode.int == 2 then thread !local_scripts/cluster_policy.al
 else process !local_scripts/cluster_policy.al
+cluster_id = blockchain get cluster bring.first [*][id]
 
 :declare-operator:
 if !debug_mode.int == 2 then thread !local_scripts/node_policy.al
 else process !local_scripts/node_policy.al
+operator_id = blockchain get operator bring.first [*][id]
 
 :connect-database:
 if !debug_mode.int > 0 then print "Connecting to databases"
@@ -61,6 +70,7 @@ on error call blockchain-sync-error
     connection=!ledger_conn>
 
 :operator-processes:
+reset error log
 if !debug_mode.int == 2 then thread !local_scripts/config_threshold.al
 else process !local_scripts/config_threshold.al
 
@@ -73,11 +83,6 @@ if not !operator_id then goto operator-id-error
     create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and
     compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and
     master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads>
-
-:enable-mqtt:
-on error ignore
-if !enable_mqtt == true and !debug_mode == 2 then thread !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al
-else process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al
 
 :end-script:
 if !debug_mode.int > 0 then print "Validate everything is running as expected"

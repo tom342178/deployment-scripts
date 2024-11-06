@@ -6,7 +6,7 @@
 on error ignore
 set debug off
 if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int = 2 debug interactive
+else if !debug_mode.int = 2 then set debug interactive
 
 if !overlay_ip then goto overlay-tcp-networking
 
