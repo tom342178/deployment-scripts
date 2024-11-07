@@ -19,8 +19,6 @@ else if !debug_mode.int = 2 debug interactive
 
 set create_policy = false
 
-
-
 :check-policy:
 if !debug_mode.int > 0 then print "Check whether cluster policy exists"
 
@@ -36,7 +34,10 @@ on error ignore
 new_policy = create policy cluster with defaults where company=!company_name and name=!cluster_name
 
 :publish-policy:
-process  !local_scripts/policies/publish_policy.al
+if !debug_mode.int > 0 then print "Declare policy on blockchain"
+
+if !debug_mode.int == 2 then thread !local_scripts/policies/publish_policy.al
+else process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error

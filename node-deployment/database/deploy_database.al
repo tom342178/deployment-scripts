@@ -14,21 +14,29 @@ else if !node_type == query then goto system-query-dbms
 
 :master-dbms:
 if !debug_mode.int > 0 then print "Blockchain related database processes"
-process !local_scripts/database/configure_dbms_blockchain.al
+if !debug_mode.int == 2 then thread !local_scripts/database/configure_dbms_blockchain.al
+else process !local_scripts/database/configure_dbms_blockchain.al
 goto system-query-dbms
 
 :operator-dbms:
 if !debug_mode.int > 0 then print "Operator related database processes"
-process !local_scripts/database/configure_dbms_operator.al
-process !local_scripts/database/configure_dbms_nosql.al
+if !debug_mode.int == 2 then
+do thread !local_scripts/database/configure_dbms_operator.al
+do thread !local_scripts/database/configure_dbms_nosql.al
+else
+do process !local_scripts/database/configure_dbms_operator.al
+do process !local_scripts/database/configure_dbms_nosql.al
 
 :almgm-dbms:
 if !debug_mode.int > 0 then print "almgm related database processes"
-process !local_scripts/database/configure_dbms_almgm.al
+if !debug_mode.int == 2 then thread !local_scripts/database/configure_dbms_almgm.al
+else process !local_scripts/database/configure_dbms_almgm.al
 
 :system-query-dbms:
+if !node_type != query and !deploy_system_query != true then goto end-script
 if !debug_mode.int > 0 then print "system_query database processes"
-if !node_type == query or !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al
+if !debug_mode.int == 2 then thread !local_scripts/database/configure_dbms_system_query.al
+else process !local_scripts/database/configure_dbms_system_query.al
 
 :end-script:
 end script

@@ -97,7 +97,7 @@ goto publish-policy
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
-    "process !local_scripts/policies/config_threashold.al",
+    "process !local_scripts/policies/config_threshold.al",
     "run streamer",
     "if !blockchain_source != master then run publisher where compress_json=!compress_file and compress_sql=!compress_file and blockchain=!blockchain_source and dbms_name=!dbms_file_location and table_name=!table_file_location",
     "if !blockchain_source == master then run publisher where compress_json=!compress_file and compress_sql=!compress_file and master=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
@@ -130,7 +130,8 @@ goto publish-policy
 :publish-policy:
 if !debug_mode.int > 0 then print "Declare policy on blockchain"
 
-process !local_scripts/policies/publish_policy.al
+if !debug_mode.int == 2 then thread !local_scripts/policies/publish_policy.al
+else process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
@@ -141,8 +142,14 @@ goto check-policy
 if !debug_mode.int > 0 then print "Deploy Policy"
 
 on error goto config-policy-error
-# if !debug_mode.int == 2 then process !local_scripts/policies/config_operator.al
-config from policy where id = !config_id
+if !debug_mode.int == 2 and !node_type == operator then thread !local_scripts/config_policies_code/config_operator.al
+else if !debug_mode == 1 and !node_type == operator then process !local_scripts/config_policies_code/config_operator.al
+else if !debug_mode.int == 2 and !node_type == publisher then thread !local_scripts/config_policies_code/config_publisher.al
+else if !debug_mode == 1 and !node_type == publisher then process !local_scripts/config_policies_code/config_publisher.al
+else if !debug_mode.int == 2 and (!node_type == master or !node_type == query) then thread !local_scripts/config_policies_code/config_node.al
+else if !debug_mode == 1 and (!node_type == master or !node_type == query) then process !local_scripts/config_policies_code/config_node.al
+else config from policy where id = !config_id
+
 
 :end-script:
 end script
