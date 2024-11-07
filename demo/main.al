@@ -28,7 +28,7 @@ if !debug_mode.int == 2 then thread !local_scripts/set_params.al
 else process !local_scripts/set_params.al
 
 :networking:
-if !debug_mode.int == 2 then thread !local_scripts/connect_networking.al
+if !debug_mode.int == 2 then process !local_scripts/connect_networking.al
 else process !local_scripts/connect_networking.al
 
 :blockchain-seed:
@@ -37,7 +37,6 @@ on error call blockchain-seed-error
 blockchain seed from !ledger_conn
 
 :declare-cluster:
-set debug on
 if !debug_mode.int == 2 then thread !local_scripts/cluster_policy.al
 else process !local_scripts/cluster_policy.al
 cluster_id = blockchain get cluster bring.first [*][id]
@@ -70,7 +69,6 @@ on error call blockchain-sync-error
     connection=!ledger_conn>
 
 :operator-processes:
-reset error log
 if !debug_mode.int == 2 then thread !local_scripts/config_threshold.al
 else process !local_scripts/config_threshold.al
 
@@ -84,6 +82,19 @@ if not !operator_id then goto operator-id-error
     compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and
     master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads>
 
+
+:enable-mqtt:
+if !debug_mode.int > 0 then print "run MQTT client"
+on error call mqtt-error
+<run msg client where broker=!mqtt_broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd
+and log=!msg_log and topic=(
+    name=!msg_topic and
+    dbms=!msg_dbms and
+    table=!msg_table and
+    column.timestamp.timestamp=!msg_timestamp_column and
+    column.value=(type=!msg_value_column_type and value=!msg_value_column)
+)>
+
 :end-script:
 if !debug_mode.int > 0 then print "Validate everything is running as expected"
 get processes
@@ -95,7 +106,7 @@ exit scripts
 
 :blockchain-seed-error:
 print "Failed to run blockchain seed"
-return
+goto terminate-scripts
 
 :operator-db-error:
 print "Error: Unable to connect to almgm database with db type: " !db_type ". Cannot continue"
@@ -124,6 +135,10 @@ goto terminate-scripts
 :operator-error:
 print "Failed to execute run operator"
 goto terminate-scripts
+
+:mqtt-error
+print "Failed to run mqtt client"
+return
 
 
 
