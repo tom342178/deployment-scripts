@@ -6,7 +6,7 @@
 
 on error ignore
 if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int = 2 debug interactive
+else if !debug_mode.int == 2 then set debug interactive
 
 if !node_type == operator or $NODE_TYPE == master-operator then goto  operator-dbms
 else if !node_type == publisher or $NODE_TYPE == master-publisher then goto  almgm-dbms

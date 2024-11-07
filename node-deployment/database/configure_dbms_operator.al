@@ -5,7 +5,7 @@
 
 on error ignore
 if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int = 2 debug interactive
+else if !debug_mode.int == 2 then set debug interactive
 
 if !debug_mode.int == 2 then print "Deploy local database " !default_dbms
 

@@ -4,7 +4,7 @@
 # process !local_scripts/policies/config_threshold.al
 
 if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int = 2 debug interactive
+else if !debug_mode.int == 2 then set debug interactive
 
 :set-params:
 if !debug_mode.int > 0 then print "Set buffer threshold"

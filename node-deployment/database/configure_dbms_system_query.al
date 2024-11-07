@@ -4,7 +4,7 @@
 # process !local_scripts/database/configure_dbms_system_query.al
 on error ignore
 if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int = 2 debug interactive
+else if !debug_mode.int == 2 then set debug interactive
 
 :system-query-dbms:
 if !debug_mode.int == 2 then print "Connect to system_query database"
