@@ -11,12 +11,10 @@
 
 :debug-mode:
 on error ignore
-if $DEBUG_MODE.int > 0 and $DEBUG_MODE < 3 then print "Set Script defined configs"
-set debug_mode = 0
-if $DEBUG_MODE then set debug_mode=$DEBUG_MODE
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int == 2 then set debug interactive
-else if !debug_mode.int > 2 then debug_mode=0
+if $DEBUG_MODE == true or  $DEBUG_MODE == True or $DEBUG_MODE == TRUE then set debug_mode=true
+if !debug_mode == true then
+do print "Set Script defined configs"
+do set debug on
 
 :set-configs:
 set debug off
