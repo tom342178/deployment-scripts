@@ -45,7 +45,7 @@ run data consumer where start_date=!start_data
 on error goto run-operator-error
 if !debug_mode.int > 0 then print "start operator service"
 if not !operator_id then
-do print "Missing operator ID, cannot start operator process"
+do print "Missing operator ID cannot start operator process"
 do goto terminate-scripts
 
 <if !blockchain_source != master then run operator where
@@ -77,8 +77,8 @@ schedule name=remove_archive and time=1 day and task delete archive where days =
 :monitoring-and-local-scripts:
 on error ignore
 if !debug_mode.int > 0 then print "Declare Monitoring & other local scripts"
-if !monitor_nodes == true and !debug_mode.int == 2 then thread !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al,
-else if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al,
+if !monitor_nodes == true and !debug_mode.int == 2 then thread !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
+else if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
 
 if !enable_mqtt == true and !debug_mode.int == 2 then thread !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al
 else if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al

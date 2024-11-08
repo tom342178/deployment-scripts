@@ -9,13 +9,13 @@ else if !debug_mode.int == 2 then set debug interactive
 
 :declare-database:
 if !debug_mode.int > 0 then print "Connect to database(s)"
-if !debug_mode.int == 2 then thread !local_scripts/database/deploy_database.al
-else process !local_scripts/database/deploy_database.al
+# if !debug_mode.int == 2 then thread !local_scripts/database/deploy_database.al
+process !local_scripts/database/deploy_database.al
 
 :declare-policy:
 if !dbug_mode.int > 0 then print "Declare Node policy"
-if !debug_mode.int == 2 then thread !local_scripts/policies/node_policy.al
-else process !local_scripts/policies/node_policy.al
+# if !debug_mode.int == 2 then thread !local_scripts/policies/node_policy.al
+process !local_scripts/policies/node_policy.al
 
 :declare-scheduler:
 if !debug_mode.int > 0 then print "Set scheduler 1"
@@ -26,11 +26,11 @@ run scheduler 1
 on error ignore
 if !debug_mode.int > 0 then print "Declare Monitoring / Local scripts"
 
-if !monitor_nodes == true and !debug_mode.int == 2 then thread !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al,
-else if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al,
+# if !monitor_nodes == true and !debug_mode.int == 2 then thread !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
+if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
 
-if !deploy_local_script == true and !debug_mode.int == 2 then thread !local_scripts/local_script.al
-else if !deploy_local_script == true then process !local_scripts/local_script.al
+# if !deploy_local_script == true and !debug_mode.int == 2 then thread !local_scripts/local_script.al
+if !deploy_local_script == true then process !local_scripts/local_script.al
 
 :end-script:
 end script

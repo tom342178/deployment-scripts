@@ -52,18 +52,20 @@ create work directories
 
 :set-params:
 if !debug_mode.int > 0 then print "Set environment params"
-if !debug_mode.int == 2 then thread !local_scripts/set_params.al
-else process !local_scripts/set_params.al
+# if !debug_mode.int == 2 then thread !local_scripts/set_params.al
+# else process !local_scripts/set_params.al
+process !local_scripts/set_params.al
 
 :configure-networking:
 if !debug_mode.int > 0 then print "Configure networking"
-if !debug_mode.int == 2 then thread !local_scripts/connect_networking.al
-else process !local_scripts/connect_networking.al
+# if !debug_mode.int == 2 then thread !local_scripts/connect_networking.al
+# else process !local_scripts/connect_networking.al
+process !local_scripts/connect_networking.al
 
 :blockchain-seed:
 if !debug_mode.int > 0 then print "Blockchain Seed"
 if !node_type == generic then goto set-license
-else if !node_type != master and !blockchain_source != master and debug_mode.int == 2 then thread !local_scripts/connect_blockchain.al
+# else if !node_type != master and !blockchain_source != master and debug_mode.int == 2 then thread !local_scripts/connect_blockchain.al
 else if !node_type != master and !blockchain_source != master then process !local_scripts/connect_blockchain.al
 else if !node_type != master then
 do on error call blockchain-seed-error
@@ -72,8 +74,9 @@ do on error ignore
 
 :declare-policy:
 if !debug_mode.int > 0 then print "Declare policies"
-if !debug_mode.int == 2 then thread !local_scripts/policies/config_policy.al
-else process !local_scripts/policies/config_policy.al
+# if !debug_mode.int == 2 then thread !local_scripts/policies/config_policy.al
+# else process !local_scripts/policies/config_policy.al
+process !local_scripts/policies/config_policy.al
 
 :set-license:
 if !debug_mode.int > 0  then print "Set license key"
