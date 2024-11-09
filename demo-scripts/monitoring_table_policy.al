@@ -35,13 +35,17 @@
 # process !anylog_path/deployment-scripts/demo-scripts/monitoring_table_policy.al
 on error ignore
 
+if !debug_mode == true then set debug on
 set create_table = false
+
 :check-table-policy:
+if !debug_mode == true then print "Check if policy eixsts"
 is_table = blockchain get table where dbms=monitoring and name=node_insight
 if !is_table then goto dbms-configs
 else if not !is_table and !create_table == true then goto declare-policy-error
 
 :declare-policy:
+if !debug_mode == true then print "Create table policy for monitoring"
 <new_policy = {
     "table": {
         "dbms": "monitoring",

@@ -58,11 +58,13 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al
 on error ignore
+if !debug_mode == true then set debug on
 
 :declare-policy:
 if !store_monitoring == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_table_policy.al
 
 :store-monitoring:
+if !debug_mode == true then print "Declaring monitoring policy"
 if !store_monitoring == true and !node_type == operator then
 do on error goto store-monitoring-error
 do connect dbms monitoring where type=sqlite
@@ -72,10 +74,12 @@ do partition monitoring node_insight using timestamp by 12 hours
 do schedule time=12 hours and name="drop node_insight partitions" task drop partition where dbms=monitoring and table=node_insight and keep=3
 
 :set-params:
+if !debug_mode == true then print "Setting env params"
 schedule_id = generic-schedule-policy
 set create_policy = false
 
 :check-policy:
+if !debug_mode == true then print "check if policy exists"
 is_policy = blockchain get schedule where id=!schedule_id
 
 # just created the policy + exists
@@ -85,6 +89,7 @@ if !is_policy then goto config-policy
 if not !is_policy and !create_policy == true then goto declare-policy-error
 
 :schedule-policy:
+if !debug_mode == true then print "create policy"
 new_policy=""
 <new_policy = {
     "schedule": {
@@ -123,6 +128,7 @@ new_policy=""
 }}>
 
 :publish-policy:
+on error ignore
 process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
@@ -131,6 +137,7 @@ set create_policy = true
 goto check-policy
 
 :config-policy:
+if !debug_mode == true then pring "Config from policy"
 on error goto config-policy-error
 config from policy where id=!schedule_id
 

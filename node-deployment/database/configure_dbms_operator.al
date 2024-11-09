@@ -4,10 +4,9 @@
 # process !local_scripts/database/configure_dbms_operator.al
 
 on error ignore
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int == 2 then set debug interactive
+if !debug_mode == true then set debug on
 
-if !debug_mode.int == 2 then print "Deploy local database " !default_dbms
+if !debug_mode == true then print "Deploy local database " !default_dbms
 
 :operator-dbms:
 on error goto operator-db-error
@@ -24,10 +23,11 @@ if !db_type == psql then
 else connect dbms !default_dbms where type=!db_type
 
 :data-partitioning:
-if !debug_mode.int == 2 then print "Set Partitioning"
+if !debug_mode == true then print "Set Partitioning"
 if !enable_partitions == true then
 do partition !default_dbms !table_name using !partition_column by !partition_interval
-do schedule time=!partition_sync and name="Drop Partitions" task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep
+<do schedule time=!partition_sync and name="Drop Partitions"
+    task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep>
 
 :end-script:
 end script

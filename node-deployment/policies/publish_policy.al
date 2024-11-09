@@ -3,14 +3,13 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/policies/publish_policy.al
 on error ignore
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int == 2 then set debug interactive
+if !debug_mode == true then set debug on
 
 :set-params:
 error_code = 0
 
 :private-key:
-if !debug_mode.int > 0 then print "Check whether authentication is enabled and that private key exists"
+if !debug_mode == true then print "Check whether authentication is enabled and that private key exists"
 
 if !enable_auth == true and not !node_private_key then
 do on error ignore
@@ -18,7 +17,7 @@ do node_private_key = get private key where keys_file = !key_name
 do if not !node_private_key then goto private-key-error
 
 :prepare-policy:
-if !debug_mode.int > 0 then print "Prepare new policy with signature if authentication is enabled"
+if !debug_mode == true then print "Prepare new policy with signature if authentication is enabled"
 
 on error goto sign-policy-error
 if !enable_auth == true then new_policy = id sign !new_policy where key = !node_private_key and password = !node_password
@@ -26,7 +25,7 @@ validate_policy = json !new_policy
 if not !validate_policy then goto prepare-policy-error
 
 :declare-policy:
-if !debug_mode.int > 0 then print "Declare policy on blockchain"
+if !debug_mode == true then print "Declare policy on blockchain"
 
 on error call declare-policy-error
 blockchain prepare policy !new_policy

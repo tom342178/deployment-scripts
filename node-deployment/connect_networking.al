@@ -5,13 +5,12 @@
 
 on error ignore
 set debug off
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int == 2 then set debug interactive
+if !debug_mode == true then set debug on
 
 if !overlay_ip then goto overlay-tcp-networking
 
 :tcp-networking:
-if !debug_mode.int > 0 then print "Start TCP communication service"
+if !debug_mode == true then print "Start TCP communication service"
 
 on error goto tcp-networking-error
 <run tcp server where
@@ -20,7 +19,7 @@ on error goto tcp-networking-error
     bind=!tcp_bind and threads=!tcp_threads>
 
 :rest-networking:
-if !debug_mode.int > 0 then print "Start REST communication service"
+if !debug_mode == true then print "Start REST communication service"
 
 on error goto rest-networking-error
 <run rest server where
@@ -31,7 +30,7 @@ on error goto rest-networking-error
 if not !anylog_broker_port then goto end-script
 
 :broker-networking:
-if !debug_mode.int > 0 then print "Start Message Broker service"
+if !debug_mode == true then print "Start Message Broker service"
 
 on error goto broker-networking-error
 <run message broker where
@@ -42,7 +41,7 @@ on error goto broker-networking-error
 
 
 :overlay-tcp-networking:
-if !debug_mode.int > 0 then print "Start TCP communication service"
+if !debug_mode == true then print "Start TCP communication service"
 
 on error goto tcp-networking-error
 <run tcp server where
@@ -51,7 +50,7 @@ on error goto tcp-networking-error
     bind=!tcp_bind and threads=!tcp_threads>
 
 :overlay-rest-networking:
-if !debug_mode.int > 0 then print "Start REST communication service"
+if !debug_mode == true then print "Start REST communication service"
 
 on error goto rest-networking-error
 <run rest server where
@@ -62,7 +61,7 @@ on error goto rest-networking-error
 if not !anylog_broker_port then goto end-script
 
 :overlay-broker-networking:
-if !debug_mode.int > 0 then print "Start Message Broker service"
+if !debug_mode == true then print "Start Message Broker service"
 
 on error goto broker-networking-error
 <run message broker where
@@ -87,7 +86,7 @@ goto terminate-scripts
 
 :broker-networking-error:
 print "Error: Failed to connect to Message Broker with IP address - will continue deployment without Message Broker"
-do goto terminate-scripts
+do goto end-script
 
 
 

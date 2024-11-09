@@ -22,14 +22,17 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !anylog_path/deployment-scripts/demo-scripts/syslog_table_policy.al
 on error ignore
+if !debug_mode == true then set debug on
 
 set create_table = false
 :check-table-policy:
+if !debug_mode == true then print "Check if policy eixsts"
 is_table = blockchain get table where dbms=monitoring and name=syslog
 if !is_table then goto end-script
 else if not !is_table and !create_table == true then goto declare-policy-error
 
 :declare-policy:
+if !debug_mode == true then print "Create table policy for monitoring syslog"
 <new_policy = {
     "table": {
         "dbms": "monitoring",
@@ -39,6 +42,7 @@ else if not !is_table and !create_table == true then goto declare-policy-error
 }>
 
 :publish-policy:
+if !debug_mode == true then print "Create policy"
 process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 else if !error_code == 2 then goto prepare-policy-error

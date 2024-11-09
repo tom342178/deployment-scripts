@@ -13,8 +13,8 @@
 on error ignore
 if $DEBUG_MODE == true or  $DEBUG_MODE == True or $DEBUG_MODE == TRUE then set debug_mode=true
 if !debug_mode == true then
-do print "Set Script defined configs"
 do set debug on
+do print "Set Script defined configs"
 
 :set-configs:
 set debug off
@@ -22,7 +22,7 @@ set echo queue on
 set authentication off
 
 :is-edgelake:
-if !debug_mode.int > 0 then print "Check whether if an EdgeLake or AnyLog Deployment"
+if !debug_mode == true then print "Check whether if an EdgeLake or AnyLog Deployment"
 
 # check whether we're running EdgeLake or AnyLog
 set is_edgelake = false
@@ -32,7 +32,7 @@ if !deployment_type != AnyLog then set is_edgelake = true
 if !is_edgelake == true and $NODE_TYPE == publisher then edgelake-error
 
 :directories:
-if !debug_mode.int > 0 then print "Set directory paths"
+if !debug_mode == true then print "Set directory paths"
 
 # directory where deployment-scripts is stored
 set anylog_path = /app
@@ -45,25 +45,20 @@ if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
 if $TEST_DIR then set test_dir = $TEST_DIR
 
 
-if !debug_mode.int > 0 then print "Create work directories"
+if !debug_mode == true then print "Create work directories"
 create work directories
 
 :set-params:
-if !debug_mode.int > 0 then print "Set environment params"
-# if !debug_mode.int == 2 then thread !local_scripts/set_params.al
-# else process !local_scripts/set_params.al
+if !debug_mode == true then print "Set environment params"
 process !local_scripts/set_params.al
 
 :configure-networking:
-if !debug_mode.int > 0 then print "Configure networking"
-# if !debug_mode.int == 2 then thread !local_scripts/connect_networking.al
-# else process !local_scripts/connect_networking.al
+if !debug_mode == true then print "Configure networking"
 process !local_scripts/connect_networking.al
 
 :blockchain-seed:
-if !debug_mode.int > 0 then print "Blockchain Seed"
+if !debug_mode == true then print "Blockchain Seed"
 if !node_type == generic then goto set-license
-# else if !node_type != master and !blockchain_source != master and debug_mode.int == 2 then thread !local_scripts/connect_blockchain.al
 else if !node_type != master and !blockchain_source != master then process !local_scripts/connect_blockchain.al
 else if !node_type != master then
 do on error call blockchain-seed-error
@@ -71,13 +66,11 @@ do blockchain seed from !ledger_conn
 do on error ignore
 
 :declare-policy:
-if !debug_mode.int > 0 then print "Declare policies"
-# if !debug_mode.int == 2 then thread !local_scripts/policies/config_policy.al
-# else process !local_scripts/policies/config_policy.al
+if !debug_mode == true then print "Declare policies"
 process !local_scripts/policies/config_policy.al
 
 :set-license:
-if !debug_mode.int > 0  then print "Set license key"
+if !debug_mode == true then print "Set license key"
 
 if !is_edgelake == true then goto end-script
 
@@ -86,7 +79,7 @@ if not !license_key then goto license-error
 set license where activation_key = !license_key
 
 :end-script:
-if !debug_mode.int > 0 then print "Validate everything is running as expected"
+if !debug_mode == true then print "Validate everything is running as expected"
 get processes
 if !enable_mqtt == true then get msg client
 end script

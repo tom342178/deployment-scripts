@@ -30,10 +30,13 @@
 # process !anylog_path/deployment-scripts/demo-scripts/syslog.al
 on error ignore
 
+if !debug_mode == true then set debug on
+
 :dbms-configs:
 process !anylog_path/deployment-scripts/demo-scripts/syslog_table_policy.al
 
 :store-monitoring:
+if !debug_mode == true then print "Monitoring database and table configurations for syslog"
 on error goto store-monitoring-error
 connect dbms monitoring where type=sqlite
 create table syslog where dbms=monitoring
@@ -43,6 +46,7 @@ partition monitoring syslog using timestamp by 12 hours
 schedule time=12 hours and name="drop syslog partitions" task drop partition where dbms=monitoring and table=syslog and keep=3
 
 :connect-network:
+if !debug_mode == true then print "connect to MQTT broker if not set"
 on error ignore
 conn_info = get connections where format=json
 is_msg_broker  = from !conn_info bring [Messaging][external]
@@ -55,6 +59,7 @@ do on error goto broker-networking-error
     bind=!broker_bind and threads=!broker_threads>
 
 :set-syslog:
+if !debug_mode == true then print "Run message rule"
 on error goto set-syslog-error
 <set msg rule syslog_rule if
    ip = !ip

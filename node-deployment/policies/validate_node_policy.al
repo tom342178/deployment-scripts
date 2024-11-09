@@ -4,10 +4,9 @@
 # process !local_scripts/policies/validate_node_policy.al
 
 on error ignore
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int == 2 then set debug interactive
+if !debug_mode == true then set debug on
 
-if !debug_mode.int > 0 then print "check if node policy exists"
+if !debug_mode == true then print "check if node policy exists"
 if !tcp_bind == false then
 <do is_policy = blockchain get !node_type where
     company=!company_name and

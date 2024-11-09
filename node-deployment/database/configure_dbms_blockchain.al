@@ -4,14 +4,14 @@
 # process !local_scripts/database/configure_dbms_blockchain.al
 
 on error ignore
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int == 2 then set debug interactive
+if !debug_mode == true then set debug on
+
 
 if !node_type != master and $NODE_TYPE != master-operator and $NODE_TYPE != master-publisher then goto blockchain-sync
 
 :ledger-dbms:
 on error goto ledger-db-error
-if !debug_mode.int > 0 then print "Connect to blockchain database"
+if !debug_mode == true then print "Connect to blockchain database"
 <if !db_type == psql then connect dbms blockchain where
     type=!db_type and
     user = !db_user and
@@ -23,12 +23,12 @@ if !debug_mode.int > 0 then print "Connect to blockchain database"
 else if !db_type == sqlite then connect dbms blockchain where type=!db_type
 
 on error goto ledger-table-error
-if !debug_mode.int > 0 then print "Create table ledger in blockchain database"
+if !debug_mode == true then print "Create table ledger in blockchain database"
 is_table = info table blockchain ledger exists
 if !is_table == false then create table ledger where dbms=blockchain
 
 :blockchain-sync:
-if !debug_mode.int > 0 then print "set blockchain sync"
+if !debug_mode == true then print "set blockchain sync"
 
 on error call blockchain-sync-error
 <if !blockchain_source == master then run blockchain sync where

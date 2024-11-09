@@ -6,8 +6,7 @@
 # process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al
 
 on error ignore
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int = 2 debug interactive
+if !debug_mode == true then set debug on
 
 if !mqtt_broker == rest then
 if !debug_mode.int > 0 then print "set mqtt client connection"

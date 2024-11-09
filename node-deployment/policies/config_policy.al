@@ -26,18 +26,17 @@
 
 on error ignore
 set create_config = false
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int == 2 then set debug interactive
+if !debug_mode == true then set debug on
 
 :check-policy:
-if !debug_mode.int > 0 then print "Check whether config policy exists - if exists then goes to declare policy"
+if !debug_mode == true then print "Check whether config policy exists - if exists then goes to declare policy"
 
 config_id = blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring.first [*][id]
 if !config_id then goto config-policy
 if not !config_id and !create_config == true then goto declare-policy-error
 
 :prepare-new-policy:
-if !debug_mode.int > 0 then print "Create base for new config policy"
+if !debug_mode == true then print "Create base for new config policy"
 
 new_policy = ""
 set policy new_policy [config] = {}
@@ -76,7 +75,7 @@ set policy new_policy [config][node_type] = !node_type
 # if !broker_bind == true and !overlay_ip      then set policy new_policy [config][broker_ip] = '!overlay_ip'
 
 :scripts:
-if !debug_mode.int > 0 then print "Add script for deploying policy - each node type has a unique policy"
+if !debug_mode == true then print "Add script for deploying policy - each node type has a unique policy"
 
 if !node_type == publisher then goto publisher-scripts
 if !node_type == operator then goto operator-scripts
@@ -128,9 +127,9 @@ goto publish-policy
 ]>
 
 :publish-policy:
-if !debug_mode.int > 0 then print "Declare policy on blockchain"
+if !debug_mode == true then print "Declare policy on blockchain"
 
-if !debug_mode.int == 2 then thread !local_scripts/policies/publish_policy.al
+if !debug_mode == true then thread !local_scripts/policies/publish_policy.al
 else process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
@@ -139,7 +138,7 @@ set create_config = true
 goto check-policy
 
 :config-policy:
-if !debug_mode.int > 0 then print "Deploy Policy"
+if !debug_mode == true then print "Deploy Policy"
 
 on error goto config-policy-error
 if !debug_mode.int == 2 and !node_type == operator then thread !local_scripts/config_policies_code/config_operator.al
