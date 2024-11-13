@@ -147,7 +147,6 @@ if !debug_mode == true then print "Deploy Policy"
 on error goto config-policy-error
 if !debug_mode == true and !node_type == operator then process !local_scripts/config_policies_code/config_operator.al
 else if !debug_mode == true and !node_type == publisher then process !local_scripts/config_policies_code/config_publisher.al
-else if !debug_mode == true and
 else if !debug_mode == true and (!node_type == master or !node_type == query) then process !local_scripts/config_policies_code/config_node.al
 else config from policy where id = !config_id
 
