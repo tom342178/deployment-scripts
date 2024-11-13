@@ -25,6 +25,8 @@
 # process !local_scripts/policies/config_policy.al
 
 reset error log
+reset echo queue
+reset event log
 
 on error ignore
 set create_config = false
@@ -137,18 +139,17 @@ if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
 set create_config = true
+wait 5
 goto check-policy
 
 :config-policy:
 if !debug_mode == true then print "Deploy Policy"
 
 on error goto config-policy-error
-if !debug_mode.int == 2 and !node_type == operator then thread !local_scripts/config_policies_code/config_operator.al
-else if !debug_mode == 1 and !node_type == operator then process !local_scripts/config_policies_code/config_operator.al
-else if !debug_mode.int == 2 and !node_type == publisher then thread !local_scripts/config_policies_code/config_publisher.al
-else if !debug_mode == 1 and !node_type == publisher then process !local_scripts/config_policies_code/config_publisher.al
-else if !debug_mode.int == 2 and (!node_type == master or !node_type == query) then thread !local_scripts/config_policies_code/config_node.al
-else if !debug_mode == 1 and (!node_type == master or !node_type == query) then process !local_scripts/config_policies_code/config_node.al
+if !debug_mode == true and !node_type == operator then process !local_scripts/config_policies_code/config_operator.al
+else if !debug_mode == true and !node_type == publisher then process !local_scripts/config_policies_code/config_publisher.al
+else if !debug_mode == true and
+else if !debug_mode == true and (!node_type == master or !node_type == query) then process !local_scripts/config_policies_code/config_node.al
 else config from policy where id = !config_id
 
 
