@@ -23,8 +23,7 @@ if !rand_value == 1 then
 do call part-1-message
 do goto if-else-demo
 else if !rand_value == 3 then goto part-3-message
-else
-do print "Rand Value is 2"
+else do print "Rand Value is 2"
 do rand_value = 3
 do goto if-else-demo
 
