@@ -29,8 +29,7 @@ set create_policy = false
 :check-policy:
 if !debug_mode == true then print "Check whether policy already exists based on params"
 
-if !debug_mode == true then thread !local_scripts/policies/validate_node_policy.al
-else process !local_scripts/policies/validate_node_policy.al
+process !local_scripts/policies/validate_node_policy.al
 
 if not !is_policy and !create_policy == false then goto create-policy
 if not !is_policy and !create_policy == true then goto config-policy-error
@@ -76,8 +75,7 @@ if !city then set policy new_policy [!node_type][city] = !city
 :publish-policy:
 if !debug_mode == true then print "Publish policy"
 
-if !debug_mode == true then thread !local_scripts/policies/publish_policy.al
-else process !local_scripts/policies/publish_policy.al
+process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error

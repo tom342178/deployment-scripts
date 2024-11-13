@@ -133,8 +133,7 @@ goto publish-policy
 :publish-policy:
 if !debug_mode == true then print "Declare policy on blockchain"
 
-if !debug_mode == true then thread !local_scripts/policies/publish_policy.al
-else process !local_scripts/policies/publish_policy.al
+process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error

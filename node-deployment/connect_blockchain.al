@@ -8,8 +8,7 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/connect_blockchain.al
 
-if !debug_mode.int == 1 then set debug on
-else if !debug_mode.int = 2 debug interactive
+if !debug_mode == true then set debug on
 
 on error ignore
 
