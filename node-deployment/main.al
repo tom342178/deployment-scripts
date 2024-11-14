@@ -40,11 +40,16 @@ local_scripts = !anylog_path/deployment-scripts/node-deployment
 test_dir = !anylog_path/deployment-scripts/test
 
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
+
 else if $EDGELAKE_PATH then set anylog_path = $EDGELAKE_PATH
 if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
 if $TEST_DIR then set test_dir = $TEST_DIR
 
+if !debug_mode == true then print "set home path"
+on error goto set-paths
+set anylog home !anylog_path
 
+on error ignore
 if !debug_mode == true then print "Create work directories"
 create work directories
 
@@ -87,6 +92,10 @@ end script
 :edgelake-error:
 print "Node type `publisher` not supported with EdgeLake deployment"
 goto terminate-scripts
+
+:set-paths:
+process !local_scripts/set_paths.al
+goto set-params
 
 :blockchain-seed-error:
 print "Failed to run blockchain seed"
