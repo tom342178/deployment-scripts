@@ -141,8 +141,8 @@ if $DB_PORT then db_port = $DB_PORT
 
 if $AUTOCOMMIT == false or $AUTOCOMMIT == False or $AUTOCOMMIT == FALSE then set autocommit = false
 if $UNLOG == true or $UNLOG == True or $UNLOG == TRUE then set unlog =  true
-if !node_type == query or $DEPLOY_SYSTEM_QUERY == true or $DEPLOY_SYSTEM_QUERY == True or $DEPLOY_SYSTEM_QUERY == TRUE  then
-do set deploy_system_query = true
+if !node_type == query or $SYSTEM_QUERY == true or $SYSTEM_QUERY == True or $SYSTEM_QUERY == TRUE  then
+do set system_query = true
 do if $MEMORY == false or $MEMORY == False or $MEMORY == FALSE then set memory=false
 
 :nosql-database:

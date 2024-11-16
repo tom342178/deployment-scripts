@@ -26,7 +26,7 @@ if !debug_mode == true then print "almgm related database processes"
 process !local_scripts/database/configure_dbms_almgm.al
 
 :system-query-dbms:
-if !node_type != query and !deploy_system_query != true then goto end-script
+if !node_type != query and !system_query != true then goto end-script
 if !debug_mode == true then print "system_query database processes"
 else process !local_scripts/database/configure_dbms_system_query.al
 
