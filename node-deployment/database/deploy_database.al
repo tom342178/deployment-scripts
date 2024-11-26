@@ -8,7 +8,7 @@ on error ignore
 if !debug_mode == true then set debug on
 
 if $NODE_TYPE == operator then goto operator-dbms
-if $NODE_TYPE == publisher than goto almgm-dbms
+if $NODE_TYPE == publisher then goto almgm-dbms
 if $NODE_TYPE == query then goto system-query-dbms
 
 :master-dbms:
