@@ -3,7 +3,7 @@
 # -- for operator also deploy partitions if set
 #----------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/deploy_database.al
-
+set debug on
 on error ignore
 if !debug_mode == true then set debug on
 
