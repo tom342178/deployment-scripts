@@ -2,8 +2,11 @@
 # Based on node_type create relevant databases / tables for system_query
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_system_query.al
+on error ignore
+if !debug_mode == true then set debug on
 
 :system-query-dbms:
+if !debug_mode == true then print "Connect to system_query database"
 on error goto system-query-db-error
 if !db_type == sqlite and !memory == true then connect dbms system_query where type=sqlite and memory=!memory
 if !db_type == sqlite and !memory == false then connect dbms system_query where type=sqlite
