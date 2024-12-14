@@ -11,13 +11,14 @@
 
 :debug-mode:
 on error ignore
+set debug_mode = false
 if $DEBUG_MODE == true or  $DEBUG_MODE == True or $DEBUG_MODE == TRUE then set debug_mode=true
 if !debug_mode == true then
 do set debug on
 do print "Set Script defined configs"
+else set debug off
 
 :set-configs:
-set debug off
 set echo queue on
 set authentication off
 
@@ -36,16 +37,14 @@ if !debug_mode == true then print "Set directory paths"
 
 # directory where deployment-scripts is stored
 set anylog_path = /app
-local_scripts = !anylog_path/deployment-scripts/node-deployment
-test_dir = !anylog_path/deployment-scripts/test
-
 if $ANYLOG_PATH then set anylog_path = $ANYLOG_PATH
-
 else if $EDGELAKE_PATH then set anylog_path = $EDGELAKE_PATH
 
 if !debug_mode == true then print "set home path"
 set anylog home !anylog_path
 
+local_scripts = !anylog_path/deployment-scripts/node-deployment
+test_dir = !anylog_path/deployment-scripts/test
 if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
 if $TEST_DIR then set test_dir = $TEST_DIR
 

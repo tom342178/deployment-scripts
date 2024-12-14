@@ -1,3 +1,6 @@
+#---------------------------------------------------------------------------------------------------------------------#
+# AnyLog scripts used for demo for blobs data
+#---------------------------------------------------------------------------------------------------------------------#
 # process !anylog_path/deployment-scripts/test-network-local-scripts/blobs_demo.al
 on error ignore
 
