@@ -1,9 +1,38 @@
-<run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
-   name="Orics/R-50/HighlandFarms/17415/#" and
+#----------------------------------------------------------------------------------------------------------------------#
+# Machine builder demo
+#----------------------------------------------------------------------------------------------------------------------#
+# process !anlog_root/deployment-scripts/machine-builder/machine_builder_demo.al
+
+on error ignore
+:set-database:
+
+on error goto orics-dbms-error
+if !db_type == psql then
+<do connect dbms orics where
+    type=!db_type and
+    user = !db_user and
+    password = !db_passwd and
+    ip = !db_ip and
+    port = !db_port and
+    autocommit = !autocommit and
+    unlog = !unlog
+>
+else connect dbms orics where type=!db_type
+
+:data-partitioning:
+if !enable_partitions == true then
+do partition orics * using timestamp by !partition_interval
+<do schedule time=!partition_sync and name="Drop Orics Partitions"
+    task drop partition where dbms=orics and table =* and keep=3>
+
+:run-mqtt-client:
+on error goto run-mqtt-client-error
+<run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
+   name="Orics/R-50" and
    dbms=orics and
    table=r_50 and
    column.timestamp.timestamp="bring [ts]" and
-   column.serial_number.int=17415 and
+   column.serial_number.int="bring [serial_number]" and
    column.seal_storage.float="bring [d][SealStage][0]" and
    column.cy_min.float="bring [d][Cyc/Min][0]" and
    column.batch_count.float="bring [d][BatchCount][0]" and
@@ -31,3 +60,18 @@
    column.film_adv_i.float="bring [d][FilmAdvI][0]"  and
    column.airpressureok=(type=bool and value="bring [d][AirPressureOk][0]")
 )>
+
+:end-script:
+end script
+
+:terminate-scripts:
+exit scripts
+
+:orics-dbms-error:
+echo "Error: Unable to connect to orics database with db type: " !db_type ". Cannot continue"
+goto terminate-scripts
+
+:run-mqtt-client-error:
+echo "Error: Failed to start (REST) mqtt client"
+goto terminate-scripts
+
