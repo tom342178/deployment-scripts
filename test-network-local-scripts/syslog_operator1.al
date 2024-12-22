@@ -7,39 +7,35 @@ process !anylog_path/deployment-scripts/demo-scripts/syslog.al
 
 on error call syslog-error
 
-syslog_ip = 45.79.74.39
+syslog_ip = 10.10.1.10
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
 set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 23.239.12.151
+syslog_ip = 10.10.1.201
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
 set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 172.236.61.154
+syslog_ip = 10.10.1.212
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
 set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 23.92.28.183
+syslog_ip = 10.10.1.214
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
 set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 139.162.56.87
+syslog_ip = 10.10.1.216
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
 set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 35.208.73.148
-rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring.first [*][name]
-set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
-
-syslog_ip = 178.79.154.209
+syslog_ip = 10.10.1.206
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
 set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 172.105.6.90
+syslog_ip = 10.10.1.203
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
 set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 50.116.4.251
+syslog_ip = 10.10.1.32
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
 set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
