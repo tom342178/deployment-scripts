@@ -308,6 +308,8 @@ if !operator_threads.int < 1 then operator_threads=1
 if $QUERY_POOL and $QUERY_POOL.int then query_pool=$QUERY_POOL
 if !query_pool.int < 1 then query_pool = 1
 
+if $ARCHIVE == false or $ARCHIVE == False or $ARCHIVE == FALSE then set archive=false
+if $ARCHIVE_SQL == true or $ARCHIVE == True or $ARCHIVE == TRUE then set archive_sql=true
 if $ARCHIVE_DELETE then archive_delete=$ARCHIVE_DELETE
 
 :end-script:
