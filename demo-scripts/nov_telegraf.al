@@ -36,35 +36,32 @@ if !create_policy == true  and not !policy then goto declare-policy-error
 
 :preparre-policy:
 # for table name - the following includes both sensor and hostname; "bring [name] _ [tags][name]:[tags][host]",
-<new_policy = {"mapping" : {
-        "id" : !policy_id,
-        "dbms" : !default_dbms,
-        "table" : "bring [tags][table]",
-        "schema" : {
-                "timestamp" : {
-                    "type" : "timestamp",
-                    "default": "now()",
-                    "bring" : "[timestamp]"
-                },
-                "device_id": {
-                    "type": "string",
-                    "default": "",
-                    "bring": "[tags][device_id]"
-                },
-                "insert_id": {
-                    "type": "string",
-                    "default": "",
-                    "bring": "[tags][insert_id]"
-                }
-                }
-                "*" : {
-                    "type": "*",
-                    "bring": ["fields"]
-                }
-         }
-   }
-}>
-
+<new_policy = {"mapping": {
+    "id" : !policy_id,
+    "dbms" : !default_dbms,
+    "table" : "bring [tags][table]",
+    "schema" : {
+        "timestamp" : {
+            "type" : "timestamp",
+            "default": "now()",
+            "bring" : "[timestamp]"
+        },
+        "device_id": {
+            "type": "string",
+            "default": "",
+            "bring": "[tags][device_id]"
+        },
+        "insert_id": {
+            "type": "string",
+            "default": "",
+            "bring": "[tags][insert_id]"
+        },
+        "*" : {
+            "type": "*",
+            "bring": ["fields"]
+        }
+    }
+}}>
 
 :publish-policy:
 process !local_scripts/policies/publish_policy.al
@@ -77,7 +74,7 @@ goto check-policy
 :msg-call:
 on error goto msg-error
 if !anylog_broker_port then
-<do run msg client where broker=local and port=!anylog_broker_port and log=false and topic=(
+<do run msg client where broker=rest and port=!anylog_rest_port and user-agent=anylog and log=false and topic=(
     name=!topic_name and
     policy=!policy_id
 )>
