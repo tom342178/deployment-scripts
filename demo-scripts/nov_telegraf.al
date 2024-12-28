@@ -50,7 +50,12 @@ if !create_policy == true  and not !policy then goto declare-policy-error
             "type": "string",
             "default": "",
             "bring": "[tags][device_id]"
-        }
+        },
+        "insert_id": {
+            "type": "string",
+            "default": "",
+            "bring": "[tags][insert_id]"
+        },
         "*" : {
             "type": "*",
             "bring": ["fields"]
