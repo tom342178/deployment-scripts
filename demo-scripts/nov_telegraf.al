@@ -36,6 +36,13 @@ if !create_policy == true  and not !policy then goto declare-policy-error
 
 :preparre-policy:
 # for table name - the following includes both sensor and hostname; "bring [name] _ [tags][name]:[tags][host]",
+#----
+# "insert_id": {
+#             "type": "string",
+#            "default": "",
+#            "bring": "[tags][insert_id]"
+#        },
+
 <new_policy = {"mapping": {
     "id" : !policy_id,
     "dbms" : !default_dbms,
@@ -50,11 +57,6 @@ if !create_policy == true  and not !policy then goto declare-policy-error
             "type": "string",
             "default": "",
             "bring": "[tags][device_id]"
-        },
-        "insert_id": {
-            "type": "string",
-            "default": "",
-            "bring": "[tags][insert_id]"
         },
         "*" : {
             "type": "*",
