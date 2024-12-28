@@ -20,7 +20,7 @@
 #  }
 # ]}
 #----------------------------------------------------------------------------------------------------------------------#
-# process !anylog_path/deployment-scripts/demo-scripts/telegraf.al
+# process !anylog_path/deployment-scripts/demo-scripts/nov_telegraf.al
 
 on error ignore
 
@@ -50,12 +50,7 @@ if !create_policy == true  and not !policy then goto declare-policy-error
             "type": "string",
             "default": "",
             "bring": "[tags][device_id]"
-        },
-        "insert_id": {
-            "type": "string",
-            "default": "",
-            "bring": "[tags][insert_id]"
-        },
+        }
         "*" : {
             "type": "*",
             "bring": ["fields"]
