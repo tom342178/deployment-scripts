@@ -26,7 +26,7 @@ if $LICENSE_KEY and not !license_key then license_key = $LICENSE_KEY
 if not !license_key then goto check-policy
 
 if !license_key then
-do license_key_num = license_key[:256]
+do license_key_num = !license_key[:256]
 do info_part = !license_key[256:]
 
 if !info_part then
