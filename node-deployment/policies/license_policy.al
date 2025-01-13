@@ -48,7 +48,6 @@ if !activation_key then goto set-license
 
 :create-license:
 if !debug_mode == true then print "Create license policy"
-if !expiration < now().date then goto expiration-error
 on error ignore
 <new_policy = {
     "license": {
