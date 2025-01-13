@@ -36,13 +36,25 @@ else if $NODE_NAME then set node_name = $NODE_NAME
 
 set node name !node_name
 
-if $LICENSE_KEY then license_key=$LICENSE_KEY
-
 if not $COMPANY_NAME and node_type != generic then goto missing-company-name
 else if $COMPANY_NAME then company_name = $COMPANY_NAME
 
 if not $LEDGER_CONN and !node_type != generic then goto missing-ledger-conn
 else if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
+
+if !is_edgelake == true then goto general-params
+
+:license-params:
+if $LICENSE_KEY then license_key=$LICENSE_KEY
+
+if !license_key then
+do license_key_num = !license_key[:256]
+do info_part = !license_key[256:]
+
+if !info_part then
+do owner = from !info_part bring [company]
+do expiration = from !info_part bring [expiration]
+do license_type = from !info_part bring [type]
 
 :general-params:
 hostname = get hostname

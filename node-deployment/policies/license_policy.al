@@ -22,27 +22,15 @@
 :set-params:
 on error ignore
 if !debug_mode == true then print "set params"
-if $LICENSE_KEY and not !license_key then license_key = $LICENSE_KEY
-if not !license_key then goto check-policy
-
-if !license_key then
-do license_key_num = !license_key[:256]
-do info_part = !license_key[256:]
-
-if !info_part then
-do owner = from !info_part bring [company]
-do expiration = from !info_part bring [expiration]
-do license_type = from !info_part bring [type]
-
 set create_license = false
 
 :check-policy:
 if !debug_mode == true then print "Check whether license policy exists"
 
 on error ignore
-if !license_key then activation_key =  blockchain get license where company = !owner bring.last [license][activation_key] "{'company':'"  [license][company] "','expiration':'"  [license][expiration] "','type':'" [license][type] "'}"
-else activation_key =  blockchain get license bring.last [license][activation_key] "{'company':'"  [license][company] "','expiration':'"  [license][expiration] "','type':'" [license][type] "'}"
+activation_key =  blockchain get license bring.last [license][activation_key] "{'company':'"  [license][company] "','expiration':'"  [license][expiration] "','type':'" [license][type] "'}"
 
+if not !license_key and not !activation_key then goto missing-license-key
 if not !activation_key and !create_license == true then goto declare-policy-error
 if !activation_key then goto set-license
 
