@@ -31,8 +31,8 @@ do info_part = !license_key[256:]
 
 if !info_part then
 do owner = from !info_part bring [company]
-do expiration = from !info_part bring [expiration
-do type = from from !info_part bring [type]
+do expiration = from !info_part bring [expiration]
+do license_type = from !info_part bring [type]
 
 set create_license = false
 
@@ -53,9 +53,9 @@ on error ignore
 <new_policy = {
     "license": {
         "company": !owner,
-        "expiration": !expiration
+        "expiration": !expiration,
         "type": !license_type,
-        "activation_key": !license_key_num,
+        "activation_key": !license_key_num
     }
 }>
 
