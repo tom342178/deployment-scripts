@@ -24,23 +24,23 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/policies/config_policy.al
 
+reset error log
+reset echo queue
+reset event log
+
 on error ignore
 set create_config = false
-if !debug_mode.int > 0 then set debug on
+if !debug_mode == true then set debug on
 
 :check-policy:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Check whether config policy exists - if exists then goes to declare policy"
+if !debug_mode == true then print "Check whether config policy exists - if exists then goes to declare policy"
 
 config_id = blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring.first [*][id]
 if !config_id then goto config-policy
 if not !config_id and !create_config == true then goto declare-policy-error
 
 :prepare-new-policy:
-if !debug_mode.int == 2 then
-do print "Create base for new config policy"
-do set debug on
+if !debug_mode == true then print "Create base for new config policy"
 
 new_policy = ""
 set policy new_policy [config] = {}
@@ -79,10 +79,7 @@ set policy new_policy [config][node_type] = !node_type
 # if !broker_bind == true and !overlay_ip      then set policy new_policy [config][broker_ip] = '!overlay_ip'
 
 :scripts:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Add script for deploying policy - each node type has a unique policy"
-do set debug on
+if !debug_mode == true then print "Add script for deploying policy - each node type has a unique policy"
 
 if !node_type == publisher then goto publisher-scripts
 if !node_type == operator then goto operator-scripts
@@ -103,7 +100,7 @@ goto publish-policy
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
-    "process !local_scripts/policies/config_threashold.al",
+    "process !local_scripts/policies/config_threshold.al",
     "run streamer",
     "if !blockchain_source != master then run publisher where compress_json=!compress_file and compress_sql=!compress_file and blockchain=!blockchain_source and dbms_name=!dbms_file_location and table_name=!table_file_location",
     "if !blockchain_source == master then run publisher where compress_json=!compress_file and compress_sql=!compress_file and master=!ledger_conn and dbms_name=!dbms_file_location and table_name=!table_file_location",
@@ -134,27 +131,25 @@ goto publish-policy
 ]>
 
 :publish-policy:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Declare policy on blockchain"
-do set debug on
+if !debug_mode == true then print "Declare policy on blockchain"
 
 process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
 set create_config = true
+wait 5
 goto check-policy
 
 :config-policy:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Deploy Policy"
-do set debug on
+if !debug_mode == true then print "Deploy Policy"
 
 on error goto config-policy-error
-if !debug_mode.int == 2 then process !local_scripts/policies/config_operator.al
+if !debug_mode == true and !node_type == operator then process !local_scripts/config_policies_code/config_operator.al
+else if !debug_mode == true and !node_type == publisher then process !local_scripts/config_policies_code/config_publisher.al
+else if !debug_mode == true and (!node_type == master or !node_type == query) then process !local_scripts/config_policies_code/config_node.al
 else config from policy where id = !config_id
+
 
 :end-script:
 end script

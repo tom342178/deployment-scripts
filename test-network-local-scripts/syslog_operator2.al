@@ -7,33 +7,37 @@ process !anylog_path/deployment-scripts/demo-scripts/syslog.al
 
 on error call syslog-error
 
-syslog_ip = 45.79.18.179
+syslog_ip = 10.10.1.31
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
-set msg rule !rule_name if ip=!syslog_ip then dbms=!default_dbms and table=syslog and  extend = ip and syslog=true
+set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 172.105.86.168
+syslog_ip = 10.10.1.211
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
-set msg rule !rule_name if ip=!syslog_ip then dbms=!default_dbms and table=syslog and  extend = ip and syslog=true
+set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 172.104.180.110
+syslog_ip = 10.10.1.213
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
-set msg rule !rule_name if ip=!syslog_ip then dbms=!default_dbms and table=syslog and  extend = ip and syslog=true
+set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 172.105.13.202
+syslog_ip = 10.10.1.215
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
-set msg rule !rule_name if ip=!syslog_ip then dbms=!default_dbms and table=syslog and  extend = ip and syslog=true
+set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 172.105.60.50
+syslog_ip = 10.10.1.202
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
-set msg rule !rule_name if ip=!syslog_ip then dbms=!default_dbms and table=syslog and  extend = ip and syslog=true
+set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 172.233.107.121
+syslog_ip = 10.10.1.205
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
-set msg rule !rule_name if ip=!syslog_ip then dbms=!default_dbms and table=syslog and  extend = ip and syslog=true
+set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
-syslog_ip = 172.105.112.207
+syslog_ip = 10.10.1.204
 rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
-set msg rule !rule_name if ip=!syslog_ip then dbms=!default_dbms and table=syslog and  extend = ip and syslog=true
+set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
+
+syslog_ip = 10.10.1.33
+rule_name = blockchain get (master, query, publisher, operator) where ip = !syslog_ip bring [*][name]
+set msg rule !rule_name if ip=!syslog_ip then dbms=monitoring and table=syslog and  extend = ip and syslog=true
 
 :end-script:
 end script

@@ -3,52 +3,59 @@
 # -- for operator also deploy partitions if set
 #----------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/deploy_database.al
-
 on error ignore
+if !debug_mode == true then set debug on
 
-if !debug_mode.int > 0 then set debug on
+if $NODE_TYPE == operator then goto operator-dbms
+if $NODE_TYPE == publisher then goto almgm-dbms
+if $NODE_TYPE == query then goto system-query-dbms
 
-# Code configures blockchain database + ledger table if node_type == master and also blockchain sync (for all)
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Blockchain related database processes"
-do set debug on
-do thread !local_scripts/database/configure_dbms_blockchain.al
-else process !local_scripts/database/configure_dbms_blockchain.al
+:master-dbms:
+if !debug_mode == true then print "Blockchain related database processes"
+process !local_scripts/database/configure_dbms_blockchain.al
+if $NODE_TYPE == master-publisher then goto almgm-dbms
+else goto system-query-dbms
 
-if (!node_type == operator or $NODE_TYPE == master-operator) and !enable_partitions == true and !debug_mode.int == 2 then
-do set debug interactive
-do print "Deploy operator databases"
-do set debug on
-do thread !local_scripts/database/configure_dbms_operator.al
-do thread !local_scripts/database/configure_dbms_nosql.al
-else if !node_type == operator or $NODE_TYPE == master-operator then
-do process !local_scripts/database/configure_dbms_operator.al
-do process !local_scripts/database/configure_dbms_nosql.al
+:operator-dbms:
+if !debug_mode == true then print "Operator related database processes"
+process !local_scripts/database/configure_dbms_operator.al
+process !local_scripts/database/configure_dbms_nosql.al
 
-if (!node_type == operator or $NODE_TYPE == master-operator) and !enable_partitions == true and !debug_mode.int == 2 then
-do set debug interactive
-do print "Set partitions"
+:almgm-dbms:
+if !debug_mode == true then print "almgm related database processes"
+process !local_scripts/database/configure_dbms_almgm.al
 
-if (!node_type == operator or $NODE_TYPE == master-operator) and !enable_partitions == true then
-do partition !default_dbms !table_name using !partition_column by !partition_interval
-do schedule time=!partition_sync and name="Drop Partitions" task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep
+:system-query-dbms:
+if !node_type != query and !system_query != true then goto blockchain-sync
+if !debug_mode == true then print "system_query database processes"
+else process !local_scripts/database/configure_dbms_system_query.al
 
- if !debug_mode.int == 2 then set debug on
 
-if (!node_type == operator or $NODE_TYPE == master-operator) and !debug_mode.int == 2 then
-do set debug interactive
-do print "Deploy almgm database"
-do set debug on
-do thread !local_scripts/database/configure_dbms_almgm.al
-else if !node_type == operator or !node_type == publisher or $NODE_TYPE == master-operator or $NODE_TYPE == master-publisher  then process !local_scripts/database/configure_dbms_almgm.al
+:blockchain-sync:
+if !debug_mode == true then print "set blockchain sync"
 
-if (!node_type == operator or $NODE_TYPE == master-operator) and !enable_partitions == true and !deploy_system_query == true and !debug_mode.int == 2 then
-do set debug interactive
-do print "Deploy system_query database"
-do set debug on
-do thread !local_scripts/database/configure_dbms_system_query.al
-else if !deploy_system_query == true then process !local_scripts/database/configure_dbms_system_query.al
+on error call blockchain-sync-error
 
+<if !blockchain_source == master then run blockchain sync where
+    source=master and
+    time=!blockchain_sync and
+    dest=!blockchain_destination and
+    connection=!ledger_conn>
+<else run blockchain sync where
+    source = blockchain and
+    time = !blockchain_sync and
+    dest=!blockchain_destination and
+    platform = optimism>
+
+set debug off
 :end-script:
 end script
+
+:terminate-scripts:
+exit scripts
+
+:blockchain-sync-error:
+echo "failed to to declare blockchain sync process"
+goto terminate-scripts
+
+

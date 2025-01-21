@@ -3,10 +3,11 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/policies/config_threshold.al
 
-if !debug_mode == true then set debug on
+if !debug_mode.int == 1 then set debug on
+else if !debug_mode.int == 2 then set debug interactive
 
 :set-params:
-if !debug_mode == true then print "Set buffer threshold"
+if !debug_mode.int > 0 then print "Set buffer threshold"
 threshold_dbms = ""
 threshold_table = ""
 

@@ -3,16 +3,13 @@
 # If params were not set in set_params.al section, then utilize defaults
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/database/configure_dbms_nosql.al
-
-if !debug_mode.int > 0 then set debug on
+on error ignore
+if !debug_mode == true then set debug on
 
 if !enable_nosql == false then goto blobs-archiver
 
 :connect-dbms:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print "Deploy blobs database !default_dbms"
-do set debug on
+if !debug_mode == true then print "Deploy blobs database " !default_dbms
 
 on error goto connect-dbms-error
 if !nosql_user and !nosql_passwd then
@@ -26,10 +23,7 @@ if !nosql_user and !nosql_passwd then
 else connect dbms !default_dbms where type=!nosql_type and ip=!nosql_ip and port=!nosql_port
 
 :blobs-archiver:
-if !debug_mode.int == 2 then
-do set debug interactive
-do print Enable blobs archiver"
-do set debug on
+if !debug_mode == true then print "Enable blobs archiver"
 
 on error call blobs-archiver-error
 if !blobs_dbms == false then set blobs_folder = true

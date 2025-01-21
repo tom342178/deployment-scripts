@@ -16,7 +16,8 @@
 # process !local_scripts/deployment_scripts/set_params.al
 on error ignore
 set debug off
-if !debug_mode == true then set debug on
+if !debug_mode.int > 0 then set debug on
+
 
 if $DISABLE_CLI == true or  $DISABLE_CLI == True or $DISABLE_CLI == TRUE then set cli off
 
@@ -36,25 +37,13 @@ else if $NODE_NAME then set node_name = $NODE_NAME
 
 set node name !node_name
 
+if $LICENSE_KEY then license_key=$LICENSE_KEY
+
 if not $COMPANY_NAME and node_type != generic then goto missing-company-name
 else if $COMPANY_NAME then company_name = $COMPANY_NAME
 
 if not $LEDGER_CONN and !node_type != generic then goto missing-ledger-conn
 else if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
-
-if !is_edgelake == true then goto general-params
-
-:license-params:
-if $LICENSE_KEY then license_key=$LICENSE_KEY
-
-if !license_key then
-do license_key_num = !license_key[:256]
-do info_part = !license_key[256:]
-
-if !info_part then
-do owner = from !info_part bring [company]
-do expiration = from !info_part bring [expiration]
-do license_type = from !info_part bring [type]
 
 :general-params:
 hostname = get hostname
@@ -153,8 +142,8 @@ if $DB_PORT then db_port = $DB_PORT
 
 if $AUTOCOMMIT == false or $AUTOCOMMIT == False or $AUTOCOMMIT == FALSE then set autocommit = false
 if $UNLOG == true or $UNLOG == True or $UNLOG == TRUE then set unlog =  true
-if !node_type == query or $SYSTEM_QUERY == true or $SYSTEM_QUERY == True or $SYSTEM_QUERY == TRUE  then
-do set system_query = true
+if !node_type == query or $DEPLOY_SYSTEM_QUERY == true or $DEPLOY_SYSTEM_QUERY == True or $DEPLOY_SYSTEM_QUERY == TRUE  then
+do set deploy_system_query = true
 do if $MEMORY == false or $MEMORY == False or $MEMORY == FALSE then set memory=false
 
 :nosql-database:
@@ -185,15 +174,6 @@ if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
-provider = https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
-# chain_id = 11155420
-public_key = 0xdf29075946610ABD4FA2761100850869dcd07Aa7
-private_key = 712be5b5827d8c111b3e57a6e529eaa9769dcde550895659e008bdcf4f893c1c
-# contract = 0x8fD816a62e8E7985154248019520915778eB4013
-
-if $SYNC_TIME then sync_time = $SYNC_TIME
-if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
-if $DESTINATION then set blockchain_destination=$DESTINATION
 
 # if ledger_conn == 127.0.0.1 and TCP bind is true then update to use local IP
 if !tcp_bind == true then
@@ -202,8 +182,10 @@ do ledger_port = python !ledger_conn.split(':')[1]
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and !overlay_ip then ledger_conn = !overlay_ip + : + !ledger_port
 if !tcp_bind == true and !ledger_ip == 127.0.0.1 and not !overlay_ip then ledger_conn = !ip + : + !ledger_port
 
-if $CHAIN_ID then chain_id=$CHAIN_ID
-if $CONTRACT then contract=$CONTRACT
+if $SYNC_TIME then blockchain_sync=$SYNC_TIME
+if $BLOCKCHAIN_SOURCE then set blockchain_source=$BLOCKCHAIN_SOURCE
+if $BLOCKCHAIN_DESTINATION then blockchain_destination=$BLOCKCHAIN_DESTINATION
+if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 
 :operator-settings:
 set enable_partitions = true
@@ -320,8 +302,6 @@ if !operator_threads.int < 1 then operator_threads=1
 if $QUERY_POOL and $QUERY_POOL.int then query_pool=$QUERY_POOL
 if !query_pool.int < 1 then query_pool = 1
 
-if $ARCHIVE == false or $ARCHIVE == False or $ARCHIVE == FALSE then set archive=false
-if $ARCHIVE_SQL == true or $ARCHIVE == True or $ARCHIVE == TRUE then set archive_sql=true
 if $ARCHIVE_DELETE then archive_delete=$ARCHIVE_DELETE
 
 :end-script:

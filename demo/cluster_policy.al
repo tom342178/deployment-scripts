@@ -14,12 +14,13 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/policies/declare_cluster_policy.al
 on error ignore
-if !debug_mode == true then set debug on
+if !debug_mode.int == 1 then set debug on
+else if !debug_mode.int == 2 debug interactive
 
 set create_policy = false
 
 :check-policy:
-if !debug_mode == true then print "Check whether cluster policy exists"
+if !debug_mode.int > 0 then print "Check whether cluster policy exists"
 
 on error ignore
 cluster_id = blockchain get cluster where name=!cluster_name and company=!company_name bring.first [*][id] 
@@ -27,15 +28,15 @@ if !cluster_id then goto end-script
 if not !cluster_id and !create_cluster == true then goto declare-policy-error
 
 :prep-policy:
-if !debug_mode == true then print "Create cluster policy"
+if !debug_mode.int > 0 then print "Create cluster policy"
 
 on error ignore
 new_policy = create policy cluster with defaults where company=!company_name and name=!cluster_name
 
 :publish-policy:
-if !debug_mode == true then print "Declare policy on blockchain"
+if !debug_mode.int == 2 then thread !local_scripts/publish_policy.al
+else process !local_scripts/publish_policy.al
 
-process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
