@@ -9,6 +9,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # python3.10 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
 
+if $EXCEPTION_TRACEBACK == true or $EXCEPTION_TRACEBACK == True or $EXCEPTION_TRACEBACK == TRUE then set exception traceback on
+
 :debug-mode:
 on error ignore
 set debug_mode = false
@@ -77,7 +79,7 @@ if !debug_mode == true then print "Set license key"
 
 if !is_edgelake == true then goto end-script
 
-if not !license_key then license_key = blockchain get master bring [*][license]
+# if not !license_key then license_key = blockchain get master bring [*][license]
 if not !license_key then goto license-error
 set license where activation_key = !license_key
 
