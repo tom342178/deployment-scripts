@@ -44,18 +44,6 @@ else if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 
 if !is_edgelake == true then goto general-params
 
-:license-params:
-# if $LICENSE_KEY then license_key=$LICENSE_KEY
-
-# if !license_key then
-# do license_key_num = !license_key[:256]
-# do info_part = !license_key[256:]
-
-if !info_part then
-do owner = from !info_part bring [company]
-do expiration = from !info_part bring [expiration]
-do license_type = from !info_part bring [type]
-
 :general-params:
 hostname = get hostname
 loc_info = rest get where url = https://ipinfo.io/json
@@ -198,6 +186,7 @@ if !blockchain_source != master then goto blockchain-connect
 else if not $LEDGER_CONN then goto missing-ledger-conn
 
 ledger_conn = $LEDGER_CONN
+goto operator-settings
 
 :blockchain-connect:
 # live blockchain configuration

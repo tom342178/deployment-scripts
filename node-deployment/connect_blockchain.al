@@ -12,7 +12,7 @@ if !debug_mode == true then set debug on
 
 on error ignore
 
-if !blockchain_source == master than goto run-blockchain-sync
+if !blockchain_source == master then goto run-blockchain-sync
 
 :blockchain-connect:
 if !debug_mode == true then print "Connect to optimism"
