@@ -85,7 +85,7 @@ if !node_type == publisher then goto publisher-scripts
 if !node_type == operator then goto operator-scripts
 
 :generic-node:
-if !node_Type == generic then
+if !node_type == generic then
 <do set policy new_policy [config][script] = [
     "process !local_scripts/policies/license_policy.al",
     "process !local_scripts/connect_blockchain.al",
