@@ -17,7 +17,7 @@
 # }}
 # ---- Sample Policy ---
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/policies/declare_cluster_policy.al
+# process !local_scripts/policies/license_policy.al
 
 :set-params:
 on error ignore
