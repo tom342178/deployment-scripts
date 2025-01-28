@@ -12,6 +12,8 @@ if !debug_mode == true then set debug on
 
 on error ignore
 
+if !blockchain_source == master than goto run-blockchain-sync
+
 :blockchain-connect:
 if !debug_mode == true then print "Connect to optimism"
 on error goto connect-blockchain-account-error
@@ -45,11 +47,24 @@ do print "New Contract created: " !contract " - make sure to save contract / upd
 on error goto blockchain-account-error
 blockchain set account info where platform = !blockchain_source and contract = !contract
 
-:blockchain-seed:
- if !debug_mode == true then print "Copy blockchain to local node"
+# :blockchain-seed:
+# if !debug_mode == true then print "Copy blockchain to local node"
 
-on error call blockchain-seed-error
-blockchain checkout from !blockchain_source
+# on error call blockchain-seed-error
+# blockchain checkout from !blockchain_source
+
+:run-blockchain-sync:
+if !blockchain_source == master then
+<do run blockchain sync where
+    source=!blockchain_source and
+    time=!blockchain_sync and
+    dest=!blockchain_destination and
+    connection=!ledger_conn>
+<else run blockchain sync where
+    source = blockchain and
+    time = !blockchain_sync and
+    dest=!blockchain_destination and
+    platform = !blockchain_source>
 
 :end-script:
 get platforms

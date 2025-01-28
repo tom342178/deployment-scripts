@@ -58,17 +58,17 @@ if !debug_mode == true then print "Set environment params"
 process !local_scripts/set_params.al
 
 :configure-networking:
-if !debug_mode == true then print "Configure networking"
-process !local_scripts/connect_networking.al
+# if !debug_mode == true then print "Configure networking"
+# process !local_scripts/connect_networking.al
 
 :blockchain-seed:
-if !debug_mode == true then print "Blockchain Seed"
-if !node_type == generic then goto set-license
-else if !node_type != master and !blockchain_source != master then process !local_scripts/connect_blockchain.al
-else if !node_type != master then
-do on error call blockchain-seed-error
-do blockchain seed from !ledger_conn
-do on error ignore
+# if !debug_mode == true then print "Blockchain Seed"
+# if !node_type == generic then goto set-license
+# else if !node_type != master and !blockchain_source != master then process !local_scripts/connect_blockchain.al
+# else if !node_type != master then
+# do on error call blockchain-seed-error
+# do blockchain seed from !ledger_conn
+# do on error ignore
 
 :declare-policy:
 if !debug_mode == true then print "Declare policies"
