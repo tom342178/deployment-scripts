@@ -87,11 +87,11 @@ if !node_type == operator then goto operator-scripts
 :generic-node:
 if !node_type == generic then
 <do set policy new_policy [config][script] = [
-    "process !local_scripts/policies/license_policy.al",
     "process !local_scripts/connect_blockchain.al",
     "run scheduler 1",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
-    "if !deploy_local_script == true then process !local_scripts/local_script.al"
+    "if !deploy_local_script == true then process !local_scripts/local_script.al",
+    "process !local_scripts/policies/license_policy.al"
 ]>
 do goto publish-policy
 
@@ -163,7 +163,6 @@ if !debug_mode == true and !node_type == operator then process !local_scripts/co
 else if !debug_mode == true and !node_type == publisher then process !local_scripts/config_policies_code/config_publisher.al
 else if !debug_mode == true and (!node_type == master or !node_type == query) then process !local_scripts/config_policies_code/config_node.al
 else config from policy where id = !config_id
-
 
 :end-script:
 end script
