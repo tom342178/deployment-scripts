@@ -3,7 +3,9 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/policies/publish_policy.al
 on error ignore
-if !debug_mode == true then set debug on
+# if !debug_mode == true then set debug on
+
+set debug on
 
 :set-params:
 error_code = 0
