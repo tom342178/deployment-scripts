@@ -102,8 +102,9 @@ if !node_type == master or !node_type == query then
 <do set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/connect_blockchain.al",
-    "if !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
-    "if !blockchain_source != master then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
+    "is_global =  blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring [*][ledger]"
+    "if !is_global == local and !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
+    "if !is_global == local and !blockchain_source != master then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
     "process !local_scripts/policies/node_policy.al",
     "run scheduler 1",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
@@ -135,8 +136,10 @@ goto publish-policy
 :operator-scripts:
 <set policy new_policy [config][script] = [
     "process !local_scripts/connect_blockchain.al",
-    "if !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
-    "if !blockchain_source != master then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
+    "on error print Failed to declare policy on blockchain",
+    "if !blockchain_source == master then blockchain insert where policy=!new_policy and master=!ledger_conn",
+    "if !blockchain_source != master then blockchain insert where policy=!new_policy and and blockchain=optimism",
+    "on error ignore",
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
