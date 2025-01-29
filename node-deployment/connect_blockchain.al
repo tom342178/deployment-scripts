@@ -67,7 +67,7 @@ if !blockchain_source == master then
     platform = !blockchain_source>
 
 :end-script:
-get platforms
+if !blockchain_source != master then get platforms
 end script
 
 :terminate-scripts:
