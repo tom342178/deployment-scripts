@@ -102,7 +102,7 @@ if !node_type == master or !node_type == query then
 <do set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/connect_blockchain.al",
-    "is_global =  blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring [*][ledger]"
+    "is_global =  blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring [*][ledger]",
     "if !is_global == local and !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
     "if !is_global == local and !blockchain_source != master then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
     "process !local_scripts/policies/node_policy.al",
