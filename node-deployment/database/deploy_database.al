@@ -31,21 +31,21 @@ if !debug_mode == true then print "system_query database processes"
 else process !local_scripts/database/configure_dbms_system_query.al
 
 
-:blockchain-sync:
-if !debug_mode == true then print "set blockchain sync"
+# :blockchain-sync:
+# if !debug_mode == true then print "set blockchain sync"
 
-on error call blockchain-sync-error
+# on error call blockchain-sync-error
 
-<if !blockchain_source == master then run blockchain sync where
-    source=master and
-    time=!blockchain_sync and
-    dest=!blockchain_destination and
-    connection=!ledger_conn>
-<else run blockchain sync where
-    source = blockchain and
-    time = !blockchain_sync and
-    dest=!blockchain_destination and
-    platform = optimism>
+# <if !blockchain_source == master then run blockchain sync where
+#    source=master and
+#    time=!blockchain_sync and
+#    dest=!blockchain_destination and
+#    connection=!ledger_conn>
+#<else run blockchain sync where
+#    source = blockchain and
+#    time = !blockchain_sync and
+#    dest=!blockchain_destination and
+#    platform = optimism>
 
 set debug off
 :end-script:
