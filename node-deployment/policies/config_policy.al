@@ -136,6 +136,7 @@ goto publish-policy
 <set policy new_policy [config][script] = [
     "process !local_scripts/connect_blockchain.al",
     "process !local_scripts/policies/cluster_policy.al",
+    "wait 10",
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
@@ -145,7 +146,6 @@ goto publish-policy
     "if !enable_ha == true then run data consumer where start_date=!start_data",
     "if !operator_id and !blockchain_source != master then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and blockchain=!blockchain_source and policy=!operator_id and threads=!operator_threads",
     "if !operator_id and !blockchain_source == master then run operator where create_table=!create_table and update_tsd_info=!update_tsd_info and compress_json=!compress_file and compress_sql=!compress_sql and archive_json=!archive and archive_sql=!archive_sql and master_node=!ledger_conn and policy=!operator_id and threads=!operator_threads",
-    "schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !enable_mqtt == true then process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al",
     "if !syslog_monitoring == true then process !anylog_path/deployment-scripts/demo-scripts/syslog.al",

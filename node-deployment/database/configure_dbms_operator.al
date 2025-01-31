@@ -28,6 +28,7 @@ if !enable_partitions == true then
 do partition !default_dbms !table_name using !partition_column by !partition_interval
 <do schedule time=!partition_sync and name="Drop Partitions"
     task drop partition where dbms=!default_dbms and table =!table_name and keep=!partition_keep>
+schedule name=remove_archive and time=1 day and task delete archive where days = !archive_delete
 
 :end-script:
 end script
