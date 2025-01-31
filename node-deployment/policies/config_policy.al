@@ -117,9 +117,6 @@ do goto publish-policy
 :publisher-scripts:
 <set policy new_policy [config][script] = [
     "process !local_scripts/connect_blockchain.al",
-    "is_global =  blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring [*][ledger]",
-    "if !is_global == local and !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
-    "if !is_global == local and !blockchain_source != master then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
     "run scheduler 1",
@@ -138,11 +135,6 @@ goto publish-policy
 :operator-scripts:
 <set policy new_policy [config][script] = [
     "process !local_scripts/connect_blockchain.al",
-    "on error print Failed to declare policy on blockchain",
-    "is_global =  blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring [*][ledger]",
-    "if !is_global == local and !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
-    "if !is_global == local and !blockchain_source != master then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
-    "on error ignore",
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
