@@ -16,7 +16,7 @@ if $AUTH_USER then auth_user = $AUTH_USER
 if $AUTH_PASS then auth_pass = $AUTH_PASS
 if $AUTH_TYPE then set auth_type = $AUTH_TYPE
 if not !local_pass then missing-local-pass
-if not !auth_user or !auth_pass then goto missing-auth-params
+if not !auth_user or not !auth_pass then goto missing-auth-params
 if !auth_type != admin and !auth_type != user then set auth_type = user
 
 :set-local-pass:
@@ -43,7 +43,7 @@ print "Missing local password"
 goto end-script
 
 :missing-auth-params:
-print "User or password for authentication"
+print "Missing user or password for authentication"
 goto end-script
 
 :local-pass-error:
