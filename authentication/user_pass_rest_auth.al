@@ -23,6 +23,10 @@ if !auth_type != admin and !auth_type != user then set auth_type = user
 on error goto local-pass-error
 set local password = !local_pass
 
+:enable-user-auth:
+on error goto user-auth-error
+set user authentication on
+
 :create-user:
 on error goto create-user-error
 <id add user where
@@ -30,10 +34,6 @@ on error goto create-user-error
     password = !auth_pass and
     type = !auth_type
 >
-
-:enable-user-auth:
-on error goto user-auth-error
-set user authentication on
 
 :end-script:
 end script
