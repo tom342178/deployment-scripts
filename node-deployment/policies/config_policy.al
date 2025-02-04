@@ -106,6 +106,7 @@ if !node_type == master or !node_type == query then
 <do set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
     "process !local_scripts/connect_blockchain.al",
+    "wait 10",
     "process !local_scripts/policies/node_policy.al",
     "run scheduler 1",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
