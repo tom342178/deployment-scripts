@@ -29,8 +29,8 @@ if $OPENBAO_VAULT_IP then set openbao_url = $OPENBAO_VAULT_IP
 
 if not $OPENBAO_VAULT_TOKEN then goto missing-openbao-token
 openbao_token = $OPENBAO_VAULT_TOKEN
-if not $SECTION_NAME then goto missing-section-name
 
+if not $SECTION_NAME then goto missing-section-name
 section_name = $SECTION_NAME
 
 set node_name
@@ -53,11 +53,13 @@ on error goto openbao-params-error
 :set-params:
 on error ignore
 
+set node name !section_name
+
 anylog_service_port = from !opennbao_params bring [data][data][!section_name][SERVICE_PORT]
 tcp_bind = from !opennbao_params bring [data][data][!section_name][TCP_BIND]
 tcp_threads = from !opennbao_params bring [data][data][!section_name][TCP_THREADS]
 
-anylog_rest_port = from from !opennbao_params bring [data][data][!section_name][REST_PORT]
+anylog_rest_port = from !opennbao_params bring [data][data][!section_name][REST_PORT]
 rest_bind = from !opennbao_params bring [data][data][!section_name][REST_BIND]
 rest_timeout = from !opennbao_params bring [data][data][!section_name][REST_TIMEOUT]
 rest_threads =  from !opennbao_params bring [data][data][!section_name][REST_THREADS]
