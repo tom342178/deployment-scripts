@@ -54,10 +54,12 @@ on error goto openbao-params-error
 on error ignore
 
 anylog_service_port = from !opennbao_params bring [data][data][!section_name][SERVICE_PORT]
-anylog_rest_port = from from !opennbao_params bring [data][data][!section_name][REST_PORT]
 tcp_bind = from !opennbao_params bring [data][data][!section_name][TCP_BIND]
 tcp_threads = from !opennbao_params bring [data][data][!section_name][TCP_THREADS]
+
+anylog_rest_port = from from !opennbao_params bring [data][data][!section_name][REST_PORT]
 rest_bind = from !opennbao_params bring [data][data][!section_name][REST_BIND]
+rest_timeout = from !opennbao_params bring [data][data][!section_name][REST_TIMEOUT]
 rest_threads =  from !opennbao_params bring [data][data][!section_name][REST_THREADS]
 
 :connect-network:
