@@ -25,10 +25,10 @@ create work directories
 
 :openboa-params:
 openbao_url = http://0.0.0.0:8200
-if $OPENBAO_VAULT_IP = then openbao_url=$OPENBAO_VAULT_IP
+if $OPENBAO_VAULT_IP = then set openbao_url = $OPENBAO_VAULT_IP
 
 if not $OPENBAO_VAULT_TOKEN then goto missing-openbao-token
-openbao_token = $OPENBAO_VAULT_TOKEN and
+openbao_token = $OPENBAO_VAULT_TOKEN
 if not $SECTION_NAME then goto missing-section-name
 
 section_name = $SECTION_NAME
