@@ -52,18 +52,6 @@ is_policy = blockchain get mapping where id = !policy_id
 if !is_policy then goto run-policy
 else if not !is_policy and !create_policy == false then goto policy-error
 
-
-# "type": {
-#                "bring": "[type]",
-#                "type": "string",
-#                "root": true
-#            },
-# "id": {
-#                "bring": "[id]",
-#                "type": "int",
-#                "root": true
-#            }
-
 :declare-policy:
 <new_policy = {
     "mapping": {
@@ -81,6 +69,16 @@ else if not !is_policy and !create_policy == false then goto policy-error
             },
             "sensor_id": {
                 "bring": "[sensorId]",
+                "type": "int",
+                "root": true
+            },
+            "type": {
+                "bring": "[type]",
+                "type": "string",
+                "root": true
+            },
+            "id": {
+                "bring": "[id]",
                 "type": "int",
                 "root": true
             },
