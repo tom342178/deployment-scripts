@@ -21,7 +21,7 @@ if $LOCAL_SCRIPTS then set local_scripts = $LOCAL_SCRIPTS
 if $TEST_DIR then set test_dir = $TEST_DIR
 
 create work directories
-
+system touch !blockchain_file
 
 :openboa-params:
 openbao_url = http://0.0.0.0:8200
@@ -33,7 +33,6 @@ openbao_token = $OPENBAO_VAULT_TOKEN
 if not $SECTION_NAME then goto missing-section-name
 section_name = $SECTION_NAME
 
-set node_name
 :openbao-status:
 # check OpenBao status
 on error goto openbao-status-error
