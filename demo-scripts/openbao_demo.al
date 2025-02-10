@@ -54,7 +54,7 @@ on error ignore
 
 set node name !section_name
 
-anylog_service_port = from !opennbao_params bring [data][data][!section_name][SERVICE_PORT]
+anylog_server_port = from !opennbao_params bring [data][data][!section_name][SERVICE_PORT]
 tcp_bind = from !opennbao_params bring [data][data][!section_name][TCP_BIND]
 tcp_threads = from !opennbao_params bring [data][data][!section_name][TCP_THREADS]
 

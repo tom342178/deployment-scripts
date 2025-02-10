@@ -34,6 +34,7 @@
 #        and column.id = (type = "int" and value = "bring [id]")
 # )>
 #----------------------------------------------------------------------------------------------------------------------#
+# process deployment-scripts/demo-scripts/winnio_kafka.al
 
 on error ignore
 set create_policy = true
