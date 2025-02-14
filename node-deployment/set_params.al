@@ -21,7 +21,6 @@ if !debug_mode == true then set debug on
 if $DISABLE_CLI == true or  $DISABLE_CLI == True or $DISABLE_CLI == TRUE then set cli off
 
 :required-params:
-node_name = anylog-node
 company_name = "New Company"
 ledger_conn = 127.0.0.1:32048
 
@@ -30,19 +29,19 @@ else if $NODE_TYPE == master-publisher then set node_type = publisher
 else if $NODE_TYPE then set node_type = $NODE_TYPE
 else goto missing-node-type
 
-if not $NODE_NAME and !node_type == generic and !is_edgelake == true then node_name = edgelake-node
-else if not $NODE_NAME and !node_type != generic then goto missing-node-name
-else if $NODE_NAME then set node_name = $NODE_NAME
+if $NODE_NAME then node_name = $NODE_NAME
+if !node_type == master and not !node_name then node_name = anylog-master
+else if !node_type == operator and not !node_name then node_name = anylog-operator
+else if !node_type == publisher and not !node_name then node_name = anylog-publisher
+else if !node_type == query and not !node_name then node_name = anylog-query
+else if not !node_name then node_name = anylog-node
 
 set node name !node_name
 
-if not $COMPANY_NAME and node_type != generic then goto missing-company-name
-else if $COMPANY_NAME then company_name = $COMPANY_NAME
+if $COMPANY_NAME then company_name = $COMPANY_NAME
 
-if not $LEDGER_CONN and !node_type != generic then goto missing-ledger-conn
-else if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
+if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 
-if !is_edgelake == true then goto general-params
 
 :general-params:
 hostname = get hostname
@@ -64,6 +63,8 @@ if not !loc_info and not !city then city = Unknown
 :networking:
 config_name = !node_type.name + - + !company_name.name + -configs
 if $ANYLOG_BROKER_PORT then config_name = !node_type.name + - + !company_name.name + -configs-broker
+set anylog_server_port = ""
+set anylog_rest_port = ""
 tcp_bind = false
 tcp_threads=6
 rest_bind = false
@@ -72,32 +73,25 @@ rest_timeout=30
 broker_bind = false
 broker_threads=6
 
-if !node_type == master then
-do anylog_server_port = 32048
-do anylog_rest_port = 32049
-
-if !node_type == operator then
-do anylog_server_port = 32148
-do anylog_rest_port = 32149
-
-if !node_type == publisher then
-do anylog_server_port = 32248
-do anylog_rest_port = 32249
-
-if !node_type == query then
-do anylog_server_port = 32348
-do anylog_rest_port = 32349
-
-if !node_type == generic then
-do anylog_server_port = 32548
-do anylog_rest_port = 32549
-
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
+if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
+
+if !node_type == master and not !anylog_server_port then anylog_server_port = 32048
+if !node_type == master and not !anylog_rest_port then anylog_rest_port = 32049
+if !node_type == operator and not !anylog_server_port then anylog_server_port = 32148
+if !node_type == operator and not !anylog_rest_port then anylog_rest_port = 32149
+if !node_type == query and not !anylog_server_port then anylog_server_port = 32348
+if !node_type == query and not !anylog_rest_port then anylog_rest_port = 32349
+if !node_type == publisher and not !anylog_server_port then anylog_server_port = 32248
+if !node_type == publisher and not !anylog_rest_port then anylog_rest_port = 32249
+if not !anylog_server_port then anylog_server_port = 32548
+if not !anylog_rest_port then anylog_rest_port = 32549
+
+
 if $TCP_BIND == true or $TCP_BIND == True or $TCP_BIND == TRUE then tcp_bind = true
 if $TCP_THREADS then tcp_threads = $TCP_THREADS
 if !tcp_threads.int < 1 then tcp_threads = 1
 
-if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
 if $REST_BIND == true or $REST_BIND == True or $REST_BIND == TRUE then rest_bind = true
 if $REST_THREADS then rest_threads = $REST_THREADS
 if !rest_threads.int < 1 then rest_threads = 1
@@ -183,9 +177,8 @@ if $DESTINATION then set blockchain_destination=$DESTINATION
 :blockchain-master:
 # master node based blockchain configuration
 if !blockchain_source != master then goto blockchain-connect
-else if not $LEDGER_CONN then goto missing-ledger-conn
 
-ledger_conn = $LEDGER_CONN
+if $LEDGER_CONN ledger_conn = $LEDGER_CONN
 goto operator-settings
 
 :blockchain-connect:
