@@ -168,7 +168,7 @@ blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
 
-if $SYNC_TIME then sync_time = $SYNC_TIME
+if $BLOCKCHAIN_SYNC then blockchain_sync = $BLOCKCHAIN_SYNC
 if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
 if !blockchain_source != master and !blockchain_source = optimism then
 do
