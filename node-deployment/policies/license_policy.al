@@ -19,6 +19,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # process !local_scripts/policies/license_policy.al
 
+if !is_edgelake == true then goto end-script
+
 :set-params:
 on error ignore
 if !debug_mode == true then print "set params"
