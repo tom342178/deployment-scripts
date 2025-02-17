@@ -120,7 +120,7 @@ db_type = sqlite
 set autocommit = true
 set unlog = false
 default_dbms=!company_name.name
-set deploy_system_query = false
+set system_query = false
 set memory = true
 
 if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
