@@ -57,14 +57,17 @@ set policy new_policy [!node_type][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [!node_type][broker_port] = !anylog_broker_port.int
 
 :cluster-info:
+if !node_type != operator then goto set-location
 if !debug_mode == true then print "For an operator node add cluster ID new policy variables"
-
-if !node_type == operator then set policy new_policy [!node_type][main] = !operator_main.bool
-if !node_type == operator and !cluster_id then set policy new_policy [!node_type][cluster] = !cluster_id
 if !node_type == operator and not !cluster_id then goto operator-cluster-error
 
+set policy new_policy [!node_type][cluster] = !cluster_id
 
-:location:
+is_primary = blockchain get operator where cluster = !cluster_id
+policy new_policy [!node_type][main] = true
+if  not !is_primary then set policy new_policy [!node_type][main] = true
+
+:set-location:
 if !debug_mode == true then print "Declare location of node"
 
 if !loc then set policy new_policy [!node_type][loc] = !loc
