@@ -66,7 +66,7 @@ set policy new_policy [!node_type][cluster] = !cluster_id
 set is_main = true
 is_primary = blockchain get operator where cluster = !cluster_id
 if !is_primary  then set is_main = false
-policy new_policy [!node_type][main] = !is_main.bool
+set policy new_policy [!node_type][main] = !is_main.bool
 
 
 :set-location:
