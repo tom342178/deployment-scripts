@@ -170,9 +170,10 @@ set blockchain_destination = file
 
 if $BLOCKCHAIN_SYNC then blockchain_sync = $BLOCKCHAIN_SYNC
 if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
-if !blockchain_source != master and !blockchain_source = optimism then
-do
 if $DESTINATION then set blockchain_destination=$DESTINATION
+
+if !blockchain_source != master then goto blockchain-connect
+
 
 :blockchain-master:
 # master node based blockchain configuration

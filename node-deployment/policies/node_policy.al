@@ -63,9 +63,11 @@ if !node_type == operator and not !cluster_id then goto operator-cluster-error
 
 set policy new_policy [!node_type][cluster] = !cluster_id
 
+set is_main = true
 is_primary = blockchain get operator where cluster = !cluster_id
-policy new_policy [!node_type][main] = true
-if  not !is_primary then set policy new_policy [!node_type][main] = true
+if !is_primary  then set is_main = false
+policy new_policy [!node_type][main] = !is_main.bool
+
 
 :set-location:
 if !debug_mode == true then print "Declare location of node"
