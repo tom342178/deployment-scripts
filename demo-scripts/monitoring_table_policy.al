@@ -68,7 +68,7 @@ on error goto dbms-config-error
 connect dbms monitoring where type=sqlite
 on error call partition-config-error
 partition monitoring node_insight using timestamp by 12 hours
-schedule time=12 hours and name="drop node_insight partitions" task drop partition where dbms=monitoring and table=node_insight and keep=3
+# schedule time=12 hours and name="drop node_insight partitions" task drop partition where dbms=monitoring and table=node_insight and keep=3
 on error goto table-config-error
 create table node_insight where dbms=monitoring
 
