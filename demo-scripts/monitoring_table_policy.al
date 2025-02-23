@@ -63,14 +63,14 @@ set create_table = true
 goto check-table-policy
 
 :dbms-configs:
-if !node_type == operator then
+<if !node_type == operator then
 do on error goto dbms-config-error
 do connect dbms monitoring where type=sqlite
 do on error call partition-config-error
 do partition monitoring node_insight using timestamp by 12 hours
 do schedule time=12 hours and name="drop node_insight partitions" task drop partition where dbms=monitoring and table=node_insight and keep=3
 do on error goto table-config-error
-do create table node_insight where dbms=monitoring
+do create table node_insight where dbms=monitoring>
 
 :end-script:
 end script
