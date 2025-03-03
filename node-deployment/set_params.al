@@ -188,13 +188,13 @@ goto operator-settings
 if !node_type == master then set is_relay = true
 # live blockchain configuration
 provider = https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
-public_key = 0xdf29075946610ABD4FA2761100850869dcd07Aa7
-private_key = 712be5b5827d8c111b3e57a6e529eaa9769dcde550895659e008bdcf4f893c1c
+blockchain_public_key = 0xdf29075946610ABD4FA2761100850869dcd07Aa7
+blockchain_private_key = 712be5b5827d8c111b3e57a6e529eaa9769dcde550895659e008bdcf4f893c1c
 chain_id = 11155420
 
 if $PROVIDER then provider = $PROVIDER
-if $PUBLIC_KEY then public_key = $PUBLIC_KEY
-if $PRIVATE_KEY then private_key = $PRIVATE_KEY
+if $BLOCKCHAIN_PUBLIC_KEY then blockchain_public_key = $BLOCKCHAIN_PUBLIC_KEY
+if $BLOCKCHAIN_PRIVATE_KEY then blockchain_private_key = $BLOCKCHAIN_PRIVATE_KEY
 if $CHAIN_ID then chain_id = $CHAIN_ID
 if $CONTRACT then contract = $CONTRACT
 

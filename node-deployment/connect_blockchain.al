@@ -28,13 +28,16 @@ if !debug_mode == true then print "Declare blockchain account"
 on error goto declare-blockchain-account-error
 <blockchain set account info where
     platform = !blockchain_source and
-    private_key = !private_key and
-    public_key = !public_key and
+    private_key = !blockchain_private_key and
+    public_key = !blockchain_public_key and
     chain_id = !chain_id>
 
-
+if !contract then goto blockchain-account
 :create-contract:
 if !debug_mode == true then print "Create a new smart contract"
+
+is_policy = blockchain get blockchain-info where company=!company_name and !public_key and !chain_id
+if !is_policy then contract = from !is_policy then bring [*][contract]
 
 if not !contract then
 do on error goto create-contract-error
@@ -54,12 +57,16 @@ blockchain set account info where platform = !blockchain_source and contract = !
 # blockchain checkout from !blockchain_source
 
 :run-blockchain-sync:
-if !blockchain_source == master then
-<do run blockchain sync where
+<if !blockchain_source == master then run blockchain sync where
     source=!blockchain_source and
     time=!blockchain_sync and
     dest=!blockchain_destination and
     connection=!ledger_conn>
+<else if !is_relay == true then run blockchain sync where
+    source = blockchain and
+    time = !blockchain_sync and
+    dest=dbms and dest=file and
+    platform = !blockchain_source>
 <else run blockchain sync where
     source = blockchain and
     time = !blockchain_sync and
