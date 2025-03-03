@@ -167,6 +167,7 @@ if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
+set is_relay=false
 
 if $BLOCKCHAIN_SYNC then blockchain_sync = $BLOCKCHAIN_SYNC
 if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
@@ -184,6 +185,7 @@ if $LEDGER_CONN ledger_conn = $LEDGER_CONN
 goto operator-settings
 
 :blockchain-connect:
+if !node_type == master then set is_relay = true
 # live blockchain configuration
 provider = https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
 public_key = 0xdf29075946610ABD4FA2761100850869dcd07Aa7

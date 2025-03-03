@@ -25,6 +25,7 @@ if !debug_mode == true then set debug on
 
 on error ignore
 set create_policy = false
+if !is_relay == true then set node_type = relay
 
 :check-policy:
 if !debug_mode == true then print "Check whether policy already exists based on params"
@@ -97,9 +98,11 @@ operator_id = from !is_policy bring.last [*][id]
 if not !operator_id then goto config-policy-error
 
 :end-script:
+if !is_relay == true then set node_type = master
 end script
 
 :terminate-scripts:
+if !is_relay == true then set node_type = master
 exit scripts
 
 :config-policy-error:
