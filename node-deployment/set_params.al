@@ -172,12 +172,13 @@ if $BLOCKCHAIN_SYNC then blockchain_sync = $BLOCKCHAIN_SYNC
 if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
+!blockchain_source != master and !node_type == master then blockchain_destination = database
+
 if !blockchain_source != master then goto blockchain-connect
 
 
 :blockchain-master:
 # master node based blockchain configuration
-if !blockchain_source != master then goto blockchain-connect
 
 if $LEDGER_CONN ledger_conn = $LEDGER_CONN
 goto operator-settings
