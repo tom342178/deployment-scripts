@@ -57,21 +57,27 @@ blockchain set account info where platform = !blockchain_source and contract = !
 # blockchain checkout from !blockchain_source
 
 :run-blockchain-sync:
-<if !blockchain_source == master then run blockchain sync where
+# in the "long run" -- when relay is enabled, sotre a copy to both database and file.
+if !blockchain_source == master then
+<do run blockchain sync where
     source=!blockchain_source and
     time=!blockchain_sync and
     dest=!blockchain_destination and
     connection=!ledger_conn>
+do goto end-script
 <else if !is_relay == true then run blockchain sync where
     source = blockchain and
     time = !blockchain_sync and
-    dest=dbms and dest=file and
+    dest=file and
     platform = !blockchain_source>
 <else run blockchain sync where
     source = blockchain and
     time = !blockchain_sync and
     dest=!blockchain_destination and
     platform = !blockchain_source>
+
+:declare-policy:
+process !deployment_scripts/policies/blockchain_policy.al
 
 :end-script:
 if !blockchain_source != master then get platforms

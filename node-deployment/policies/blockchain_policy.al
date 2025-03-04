@@ -1,17 +1,15 @@
 set create_policy = false
 
 :check-policy:
-if !debug_mode == true then print "Check whether cluster policy exists"
+if !debug_mode == true then print "Check whether blockchain info policy exists"
 
 on error ignore
 is_policy = blockchain get blockchain-info where company=!company_name and !public_key and !chain_id
-if !is_policy then
-do contract = from !is_policy then bring [*][contract]
-do goto end-script
+if !is_policy then goto end-script
 else if not !is_policy and !create_policy == true then goto declare-policy-error
 
 :prep-policy:
-if !debug_mode == true then print "Create cluster policy"
+if !debug_mode == true then print "Create blockchain info policy"
 
 on error ignore
 <new_policy = {
@@ -41,15 +39,15 @@ end script
 exit scripts
 
 :sign-policy-error:
-print "Failed to sign cluster policy"
+print "Failed to sign blockchain info policy"
 goto terminate-scripts
 
 :prepare-policy-error:
-print "Failed to prepare member cluster policy for publishing on blockchain"
+print "Failed to prepare member blockchain info policy for publishing on blockchain"
 goto terminate-scripts
 
 :declare-policy-error:
-print "Failed to declare cluster policy on blockchain"
+print "Failed to declare blockchain info policy on blockchain"
 goto terminate-scripts
 
 :policy-error:
