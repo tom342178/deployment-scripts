@@ -204,7 +204,7 @@ cluster_name = !node_name.name + -cluster
 table_name=*
 partition_column = insert_timestamp
 partition_interval = day
-partition_keep = 3a
+partition_keep = 3
 partition_sync = 1 day
 
 if $MEMBER and $MEMBER.int then member = $MEMBER
