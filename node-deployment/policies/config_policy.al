@@ -86,10 +86,10 @@ if !node_type == operator then goto operator-scripts
 
 :generic-node:
 if !node_type == generic then
+# "if !blockchain_source == master and !new_policy then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
+# "if !blockchain_source != master and !new_policy then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
 <do set policy new_policy [config][script] = [
     "process !local_scripts/connect_blockchain.al",
-    "if !blockchain_source == master and !new_policy then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
-    "if !blockchain_source != master and !new_policy then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
     "run scheduler 1",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al",
