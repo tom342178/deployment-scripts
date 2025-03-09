@@ -39,6 +39,10 @@ config_id = blockchain get config where company=!company_name and name=!config_n
 if !config_id then goto config-policy
 if not !config_id and !create_config == true then goto declare-policy-error
 
+if !configure_dns == true then
+do process !local_scripts/policies/config_policy_network_dns.al
+do goto scripts
+
 :prepare-new-policy:
 if !debug_mode == true then print "Create base for new config policy"
 
@@ -68,14 +72,14 @@ set policy new_policy [config][tcp_bind] = '!tcp_bind'
 set policy new_policy [config][rest_threads] = '!rest_threads.int'
 set policy new_policy [config][rest_timeout] = '!rest_timeout.int'
 set policy new_policy [config][rest_bind] = '!rest_bind'
-if !rest_bind == true and  not !overlay_ip then set new_policy [config][rest_ip] == 'ip'
+if !rest_bind == true and  not !overlay_ip then set new_policy [config][rest_ip] == '!ip'
 if !rest_bind == true and !overlay_ip      then set policy new_policy [config][rest_ip] = '!overlay_ip'
 
 if !anylog_broker_port then
 do set policy new_policy [config][broker_threads] = '!broker_threads.int'
 do set policy new_policy [config][broker_bind] = '!broker_bind'
 
-if !broker_bind == true and  not !overlay_ip then set new_policy [config][broker_ip] == 'ip'
+if !broker_bind == true and  not !overlay_ip then set new_policy [config][broker_ip] == '!ip'
 if !broker_bind == true and !overlay_ip      then set policy new_policy [config][broker_ip] = '!overlay_ip'
 
 :scripts:

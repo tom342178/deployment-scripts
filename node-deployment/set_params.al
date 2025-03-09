@@ -61,6 +61,7 @@ if !loc_info and not !city then city = from !loc_info bring [city]
 if not !loc_info and not !city then city = Unknown
 
 :networking:
+set configure_dns=false
 config_name = !node_type.name + - + !company_name.name + -configs
 if $ANYLOG_BROKER_PORT then config_name = !node_type.name + - + !company_name.name + -configs-broker
 set anylog_server_port = ""
@@ -73,6 +74,7 @@ rest_timeout=30
 broker_bind = false
 broker_threads=6
 
+if $CONFIGURE_DNS == true or $CONFIGURE_DNS == True or $CONFIGURE_DNS == TRUE then set configure_dns = true
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
 if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
 
