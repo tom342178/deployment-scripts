@@ -8,6 +8,7 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/connect_blockchain.al
 
+debug_mode  = true
 if !debug_mode == true then set debug on
 
 on error ignore
@@ -41,7 +42,7 @@ if !is_policy then contract = from !is_policy then bring [*][contract]
 
 if not !contract then
 do on error goto create-contract-error
-do contract = blockchain deploy contract where  platform = !blockchain_source and public_key = !public_key
+do contract = blockchain deploy contract where  platform = !blockchain_source and public_key = !blockchain_public_key
 do print "New Contract created: " !contract " - make sure to save contract / update config file accordingly"
 
 :blockchain-account:
