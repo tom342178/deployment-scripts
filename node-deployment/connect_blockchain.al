@@ -8,8 +8,8 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/connect_blockchain.al
 
-debug_mode  = true
-if !debug_mode == true then set debug on
+set debug on
+# if !debug_mode == true then set debug on
 
 on error ignore
 
