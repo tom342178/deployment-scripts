@@ -64,7 +64,7 @@ blockchain set account info where platform = !blockchain_source and contract = !
     time=!blockchain_sync and
     dest=!blockchain_destination and
     platform=!blockchain_source>
-else
+else if !blockchain_source == master then
 <do run blockchain sync where
     source=!blockchain_source and
     time=!blockchain_sync and
