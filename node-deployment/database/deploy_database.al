@@ -35,17 +35,6 @@ if !node_type == query or !system_query == true then process !local_scripts/data
 
 # on error call blockchain-sync-error
 
-# <if !blockchain_source == master then run blockchain sync where
-#    source=master and
-#    time=!blockchain_sync and
-#    dest=!blockchain_destination and
-#    connection=!ledger_conn>
-#<else run blockchain sync where
-#    source = blockchain and
-#    time = !blockchain_sync and
-#    dest=!blockchain_destination and
-#    platform = optimism>
-
 set debug off
 :end-script:
 end script
