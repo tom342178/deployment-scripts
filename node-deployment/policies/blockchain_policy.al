@@ -1,3 +1,5 @@
+set debug on
+
 set create_policy = false
 
 :check-policy:
