@@ -72,15 +72,6 @@ set initial_process = false
 if !debug_mode == true then print "Declare policies"
 process !local_scripts/policies/config_policy.al
 
-:set-license:
-if !debug_mode == true then print "Set license key"
-
-if !is_edgelake == true then goto end-script
-
-# if not !license_key then license_key = blockchain get master bring [*][license]
-# if not !license_key then goto license-error
-# set license where activation_key = !license_key
-
 :end-script:
 if !debug_mode == true then print "Validate everything is running as expected"
 get processes
