@@ -35,7 +35,7 @@ if !debug_mode == true then print "Create a new smart contract"
 
 is_policy = blockchain get blockchain-info where company=!company_name
 # is_policy = blockchain get blockchain-info where company=!company_name and public_key=!public_key and chain_id=!chain_id
-if !is_policy then contract = from !is_policy git bring [*][contract]
+if !is_policy then contract = from !is_policy bring [*][contract]
 
 if not !contract then
 do on error goto create-contract-error
