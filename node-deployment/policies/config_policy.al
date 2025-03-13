@@ -46,7 +46,7 @@ do goto scripts
 :prepare-new-policy:
 if !debug_mode == true then print "Create base for new config policy"
 
-new_policy = "
+new_policy = ""
 set policy new_policy [config] = {}
 set policy new_policy [config][name] = !config_name
 set policy new_policy [config][company] = !company_name
