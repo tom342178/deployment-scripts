@@ -4,7 +4,8 @@ set create_policy = false
 if !debug_mode == true then print "Check whether blockchain info policy exists"
 
 on error ignore
-is_policy = blockchain get blockchain-info where company=!company_name and !public_key and !chain_id
+is_policy = blockchain get blockchain-info where company=!company_name
+# is_policy = blockchain get blockchain-info where company=!company_name and public_key=!public_key and chain_id=!chain_id
 if !is_policy then goto end-script
 else if not !is_policy and !create_policy == true then goto declare-policy-error
 
