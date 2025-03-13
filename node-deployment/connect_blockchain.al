@@ -12,7 +12,6 @@ on error ignore
 
 if !blockchain_source == master and !initial_process == true then goto blockchain-seed
 if !blockchain_source == master and !initial_process == false then goto blockchain-sync
-if !initial_process == false then goto end-script
 
 :blockchain-connect:
 if !debug_mode == true then print "Connect to optimism"
@@ -33,8 +32,8 @@ if !contract then goto blockchain-account
 :create-contract:
 if !debug_mode == true then print "Create a new smart contract"
 
-is_policy = blockchain get blockchain-info where company=!company_name
 # is_policy = blockchain get blockchain-info where company=!company_name and public_key=!public_key and chain_id=!chain_id
+is_policy = blockchain get blockchain-info where company=!company_name
 if !is_policy then contract = from !is_policy bring [*][contract]
 
 if not !contract then

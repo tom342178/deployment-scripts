@@ -64,9 +64,11 @@ if !debug_mode == true then print "Configure networking"
 process !local_scripts/connect_networking.al
 
 :blockchain-seed:
-set initial_process = true
-process !local_scripts/connect_blockchain.al
 set initial_process = false
+if !blockchain_source == master then
+do set initial_process = true
+do process !local_scripts/connect_blockchain.al
+do set initial_process = false
 
 :declare-policy:
 if !debug_mode == true then print "Declare policies"
