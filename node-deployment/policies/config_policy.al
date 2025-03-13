@@ -90,8 +90,6 @@ if !node_type == operator then goto operator-scripts
 
 :generic-node:
 if !node_type == generic then
-# "if !blockchain_source == master and !new_policy then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
-# "if !blockchain_source != master and !new_policy then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
 <do set policy new_policy [config][script] = [
     "process !local_scripts/connect_blockchain.al",
     "run scheduler 1",
@@ -100,10 +98,6 @@ if !node_type == generic then
     "process !local_scripts/policies/license_policy.al"
 ]>
 do goto publish-policy
-
-# "is_global =  blockchain get config where company=!company_name and name=!config_name and node_type=!node_type bring [*][ledger]",
-# "if !is_global == local and !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn",
-# "if !is_global == local and !blockchain_source != master then blockchain insert where policy=!new_policy and local=true and blockchain=optimism",
 
 :master-query:
 if !node_type == master or !node_type == query then

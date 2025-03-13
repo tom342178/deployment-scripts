@@ -8,10 +8,10 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/connect_blockchain.al
 
-set debug on
 # if !debug_mode == true then set debug on
 
 on error ignore
+goto end-script
 
 if !blockchain_source == master then goto run-blockchain-sync
 
