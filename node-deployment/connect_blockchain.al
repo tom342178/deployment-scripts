@@ -50,6 +50,7 @@ blockchain set account info where platform = !blockchain_source and contract = !
 :blockchain-sync:
 on error goto blockchain-sync-error
 if !blockchain_source == optimism then
+do print !contract
 <do run blockchain sync where
     source=blockchain and
     time=!blockchain_sync and
