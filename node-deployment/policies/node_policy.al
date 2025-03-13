@@ -99,6 +99,7 @@ if not !operator_id then goto config-policy-error
 
 :end-script:
 if !is_relay == true then set node_type = master
+blockchain get *
 end script
 
 :terminate-scripts:
