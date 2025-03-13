@@ -8,24 +8,19 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/connect_blockchain.al
 
-# if !debug_mode == true then set debug on
-
 on error ignore
-goto end-script
 
-if !blockchain_source == master then goto run-blockchain-sync
+if !blockchain_source == master and !initial_process == true then goto blockchain-seed
+if !blockchain_source == master and !initial_process == false then goto blockchain-sync
+if !initial_process == false then goto end-script
 
 :blockchain-connect:
 if !debug_mode == true then print "Connect to optimism"
 on error goto connect-blockchain-account-error
 blockchain connect to optimism where provider=https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
 
-# create an account - this would create public and private key
-# blockchain create account optimism
-
 :declare-blockchain-account:
 if !debug_mode == true then print "Declare blockchain account"
-
 on error goto declare-blockchain-account-error
 <blockchain set account info where
     platform = !blockchain_source and
@@ -34,6 +29,7 @@ on error goto declare-blockchain-account-error
     chain_id = !chain_id>
 
 if !contract then goto blockchain-account
+
 :create-contract:
 if !debug_mode == true then print "Create a new smart contract"
 
@@ -46,19 +42,13 @@ do contract = blockchain deploy contract where  platform = !blockchain_source an
 do print "New Contract created: " !contract " - make sure to save contract / update config file accordingly"
 
 :blockchain-account:
- if !debug_mode == true then print "Set blockchain account information"
+if !debug_mode == true then print "Set blockchain account information"
 
 on error goto blockchain-account-error
 blockchain set account info where platform = !blockchain_source and contract = !contract
 
-# :blockchain-seed:
-# if !debug_mode == true then print "Copy blockchain to local node"
-
-# on error call blockchain-seed-error
-# blockchain checkout from !blockchain_source
-
-:run-blockchain-sync:
-# in the "long run" -- when relay is enabled, store a copy to both database and file.
+:blockchain-sync:
+on error goto blockchain-sync-error
 if !blockchain_source == optimism then
 <do run blockchain sync where
     source=blockchain and
@@ -73,6 +63,13 @@ if !blockchain_source == master then
     time=!blockchain_sync and
     dest=!blockchain_destination and
     connection=!ledger_conn>
+
+goto end-script
+
+:blockchain-seed:
+on error call blockchain-seed-error
+run blockchain seed from !ledger_conn
+goto end-script
 
 :end-script:
 end script
@@ -92,6 +89,13 @@ goto terminate-scripts
 print "Failed to declare account information, cannot continue..."
 goto  terminate-scripts
 
+:blockchain-sync-error:
+echo "Failed to initiate scheduled blockchain sync"
+goto end-script
+
 :blockchain-seed-error:
-echo "Failed to seed from blockchain"
-return
+echo Failed to execute blockchain sync agaisnt !ledger_conn
+goto end-script
+
+
+
