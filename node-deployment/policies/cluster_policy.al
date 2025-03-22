@@ -41,7 +41,7 @@ if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
 set create_policy = true
 
-sleep 5
+wait 5
 goto check-policy
 
 :end-script:
