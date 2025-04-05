@@ -10,8 +10,7 @@
 
 on error ignore
 
-if !blockchain_source == master and !initial_process == true then goto blockchain-seed
-if !blockchain_source == master and !initial_process == false then goto blockchain-sync
+if !blockchain_source == master then goto blockchain-sync
 
 :blockchain-connect:
 if !debug_mode == true then print "Connect to optimism"

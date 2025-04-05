@@ -14,7 +14,8 @@ if $NODE_TYPE == query then goto system-query-dbms
 if !debug_mode == true then print "Blockchain related database processes"
 process !local_scripts/database/configure_dbms_blockchain.al
 if $NODE_TYPE == master-publisher then goto almgm-dbms
-else goto system-query-dbms
+else if !system_query == true then goto system-query-dbms
+else if $NODE_TYPE == master then goto end-script
 
 :operator-dbms:
 if !debug_mode == true then print "Operator related database processes"

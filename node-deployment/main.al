@@ -57,18 +57,16 @@ create work directories
 if !debug_mode == true then print "Set environment params"
 process !local_scripts/set_params.al
 
-:configure-networking:
-if !debug_mode == true then print "Configure networking"
-process !local_scripts/connect_networking.al
 
-:blockchain-seed:
-set initial_process = true
-process !local_scripts/connect_blockchain.al
-set initial_process = false
+:set-configs:
+if !debug_mode == true then print "declare configs"
+process !local_scripts/config_policy.al
 
-:declare-policy:
-if !debug_mode == true then print "Declare policies"
-process !local_scripts/policies/config_policy.al
+:end-script:
+if !debug_mode == true then print "Validate everything is running as expected"
+get processes
+if !enable_mqtt == true then get msg client
+end script
 
 :end-script:
 if !debug_mode == true then print "Validate everything is running as expected"
