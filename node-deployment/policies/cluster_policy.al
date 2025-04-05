@@ -24,7 +24,7 @@ if !debug_mode == true then print "Check whether cluster policy exists"
 on error ignore
 cluster_id = blockchain get cluster where name=!cluster_name and company=!company_name bring.first [*][id] 
 if !cluster_id then goto end-script
-if not !cluster_id and !create_cluster == true then goto declare-policy-error
+if not !cluster_id and !create_policy == true then goto declare-policy-error
 
 :prep-policy:
 if !debug_mode == true then print "Create cluster policy"
@@ -39,8 +39,9 @@ process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
-set create_cluster = true
+set create_policy = true
 
+wait 5
 goto check-policy
 
 :end-script:

@@ -25,6 +25,7 @@ if !debug_mode == true then set debug on
 
 on error ignore
 set create_policy = false
+if !is_relay == true then set node_type = relay
 
 :check-policy:
 if !debug_mode == true then print "Check whether policy already exists based on params"
@@ -46,6 +47,7 @@ set policy new_policy [!node_type][company] = !company_name
 :network-!node_type:
 if !debug_mode == true then print "Declare network configuration in new policy variables"
 
+set policy new_policy [!node_type][hostname] = !hostname
 set policy new_policy [!node_type][ip] = !external_ip
 if !tcp_bind == true and !overlay_ip then set policy new_policy [!node_type][ip] = !overlay_ip
 if !tcp_bind == true and not !overlay_ip then set policy new_policy [!node_type][ip] = !ip
@@ -57,14 +59,19 @@ set policy new_policy [!node_type][rest_port] = !anylog_rest_port.int
 if !anylog_broker_port then set policy new_policy [!node_type][broker_port] = !anylog_broker_port.int
 
 :cluster-info:
+if !node_type != operator then goto set-location
 if !debug_mode == true then print "For an operator node add cluster ID new policy variables"
-
-if !node_type == operator then set policy new_policy [!node_type][main] = !operator_main.bool
-if !node_type == operator and !cluster_id then set policy new_policy [!node_type][cluster] = !cluster_id
 if !node_type == operator and not !cluster_id then goto operator-cluster-error
 
+set policy new_policy [!node_type][cluster] = !cluster_id
 
-:location:
+set is_main = true
+is_primary = blockchain get operator where cluster = !cluster_id
+if !is_primary  then set is_main = false
+set policy new_policy [!node_type][main] = !is_main.bool
+
+
+:set-location:
 if !debug_mode == true then print "Declare location of node"
 
 if !loc then set policy new_policy [!node_type][loc] = !loc
@@ -91,9 +98,11 @@ operator_id = from !is_policy bring.last [*][id]
 if not !operator_id then goto config-policy-error
 
 :end-script:
+if !is_relay == true then set node_type = master
 end script
 
 :terminate-scripts:
+if !is_relay == true then set node_type = master
 exit scripts
 
 :config-policy-error:

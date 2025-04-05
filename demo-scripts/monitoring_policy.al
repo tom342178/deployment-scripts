@@ -61,17 +61,7 @@ on error ignore
 if !debug_mode == true then set debug on
 
 :declare-policy:
-if !store_monitoring == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_table_policy.al
-
-:store-monitoring:
-if !debug_mode == true then print "Declaring monitoring policy"
-if !store_monitoring == true and !node_type == operator then
-do on error goto store-monitoring-error
-do connect dbms monitoring where type=sqlite
-do create table node_insight where dbms=monitoring
-do on error goto partition-data-err
-do partition monitoring node_insight using timestamp by 12 hours
-do schedule time=12 hours and name="drop node_insight partitions" task drop partition where dbms=monitoring and table=node_insight and keep=3
+if !store_monitoring == true and !node_type == operator then process !anylog_path/deployment-scripts/demo-scripts/monitoring_table_policy.al
 
 :set-params:
 if !debug_mode == true then print "Setting env params"

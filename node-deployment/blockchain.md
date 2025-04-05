@@ -17,7 +17,7 @@ data to their customers. We're using <a herf="https://www.infura.io/" target="_b
 blockchain named <a herf="https://www.optimism.io/" target="_blank">Optimism</a>
 
 **Advance Configs**
-* `SYNC_TIME` (default: 30 seconds) - How often to sync from blockchain
+* `BLOCKCHAIN_SYNC` (default: 30 seconds) - How often to sync from blockchain
 * `BLOCKCHAIN_SOURCE` (default: master) - Source of where the data is coming from. When `LOCAL_BLOCKCHAIN` is set to _false_, 
 value should be set to _blockchain_
 * `BLOCKCHAIN_DESTINATION` - Where will the copy of the blockchain be stored locslly

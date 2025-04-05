@@ -21,7 +21,6 @@ if !debug_mode == true then set debug on
 if $DISABLE_CLI == true or  $DISABLE_CLI == True or $DISABLE_CLI == TRUE then set cli off
 
 :required-params:
-node_name = anylog-node
 company_name = "New Company"
 ledger_conn = 127.0.0.1:32048
 
@@ -30,31 +29,19 @@ else if $NODE_TYPE == master-publisher then set node_type = publisher
 else if $NODE_TYPE then set node_type = $NODE_TYPE
 else goto missing-node-type
 
-if not $NODE_NAME and !node_type == generic and !is_edgelake == true then node_name = edgelake-node
-else if not $NODE_NAME and !node_type != generic then goto missing-node-name
-else if $NODE_NAME then set node_name = $NODE_NAME
+if $NODE_NAME then node_name = $NODE_NAME
+if !node_type == master and not !node_name then node_name = anylog-master
+else if !node_type == operator and not !node_name then node_name = anylog-operator
+else if !node_type == publisher and not !node_name then node_name = anylog-publisher
+else if !node_type == query and not !node_name then node_name = anylog-query
+else if not !node_name then node_name = anylog-node
 
 set node name !node_name
 
-if not $COMPANY_NAME and node_type != generic then goto missing-company-name
-else if $COMPANY_NAME then company_name = $COMPANY_NAME
+if $COMPANY_NAME then company_name = $COMPANY_NAME
 
-if not $LEDGER_CONN and !node_type != generic then goto missing-ledger-conn
-else if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
+if $LEDGER_CONN then ledger_conn=$LEDGER_CONN
 
-if !is_edgelake == true then goto general-params
-
-:license-params:
-if $LICENSE_KEY then license_key=$LICENSE_KEY
-
-if !license_key then
-do license_key_num = !license_key[:256]
-do info_part = !license_key[256:]
-
-if !info_part then
-do owner = from !info_part bring [company]
-do expiration = from !info_part bring [expiration]
-do license_type = from !info_part bring [type]
 
 :general-params:
 hostname = get hostname
@@ -68,14 +55,17 @@ if !loc_info and not !loc then loc = from !loc_info bring [loc]
 if not !loc_info and not !loc then loc = 0.0, 0.0
 if !loc_info and not !country then country = from !loc_info bring [country]
 if not !loc_info and not !country then country = Unknown
-if !loc_info and not !state then state = from !loc_info bring [state]
+if !loc_info and not !state then state = from !loc_info bring [region]
 if not !loc_info and not !state then state = Unknown
 if !loc_info and not !city then city = from !loc_info bring [city]
 if not !loc_info and not !city then city = Unknown
 
 :networking:
+set configure_dns=false
 config_name = !node_type.name + - + !company_name.name + -configs
 if $ANYLOG_BROKER_PORT then config_name = !node_type.name + - + !company_name.name + -configs-broker
+set anylog_server_port = ""
+set anylog_rest_port = ""
 tcp_bind = false
 tcp_threads=6
 rest_bind = false
@@ -84,32 +74,26 @@ rest_timeout=30
 broker_bind = false
 broker_threads=6
 
-if !node_type == master then
-do anylog_server_port = 32048
-do anylog_rest_port = 32049
-
-if !node_type == operator then
-do anylog_server_port = 32148
-do anylog_rest_port = 32149
-
-if !node_type == publisher then
-do anylog_server_port = 32248
-do anylog_rest_port = 32249
-
-if !node_type == query then
-do anylog_server_port = 32348
-do anylog_rest_port = 32349
-
-if !node_type == generic then
-do anylog_server_port = 32548
-do anylog_rest_port = 32549
-
+if $CONFIGURE_DNS == true or $CONFIGURE_DNS == True or $CONFIGURE_DNS == TRUE then set configure_dns = true
 if $ANYLOG_SERVER_PORT then anylog_server_port = $ANYLOG_SERVER_PORT
+if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
+
+if !node_type == master and not !anylog_server_port then anylog_server_port = 32048
+if !node_type == master and not !anylog_rest_port then anylog_rest_port = 32049
+if !node_type == operator and not !anylog_server_port then anylog_server_port = 32148
+if !node_type == operator and not !anylog_rest_port then anylog_rest_port = 32149
+if !node_type == query and not !anylog_server_port then anylog_server_port = 32348
+if !node_type == query and not !anylog_rest_port then anylog_rest_port = 32349
+if !node_type == publisher and not !anylog_server_port then anylog_server_port = 32248
+if !node_type == publisher and not !anylog_rest_port then anylog_rest_port = 32249
+if not !anylog_server_port then anylog_server_port = 32548
+if not !anylog_rest_port then anylog_rest_port = 32549
+
+
 if $TCP_BIND == true or $TCP_BIND == True or $TCP_BIND == TRUE then tcp_bind = true
 if $TCP_THREADS then tcp_threads = $TCP_THREADS
 if !tcp_threads.int < 1 then tcp_threads = 1
 
-if $ANYLOG_REST_PORT then anylog_rest_port = $ANYLOG_REST_PORT
 if $REST_BIND == true or $REST_BIND == True or $REST_BIND == TRUE then rest_bind = true
 if $REST_THREADS then rest_threads = $REST_THREADS
 if !rest_threads.int < 1 then rest_threads = 1
@@ -138,7 +122,7 @@ db_type = sqlite
 set autocommit = true
 set unlog = false
 default_dbms=!company_name.name
-set deploy_system_query = false
+set system_query = false
 set memory = true
 
 if $DEFAULT_DBMS then default_dbms = $DEFAULT_DBMS
@@ -170,7 +154,7 @@ set blobs_reuse = true
 if $ENABLE_NOSQL == true or $ENABLE_NOSQL == True or $ENABLE_NOSQL == TRUE then
 do set enable_nosql=true
 do set blobs_dbms = true
-if $BLOBS_DBMS == true or $BLOBS_DBMS == True or $BLOBS_DBMS == TRUE  then set blobs_dbms = true
+# if $BLOBS_DBMS == true or $BLOBS_DBMS == True or $BLOBS_DBMS == TRUE  then set blobs_dbms = true
 if $BLOBS_REUSE == false or $BLOBS_REUSE == False or $BLOBS_REUSE == FALSE then set blobs_reuse = false
 
 # if $NOSQL_TYPE then set nosql_type = $NOSQL_TYPE
@@ -181,29 +165,40 @@ if $NOSQL_PORT then nosql_port = $NOSQL_PORT
 if $NOSQL_USER then nosql_user = $NOSQL_USER
 if $NOSQL_PASSWD then nosql_passwd = $NOSQL_PASSWD
 
-:blockchain:
+:blockchain-general:
 blockchain_sync = 30 seconds
 set blockchain_source = master
 set blockchain_destination = file
-provider = https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
-# chain_id = 11155420
-public_key = 0xdf29075946610ABD4FA2761100850869dcd07Aa7
-private_key = 712be5b5827d8c111b3e57a6e529eaa9769dcde550895659e008bdcf4f893c1c
-# contract = 0x8fD816a62e8E7985154248019520915778eB4013
+set is_relay=false
 
-if $SYNC_TIME then sync_time = $SYNC_TIME
+if $BLOCKCHAIN_SYNC then blockchain_sync = $BLOCKCHAIN_SYNC
 if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
-# if ledger_conn == 127.0.0.1 and TCP bind is true then update to use local IP
-if !tcp_bind == true then
-do ledger_ip = python !ledger_conn.split(':')[0]
-do ledger_port = python !ledger_conn.split(':')[1]
-if !tcp_bind == true and !ledger_ip == 127.0.0.1 and !overlay_ip then ledger_conn = !overlay_ip + : + !ledger_port
-if !tcp_bind == true and !ledger_ip == 127.0.0.1 and not !overlay_ip then ledger_conn = !ip + : + !ledger_port
+# if !blockchain_source != master and !node_type == master then blockchain_destination = database
 
-if $CHAIN_ID then chain_id=$CHAIN_ID
-if $CONTRACT then contract=$CONTRACT
+if !blockchain_source != master then goto blockchain-connect
+
+
+:blockchain-master:
+# master node based blockchain configuration
+
+if $LEDGER_CONN ledger_conn = $LEDGER_CONN
+goto operator-settings
+
+:blockchain-connect:
+if !node_type == master then set is_relay = true
+# live blockchain configuration
+provider = https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
+blockchain_public_key = 0xdf29075946610ABD4FA2761100850869dcd07Aa7
+blockchain_private_key = 712be5b5827d8c111b3e57a6e529eaa9769dcde550895659e008bdcf4f893c1c
+chain_id = 11155420
+
+if $PROVIDER then provider = $PROVIDER
+if $BLOCKCHAIN_PUBLIC_KEY then blockchain_public_key = $BLOCKCHAIN_PUBLIC_KEY
+if $BLOCKCHAIN_PRIVATE_KEY then blockchain_private_key = $BLOCKCHAIN_PRIVATE_KEY
+if $CHAIN_ID then chain_id = $CHAIN_ID
+if $CONTRACT then contract = $CONTRACT
 
 :operator-settings:
 set enable_partitions = true
@@ -211,7 +206,7 @@ cluster_name = !node_name.name + -cluster
 table_name=*
 partition_column = insert_timestamp
 partition_interval = day
-partition_keep = 3a
+partition_keep = 3
 partition_sync = 1 day
 
 if $MEMBER and $MEMBER.int then member = $MEMBER
@@ -227,11 +222,9 @@ if $PARTITION_SYNC then set partition_sync = $PARTITION_SYNC
 
 :operator-ha:
 set enable_ha = false
-set operator_main = false
 start_data = -30d
 
 if $ENABLE_HA == true or $ENABLE_HA == TRUE or $ENABLE_HA == True then set enable_ha=true
-if $OPERATOR_MAIN == true or $OPERATOR_MAIN == TRUE or $OPERATOR_MAIN == True then set operator_main = true
 if $START_DATE then start_date = $START_DATE
 if !start_date.int then start_date = - + $START_DATE + d
 
@@ -348,6 +341,10 @@ goto terminate-scripts
 
 :missing-ledger-conn:
 print "Missing ledger connection information, cannot continue..."
+goto terminate-scripts
+
+:invalid-blockchain-source:
+print "Invalid blockchain source " !blockchain_source " (valid sources: optimism, master)"
 goto terminate-scripts
 
 :invalid-sql-database:
