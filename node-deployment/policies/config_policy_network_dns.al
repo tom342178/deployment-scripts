@@ -73,6 +73,5 @@ do set policy new_policy [config][broker_bind] = '!broker_bind'
 if !broker_bind == true and  not !overlay_ip then set new_policy [config][broker_ip] == '!dns'
 if !broker_bind == true and !overlay_ip      then set policy new_policy [config][broker_ip] = '!overlay_ip'
 
-
 :end-script:
 end script
