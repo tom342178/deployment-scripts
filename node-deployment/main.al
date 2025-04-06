@@ -68,12 +68,6 @@ get processes
 if !enable_mqtt == true then get msg client
 end script
 
-:end-script:
-if !debug_mode == true then print "Validate everything is running as expected"
-get processes
-if !enable_mqtt == true then get msg client
-end script
-
 :edgelake-error:
 print "Node type `publisher` not supported with EdgeLake deployment"
 goto terminate-scripts
