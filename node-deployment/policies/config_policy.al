@@ -158,6 +158,7 @@ if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
 set create_config = true
+wait 5
 blockchain reload metadata
 goto check-policy
 
