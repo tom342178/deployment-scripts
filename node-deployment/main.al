@@ -20,7 +20,7 @@ do set debug on
 do print "Set Script defined configs"
 else set debug off
 
-:set-configs:
+:disable-auth:
 set echo queue on
 set authentication off
 
