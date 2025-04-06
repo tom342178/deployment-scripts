@@ -32,7 +32,8 @@ blockchain prepare policy !new_policy
 
 is_config = from !new_policy  bring [config]
 # if !is_config then blockchain insert where policy=!new_policy and local=true
-else if !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+blockchain insert where policy=!new_policy and local=true
+# else if !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
 else blockchain insert where policy=!new_policy and local=true and blockchain=optimism
 
 :end-script:
