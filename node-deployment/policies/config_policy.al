@@ -91,7 +91,7 @@ if !node_type == operator then goto operator-scripts
 :generic-node:
 if !node_type == generic then
 <do set policy new_policy [config][script] = [
-    "if !blockchain_source == master then process !local_scripts/connect_blockchain.al",
+    "process !local_scripts/connect_blockchain.al",
     "run scheduler 1",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al",
@@ -103,7 +103,7 @@ do goto publish-policy
 if !node_type == master or !node_type == query then
 <do set policy new_policy [config][script] = [
     "process !local_scripts/database/deploy_database.al",
-    "rocess !local_scripts/connect_blockchain.al",
+    "process !local_scripts/connect_blockchain.al",
     "process !local_scripts/policies/node_policy.al",
     "run scheduler 1",
     "if !monitor_nodes == true then process !anylog_path/deployment-scripts/demo-scripts/monitoring_policy.al",
@@ -158,7 +158,6 @@ if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
 set create_config = true
-wait 5
 goto check-policy
 
 :config-policy:
