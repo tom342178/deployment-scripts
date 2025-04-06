@@ -60,7 +60,7 @@ process !local_scripts/set_params.al
 
 :set-configs:
 if !debug_mode == true then print "declare configs"
-process !local_scripts/config_policy.al
+process !local_scripts/policies/config_policy.al
 
 :end-script:
 if !debug_mode == true then print "Validate everything is running as expected"
