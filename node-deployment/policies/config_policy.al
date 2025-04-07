@@ -117,7 +117,6 @@ do goto publish-policy
 :publisher-scripts:
 
 <set policy new_policy [config][script] = [
-    "if !blockchain_source == master then blockchain seed from !ledger_conn",
     "process !local_scripts/connect_blockchain.al",
     "process !local_scripts/policies/node_policy.al",
     "process !local_scripts/database/deploy_database.al",
@@ -135,7 +134,6 @@ goto publish-policy
 
 :operator-scripts:
 <set policy new_policy [config][script] = [
-    "if !blockchain_source == master then blockchain seed from !ledger_conn",
     "process !local_scripts/connect_blockchain.al",
     "process !local_scripts/policies/cluster_policy.al",
     "process !local_scripts/policies/node_policy.al",
