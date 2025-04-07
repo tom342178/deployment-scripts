@@ -3,11 +3,14 @@
 # If !policy_based_networking == true, the deployment is executed in the following way
 # Script: !local_scripts/start_node_policy_based.al
 #   1. set params
-#   2. run tcp server
-#   3. blockchain seed
-#   4. config node based on node type - if node type is generic then "stop"
+#   2. config node based on node type
+#       - set network configs (tcp/port)
+#       - blockchain seed
+#       - database(s)
+#       - policies
+#       - support scripts
 #-----------------------------------------------------------------------------------------------------------------------
-# python3.10 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
+# python3.11 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
 
 if $EXCEPTION_TRACEBACK == true or $EXCEPTION_TRACEBACK == True or $EXCEPTION_TRACEBACK == TRUE then set exception traceback on
 
