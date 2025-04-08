@@ -35,11 +35,13 @@ new_policy = create policy cluster with defaults where company=!company_name and
 :publish-policy:
 if !debug_mode == true then print "Declare policy on blockchain"
 
+set is_node_policy = true
 process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
 if !error_code == 3 then goto declare-policy-error
 set create_policy = true
+set is_node_policy = false
 
 wait 5
 goto check-policy
