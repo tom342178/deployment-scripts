@@ -176,9 +176,7 @@ if $BLOCKCHAIN_SOURCE then blockchain_source=$BLOCKCHAIN_SOURCE
 if $DESTINATION then set blockchain_destination=$DESTINATION
 
 # if !blockchain_source != master and !node_type == master then blockchain_destination = database
-
 if !blockchain_source != master then goto blockchain-connect
-
 
 :blockchain-master:
 # master node based blockchain configuration
@@ -228,7 +226,6 @@ if $ENABLE_HA == true or $ENABLE_HA == TRUE or $ENABLE_HA == True then set enabl
 if $START_DATE then start_date = $START_DATE
 if !start_date.int then start_date = - + $START_DATE + d
 
-
 :mqtt:
 set enable_mqtt = false
 mqtt_broker = 139.144.46.246
@@ -269,6 +266,25 @@ if $MONITOR_NODES == false or $MONITOR_NODES == False or $MONITOR_NODES == FALSE
 if $STORE_MONITORING == true or $STORE_MONITORING == True or $STORE_MONITORING == TRUE then set store_monitoring = true
 if $MONITORING_OPERATOR then monitoring_operator = $MONITORING_OPERATOR
 
+:opcua-configs:
+set enable_opcua=false
+if $ENABLE_OPCUA == true or $ENABLE_OPCUA == True or $ENABLE_OPCUA == TRUE then set enable_opcua = true
+if $OPCUA_URL then opcua_url=$OPCUA_URL
+if $OPCUA_NODE then opcua_node=$OPCUA_NODE
+if $OPCUA_FREQUENCY then opcua_frequency=$OPCUA_FREQUENCY
+
+:aggregations:
+set enable_aggregations = false
+aggregations_intervals  = 10
+aggregations_time = 1 minute
+aggregation_time_column = insert_timestamp
+aggregation_value_column = value
+
+if $ENABLE_AGGREGATIONS == true or $ENABLE_AGGREGATIONS == True or $ENABLE_AGGREGATIONS == TRUE then set enable_aggregations = true
+if $AGGREGATIONS_INTERVALS then aggregations_intervals = $AGGREGATIONS_INTERVALS
+if $AGGREGATIONS_TIME then aggregations_time = $AGGREGATIONS_TIME
+if $AGGREGATION_TIME_COLUMN then aggregation_time_column = $AGGREGATION_TIME_COLUMN
+if $AGGREGATION_VALUE_COLUMN then aggregation_value_column = $AGGREGATION_VALUE_COLUMN
 
 :other-settings:
 set deploy_local_script = false
