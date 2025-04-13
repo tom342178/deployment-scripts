@@ -23,7 +23,7 @@ on error goto create-policy-error
     output = !tmp_dir/opcua_policies.al>
 
 on error ignore
-process !tmp_dir/policies.al
+process !tmp_dir/opcua_policies.a
 
 :opcua-service:
 on error goto opcua-service-error
