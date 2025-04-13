@@ -34,7 +34,6 @@ on error goto opcua-service-error
     frequency = !opcua_frequency and
     format = run_client  and
     class = variable and
-    name = !default_dbms and
     output = !tmp_dir/run_opcua_service.al>
 
 on error ignore
