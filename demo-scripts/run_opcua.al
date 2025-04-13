@@ -23,7 +23,7 @@ on error goto create-policy-error
     output = !tmp_dir/opcua_policies.al>
 
 on error ignore
-process !tmp_dir/opcua_policies.a
+process !tmp_dir/opcua_policies.al
 
 :opcua-service:
 on error goto opcua-service-error
@@ -34,11 +34,13 @@ on error goto opcua-service-error
     frequency = !opcua_frequency and
     format = run_client  and
     class = variable and
+    name=opcua-client1 and
     output = !tmp_dir/run_opcua_service.al>
 
 on error ignore
 process !tmp_dir/run_opcua_service.al
 
+get opcua client
 :end-script:
 end script
 
