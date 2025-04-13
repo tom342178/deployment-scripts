@@ -160,6 +160,7 @@ goto publish-policy
 :publish-policy:
 if !debug_mode == true then print "Declare policy on blockchain"
 
+set is_config = true
 process !local_scripts/policies/publish_policy.al
 if !error_code == 1 then goto sign-policy-error
 if !error_code == 2 then goto prepare-policy-error
@@ -167,6 +168,7 @@ if !error_code == 3 then goto declare-policy-error
 set create_config = true
 wait 5
 blockchain reload metadata
+set is_config = false
 goto check-policy
 
 :config-policy:
