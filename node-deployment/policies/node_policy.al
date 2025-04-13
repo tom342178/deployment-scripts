@@ -22,7 +22,7 @@
 # process !local_scripts/policies/node_policy.al
 
 if !debug_mode == true then set debug on
-
+set debug on
 on error ignore
 set create_policy = false
 if !is_relay == true then set node_type = relay
