@@ -44,8 +44,8 @@ end script
 
 :create-policy-error:
 print "Failed to create OPC-UA policies"
-goto eend-script
+goto end-script
 
 :opcua-service-error:
 print "Failed to start OPC-UA service"
-goto eend-script
+goto end-script
