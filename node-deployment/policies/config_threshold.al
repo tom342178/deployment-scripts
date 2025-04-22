@@ -1,9 +1,12 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # Set buffer threshold
 #----------------------------------------------------------------------------------------------------------------------#
-# process !local_scripts/policies/config_threashold.al
+# process !local_scripts/policies/config_threshold.al
+
+if !debug_mode == true then set debug on
 
 :set-params:
+if !debug_mode == true then print "Set buffer threshold"
 threshold_dbms = ""
 threshold_table = ""
 
@@ -26,7 +29,7 @@ if not !threshold_dbms and not !threshold_table then
     volume=!threshold_volume and
     write_immediate=!write_immediate>
 
-:end-sccript:
+:end-script:
 end script
 
 :threshold-error:

@@ -3,7 +3,7 @@
 #   - Postgres is used for storing SQL / time-series data. The default configuration is using SQLite
 #   - Mongo is used for storing blobs such as videos and images. The default configuration is storing blobs to file
 #-----------------------------------------------------------------------------------------------------------------------
-# process $EDGELAKE_PATH/deployment-scripts/demo-scripts/connect_dbms.al
+# process !anylog_path/deployment-scripts/demo-scripts/connect_dbms.al
 
 # Configurations
 
