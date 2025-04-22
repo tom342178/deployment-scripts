@@ -74,7 +74,7 @@
 # :documents:
 #   - Documentation: https://github.com/AnyLog-co/documentation/blob/master/mapping%20data%20to%20tables.md
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/demo-scripts/blobs_factory_images.al
+# process !anylog_path/deployment-scripts/demo-scripts/blobs_factory_images.al
 
 :preparre-policy:
 policy_id = factory-imgs # used also as the mqtt topic name
@@ -118,10 +118,10 @@ set policy new_policy [mapping][schema][bbox][type] = "string"
 set policy new_policy [mapping][schema][bbox][bring] = "[bbox]"
 set policy new_policy [mapping][schema][bbox][default] = ""
 
-set policy new_policy [mapping][schema][source] = {}
-set policy new_policy [mapping][schema][source][type] = "float"
-set policy new_policy [mapping][schema][source][bring] = "[source]"
-set policy new_policy [mapping][schema][source][default] = -1
+set policy new_policy [mapping][schema][score] = {}
+set policy new_policy [mapping][schema][score][type] = "float"
+set policy new_policy [mapping][schema][score][bring] = "[score]"
+set policy new_policy [mapping][schema][score][default] = -1.0
 
 set policy new_policy [mapping][schema][status] = {}
 set policy new_policy [mapping][schema][status][type] = "string"

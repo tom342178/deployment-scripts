@@ -3,9 +3,13 @@
 # By default, the Message client params (in set_params.al) are based rand data coming into AnyLog's
 # MQTT message broker
 #--------------------------------------------------------------------------------------------------------------#
-# process $ANYLOG_PATH/deployment-scripts/demo-scripts/basic_msg_client.al
+# process !anylog_path/deployment-scripts/demo-scripts/basic_msg_client.al
+
+on error ignore
+if !debug_mode == true then set debug on
 
 if !mqtt_broker == rest then
+if !debug_mode.int > 0 then print "set mqtt client connection"
 <do run msg client where broker=!mqtt_broker and port=!mqtt_port and user=!mqtt_user and password=!mqtt_passwd and
 user-agent=anylog and log=!mqtt_log and topic=(
     name=!msg_topic and

@@ -28,7 +28,7 @@
 #    'date' : '2024-05-04T21:38:53.942580Z'
 # }}
 #-----------------------------------------------------------------------------------------------------------------------
-# process $ANYLOG_PATH/deployment-scripts/demo-scripts/generic_policy.al
+# process !anylog_path/deployment-scripts/demo-scripts/generic_policy.al
 
 on error ignore
 
