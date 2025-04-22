@@ -17,22 +17,26 @@
 # }}
 # ---- Sample Policy ---
 #-----------------------------------------------------------------------------------------------------------------------
-# process !local_scripts/policies/declare_cluster_policy.al
+# process !local_scripts/policies/license_policy.al
+
+if !is_edgelake == true then goto end-script
+
+:check-policy:
+if !debug_mode == true then print "Check whether license policy exists"
+
+activation_key =  blockchain get license bring.last [license][activation_key] "{'company':'"  [license][company] "','expiration':'"  [license][expiration] "','type':'" [license][type] "'}"
+if !activation_key then goto set-license
+if not !activation_key and not $LICENSE_KEY then goto missing-license-key
 
 :set-params:
 on error ignore
 if !debug_mode == true then print "set params"
 set create_license = false
 
-:check-policy:
-if !debug_mode == true then print "Check whether license policy exists"
-
-on error ignore
-activation_key =  blockchain get license bring.last [license][activation_key] "{'company':'"  [license][company] "','expiration':'"  [license][expiration] "','type':'" [license][type] "'}"
-
-if not !license_key and not !activation_key then goto missing-license-key
-if not !activation_key and !create_license == true then goto declare-policy-error
-if !activation_key then goto set-license
+license_key_num = $LICENSE_KEY[:256]
+license_type = from $LICENSE_KEY[256:] bring [type]
+expiration = from $LICENSE_KEY[256:] bring [expiration]
+owner = from $LICENSE_KEY[256:] bring [company]
 
 :create-license:
 if !debug_mode == true then print "Create license policy"

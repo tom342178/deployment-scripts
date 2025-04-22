@@ -3,11 +3,14 @@
 # If !policy_based_networking == true, the deployment is executed in the following way
 # Script: !local_scripts/start_node_policy_based.al
 #   1. set params
-#   2. run tcp server
-#   3. blockchain seed
-#   4. config node based on node type - if node type is generic then "stop"
+#   2. config node based on node type
+#       - set network configs (tcp/port)
+#       - blockchain seed
+#       - database(s)
+#       - policies
+#       - support scripts
 #-----------------------------------------------------------------------------------------------------------------------
-# python3.10 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
+# python3.11 AnyLog-Network/anylog_enterprise/anylog.py process $ANYLOG_PATH/deployment-scripts/node-deployment/main.al
 
 if $EXCEPTION_TRACEBACK == true or $EXCEPTION_TRACEBACK == True or $EXCEPTION_TRACEBACK == TRUE then set exception traceback on
 
@@ -20,7 +23,7 @@ do set debug on
 do print "Set Script defined configs"
 else set debug off
 
-:set-configs:
+:disable-auth:
 set echo queue on
 set authentication off
 
@@ -57,31 +60,10 @@ create work directories
 if !debug_mode == true then print "Set environment params"
 process !local_scripts/set_params.al
 
-:configure-networking:
-if !debug_mode == true then print "Configure networking"
-process !local_scripts/connect_networking.al
 
-:blockchain-seed:
-if !debug_mode == true then print "Blockchain Seed"
-if !node_type == generic then goto set-license
-else if !node_type != master and !blockchain_source != master then process !local_scripts/connect_blockchain.al
-else if !node_type != master then
-do on error call blockchain-seed-error
-do blockchain seed from !ledger_conn
-do on error ignore
-
-:declare-policy:
-if !debug_mode == true then print "Declare policies"
+:set-configs:
+if !debug_mode == true then print "declare configs"
 process !local_scripts/policies/config_policy.al
-
-:set-license:
-if !debug_mode == true then print "Set license key"
-
-if !is_edgelake == true then goto end-script
-
-# if not !license_key then license_key = blockchain get master bring [*][license]
-if not !license_key then goto license-error
-set license where activation_key = !license_key
 
 :end-script:
 if !debug_mode == true then print "Validate everything is running as expected"

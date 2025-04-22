@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # Machine builder demo
 #----------------------------------------------------------------------------------------------------------------------#
-# process !anlog_root/deployment-scripts/machine-builder/machine_builder_demo.al
+# process !anylog_root/deployment-scripts/machine-builder/machine_builder_demo.al
 
 on error ignore
 :set-database:

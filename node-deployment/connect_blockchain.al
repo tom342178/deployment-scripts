@@ -8,51 +8,69 @@
 #----------------------------------------------------------------------------------------------------------------------#
 # process !local_scripts/connect_blockchain.al
 
-if !debug_mode == true then set debug on
-
 on error ignore
+
+if !blockchain_source == master then goto blockchain-sync
 
 :blockchain-connect:
 if !debug_mode == true then print "Connect to optimism"
 on error goto connect-blockchain-account-error
-blockchain connect to optimism where provider=!provider
-
-# create an account - this would create public and private key
-# blockchain create account optimism
+blockchain connect to optimism where provider=https://optimism-sepolia.infura.io/v3/532f565202744c0cb7434505859efb74
 
 :declare-blockchain-account:
 if !debug_mode == true then print "Declare blockchain account"
-
 on error goto declare-blockchain-account-error
 <blockchain set account info where
-    platform = optimism and
-    private_key = !private_key and
-    public_key = !public_key and
+    platform = !blockchain_source and
+    private_key = !blockchain_private_key and
+    public_key = !blockchain_public_key and
     chain_id = !chain_id>
 
+if !contract then goto blockchain-account
 
 :create-contract:
 if !debug_mode == true then print "Create a new smart contract"
 
+is_policy = blockchain get blockchain-info where company=!company_name and public_key=!blockchain_public_key and chain_id=!chain_id
+if !is_policy then contract = from !is_policy bring [*][contract]
+
 if not !contract then
 do on error goto create-contract-error
-do contract = blockchain deploy contract where  platform = optimism and public_key = !public_key
+do contract = blockchain deploy contract where  platform = !blockchain_source and public_key = !blockchain_public_key
 do print "New Contract created: " !contract " - make sure to save contract / update config file accordingly"
 
 :blockchain-account:
- if !debug_mode == true then print "Set blockchain account information"
+if !debug_mode == true then print "Set blockchain account information"
 
 on error goto blockchain-account-error
-blockchain set account info where platform = optimism and contract = !contract
+blockchain set account info where platform = !blockchain_source and contract = !contract
+
+:blockchain-sync:
+on error goto blockchain-sync-error
+if !blockchain_source == optimism then
+do print !contract
+<do run blockchain sync where
+    source=blockchain and
+    time=!blockchain_sync and
+    dest=!blockchain_destination and
+    platform=!blockchain_source>
+do process !local_scripts/policies/blockchain_policy.al
+do get platforms
+if !blockchain_source == master then
+<do run blockchain sync where
+    source=!blockchain_source and
+    time=!blockchain_sync and
+    dest=!blockchain_destination and
+    connection=!ledger_conn>
+
+goto end-script
 
 :blockchain-seed:
- if !debug_mode == true then print "Copy blockchain to local node"
-
 on error call blockchain-seed-error
-blockchain checkout from optimism
+run blockchain seed from !ledger_conn
+goto end-script
 
 :end-script:
-get platforms
 end script
 
 :terminate-scripts:
@@ -70,6 +88,13 @@ goto terminate-scripts
 print "Failed to declare account information, cannot continue..."
 goto  terminate-scripts
 
+:blockchain-sync-error:
+echo "Failed to initiate scheduled blockchain sync"
+goto end-script
+
 :blockchain-seed-error:
-echo "Failed to seed from blockchain"
-return
+echo Failed to execute blockchain sync agaisnt !ledger_conn
+goto end-script
+
+
+

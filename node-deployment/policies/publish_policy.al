@@ -29,8 +29,11 @@ if !debug_mode == true then print "Declare policy on blockchain"
 
 on error call declare-policy-error
 blockchain prepare policy !new_policy
-if !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
-else blockchain insert where policy=!new_policy and local=true and blockchain=optimism
+
+if !is_config == true then blockchain insert where policy=!new_policy and local=true
+else blockchain insert where policy=!new_policy and local=true and master=!ledger_conn
+# else if !node_policy == true and !blockchain_source == master then blockchain insert where policy=!new_policy and local=true and blockchain=optimism
+# else blockchain insert where policy=!new_policy and local=true
 
 :end-script:
 end script
