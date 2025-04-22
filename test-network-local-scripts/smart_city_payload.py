@@ -1,6 +1,5 @@
 import argparse
 import json
-from socket import create_connection
 
 import requests
 
@@ -47,7 +46,7 @@ def create_policy(conn:str, db_name:str, table:str, monitor_id:str):
     }
 
     policy = {
-        "tag": {
+        "device": {
             "dbms": db_name,
             "table": table,
             "monitor_id": monitor_id
