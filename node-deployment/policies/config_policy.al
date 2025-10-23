@@ -97,6 +97,7 @@ if !node_type == generic then
     "run scheduler 1",
     "process !anylog_path/deployment-scripts/southbound-monitoring/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al",
+    "process !anylog_path/EdgeLake/edge_lake/mcp_server/autostart.al",
     "if !is_edgelake == false then process !local_scripts/policies/license_policy.al"
 ]>
 do goto publish-policy
@@ -111,6 +112,7 @@ if !node_type == master or !node_type == query then
     "run scheduler 1",
     "process !anylog_path/deployment-scripts/southbound-monitoring/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al",
+    "process !anylog_path/EdgeLake/edge_lake/mcp_server/autostart.al",
     "if !is_edgelake == false then process !local_scripts/policies/license_policy.al"
 ]>
 do goto publish-policy
@@ -129,6 +131,7 @@ do goto publish-policy
     "process !anylog_path/deployment-scripts/southbound-monitoring/monitoring_policy.al",
     "if !enable_mqtt == true then process !anylog_path/deployment-scripts/sample-scripts/basic_msg_client.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al",
+    "process !anylog_path/EdgeLake/edge_lake/mcp_server/autostart.al",
     "if !is_edgelake == false then process !local_scripts/policies/license_policy.al"
 ]>
 goto publish-policy
@@ -149,6 +152,7 @@ goto publish-policy
     "if !enable_mqtt == true then process !anylog_path/deployment-scripts/sample-scripts/basic_msg_client.al",
     "process !anylog_path/deployment-scripts/southbound-monitoring/monitoring_policy.al",
     "if !deploy_local_script == true then process !local_scripts/local_script.al",
+    "process !anylog_path/EdgeLake/edge_lake/mcp_server/autostart.al",
     "if !is_edgelake == false then process !local_scripts/policies/license_policy.al"
 ]>
 
