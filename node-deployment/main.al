@@ -65,6 +65,10 @@ process !local_scripts/set_params.al
 if !debug_mode == true then print "declare configs"
 process !local_scripts/policies/config_policy.al
 
+:mcp-autostart:
+if !debug_mode == true then print "Process MCP auto-start if enabled"
+process !anylog_path/EdgeLake/edge_lake/mcp_server/autostart.al
+
 :end-script:
 if !debug_mode == true then print "Validate everything is running as expected"
 get processes
