@@ -36,10 +36,7 @@ process !local_scripts/policies/validate_node_policy.al
 # checks nodes without networking configurations - this will also update the node name on the interface
 node_count = blockchain get !node_type where name=!node_name bring.count
 
-if not !is_policy and !node_count then
-do node_count =  python !node_count.int  + 1
-do node_name = !node_name + !node_count
-do set node name !node_name
+if not !is_policy and !node_count then goto duplicate-node-name-error
 
 if not !is_policy and !create_policy == false then goto create-policy
 if not !is_policy and !create_policy == true then goto config-policy-error
@@ -76,9 +73,8 @@ if !node_type == operator and not !cluster_id then goto operator-cluster-error
 set policy new_policy [!node_type][cluster] = !cluster_id
 if !member then set policy new_policy [!node_type][member] = !member.int
 
-set is_main = true
-is_primary = blockchain get operator where cluster = !cluster_id
-if !is_primary  then set is_main = false
+set is_main = false
+if !member == 1 or not !member then set is_main = true
 set policy new_policy [!node_type][main] = !is_main.bool
 
 
@@ -138,4 +134,8 @@ goto terminate-scripts
 
 :declare-policy-error:
 print "Failed to declare !node_type policy on blockchain"
+goto terminate-scripts
+
+:duplicate-node-name-error:
+print "A !node_type node with name '!node_name' already exists in the blockchain. Please use a unique NODE_NAME in your configuration."
 goto terminate-scripts
