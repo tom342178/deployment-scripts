@@ -60,10 +60,6 @@ create work directories
 if !debug_mode == true then print "Set environment params"
 process !local_scripts/set_params.al
 
-:mcp-autostart:
-if !debug_mode == true then print "Process MCP auto-start if enabled"
-process !anylog_path/EdgeLake/edge_lake/mcp_server/autostart.al
-
 :set-configs:
 if !debug_mode == true then print "declare configs"
 process !local_scripts/policies/config_policy.al
